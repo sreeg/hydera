@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition>
+		<h:head>
+			<link href='https://fonts.googleapis.com/css?family=Open+Sans'
+				rel='stylesheet' type='text/css' />
+			<link type="text/css" rel="stylesheet" href="css/base.css" />
+		</h:head>
+		<h:form>
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+
+					<div class="ui-grid-col-4">
+						<p:panel id="report" style="margin:10px">
+							<div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 margin5_10">
+										<p:graphicImage library="images" name="person.png" />
+									</div>
+									<div class="ui-grid-col-8 margin5_10">
+										<h:outputText styleClass="margin5" value="Welcome John Doe" />
+										<div class="margin5">
+											<h:outputText styleClass="secondary" value="You have " />
+											<h:outputText styleClass="secondary red"
+												value="3 unread messages " />
+											<h:outputText styleClass="secondary" value="and " />
+											<h:outputText styleClass="secondary red" value="32 tasks!" />
+										</div>
+									</div>
+								</div>
+								<p:separator></p:separator>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6 margin5_10 centered">
+										<i class="fa fa-edit" style="color: #27AAE1" />
+										<p:commandLink style="margin-left: 5px" value="Tasks (32)"></p:commandLink>
+									</div>
+									<div class="ui-grid-col-6 margin5_10 centered">
+										<i class="fa fa-envelope" style="color: #27AAE1" />
+										<p:commandLink style="margin-left: 5px" value="Messages (3)"></p:commandLink>
+									</div>
+								</div>
+								<p:separator></p:separator>
+								<div class="ui-grid-row margin10_5">
+									<div class="ui-grid-col-12">
+										<h:outputText styleClass="secondary grey floatRight"
+											value="Your Last Login - 18.08.2014, 18:30" />
+									</div>
+								</div>
+							</div>
+						</p:panel>
+					</div>
+					<div class="ui-grid-col-4">
+						<p:panel id="basic" style="margin:10px">
+							<div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-3 margin5_10">
+										<p:graphicImage library="images" name="visitorslogo.png" />
+									</div>
+									<div class="ui-grid-col-9 margin5_10">
+										<h:outputText styleClass="margin5" value="Visitors Report" />
+										<div class="margin5">
+											<h:outputText styleClass="secondary"
+												value="Today 2.280 visitors,15% higher than last week" />
+										</div>
+									</div>
+								</div>
+								<p:separator></p:separator>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-6 margin5_10 centered">
+										<h:outputText styleClass="secondary" value="Today's Visits" />
+										<div>
+											<span class="Fs24 red">2,280</span>
+										</div>
+									</div>
+									<div class="ui-grid-col-6 margin5_10 centered">
+										<h:outputText styleClass="secondary" value="Overall Visits" />
+										<div>
+											<span class="Fs24 red">13,760</span>
+										</div>
+									</div>
+								</div>
+								<div class="ui-grid-row margin5">
+									<div class="ui-grid-col-12 margin5_10 centered">
+										<h:outputText styleClass="secondary" value="Online Visitors" />
+										<div>
+											<span class="Fs24 blue">134</span>
+										</div>
+									</div>
+								</div>
+								<p:separator></p:separator>
+								<div class="ui-grid-row margin10_5">
+									<div class="ui-grid-col-12">
+										<h:outputText styleClass="secondary red floatRight"
+											value="Get Full Report" />
+									</div>
+								</div>
+							</div>
+						</p:panel>
+					</div>
+
+					<div class="ui-grid-col-4">
+						<p:panel id="customer" style="margin:10px">
+							<div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-3 margin5_10">
+										<p:graphicImage library="images" name="appointment.png" />
+									</div>
+									<div class="ui-grid-col-9 margin5_10">
+										<h:outputText styleClass="margin5"
+											value="Appointment Schedule" />
+										<div class="margin5">
+											<h:outputText styleClass="secondary" value="Today you have " />
+											<h:outputText styleClass="red" value="45" />
+											<h:outputText styleClass="secondary" value=" appoinments" />
+										</div>
+									</div>
+								</div>
+								<p:dataTable styleClass="margin10_5" var="app"
+									value="#{dtBasicView.appointments}">
+									<p:column headerText="Time">
+										<h:outputText value="#{app.appointment}" />
+									</p:column>
+
+									<p:column headerText="Appointment Name">
+										<h:outputText value="#{app.appointmentName}" />
+									</p:column>
+
+								</p:dataTable>
+								<div class="ui-grid-row margin10_5">
+									<div class="ui-grid-col-12">
+										<h:outputText styleClass="secondary red floatRight"
+											value="See full schedule" />
+									</div>
+								</div>
+							</div>
+						</p:panel>
+					</div>
+
+				</div>
+			</div>
+
+
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-6">
+
+						<p:panel id="chart1" style="margin:10px">
+							<f:facet name="header">
+								<i class="fa fa-line-chart" /> Visitors Chart
+								</f:facet>
+							<p:chart widgetVar="w_linechart" type="line"
+								model="#{chartView.lineModel2}" style="height:300px;"
+								responsive="true" />
+						</p:panel>
+					</div>
+					<div class="ui-grid-col-6">
+
+						<p:panel id="chart12" style="margin:10px">
+							<f:facet name="header">
+								<i class="fa fa-line-chart" /> Area Chart
+								</f:facet>
+							<p:chart widgetVar="w_linechart1" type="line"
+								model="#{areaChartView.lineModel2}" style="height:300px;"
+								responsive="true" />
+						</p:panel>
+					</div>
+				</div>
+			</div>
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-8">
+						<p:panel id="map" style="margin:10px">
+							<p:gmap widgetVar="w_gmap" center="41.381542, 2.122893" zoom="15"
+								type="ROADMAP" style="width:100%;height:280px" model="#{mapBean.model}"></p:gmap>
+
+						</p:panel>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>
