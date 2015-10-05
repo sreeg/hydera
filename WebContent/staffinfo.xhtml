@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Payroll Management</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/sb-admin.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+</h:head>
+
+<body>
+	<h:form>
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<div id="wrapper">
+
+			<!-- Navigation -->
+			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<ui:insert name="nav_header">
+					<ui:include src="nav_header.xhtml" />
+				</ui:insert>
+				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+				<div class="collapse navbar-collapse navbar-ex1-collapse">
+					<ul class="nav navbar-nav side-nav">
+						<li><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
+						<li><a href="createstudent.xhtml"><i class="fa fa-fw fa-plus"></i> Add Student</a></li>
+						<li><a href="createstaff.xhtml"><i class="fa fa-fw fa-user"></i> Add Employee</a></li>
+						<li class="active"><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+								class="fa fa-fw fa-table"></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
+							<ul id="demo" class="expand">
+								<li><a href="showallstudents.xhtml">Get All Students</a></li>
+								<li><a href="#">Get Students By Class</a></li>
+								<li class="active"><a href="staffinfo.xhtml">Get Staff Details</a></li>
+							</ul></li>
+						<li><a href="charts.xhtml"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a></li>
+						<li><p:commandLink id="nonAjax2" actionListener="#{loginBean.logout}" ajax="false">
+								<i class="fa fa-fw fa-power-off"></i>
+								<h:outputText value=" Logout" />
+							</p:commandLink></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</nav>
+
+			<div id="page-wrapper">
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Staff Information</h1>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col-lg-12">
+
+							<p:dataTable var="car" value="#{dtFilterView.cars}" widgetVar="carsTable"
+								emptyMessage="No cars found with given criteria" filteredValue="#{dtFilterView.filteredCars}">
+
+								<f:facet name="header">
+									<p:outputPanel>
+										<h:outputText value="Search all fields:" />
+										<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px"
+											placeholder="Enter keyword" />
+									</p:outputPanel>
+								</f:facet>
+
+								<p:column filterBy="#{car.id}" headerText="Employee Id" footerText="contains" filterMatchMode="contains">
+									<h:outputText value="#{car.id}" />
+								</p:column>
+
+								<p:column filterBy="#{car.year}" headerText="Joining Year" footerText="lte" filterMatchMode="lte">
+									<f:facet name="filter">
+										<p:spinner onchange="PF('carsTable').filter()" styleClass="year-spinner">
+											<f:converter converterId="javax.faces.Integer" />
+										</p:spinner>
+									</f:facet>
+									<h:outputText value="#{car.year}" />
+								</p:column>
+
+								<p:column filterBy="#{car.brand}" headerText="Name" footerText="exact" filterMatchMode="exact">
+									<f:facet name="filter">
+										<p:selectOneMenu onchange="PF('carsTable').filter()">
+											<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+											<f:selectItems value="#{dtFilterView.brands}" />
+										</p:selectOneMenu>
+									</f:facet>
+									<h:outputText value="#{car.brand}" />
+								</p:column>
+
+								<p:column filterBy="#{car.sold}" headerText="Staff Type" footerText="equals" filterMatchMode="equals">
+									<f:facet name="filter">
+										<p:selectOneButton onchange="PF('carsTable').filter()">
+											<f:converter converterId="javax.faces.Boolean" />
+											<f:selectItem itemLabel="All" itemValue="" />
+											<f:selectItem itemLabel="Permnt" itemValue="true" />
+											<f:selectItem itemLabel="Temp" itemValue="false" />
+										</p:selectOneButton>
+									</f:facet>
+									<h:outputText value="#{car.sold ? 'Permanant': 'Temporary'}" />
+								</p:column>
+
+								<p:column filterBy="#{car.price}" headerText="Salary" footerText="custom (min)"
+									filterFunction="#{dtFilterView.filterByPrice}">
+									<h:outputText value="#{car.price}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /#page-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+	</h:form>
+</body>
+</html>

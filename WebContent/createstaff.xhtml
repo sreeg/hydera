@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Payroll Management</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+
+	<!-- Custom CSS -->
+	<link href="css/sb-admin.css" rel="stylesheet" />
+
+	<!-- Custom Fonts -->
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+</h:head>
+
+<body>
+	<div id="wrapper">
+		<h:form>
+			<!-- Navigation -->
+			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<ui:insert name="nav_header">
+					<ui:include src="nav_header.xhtml" />
+				</ui:insert>
+				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+				<div class="collapse navbar-collapse navbar-ex1-collapse">
+					<ul class="nav navbar-nav side-nav">
+						<li><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
+						<li><a href="createstudent.xhtml"><i class="fa fa-fw fa-plus"></i> Add Student</a></li>
+						<li class="active"><a href="createstaff.xhtml"><i class="fa fa-fw fa-user"></i> Add Employee</a></li>
+						<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-table"></i>
+								Reports <i class="fa fa-fw fa-caret-down"></i></a>
+							<ul id="demo" class="expand">
+								<li><a href="showallstudents.xhtml">Get All Students</a></li>
+								<li><a href="#">Get Students By Class</a></li>
+								<li class="active"><a href="staffinfo.xhtml">Get Staff Details</a></li>
+							</ul></li>
+						<li><a href="charts.xhtml"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a></li>
+						<li><p:commandLink id="nonAjax2" actionListener="#{loginBean.logout}" ajax="false">
+								<i class="fa fa-fw fa-power-off"></i>
+								<h:outputText value=" Logout" />
+							</p:commandLink></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</nav>
+		</h:form>
+		<h:form>
+			<div id="page-wrapper">
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">New Staff Information</h1>
+						</div>
+					</div>
+					<p:messages autoUpdate="true" />
+					<div class="row">
+
+						<div class="col-lg-6">
+
+							<p:growl id="growl" autoUpdate="true" showDetail="true" />
+
+							<p:panel header="Personal Details">
+
+
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Firstname : *" />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.firstname}" required="true" label="Firstname" />
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Lastname: *" />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.lastname}" required="true" label="Lastname" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Date of birth : " />
+											<p:calendar styleClass="input-group date" id="mask" value="#{userWizard.user.dob}" pattern="dd-MM-yyyy"
+												mask="true" />
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Gender : " />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.sex}" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Father's Name : *" />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.fathername}" required="true"
+												label="Fathername" />
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Father's Occupation: " />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.fatheroccupation}" label="Fatheroccupation" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Mother's Name : *" />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.mothername}" required="true"
+												label="Mothername" />
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Mother's Occupation: " />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.motheroccupation}" label="Motheroccupation" />
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Guardian's Name : " />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.guardianname}" label="Guardianname" />
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<h:outputText value="Date of Joining : " />
+									<p:calendar styleClass="input-group date" id="maskdoj" value="#{userWizard.user.doj}" pattern="dd-MM-yyyy"
+										mask="true" />
+								</div>
+
+
+							</p:panel>
+						</div>
+						<div class="col-lg-6">
+							<p:panel header="Address Details">
+
+								<div class="form-group">
+									<h:outputText value="House No: " />
+									<p:inputText styleClass="form-control" value="#{userWizard.user.motheroccupation}" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="Street: " />
+									<p:inputText styleClass="form-control" value="#{userWizard.user.street}" />
+								</div>
+
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="City: " />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.city}" />
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<h:outputText value="Postal Code: " />
+											<p:inputText styleClass="form-control" value="#{userWizard.user.postalCode}" />
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<h:outputText value="Email: * " />
+									<p:inputText styleClass="form-control" value="#{userWizard.user.email}" label="Email" required="true" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="Phone: " />
+									<p:inputText styleClass="form-control" value="#{userWizard.user.phone}" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="Mobile: " />
+									<p:inputText styleClass="form-control" value="#{userWizard.user.phone}" />
+								</div>
+
+							</p:panel>
+						</div>
+					</div>
+					<!-- /.row -->
+					<div class="marginTop20">
+						<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Submit" actionListener="#{userWizard.save}"
+							validateClient="true" update="growl" />
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- /#page-wrapper -->
+
+		</h:form>
+	</div>
+	<!-- /#wrapper -->
+
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
