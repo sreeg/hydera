@@ -1,4 +1,4 @@
-package com.sree.health;
+package com.sree.school;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;

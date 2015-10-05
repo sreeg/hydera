@@ -1,4 +1,4 @@
-package com.sree.health;
+package com.sree.school;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

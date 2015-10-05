@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3c.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:fb="http://facebook.com">
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
 <h:head>
 
 	<meta charset="utf-8" />
@@ -10,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<title>Wellness and Health</title>
+	<title>Payroll Management</title>
 
 	<!-- Bootstrap Core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -19,182 +17,55 @@
 	<link href="css/sb-admin.css" rel="stylesheet" />
 
 	<!-- Custom Fonts -->
-	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet"
-		type="text/css" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans'
-		rel='stylesheet' type='text/css' />
 	<link type="text/css" rel="stylesheet" href="css/base.css" />
-	<script type="text/javascript"
-		src="http://maps.google.com/maps/api/js?sensor=true"></script>
-	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-	    <meta name="google-signin-scope" content="profile email"/>
-    <meta name="google-signin-client_id" content="28452599812-cr40gohkngn4eu2i09i58eot0v0j3nbo.apps.googleusercontent.com"/>
-    <script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
 </h:head>
 <body>
-	<script>
-		// This is called with the results from from FB.getLoginStatus().
-		function statusChangeCallback(response) {
-			console.log('statusChangeCallback');
-			console.log(response);
-			// The response object is returned with a status field that lets the
-			// app know the current login status of the person.
-			// Full docs on the response object can be found in the documentation
-			// for FB.getLoginStatus().
-			if (response.status === 'connected') {
-				// Logged into your app and Facebook.
-				testAPI();
-			} else if (response.status === 'not_authorized') {
-				// The person is logged into Facebook, but not your app.
-				document.getElementById('status').innerHTML = 'Please log '
-						+ 'into this app.';
-			} else {
-				// The person is not logged into Facebook, so we're not sure if
-				// they are logged into this app or not.
-				document.getElementById('status').innerHTML = 'Please log '
-						+ 'into Facebook.';
-			}
-		}
 
-		// This function is called when someone finishes with the Login
-		// Button.  See the onlogin handler attached to it in the sample
-		// code below.
-		function checkLoginState() {
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
-			});
-		}
-
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId : '1479119129057094',
-				cookie : true, // enable cookies to allow the server to access 
-				// the session
-				xfbml : true, // parse social plugins on this page
-				version : 'v2.2' // use version 2.2
-			});
-
-			// Now that we've initialized the JavaScript SDK, we call 
-			// FB.getLoginStatus().  This function gets the state of the
-			// person visiting this page and can return one of three states to
-			// the callback you provide.  They can be:
-			//
-			// 1. Logged into your app ('connected')
-			// 2. Logged into Facebook, but not your app ('not_authorized')
-			// 3. Not logged into Facebook and can't tell if they are logged into
-			//    your app or not.
-			//
-			// These three cases are handled in the callback function.
-
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
-			});
-
-		};
-
-		// Load the SDK asynchronously
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id))
-				return;
-			js = d.createElement(s);
-			js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-
-		// Here we run a very simple test of the Graph API after login is
-		// successful.  See statusChangeCallback() for when this call is made.
-		function testAPI() {
-			console.log('Welcome!  Fetching your information.... ');
-			FB
-					.api(
-							'/me',
-							function(response) {
-								console.log('Successful login for: '
-										+ response.name);
-								document.getElementById('status').innerHTML = 'Thanks for logging in, '
-										+ response.name + '!';
-							});
-		}
-	</script>
-
-	<div id="fb-root"></div>
-	<script>
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id))
-				return;
-			js = d.createElement(s);
-			js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.4&amp;appId=1479119129057094";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
-
-	<div id="status"></div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
-				<div class="login-panel panel panel-default">
+				<div class=" panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">Please Sign In</h3>
 					</div>
 					<div class="panel-body">
-						<h:form id="loginForm">
-							<fieldset>
-								<div class="form-group">
-									<p:inputText id="username" value="#{loginBean.uname}"></p:inputText>
-								</div>
-								<div class="form-group">
-									<p:password id="password" value="#{loginBean.password}"
-										feedback="false"></p:password>
-								</div>
-								<div class="checkbox">
-									<label> <input name="remember" type="checkbox"
-										value="Remember Me" />Remember Me
-									</label>
-								</div>
-								<!-- Change this to a button or input when using this as a form -->
+						<div class="well">
+							<h:form id="loginForm">
+								<p:growl id="growl" showDetail="true" sticky="true" />
+								<fieldset>
+									<div class="form-group">
+										<p:inputText styleClass="form-control" placeholder="Enter Username" id="username" value="#{loginBean.uname}"></p:inputText>
+									</div>
+									<div class="form-group">
+										<p:password styleClass="form-control" placeholder="Enter Password" id="password" value="#{loginBean.password}"
+											feedback="false"></p:password>
+									</div>
+									<div class="checkbox">
+										<label> <input name="remember" type="checkbox" value="Remember Me" />Remember Me
+										</label>
+									</div>
 
-								<p:commandButton styleClass="btn btn-lg btn-success btn-block"
-									action="#{loginBean.loginProject}" value="Login"
-									update="loginForm" ajax="true"></p:commandButton>
+									<p:commandButton styleClass="btn btn-success btn-block" action="#{loginBean.loginProject}" value="Login"
+										update="growl" ajax="true"></p:commandButton>
 
-								<div class="fb-login-button" data-max-rows="1"
-									data-size="xlarge" data-show-faces="false"
-									data-auto-logout-link="false"></div>
-									
-									    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-    <script>
-      function onSignIn(googleUser) {
-        // Useful data for your client-side scripts:
-        var profile = googleUser.getBasicProfile();
-        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-        console.log("Name: " + profile.getName());
-        console.log("Image URL: " + profile.getImageUrl());
-        console.log("Email: " + profile.getEmail());
-
-        // The ID token you need to pass to your backend:
-        var id_token = googleUser.getAuthResponse().id_token;
-        console.log("ID Token: " + id_token);
-      };
-    </script>
-    
-							</fieldset>
-						</h:form>
+								</fieldset>
+							</h:form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+
 
 	<!-- jQuery -->
 

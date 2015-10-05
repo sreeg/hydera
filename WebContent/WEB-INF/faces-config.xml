@@ -5,22 +5,13 @@
 	version="2.2">
 	<managed-bean>
 		<managed-bean-name>bean</managed-bean-name>
-		<managed-bean-class>com.sree.health.Bean</managed-bean-class>
+		<managed-bean-class>com.sree.school.Bean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>chartView</managed-bean-name>
-		<managed-bean-class>com.sree.health.ChartView</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>areaChartView</managed-bean-name>
-		<managed-bean-class>com.sree.health.AreaChartView</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
+
 	<managed-bean>
 		<managed-bean-name>scheduleView</managed-bean-name>
-		<managed-bean-class>com.sree.health.ScheduleView</managed-bean-class>
+		<managed-bean-class>com.sree.school.ScheduleView</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

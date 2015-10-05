@@ -1,30 +1,35 @@
-package com.sree.health.dao;
+package com.sree.school.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserDAO {
-	public static String login(String user, String password) {
-		Connection con = null;
+	private static Connection conn;
+
+	public static String login(String user, String password) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-			// con = Database.getConnection();
-			// ps = con.prepareStatement("select user, pass from userinfo where
-			// user= ? and pass= ? ");
-			// ps.setString(1, user);
-			// ps.setString(2, password);
-
-			// ResultSet rs = ps.executeQuery();
-			// if (rs.next()) // found
-			// {
-			// System.out.println(rs.getString("user"));
-			// return true;
-			// } else {
-			// return false;
-			// }
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/school","root", "sreedhar");			
+			ps = conn.prepareStatement("select username, password, staffid from userinfo where username= ? and password= ? ");
+			ps.setString(1, user);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) // found
+			{
+				System.out.println(rs.getString("username"));
+				System.out.println(rs.getString("password"));
+				System.out.println(rs.getString("staffid"));
+				return "staff";
+			}
+			
 			if ("sree".equals(user))
-				return "customer";
-			else if ("dhar".equals(user))
+				return "doctor";
+			else if ("krishnaveni".equals(user))
 				return "doctor";
 			else
 				return "login";
@@ -32,7 +37,7 @@ public class UserDAO {
 			System.out.println("Error in login() -->" + ex.getMessage());
 			return "login";
 		} finally {
-			// Database.close(con);
+			conn.close();
 		}
 	}
 }

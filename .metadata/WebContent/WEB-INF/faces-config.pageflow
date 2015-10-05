@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14426721127100" configfile="/Health/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" x="384" y="36" id="pf144324860917413" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf144324860917414 pf144324860917415" path="/login.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="home.xhtml" x="156" y="360" id="pf144324860917416" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf144324860917414" path="/home.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="customer.xhtml" x="600" y="252" id="pf144324860917417" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf144324860917415" path="/customer.xhtml"/>
-  <links id="pf144324860917414" target="pf144324860917416" source="pf144324860917413" outcome="home" redirect="true"/>
-  <links id="pf144324860917415" target="pf144324860917417" source="pf144324860917413" outcome="customer" redirect="true"/>
-</pageflow:Pageflow>

@@ -6,6 +6,10 @@
 	margin: 10px;
 }
 
+.padding10 {
+	padding: 10px;
+}
+
 .margin10_5 {
 	margin: 10px 5px;
 }
@@ -16,6 +20,10 @@
 
 .margin5 {
 	margin: 5px;
+}
+
+.marginTop20 {
+	margin-top: 20px;	
 }
 
 .centered {
@@ -111,8 +119,12 @@
 	margin-bottom: 0px;
 }
 
-.panel-body {
-	padding: 5px;
+.ui-wizard .ui-wizard-step-titles {
+	margin-bottom: 20px;
+}
+
+.ui-wizard-content .ui-panel .ui-panel-content {
+	padding: 1em;
 }
 
 /* sb2 edits */

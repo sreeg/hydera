@@ -1,4 +1,4 @@
-package com.sree.health;
+package com.sree.school;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
