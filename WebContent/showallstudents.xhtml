@@ -81,10 +81,10 @@
 								<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
 								<f:facet name="header">
 									<p:outputPanel>
-									<div class="form-group marginTop20">
-										<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
-											placeholder="To search enter a keyword" />
-									</div>
+										<div class="form-group marginTop20">
+											<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
+												placeholder="To search enter a keyword" />
+										</div>
 									</p:outputPanel>
 								</f:facet>
 								<f:facet name="{Exporters}">
@@ -96,7 +96,7 @@
 										<i class="fa fa-file-excel-o fa-x"></i>
 										<p:dataExporter type="xls" target="allStudents" fileName="Students" />
 									</h:commandLink>
-									
+
 								</f:facet>
 								<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
 									<h:outputText value="#{st.firstname} #{st.lastname}" />
@@ -116,6 +116,10 @@
 
 								<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
 									<h:outputText value="#{st.doj}" />
+								</p:column>
+
+								<p:column filterStyle="display:none" filterBy="#{st.dob}" headerText="Date of birth">
+									<h:outputText value="#{st.dob}" />
 								</p:column>
 
 							</p:dataTable>

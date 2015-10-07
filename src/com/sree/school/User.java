@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.primefaces.model.UploadedFile;
-
 public class User implements Serializable {
 
 	/**

@@ -45,10 +45,10 @@
 						<li class="active"><a href="createstaff.xhtml"><i class="fa fa-fw fa-user"></i> Add Employee</a></li>
 						<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-table"></i>
 								Reports <i class="fa fa-fw fa-caret-down"></i></a>
-							<ul id="demo" class="expand">
+							<ul id="demo" class="collapse">
 								<li><a href="showallstudents.xhtml">Get All Students</a></li>
 								<li><a href="#">Get Students By Class</a></li>
-								<li class="active"><a href="staffinfo.xhtml">Get Staff Details</a></li>
+								<li><a href="staffinfo.xhtml">Get Staff Details</a></li>
 							</ul></li>
 						<li><a href="charts.xhtml"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a></li>
 						<li><p:commandLink id="nonAjax2" actionListener="#{loginBean.logout}" ajax="false">
@@ -60,154 +60,22 @@
 				<!-- /.navbar-collapse -->
 			</nav>
 		</h:form>
-		<h:form>
+		<h:form id="createStudent">
 			<div id="page-wrapper">
 
 				<div class="container-fluid">
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">New Staff Information</h1>
+							<h1 class="page-header">
+								<i class="fa fa-fw fa-user"></i>New Staff Information
+							</h1>
 						</div>
 					</div>
 					<p:messages autoUpdate="true" />
-					<div class="row">
-
-						<div class="col-lg-6">
-
-							<p:growl id="growl" autoUpdate="true" showDetail="true" />
-
-							<p:panel header="Personal Details">
-
-
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Firstname : *" />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.firstname}" required="true" label="Firstname" />
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Lastname: *" />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.lastname}" required="true" label="Lastname" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Date of birth : " />
-											<p:calendar styleClass="input-group date" id="mask" value="#{userWizard.user.dob}" pattern="dd-MM-yyyy"
-												mask="true" />
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Gender : " />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.sex}" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Father's Name : *" />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.fathername}" required="true"
-												label="Fathername" />
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Father's Occupation: " />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.fatheroccupation}" label="Fatheroccupation" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Mother's Name : *" />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.mothername}" required="true"
-												label="Mothername" />
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Mother's Occupation: " />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.motheroccupation}" label="Motheroccupation" />
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Guardian's Name : " />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.guardianname}" label="Guardianname" />
-										</div>
-									</div>
-								</div>
-
-								<div class="form-group">
-									<h:outputText value="Date of Joining : " />
-									<p:calendar styleClass="input-group date" id="maskdoj" value="#{userWizard.user.doj}" pattern="dd-MM-yyyy"
-										mask="true" />
-								</div>
-
-
-							</p:panel>
-						</div>
-						<div class="col-lg-6">
-							<p:panel header="Address Details">
-
-								<div class="form-group">
-									<h:outputText value="House No: " />
-									<p:inputText styleClass="form-control" value="#{userWizard.user.motheroccupation}" />
-								</div>
-								<div class="form-group">
-									<h:outputText value="Street: " />
-									<p:inputText styleClass="form-control" value="#{userWizard.user.street}" />
-								</div>
-
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="City: " />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.city}" />
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<h:outputText value="Postal Code: " />
-											<p:inputText styleClass="form-control" value="#{userWizard.user.postalCode}" />
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<h:outputText value="Email: * " />
-									<p:inputText styleClass="form-control" value="#{userWizard.user.email}" label="Email" required="true" />
-								</div>
-								<div class="form-group">
-									<h:outputText value="Phone: " />
-									<p:inputText styleClass="form-control" value="#{userWizard.user.phone}" />
-								</div>
-								<div class="form-group">
-									<h:outputText value="Mobile: " />
-									<p:inputText styleClass="form-control" value="#{userWizard.user.phone}" />
-								</div>
-
-							</p:panel>
-						</div>
-					</div>
-					<!-- /.row -->
-					<div class="marginTop20">
-						<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Submit" actionListener="#{userWizard.save}"
-							validateClient="true" update="growl" />
-					</div>
+					<ui:insert name="createstudentinfo">
+						<ui:include src="createstaffform.xhtml" />
+					</ui:insert>
 
 				</div>
 				<!-- /.container-fluid -->

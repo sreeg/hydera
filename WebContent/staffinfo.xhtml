@@ -26,7 +26,7 @@
 </h:head>
 
 <body>
-	<h:form>
+	<h:form id="form">
 		<p:growl id="growl" showDetail="true" sticky="true" />
 		<div id="wrapper">
 
@@ -72,58 +72,57 @@
 
 						<div class="col-lg-12">
 
-							<p:dataTable var="car" value="#{dtFilterView.cars}" widgetVar="carsTable"
-								emptyMessage="No cars found with given criteria" filteredValue="#{dtFilterView.filteredCars}">
-
+							<p:dataTable id="allStaffss" var="st" value="#{staffFilterView.staffs}" widgetVar="staffsTable"
+								emptyMessage="No staff found with given criteria" filteredValue="#{staffFilterView.filteredStaffs}" rows="20"
+								paginator="true" paginatorPosition="bottom" selectionMode="single" selection="#{staffFilterView.selectedStaff}"
+								rowKey="#{st.id}"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+								rowsPerPageTemplate="20,25,50">
+								<p:ajax event="rowSelect" update=":form:staffDialogHeader" oncomplete="PF('staffDialog').show()" />
 								<f:facet name="header">
 									<p:outputPanel>
-										<h:outputText value="Search all fields:" />
-										<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px"
-											placeholder="Enter keyword" />
+										<div class="form-group marginTop20">
+											<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('staffsTable').filter()"
+												placeholder="To search enter a keyword" />
+										</div>
 									</p:outputPanel>
 								</f:facet>
+								<f:facet name="{Exporters}">
+									<h:commandLink ajax="false">
+										<i class="fa fa-file-pdf-o fa-x" title="PDF"></i>
+										<p:dataExporter type="pdf" target="allStaffs" fileName="Staffs" />
+									</h:commandLink>
+									<h:commandLink ajax="false">
+										<i class="fa fa-file-excel-o fa-x"></i>
+										<p:dataExporter type="xls" target="allStaffs" fileName="Staffs" />
+									</h:commandLink>
 
-								<p:column filterBy="#{car.id}" headerText="Employee Id" footerText="contains" filterMatchMode="contains">
-									<h:outputText value="#{car.id}" />
+								</f:facet>
+								<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
+									<h:outputText value="#{st.firstname} #{st.lastname}" />
 								</p:column>
 
-								<p:column filterBy="#{car.year}" headerText="Joining Year" footerText="lte" filterMatchMode="lte">
-									<f:facet name="filter">
-										<p:spinner onchange="PF('carsTable').filter()" styleClass="year-spinner">
-											<f:converter converterId="javax.faces.Integer" />
-										</p:spinner>
-									</f:facet>
-									<h:outputText value="#{car.year}" />
+								<p:column filterStyle="display:none" sortBy="#{st.designation}" filterBy="#{st.designation}"
+									headerText="Designation">
+									<h:outputText value="#{st.designation}" />
 								</p:column>
 
-								<p:column filterBy="#{car.brand}" headerText="Name" footerText="exact" filterMatchMode="exact">
-									<f:facet name="filter">
-										<p:selectOneMenu onchange="PF('carsTable').filter()">
-											<f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
-											<f:selectItems value="#{dtFilterView.brands}" />
-										</p:selectOneMenu>
-									</f:facet>
-									<h:outputText value="#{car.brand}" />
+								<p:column headerText="Gender">
+									<h:outputText value="#{st.sex}" />
 								</p:column>
 
-								<p:column filterBy="#{car.sold}" headerText="Staff Type" footerText="equals" filterMatchMode="equals">
-									<f:facet name="filter">
-										<p:selectOneButton onchange="PF('carsTable').filter()">
-											<f:converter converterId="javax.faces.Boolean" />
-											<f:selectItem itemLabel="All" itemValue="" />
-											<f:selectItem itemLabel="Permnt" itemValue="true" />
-											<f:selectItem itemLabel="Temp" itemValue="false" />
-										</p:selectOneButton>
-									</f:facet>
-									<h:outputText value="#{car.sold ? 'Permanant': 'Temporary'}" />
+								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone Number">
+									<h:outputText value="#{st.phone}" />
 								</p:column>
 
-								<p:column filterBy="#{car.price}" headerText="Salary" footerText="custom (min)"
-									filterFunction="#{dtFilterView.filterByPrice}">
-									<h:outputText value="#{car.price}">
-										<f:convertNumber currencySymbol="&#8377;" type="currency" />
-									</h:outputText>
+								<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
+									<h:outputText value="#{st.doj}" />
 								</p:column>
+
+								<p:column filterStyle="display:none" filterBy="#{st.joiningsalary}" headerText="Joining Salary">
+									<h:outputText value="#{st.joiningsalary}" />
+								</p:column>
+
 							</p:dataTable>
 
 						</div>
@@ -137,6 +136,40 @@
 		<!-- /#wrapper -->
 		<!-- Bootstrap Core JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
+
+		<p:dialog header="#{staffFilterView.selectedStaff.firstname} #{staffFilterView.selectedStaff.lastname}"
+			widgetVar="staffDialog" id="staffDialogHeader" modal="true" minWidth="400" showEffect="fade" hideEffect="fade">
+			<p:outputPanel id="staffDetail">
+				<p:outputPanel rendered="#{not empty staffFilterView.selectedStaff}">
+					<div class="row">
+						<div class="panel-body">
+							<div class="col-lg-4">
+								<i class="fa fa-user fa-5x"></i>
+							</div>
+							<div class="col-lg-8">
+								<p>
+									<h:outputText value="#{staffFilterView.selectedStaff.designation}" />
+								</p>
+								<h4>Address :</h4>
+								<address>
+									<h:outputText value="#{staffFilterView.selectedStaff.houseno}" />
+									<br />
+									<h:outputText value="#{staffFilterView.selectedStaff.street}" />
+									<br />
+									<h:outputText value="#{staffFilterView.selectedStaff.city}" />
+									-
+									<h:outputText value="#{staffFilterView.selectedStaff.postalCode}" />
+									<br /> <abbr title="Phone">P:</abbr>
+									<h:outputText value="#{staffFilterView.selectedStaff.phone}" />
+									<br /> <a href="mailto:#"><h:outputText value="#{staffFilterView.selectedStaff.email}" /></a>
+								</address>
+							</div>
+						</div>
+
+					</div>
+				</p:outputPanel>
+			</p:outputPanel>
+		</p:dialog>
 	</h:form>
 </body>
 </html>

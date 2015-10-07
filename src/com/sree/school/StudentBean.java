@@ -2,8 +2,6 @@ package com.sree.school;
 
 import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-
-import org.primefaces.event.FlowEvent;
 
 @ManagedBean(name = "studentBean")
 @ViewScoped
@@ -51,7 +47,7 @@ public class StudentBean implements Serializable {
 				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode)"
 				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-		ps.setString(1, "EMPID" + (i + 1));
+		ps.setString(1, "STUDENT_ID" + (i + 1));
 		ps.setString(2, student.getFirstname());
 		ps.setString(3, student.getLastname());
 		ps.setString(4, student.getClassname());

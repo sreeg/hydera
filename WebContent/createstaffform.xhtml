@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition>
+	<p:outputPanel id="formOutputPanel" rendered="#{staffBean.showForm}">
+		<div class="row">
+			<div class="col-lg-6">
+				<p:panel header="Personal Details">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Firstname *" />
+								<p:inputText styleClass="form-control" value="#{staffBean.staff.firstname}" required="true"
+									label="Firstname" />
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Lastname: *" />
+								<p:inputText styleClass="form-control" value="#{staffBean.staff.lastname}" required="true" label="Lastname" />
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Date of birth " />
+								<p:calendar styleClass="input-group date" id="mask" value="#{staffBean.staff.dob}" pattern="dd-MM-yyyy"
+									mask="true" />
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Gender " />
+								<h:selectOneMenu styleClass="form-control" id="gender" value="#{staffBean.staff.sex}">
+									<f:selectItem itemLabel="Select Gender" itemValue="" noSelectionOption="true" />
+									<f:selectItems value="#{staffBean.staff.gender}" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Spouse Name *" />
+								<p:inputText styleClass="form-control" value="#{staffBean.staff.spouseName}" required="true"
+									label="Spousename" />
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Spouse Occupation: " />
+								<p:inputText styleClass="form-control" value="#{staffBean.staff.spouseOccupation}" label="Spouseoccupation" />
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Joining Salary" />
+								<p:inputText styleClass="form-control" value="#{staffBean.staff.joiningsalary}" label="JoiningSalary" />
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Date of Joining " />
+								<p:calendar styleClass="input-group date" id="maskdoj" value="#{staffBean.staff.doj}" pattern="dd-MM-yyyy"
+									mask="true" />
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Class Name " />
+								<h:selectOneMenu styleClass="form-control" required="true" id="class" value="#{staffBean.staff.categoryid}">
+									<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
+									<f:selectItems value="#{staffBean.staff.category}" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+					</div>
+
+				</p:panel>
+			</div>
+			<div class="col-lg-6">
+				<p:panel header="Address Details" widgetVar="addressdetails">
+
+					<div class="form-group">
+						<h:outputText value="House No " />
+						<p:inputText styleClass="form-control" value="#{staffBean.staff.houseno}" />
+					</div>
+					<div class="form-group">
+						<h:outputText value="Street " />
+						<p:inputText styleClass="form-control" value="#{staffBean.staff.street}" />
+					</div>
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="City " />
+								<p:inputText styleClass="form-control" value="#{staffBean.staff.city}" />
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<h:outputText value="Postal Code " />
+								<p:inputText styleClass="form-control" value="#{staffBean.staff.postalCode}" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<h:outputText value="Email * " />
+						<p:inputText styleClass="form-control" value="#{staffBean.staff.email}" label="Email" required="true" />
+					</div>
+					<div class="form-group">
+						<h:outputText value="Phone " />
+						<p:inputText styleClass="form-control" value="#{staffBean.staff.phone}" />
+					</div>
+					<div class="form-group">
+						<h:outputText value="Mobile " />
+						<p:inputText styleClass="form-control" value="#{staffBean.staff.mobile}" />
+					</div>
+
+				</p:panel>
+			</div>
+		</div>
+
+		<!-- /.row -->
+		<div class="marginTop20">
+		
+			<p:commandButton styleClass="btn btn-default btn-lg btn-block" value="Create" actionListener="#{staffBean.save}"
+				validateClient="true" update="@form" />
+		</div>
+				</p:outputPanel>
+					<p:outputPanel id="formOutputPanel2" rendered="#{!staffBean.showForm}">
+							<div class="marginTop20">
+			<p:commandButton styleClass="btn btn-default btn-lg btn-block" value="Add another record ?"  />
+		</div>
+				</p:outputPanel>
+	</ui:composition>
+</h:body>
+</html>

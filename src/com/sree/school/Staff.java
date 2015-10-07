@@ -1,8 +1,7 @@
 package com.sree.school;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class Staff extends User {
 
@@ -10,111 +9,79 @@ public class Staff extends User {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String mothername;
-	private String guardianname;
-	private String classname;
-	private String sectionname;
-	private String fatheroccupation;
-	private String motheroccupation;
-	private String registrationnumber;
-	private double salary;
-	
-    
-	private static LinkedHashMap<String, String> classes;
-	static{
-		classes =new LinkedHashMap<String, String>();
-		classes.put("Class X", "Class X");
-		classes.put("Class IX", "Class IX");
-		classes.put("Class VIII", "Class VIII");
-		classes.put("Class VII", "Class VII");
-		classes.put("Class VI", "Class VI");
-		classes.put("Class V", "Class V");
-		classes.put("Class IV", "Class IV");
-		classes.put("Class III", "Class III");
-		classes.put("Class II", "Class II");
-		classes.put("Class I", "Class I");
-		classes.put("Class UKG", "Class UKG");
-		classes.put("Class LKG", "Class LKG");
-		classes.put("Class NURSERY", "Class NURSERY");
+	private static LinkedHashMap<String, String> category;
+	private String serialnnumber;
+	private double joiningsalary;
+	private String designation;
+	private List<String> subjectsTaught;
+	private String spouseName;
+	private String spouseOccupation;
+	private String categoryid;
+
+	static {
+		category = new LinkedHashMap<String, String>();
+		category.put("Permanant", "1");
+		category.put("Temporary", "2");
+		category.put("Visiting", "3");
 	}
 	
-	private static LinkedHashMap<String, String> sections;
-	static{
-		sections =new LinkedHashMap<String, String>();
-		sections.put("Section A", "Section A");
-		sections.put("Section B", "Section B");
-		sections.put("Section C", "Section C");
+	public String getSerialnumber() {
+		return serialnnumber;
+	}
+
+	public void setSerialnumber(String registrationnumber) {
+		this.serialnnumber = registrationnumber;
 	}
 	
-	public String getClassname() {
-		return classname;
+	public double getJoiningsalary() {
+		return joiningsalary;
 	}
 
-	public String getFatheroccupation() {
-		return fatheroccupation;
+	public void setJoiningsalary(double joiningsalary) {
+		this.joiningsalary = joiningsalary;
 	}
 
-	public String getGuardianname() {
-		return guardianname;
+	public String getDesignation() {
+		return designation;
 	}
 
-	public String getMothername() {
-		return mothername;
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 
-	public String getMotheroccupation() {
-		return motheroccupation;
+	public List<String> getSubjectsTaught() {
+		return subjectsTaught;
 	}
 
-	public String getSectionname() {
-		return sectionname;
+	public void setSubjectsTaught(List<String> subjectsTaught) {
+		this.subjectsTaught = subjectsTaught;
 	}
 
-	public void setClassname(String classname) {
-		this.classname = classname;
+	public String getSpouseName() {
+		return spouseName;
 	}
 
-	public void setFatheroccupation(String fatheroccupation) {
-		this.fatheroccupation = fatheroccupation;
+	public void setSpouseName(String spouseName) {
+		this.spouseName = spouseName;
 	}
 
-	public void setGuardianname(String gaurdianname) {
-		this.guardianname = gaurdianname;
+	public String getSpouseOccupation() {
+		return spouseOccupation;
 	}
 
-	public void setMothername(String mothername) {
-		this.mothername = mothername;
+	public void setSpouseOccupation(String spouseOccupation) {
+		this.spouseOccupation = spouseOccupation;
 	}
 
-	public void setMotheroccupation(String motheroccupation) {
-		this.motheroccupation = motheroccupation;
+	public String getCategoryid() {
+		return categoryid;
 	}
 
-	public void setSectionname(String sectionname) {
-		this.sectionname = sectionname;
+	public void setCategoryid(String categoryid) {
+		this.categoryid = categoryid;
 	}
 
-	public String getRegistrationnumber() {
-		return registrationnumber;
-	}
-
-	public void setRegistrationnumber(String registrationnumber) {
-		this.registrationnumber = registrationnumber;
-	}
-	
-	public LinkedHashMap<String, String> getClasses() {
-		return classes;
-	}
-	
-	public HashMap<String, String> getSections() {
-		return sections;
-	}
-
-	public double getSalary() {
-		return salary;
-	}
-
-	public void setSalary(double salary) {
-		this.salary = salary;
+	public LinkedHashMap<String, String> getCategory() {
+		return category;
 	}
 }
