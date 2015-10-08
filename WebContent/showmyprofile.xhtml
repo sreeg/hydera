@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>My Profile</title>
+	<style type="text/css">
+.ui-widget {
+	font-size: 90%;
+}
+</style>
+</h:head>
+
+<h:body>
+	<div class="row">
+		<div class="panel-body">
+			<div class="col-lg-4">
+				<i class="fa fa-user fa-5x"></i>
+			</div>
+			<div class="col-lg-8">
+				<p>
+					<h:outputText value="#{staffFilterView.staffbylogin.designation}" />
+				</p>
+				<h4>Address :</h4>
+				<address>
+					<h:outputText value="#{staffFilterView.staffbylogin.houseno}" />
+					<br />
+					<h:outputText value="#{staffFilterView.staffbylogin.street}" />
+					<br />
+					<h:outputText value="#{staffFilterView.staffbylogin.city}" />
+					-
+					<h:outputText value="#{staffFilterView.staffbylogin.postalCode}" />
+					<br /> <abbr title="Phone">P:</abbr>
+					<h:outputText value="#{staffFilterView.staffbylogin.phone}" />
+					<br /> <a href="mailto:#"><h:outputText value="#{staffFilterView.staffbylogin.email}" /></a>
+				</address>
+			</div>
+		</div>
+	</div>
+	
+	<form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label for="inputType" class="col-md-2 control-label">Type</label>
+      <div class="col-md-3">
+          <input type="text" class="form-control" id="inputType" placeholder="Type"/>
+      </div>
+    </div>
+    <div class="form-group">
+        <span class="col-md-2 control-label">Metadata</span>
+        <div class="col-md-6">
+            <div class="form-group row">
+                <label for="inputKey" class="col-md-1 control-label">Key</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="inputKey" placeholder="Key"/>
+                </div>
+                <label for="inputValue" class="col-md-1 control-label">Value</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="inputValue" placeholder="Value"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+</h:body>
+
+</html>

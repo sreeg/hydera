@@ -33,32 +33,11 @@
 	<div id="wrapper">
 		<h:form>
 			<!-- Navigation -->
-			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-				<ui:insert name="nav_header">
-					<ui:include src="nav_header.xhtml" />
-				</ui:insert>
-				<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-				<div class="collapse navbar-collapse navbar-ex1-collapse">
-					<ul class="nav navbar-nav side-nav">
-						<li><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
-						<li class="active"><a href="createstudent.xhtml"><i class="fa fa-fw fa-plus"></i> Add Student</a></li>
-						<li><a href="createstaff.xhtml"><i class="fa fa-fw fa-user"></i> Add Employee</a></li>
-						<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-table"></i>
-								Reports <i class="fa fa-fw fa-caret-down"></i></a>
-							<ul id="demo" class="collapse">
-								<li><a href="showallstudents.xhtml">Get All Students</a></li>
-								<li><a href="#">Get Students By Class</a></li>
-								<li><a href="staffinfo.xhtml">Get Staff Details</a></li>
-							</ul></li>
-						<li><a href="charts.xhtml"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a></li>
-						<li><p:commandLink id="nonAjax2" actionListener="#{loginBean.logout}" ajax="false">
-								<i class="fa fa-fw fa-power-off"></i>
-								<h:outputText value=" Logout" />
-							</p:commandLink></li>
-					</ul>
-				</div>
-				<!-- /.navbar-collapse -->
-			</nav>
+			<ui:insert name="nav">
+				<ui:include src="nav.xhtml">
+					<ui:param name="page" value="addstudent" />
+				</ui:include>
+			</ui:insert>
 		</h:form>
 		<h:form id="createStudent">
 			<div id="page-wrapper">

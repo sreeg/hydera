@@ -19,10 +19,11 @@ public class Util {
 		return session.getAttribute("username").toString();
 	}
 
-	public static String getUserId() {
+	
+	public static String getStaffid() {
 		HttpSession session = getSession();
 		if (session != null)
-			return (String) session.getAttribute("userid");
+			return (String) session.getAttribute("staffid");
 		else
 			return null;
 	}

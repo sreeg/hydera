@@ -8,38 +8,40 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
- 
-@ManagedBean(name="staffFilterView")
+
+import org.primefaces.context.RequestContext;
+
+@ManagedBean(name = "staffFilterView")
 @ViewScoped
 public class StaffFilterView implements Serializable {
-     
-    /**
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	private List<Staff> staffs;
-     
-    private List<Staff> filteredStaffs;
-    
-    private Staff selectedStaff;
- 
-    public StaffFilterView() throws ClassNotFoundException, SQLException
-    {
-    	staffs = getAllStaff();
-    }
-     
-    public List<Staff> getStaffs() {
-        return staffs;
-    }
- 
-    public List<Staff> getFilteredStaffs() {
-        return filteredStaffs;
-    }
- 
-    public void setFilteredStaffs(List<Staff> filteredStaffs) {
-        this.filteredStaffs = filteredStaffs;
-    }
+
+	private List<Staff> filteredStaffs;
+
+	private Staff selectedStaff;
+	private Staff staffbylogin;
+
+	public StaffFilterView() throws ClassNotFoundException, SQLException {
+		staffs = getAllStaff();
+	}
+
+	public List<Staff> getStaffs() {
+		return staffs;
+	}
+
+	public List<Staff> getFilteredStaffs() {
+		return filteredStaffs;
+	}
+
+	public void setFilteredStaffs(List<Staff> filteredStaffs) {
+		this.filteredStaffs = filteredStaffs;
+	}
 
 	public List<Staff> getAllStaff() throws ClassNotFoundException, SQLException {
 		java.sql.Connection conn = DBConnection.getConnection();
@@ -69,10 +71,43 @@ public class StaffFilterView implements Serializable {
 			st.setStreet(rs.getString("street"));
 			st.setCity(rs.getString("city"));
 			st.setPostalCode(rs.getString("postalcode"));
-			
+
 			students.add(st);
 		}
 		return students;
+	}
+
+	public Staff getStaffByLoginID() throws ClassNotFoundException, SQLException {
+		java.sql.Connection conn = DBConnection.getConnection();
+		ResultSet rs = conn.createStatement()
+				.executeQuery("select Id, FirstName, LastName, CategoryId, Designation,"
+						+ "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
+						+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where Id = "
+						+ "'" + Util.getStaffid() + "'");
+
+		Staff st = new Staff();
+		if (rs.next()) {
+			st.setId(rs.getString("Id"));
+			st.setFirstname(rs.getString("FirstName"));
+			st.setLastname(rs.getString("Lastname"));
+			st.setCategoryid(rs.getString("CategoryId"));
+			st.setDesignation(rs.getString("Designation"));
+			st.setSpouseName(rs.getString("SpouseName"));
+			st.setSpouseOccupation(rs.getString("SpouseOccupation"));
+			st.setPhone(rs.getString("Phone"));
+			st.setDob(rs.getDate("DateOfBirth"));
+			st.setDoj(rs.getDate("DateOfJoining"));
+			st.setJoiningsalary(rs.getDouble("JoiningSalary"));
+			st.setSex(rs.getString("Gender"));
+			st.setMobile(rs.getString("Mobile"));
+			st.setEmail(rs.getString("Email"));
+			st.setProfiepic(rs.getString("ProfilePic"));
+			st.setHouseno(rs.getString("houseno"));
+			st.setStreet(rs.getString("street"));
+			st.setCity(rs.getString("city"));
+			st.setPostalCode(rs.getString("postalcode"));
+		}
+		return st;
 	}
 
 	public Staff getSelectedStaff() {
@@ -82,4 +117,25 @@ public class StaffFilterView implements Serializable {
 	public void setSelectedStaff(Staff selectedStaff) {
 		this.selectedStaff = selectedStaff;
 	}
+
+	public Staff getStaffbylogin() {
+		if (staffbylogin != null && staffbylogin.getId() != null)
+			return staffbylogin;
+		else
+			try {
+				return getStaffByLoginID();
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+				return null;
+			}
+	}
+
+	public void setStaffbylogin(Staff staffbylogin) {
+		this.staffbylogin = staffbylogin;
+	}
+	
+    public void viewMyProfile() {
+        RequestContext.getCurrentInstance().openDialog("showmyprofile");
+    }
+     
 }

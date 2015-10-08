@@ -17,6 +17,7 @@ public class LoginBean {
 
 	private String uname;
 	private String password;
+	private String staffid;
 
 	public String getPassword() {
 		return password;
@@ -36,21 +37,15 @@ public class LoginBean {
 
 	public String loginProject() throws SQLException {
 		String result = UserDAO.login(uname, password);
-		if (result.equals("customer")) {
-			// get Http Session and store username
-			HttpSession session = Util.getSession();
-			session.setAttribute("username", uname);
-			return "customer";
-		} else if (result.equals("staff")) {
-			// get Http Session and store username
-			HttpSession session = Util.getSession();
-			session.setAttribute("username", uname);
+		if (result.equals("staff")) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome!", uname));
+			setUname(Util.getUserName());
+			setStaffid(Util.getStaffid());
 			return "home";
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Invalid Login!", "Please enter correct Username and Password!"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Invalid Login!", "Please enter correct Username and Password!"));
 			return "login";
 		}
 	}
@@ -58,12 +53,16 @@ public class LoginBean {
 	public String logout() {
 		HttpSession session = Util.getSession();
 		session.invalidate();
-		FacesContext
-		.getCurrentInstance()
-		.getApplication()
-		.getNavigationHandler()
-		.handleNavigation(FacesContext.getCurrentInstance(), null,
-		"/login.xhtml?faces-redirect=true");
+		FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
+				.handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml?faces-redirect=true");
 		return "login";
+	}
+
+	public String getStaffid() {
+		return staffid;
+	}
+
+	public void setStaffid(String staffid) {
+		this.staffid = staffid;
 	}
 }
