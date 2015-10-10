@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -33,6 +35,12 @@ public class StafftBean implements Serializable {
 		this.staff = staff;
 	}
 
+    @PostConstruct
+    public void init(){
+    	getStaff().setDoj(Calendar.getInstance().getTime());
+    	getStaff().setCity("Hyderabad");
+    }
+    
 	public void save() throws ClassNotFoundException, SQLException {
 		conn = DBConnection.getConnection();
 		ResultSet rs1 = conn.createStatement().executeQuery("select * from staff");

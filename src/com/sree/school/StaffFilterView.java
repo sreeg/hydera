@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -26,7 +27,7 @@ public class StaffFilterView implements Serializable {
 
 	private Staff selectedStaff;
 	private Staff staffbylogin;
-
+    
 	public StaffFilterView() throws ClassNotFoundException, SQLException {
 		staffs = getAllStaff();
 	}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core" xmlns:pe="http://primefaces.org/ui/extensions">
 <h:body>
 	<ui:composition>
 	<p:outputPanel id="formOutputPanel" rendered="#{staffBean.showForm}">
@@ -63,13 +63,15 @@
 						<div class="col-lg-6">
 							<div class="form-group">
 								<h:outputText value="Joining Salary" />
-								<p:inputText styleClass="form-control" value="#{staffBean.staff.joiningsalary}" label="JoiningSalary" />
+								
+								<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.staff.joiningsalary}" symbol="&#8377; ">  
+    </pe:inputNumber>  
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
 								<h:outputText value="Date of Joining " />
-								<p:calendar styleClass="input-group date" id="maskdoj" value="#{staffBean.staff.doj}" pattern="dd-MM-yyyy"
+								<p:calendar styleClass="date" id="maskdoj" value="#{staffBean.staff.doj}" pattern="dd-MM-yyyy"
 									mask="true" />
 							</div>
 						</div>

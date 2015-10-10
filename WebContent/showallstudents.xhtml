@@ -53,35 +53,46 @@
 
 							<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
 								emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
-								rows="20" paginator="true" paginatorPosition="bottom" selectionMode="single"
+								rows="25" paginator="true" paginatorPosition="bottom" selectionMode="single"
 								selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}"
 								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-								rowsPerPageTemplate="20,25,50">
+								rowsPerPageTemplate="25,40, 50">
 								<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
+								
 								<f:facet name="header">
 									<p:outputPanel>
-										<div class="form-group marginTop20">
+										<div class="form-group marginTop20" style="display: inline-block; width: 100%; padding-right: 200px;">
 											<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
 												placeholder="To search enter a keyword" />
 										</div>
+										<div class="form-group marginTop20"
+											style="display: inline-block; float: right;margin-top: -45px;margin-right: 10px;min-height: 30px;font-weight: 100;">
+											<p:commandButton styleClass="buttonRed" id="toggler" type="button" value="Columns" style="float:right"
+												icon="fa fa-table" />
+											<p:columnToggler datasource="allStudents" trigger="toggler" />
+										</div>
 									</p:outputPanel>
-								</f:facet>
-								<f:facet name="{Exporters}">
-									<h:commandLink ajax="false">
-										<i class="fa fa-file-pdf-o fa-x" title="PDF"></i>
-										<p:dataExporter type="pdf" target="allStudents" fileName="Students" />
-									</h:commandLink>
-									<h:commandLink ajax="false">
-										<i class="fa fa-file-excel-o fa-x"></i>
-										<p:dataExporter type="xls" target="allStudents" fileName="Students" />
-									</h:commandLink>
 
 								</f:facet>
+								
+								<f:facet name="{Exporters}">
+									<h:commandLink styleClass="pull-right" ajax="false">
+										<i style="font-size: 22px; color: #D13F3F; margin: 5px;" class="fa fa-file-pdf-o fa-x" title="Export to PDF"
+											data-toggle="tooltipPDF" data-placement="bottom"></i>
+										<p:dataExporter type="pdf" target="allStudents" fileName="Students" />
+									</h:commandLink>
+									<h:commandLink styleClass="pull-right" ajax="false">
+										<i style="font-size: 22px; color: #188260; margin: 5px;" class="fa fa-file-excel-o fa-x" title="Export to XLS"
+											data-toggle="tooltipXLS" data-placement="bottom"></i>
+										<p:dataExporter type="xls" target="allStudents" fileName="Students" />
+									</h:commandLink>
+								</f:facet>
+								
 								<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
 									<h:outputText value="#{st.firstname} #{st.lastname}" />
 								</p:column>
 
-								<p:column filterStyle="display:none" sortBy="#{st.classname}" filterBy="#{st.classname}" headerText="Class Name">
+								<p:column filterStyle="display:none" sortBy="#{st.classname}" filterBy="#{st.classname}" headerText="Class name">
 									<h:outputText value="#{st.classname} - #{st.sectionname}" />
 								</p:column>
 
@@ -89,8 +100,8 @@
 									<h:outputText value="#{st.sex}" />
 								</p:column>
 
-								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone Number">
-									<h:outputText value="#{st.phone}" />
+								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Father details">
+									<h:outputText value="#{st.fathername}, #{st.fatheroccupation}" />
 								</p:column>
 
 								<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
@@ -101,6 +112,15 @@
 									<h:outputText value="#{st.dob}" />
 								</p:column>
 
+								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone number">
+									<h:outputText value="#{st.phone}" />
+								</p:column>
+								<p:column filterStyle="display:none" filterBy="#{st.mobile}" headerText="Mbile number">
+									<h:outputText value="#{st.mobile}" />
+								</p:column>
+								<p:column filterStyle="display:none" filterBy="#{st.email}" headerText="Email id">
+									<a href="mailto:#">#{st.email}</a>
+								</p:column>
 							</p:dataTable>
 
 						</div>
@@ -149,6 +169,14 @@
 				</p:outputPanel>
 			</p:outputPanel>
 		</p:dialog>
+		<script>
+			$(function() {
+				$('[data-toggle="tooltipPDF"]').tooltip()
+			})
+			$(function() {
+				$('[data-toggle="tooltipXLS"]').tooltip()
+			})
+		</script>
 	</h:form>
 </body>
 </html>
