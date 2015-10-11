@@ -90,6 +90,10 @@
 									<h:outputText value="#{st.sex}" />
 								</p:column>
 
+								<p:column headerText="Category">
+									<h:outputText value="#{st.categoryName}" />
+								</p:column>
+
 								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone Number">
 									<h:outputText value="#{st.phone}" />
 								</p:column>
@@ -98,8 +102,8 @@
 									<h:outputText value="#{st.doj}" />
 								</p:column>
 
-								<p:column filterStyle="display:none" filterBy="#{st.joiningsalary}" headerText="Joining Salary">
-									<h:outputText value="#{st.joiningsalary}" />
+								<p:column filterStyle="display:none;" filterBy="#{st.joiningsalary}" headerText="Joining Salary">
+									<h:outputText style="float:right" value="&#8377; #{st.joiningsalary}" />
 								</p:column>
 
 							</p:dataTable>

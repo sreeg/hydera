@@ -12,7 +12,7 @@ public class Staff extends User {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static LinkedHashMap<String, String> category;
+	private static LinkedHashMap<String, String> category, categoryInverse;
 	private String serialnnumber;
 	private double joiningsalary;
 	private String designation;
@@ -20,6 +20,8 @@ public class Staff extends User {
 	private String spouseName;
 	private String spouseOccupation;
 	private String categoryid;
+	@SuppressWarnings("unused")
+	private String categoryName;
 
 	static {
 		category = new LinkedHashMap<String, String>();
@@ -27,7 +29,12 @@ public class Staff extends User {
 		category.put("Temporary", "2");
 		category.put("Visiting", "3");
 	}
-	
+	static {
+		categoryInverse = new LinkedHashMap<String, String>();
+		categoryInverse.put("1","Permanant");
+		categoryInverse.put("2","Temporary");
+		categoryInverse.put("3","Visiting");
+	}
 
 	public String getSerialnumber() {
 		return serialnnumber;
@@ -36,7 +43,7 @@ public class Staff extends User {
 	public void setSerialnumber(String registrationnumber) {
 		this.serialnnumber = registrationnumber;
 	}
-	
+
 	public double getJoiningsalary() {
 		return joiningsalary;
 	}
@@ -83,9 +90,18 @@ public class Staff extends User {
 
 	public void setCategoryid(String categoryid) {
 		this.categoryid = categoryid;
+		setCategoryName(categoryInverse.get(this.categoryid));
 	}
 
 	public LinkedHashMap<String, String> getCategory() {
 		return category;
+	}
+
+	public String getCategoryName() {
+		return this.categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }

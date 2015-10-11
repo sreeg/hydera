@@ -48,7 +48,7 @@ public class StaffFilterView implements Serializable {
 		java.sql.Connection conn = DBConnection.getConnection();
 		ResultSet rs = conn.createStatement().executeQuery("select Id, FirstName, LastName, CategoryId, Designation,"
 				+ "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
-				+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff");
+				+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where isarchived=0");
 
 		List<Staff> students = new ArrayList<>();
 		while (rs.next()) {

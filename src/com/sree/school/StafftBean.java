@@ -52,8 +52,8 @@ public class StafftBean implements Serializable {
 
 		ps = conn.prepareStatement("INSERT INTO STAFF (Id, FirstName, LastName, CategoryId, Designation,"
 				+ "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
-				+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode)"
-				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode, createdatetime, updatedatetime)"
+				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
 
 		ps.setString(1, "STAFF_ID" + (i + 1));
 		ps.setString(2, staff.getFirstname());
