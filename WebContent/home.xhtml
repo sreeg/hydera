@@ -220,9 +220,8 @@
 										<pe:analogClock width="300" colorTheme="black-tie" />
 									</div>
 								</p:panel>
-								<p:panel collapsed="true" id="WidgetCalc" header="Calculator" toggleable="true" toggleSpeed="500"
+								<p:panel widgetVar="WidgetCalc" collapsed="true" id="WidgetCalc" header="Calculator"  toggleable="true" toggleSpeed="500" 
 									closeSpeed="500">
-
 									<div id="idCalculadora"></div>
 								</p:panel>
 							</div>
@@ -251,6 +250,7 @@
 				$('[data-toggle="tooltipClose"]').tooltip()
 			})
 			$("#idCalculadora").Calculadora();
+			
 		</script>
 	</h:form>
 </body>

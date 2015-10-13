@@ -26,13 +26,13 @@ public class Staff extends User {
 	static {
 		category = new LinkedHashMap<String, String>();
 		category.put("Permanant", "1");
-		category.put("Temporary", "2");
+		category.put("Domestic", "2");
 		category.put("Visiting", "3");
 	}
 	static {
 		categoryInverse = new LinkedHashMap<String, String>();
 		categoryInverse.put("1","Permanant");
-		categoryInverse.put("2","Temporary");
+		categoryInverse.put("2","Domestic");
 		categoryInverse.put("3","Visiting");
 	}
 

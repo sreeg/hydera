@@ -34,7 +34,8 @@
 						#{staffFilterView.staffbylogin.firstname} #{staffFilterView.staffbylogin.lastname} <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><p:commandLink id="ajax" actionListener="#{staffFilterView.viewMyProfile}">
-								<i class="fa fa-fw fa-user"></i> <h:outputText value="Profile" />
+								<i class="fa fa-fw fa-user"></i>
+								<h:outputText value="Profile" />
 							</p:commandLink></li>
 
 
@@ -56,6 +57,8 @@
 							class="fa fa-fw fa-plus"></i> Add Student</a></li>
 					<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml"><i class="fa fa-fw fa-user"></i>
 							Add Staff</a></li>
+					<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml"><i
+							class="fa fa-fw fa-credit-card"></i> Add Staff Salary</a></li>
 					<li class="#{page == 'reports' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse"
 						data-target="#demo"><i class="fa fa-fw fa-table"></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="demo" class="expand">

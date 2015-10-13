@@ -30,76 +30,127 @@
     <![endif]-->
 	<link type="text/css" rel="stylesheet" href="css/base.css" />
 	<style>
-		html, body,
-		.footer {
-			max-width: 1280px;
-			margin: 0 auto;
-			background: #fff;
-		}
-		body {
-			background: #f1fcf9;
-		}
-	</style>
+html, body, .footer, .loginHeader, .loginForm {
+	max-width: 1080px;
+	margin: 0 auto;
+	background: #fff;
+}
+
+body, .loginForm {
+	background: #f5f8fd;
+}
+
+.loginContainer::before {
+	position: absolute;
+	z-index: 1;
+	background-color: #188260;
+	width: 100%;
+	height: 127px;
+	content: '';
+	-webkit-animation: bar-slide .2s cubic-bezier(.1, .82, .25, 1);
+	animation: bar-slide .2s cubic-bezier(.1, .82, .25, 1);
+	top: 0;
+	left: 0;
+}
+
+.loginHeader {
+	margin-bottom: 50px;
+	padding: 10px;
+	border-bottom: 10px solid #0b182d;
+	color: #fff;
+	z-index: 100;
+	position: relative;
+	top: 25px;
+	background: #122748 !important;
+}
+
+.loginHeader h1 {
+	
+}
+
+.loginForm {
+	margin-top: 25px;
+}
+
+.panel-login {
+    border-color: #122748;
+}
+
+.panel-login .panel-heading {
+    border-color: #122748;
+    color: #fff;
+    background-color: #122748;
+}
+
+.panel-login a {
+    color: #122748;
+}
+
+.panel-login a:hover {
+    color: #122748;
+}
+
+</style>
 </h:head>
 <body>
+	<div class="loginContainer">
+		<header class="loginHeader">
+			<div class="container1">
 
-	<header class="loginHeader">
-		<div class="container">
-
-			<div class="center-block" style="text-align: center">
-				<h1>Chaitanya Vidyalaya</h1>
-				<h4>Payroll Management System</h4>
+				<div class="center-block" style="text-align: center">
+					<h1>Chaitanya Vidyalaya</h1>
+					<h4>Payroll Management System</h4>
+				</div>
 			</div>
-		</div>
-	</header>
+		</header>
+		<br/>
+		<div class="container loginForm">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<div class=" panel panel-login">
+						<div class="panel-heading">
+							<h3 class="panel-title">Please Sign In</h3>
+						</div>
+						<div class="panel-body">
+							<div class="well">
+								<h:form id="loginForm">
+									<p:growl id="growl" showDetail="true" sticky="true" />
+									<fieldset>
+										<div class="form-group">
+											<p:inputText styleClass="form-control" placeholder="Enter Username" id="username" value="#{loginBean.uname}"></p:inputText>
+										</div>
+										<div class="form-group">
+											<p:password styleClass="form-control" placeholder="Enter Password" id="password"
+												value="#{loginBean.password}" feedback="false"></p:password>
+										</div>
+										<div class="checkbox">
+											<label> <input name="remember" type="checkbox" value="Remember Me" />Remember Me
+											</label>
+										</div>
 
-	<div class="container loginForm">
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<div class=" panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Please Sign In</h3>
-					</div>
-					<div class="panel-body">
-						<div class="well">
-							<h:form id="loginForm">
-								<p:growl id="growl" showDetail="true" sticky="true" />
-								<fieldset>
-									<div class="form-group">
-										<p:inputText styleClass="form-control" placeholder="Enter Username" id="username" value="#{loginBean.uname}"></p:inputText>
-									</div>
-									<div class="form-group">
-										<p:password styleClass="form-control" placeholder="Enter Password" id="password" value="#{loginBean.password}"
-											feedback="false"></p:password>
-									</div>
-									<div class="checkbox">
-										<label> <input name="remember" type="checkbox" value="Remember Me" />Remember Me
-										</label>
-									</div>
+										<p:commandButton styleClass="btn btn-success btn-block" action="#{loginBean.loginProject}" value="Login"
+											update="growl" ajax="true"></p:commandButton>
 
-									<p:commandButton styleClass="btn btn-success btn-block" action="#{loginBean.loginProject}" value="Login"
-										update="growl" ajax="true"></p:commandButton>
-
-								</fieldset>
-							</h:form>
+									</fieldset>
+								</h:form>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<footer class="footer">
-		<div class="marginTop20">
-			<div class="row">
-				<div class="col-md-2 col-md-offset-5">
-					<p class="text-muted">Copyright - All rights reserved 2015</p>
+<br/>
+		<footer class="footer">
+			<div class="marginTop20">
+				<div class="row">
+					<div class="col-md-4 col-md-offset-4">
+						<p class="text-muted" style="text-align: center;">Copyright - All rights reserved 2015</p>
+					</div>
 				</div>
+
 			</div>
-
-		</div>
-	</footer>
-
+		</footer>
+	</div>
 	<!-- jQuery -->
 
 	<!-- Bootstrap Core JavaScript -->

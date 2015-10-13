@@ -28,14 +28,14 @@
 						<div class="col-lg-6">
 							<div class="form-group">
 								<h:outputText value="Date of birth " />
-								<p:calendar styleClass="input-group date" id="mask" value="#{studentBean.student.dob}" pattern="dd-MM-yyyy"
+								<p:calendar styleClass="date" id="mask" value="#{studentBean.student.dob}" pattern="dd-MM-yyyy"
 									mask="true" />
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<h:outputText value="Gender " />
-								<h:selectOneMenu styleClass="form-control" id="gender" value="#{studentBean.student.sex}">
+								<h:outputText value="Gender *" />
+								<h:selectOneMenu styleClass="form-control" required="true" id="gender" value="#{studentBean.student.sex}">
 									<f:selectItem itemLabel="Select Gender" itemValue="" noSelectionOption="true" />
 									<f:selectItems value="#{studentBean.student.gender}" />
 								</h:selectOneMenu>
@@ -85,7 +85,7 @@
 						<div class="col-lg-6">
 							<div class="form-group">
 								<h:outputText value="Date of Joining " />
-								<p:calendar styleClass="input-group date" id="maskdoj" value="#{studentBean.student.doj}" pattern="dd-MM-yyyy"
+								<p:calendar styleClass="date" id="maskdoj" value="#{studentBean.student.doj}" pattern="dd-MM-yyyy"
 									mask="true" />
 							</div>
 						</div>

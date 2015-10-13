@@ -26,6 +26,11 @@
 	margin-top: 20px;
 }
 
+.marginBottom20 {
+	margin-bottom: 20px;
+}
+
+
 .centered {
 	text-align: center;
 }
@@ -179,18 +184,7 @@
 	background-color: #f5f5f5;
 }
 
-.loginHeader {
-	margin-bottom: 50px;
-	padding: 20px;
-	background-color: #20ad80;
-	border-bottom: 10px solid #188260;
-	color: #fff;
-}
 
-.loginHeader h1 {
-	text-shadow: 2px 2px 0px #1d9d74, 6px 5px 0px rgba(0, 0, 0, 0.15);
-	font-size: 48px;
-}
 
 .ui-widget-content.ui-state-hover,
 .ui-widget-content .ui-state-highlight {

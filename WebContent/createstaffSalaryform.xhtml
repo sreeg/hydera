@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition>
+		<p:panel header="Select staff" styleClass="marginBottom20">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="form-group">
+						<h:outputText value="Staff Category" />
+						<h:selectOneMenu styleClass="form-control" required="true" id="class"
+							value="#{staffFilterView.selectedCategoryId}">
+							<p:ajax listener="#{staffFilterView.onCategoryChange}" update="selectedStaff,staffDetails,formOutputPanel" />
+							<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{staffFilterView.category}" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="form-group">
+						<h:outputText for="selectedStaff" value="Staff Name " />
+						<h:selectOneMenu styleClass="form-control" id="selectedStaff" onchange=""
+							value="#{staffFilterView.selectedStaffIdByCategory}">
+							<p:ajax listener="#{staffFilterView.onStaffChange}" update="staffDetails,formOutputPanel" />
+							<f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
+							<f:selectItems itemValue="#{st.id}" itemLabel="#{st.firstname} #{st.lastname} " var="st"
+								value="#{staffFilterView.filteredStaffsByCategory}" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+
+			</div>
+
+			<p:outputPanel id="staffDetails">
+				<p:outputPanel rendered="#{staffFilterView.showForm}">
+					<div class="row">
+						<div class="col-lg-3">
+
+							<div class="form-group">
+								<LABEL>Joining Salary </LABEL>
+								<h:outputText styleClass="form-control-static" value="#{staffFilterView.selectedStaffByCategory.joiningsalary}" />
+							</div>
+
+						</div>
+
+					</div>
+				</p:outputPanel>
+			</p:outputPanel>
+		</p:panel>
+
+		<p:outputPanel id="formOutputPanel">
+			<p:outputPanel rendered="#{staffFilterView.showForm}">
+				<div class="row">
+					<div class="col-lg-12">
+						<p:panel header="Add Salary Details">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="Basic Salary *" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.basicsalary}" emptyValue="empty"
+											label="BasicSalary" />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="Fixed DA *" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.fixedda}"
+											label="FixedDA" />
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="HRA *" />
+										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.hra}" required="true" symbol="&#8377; " />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="Conveyance All *" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; "  required="true" value="#{salaryBean.salary.conveyanceall}" />
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="PF Number *" />
+										<p:inputText styleClass="form-control" value="#{salaryBean.salary.pfno}" label="PFNumber" required="true" />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="SB A/C Number *" />
+										<p:inputText styleClass="form-control" value="#{salaryBean.salary.sbacno}" label="SBACNumber" required="true" />
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="Prof Tax Deduction *" />
+										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.proftaxdeduction}" required="true" symbol="&#8377; " />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="Other Deduction *" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.otherdeduction}" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="PF Amount*" />
+										<pe:inputNumber styleClass="form-controlpe" required="true" value="#{salaryBean.salary.pfamount}" symbol="&#8377; " />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="Loan Amount *" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.loanamount}" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="PF Rate *" />
+										<pe:inputNumber styleClass="form-controlpe" required="true" value="#{salaryBean.salary.pfrate}" symbol="%" symbolPosition="s" emptyValue="sign"/>
+									</div>
+								</div>
+								<h:inputHidden value="#{salaryBean.salary.employeeid}" id="hiddenId" />
+							</div>							
+						</p:panel>
+					</div>
+				</div>
+
+				<!-- /.row -->
+				<div class="marginTop20">
+					<p:commandButton styleClass="btn btn-default btn-lg btn-block" value="Create" actionListener="#{salaryBean.save}" onclick="setHiddenValue('#{staffFilterView.selectedStaffIdByCategory}');"
+						validateClient="true" update="@form" />
+				</div>
+			</p:outputPanel>
+		</p:outputPanel>
+
+		<p:outputPanel id="formOutputPanel2" rendered="#{!salaryBean.showForm}">
+			<div class="marginTop20">
+				<p:commandButton styleClass="btn btn-default btn-lg btn-block" value="Add another record ?" />
+			</div>
+		</p:outputPanel>
+
+<script type="text/javascript">
+   function setHiddenValue(new_value){
+			
+	document.getElementById('createStaffSalaryForm:hiddenId').value = new_value;
+			
+   }
+</script>
+
+	</ui:composition>
+</h:body>
+</html>
