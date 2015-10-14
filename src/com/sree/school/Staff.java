@@ -25,15 +25,15 @@ public class Staff extends User {
 
 	static {
 		category = new LinkedHashMap<String, String>();
-		category.put("Permanant", "1");
+		category.put("Permanent", "1");
 		category.put("Domestic", "2");
-		category.put("Visiting", "3");
+		category.put("Part Time", "3");
 	}
 	static {
 		categoryInverse = new LinkedHashMap<String, String>();
-		categoryInverse.put("1","Permanant");
+		categoryInverse.put("1","Permanent");
 		categoryInverse.put("2","Domestic");
-		categoryInverse.put("3","Visiting");
+		categoryInverse.put("3","Part Time");
 	}
 
 	public String getSerialnumber() {

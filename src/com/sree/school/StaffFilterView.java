@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
@@ -27,7 +28,17 @@ public class StaffFilterView implements Serializable {
 	private static LinkedHashMap<String, String> category;
 	private Map<String, Staff> staffMap = new HashMap<>();
 	private List<Staff> staffs;
+	
+	private List<Staff> staffsPermenant;
+	private List<Staff> staffsTemporary;
+	private List<Staff> staffsDomestic;
+	
 	private List<Staff> filteredStaffs;
+	
+	private List<Staff> filteredStaffsP;
+	private List<Staff> filteredStaffsT;
+	private List<Staff> filteredStaffsD;
+	
 	private List<Staff> filteredStaffsByCategory;
 	private List<Staff> staffByCategory;
 
@@ -41,12 +52,16 @@ public class StaffFilterView implements Serializable {
 
 	static {
 		category = new LinkedHashMap<String, String>();
-		category.put("Permanant", "1");
+		category.put("Permanent", "1");
 		category.put("Domestic", "2");
-		category.put("Visiting", "3");
+		category.put("Part Time", "3");
 	}
-	
+
 	public StaffFilterView() throws ClassNotFoundException, SQLException {
+		staffsPermenant = new ArrayList<>();
+		staffsTemporary = new ArrayList<>();
+		staffsDomestic = new ArrayList<>();
+		
 		staffs = getAllStaff();
 	}
 
@@ -92,6 +107,18 @@ public class StaffFilterView implements Serializable {
 			st.setPostalCode(rs.getString("postalcode"));
 
 			students.add(st);
+			if(st.getCategoryid().equals("1"))
+			{
+				staffsPermenant.add(st);
+			}
+			if(st.getCategoryid().equals("2"))
+			{
+				staffsDomestic.add(st);
+			}
+			if(st.getCategoryid().equals("3"))
+			{
+				staffsTemporary.add(st);
+			}
 		}
 		return students;
 	}
@@ -200,11 +227,9 @@ public class StaffFilterView implements Serializable {
 			try {
 				return getStaffByCategory(selectedCategoryId);
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			}
@@ -230,10 +255,50 @@ public class StaffFilterView implements Serializable {
 	}
 
 	public void onStaffChange() {
-		setShowForm(selectedStaffIdByCategory!= null && selectedCategoryId!=null);
+		setShowForm(selectedStaffIdByCategory != null && selectedCategoryId != null);
 		selectedStaffByCategory = staffMap.get(selectedStaffIdByCategory);
+		getSalaryDetails(selectedStaffIdByCategory);
 	}
-	
+
+	private void getSalaryDetails(String selectedStaffIdByCategory2) {
+
+		ResultSet rs;
+		Salary st = new Salary();
+		try {
+			java.sql.Connection conn = DBConnection.getConnection();
+			rs = conn.createStatement().executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
+					+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
+					+ "pfamount, loanamount from salary where employeeid = " + "'" + selectedStaffIdByCategory2 + "'");
+			if (rs.next()) {
+				st.setEmployeeid(rs.getString("employeeid"));
+				st.setBasicsalary(rs.getDouble("basicsalary"));
+				st.setFixedda(rs.getDouble("fixedda"));
+				st.setHra(rs.getDouble("hra"));
+				st.setConveyanceall(rs.getDouble("conveyanceall"));
+				st.setPfno(rs.getString("pfno"));
+				st.setSbacno(rs.getString("sbacno"));
+				st.setPfrate(rs.getDouble("pfrate"));
+				st.setProftaxdeduction(rs.getDouble("proftaxdeduction"));
+				st.setOtherdeduction(rs.getDouble("otherdeduction"));
+				st.setPfamount(rs.getDouble("pfamount"));
+				st.setLoanamount(rs.getDouble("loanamount"));
+
+				FacesContext context = FacesContext.getCurrentInstance();
+				SalaryBean bean = context.getApplication().evaluateExpressionGet(context, "#{salaryBean}", SalaryBean.class);
+				
+				bean.setSalary(st);
+				bean.setAlreadyPresent(true);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public List<Staff> getFilteredStaffsByCategory() {
 		return filteredStaffsByCategory;
 	}
@@ -273,5 +338,53 @@ public class StaffFilterView implements Serializable {
 	public void setSelectedStaffByCategory(Staff selectedStaffByCategory) {
 		this.selectedStaffByCategory = selectedStaffByCategory;
 	}
-	
+
+	public List<Staff> getStaffsPermenant() {
+		return staffsPermenant;
+	}
+
+	public void setStaffsPermenant(List<Staff> staffsPermenant) {
+		this.staffsPermenant = staffsPermenant;
+	}
+
+	public List<Staff> getStaffsTemporary() {
+		return staffsTemporary;
+	}
+
+	public void setStaffsTemporary(List<Staff> staffsTemporary) {
+		this.staffsTemporary = staffsTemporary;
+	}
+
+	public List<Staff> getStaffsDomestic() {
+		return staffsDomestic;
+	}
+
+	public void setStaffsDomestic(List<Staff> staffsDomestic) {
+		this.staffsDomestic = staffsDomestic;
+	}
+
+	public List<Staff> getFilteredStaffsP() {
+		return filteredStaffsP;
+	}
+
+	public void setFilteredStaffsP(List<Staff> filteredStaffsP) {
+		this.filteredStaffsP = filteredStaffsP;
+	}
+
+	public List<Staff> getFilteredStaffsT() {
+		return filteredStaffsT;
+	}
+
+	public void setFilteredStaffsT(List<Staff> filteredStaffsT) {
+		this.filteredStaffsT = filteredStaffsT;
+	}
+
+	public List<Staff> getFilteredStaffsD() {
+		return filteredStaffsD;
+	}
+
+	public void setFilteredStaffsD(List<Staff> filteredStaffsD) {
+		this.filteredStaffsD = filteredStaffsD;
+	}
+
 }

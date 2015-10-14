@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Payroll Management</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/sb-admin.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+</h:head>
+
+<body>
+	<h:form id="form">
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<div id="wrapper">
+
+			<!-- Navigation -->
+			<ui:insert name="nav">
+				<ui:include src="nav.xhtml">
+					<ui:param name="page" value="reports" />
+				</ui:include>
+			</ui:insert>
+
+			<div id="page-wrapper">
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Staff Information</h1>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col-lg-12">
+
+							<div class="panel panel-success">
+								<div class="panel-heading"><strong>Permanent Staff</strong></div>
+								<div class="panel-body">
+									<p:dataTable id="permenantStaffss" var="stP" value="#{staffFilterView.staffsPermenant}"
+										widgetVar="staffsTableP" emptyMessage="No staff found with given criteria">
+
+
+										<p:column filterStyle="display:none" sortBy="#{stP.firstname}" filterBy="#{stP.firstname}" headerText="Name">
+											<h:outputText value="#{stP.firstname} #{stP.lastname}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" sortBy="#{stP.designation}" filterBy="#{stP.designation}"
+											headerText="Designation">
+											<h:outputText value="#{stP.designation}" />
+										</p:column>
+
+										<p:column headerText="Gender">
+											<h:outputText value="#{stP.sex}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{stP.phone}" headerText="Phone Number">
+											<h:outputText value="#{stP.phone}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{stP.doj}" headerText="Date of joining">
+											<h:outputText value="#{stP.doj}" />
+										</p:column>
+
+										<p:column filterStyle="display:none;" filterBy="#{stP.joiningsalary}" headerText="Joining Salary">
+											<h:outputText style="float:right" value="&#8377; #{stP.joiningsalary}" />
+										</p:column>
+
+									</p:dataTable>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col-lg-12">
+							<div class="panel panel-success">
+								<div class="panel-heading"><strong>Part time Staff</strong></div>
+								<div class="panel-body">
+									<p:dataTable id="temporaryStaffss" var="st" value="#{staffFilterView.staffsTemporary}" widgetVar="staffsTableT"
+										emptyMessage="No staff found with given criteria">
+
+										<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
+											<h:outputText value="#{st.firstname} #{st.lastname}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" sortBy="#{st.designation}" filterBy="#{st.designation}"
+											headerText="Designation">
+											<h:outputText value="#{st.designation}" />
+										</p:column>
+
+										<p:column headerText="Gender">
+											<h:outputText value="#{st.sex}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone Number">
+											<h:outputText value="#{st.phone}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
+											<h:outputText value="#{st.doj}" />
+										</p:column>
+
+										<p:column filterStyle="display:none;" filterBy="#{st.joiningsalary}" headerText="Joining Salary">
+											<h:outputText style="float:right" value="&#8377; #{st.joiningsalary}" />
+										</p:column>
+
+									</p:dataTable>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel panel-success">
+								<div class="panel-heading"><strong>Domestic Staff</strong></div>
+								<div class="panel-body">
+									<p:dataTable id="domesticStaffss" var="stD" value="#{staffFilterView.staffsDomestic}" widgetVar="staffsTableD"
+										emptyMessage="No staff found with given criteria">
+
+										<p:column filterStyle="display:none" sortBy="#{stD.firstname}" filterBy="#{stD.firstname}" headerText="Name">
+											<h:outputText value="#{stD.firstname} #{stD.lastname}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" sortBy="#{stD.designation}" filterBy="#{stD.designation}"
+											headerText="Designation">
+											<h:outputText value="#{stD.designation}" />
+										</p:column>
+
+										<p:column headerText="Gender">
+											<h:outputText value="#{stD.sex}" />
+										</p:column>
+										
+										<p:column filterStyle="display:none" filterBy="#{stD.phone}" headerText="Phone Number">
+											<h:outputText value="#{stD.phone}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{stD.doj}" headerText="Date of joining">
+											<h:outputText value="#{stD.doj}" />
+										</p:column>
+
+										<p:column filterStyle="display:none;" filterBy="#{stD.joiningsalary}" headerText="Joining Salary">
+											<h:outputText style="float:right" value="&#8377; #{stD.joiningsalary}" />
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /#page-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+
+	</h:form>
+</body>
+</html>

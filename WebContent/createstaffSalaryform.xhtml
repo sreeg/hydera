@@ -36,15 +36,15 @@
 			<p:outputPanel id="staffDetails">
 				<p:outputPanel rendered="#{staffFilterView.showForm}">
 					<div class="row">
-						<div class="col-lg-3">
-
+						<div class="col-lg-6">
 							<div class="form-group">
-								<LABEL>Joining Salary </LABEL>
-								<h:outputText styleClass="form-control-static" value="#{staffFilterView.selectedStaffByCategory.joiningsalary}" />
+								<LABEL class="col-lg-4">Joining Salary</LABEL>
+								<p class="form-control-static">&#8377; #{staffFilterView.selectedStaffByCategory.joiningsalary}</p>
+
+								<LABEL class="col-lg-4">Designation</LABEL>
+								<p class="form-control-static">#{staffFilterView.selectedStaffByCategory.designation}</p>
 							</div>
-
 						</div>
-
 					</div>
 				</p:outputPanel>
 			</p:outputPanel>
@@ -59,15 +59,15 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="Basic Salary *" />
-										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.basicsalary}" emptyValue="empty"
-											label="BasicSalary" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+											value="#{salaryBean.salary.basicsalary}" emptyValue="empty" label="BasicSalary" />
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="Fixed DA *" />
-										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.fixedda}"
-											label="FixedDA" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+											value="#{salaryBean.salary.fixedda}" label="FixedDA" />
 									</div>
 								</div>
 							</div>
@@ -76,13 +76,15 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="HRA *" />
-										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.hra}" required="true" symbol="&#8377; " />
+										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.hra}" required="true" symbol="&#8377; "
+											label="HRA" />
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="Conveyance All *" />
-										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; "  required="true" value="#{salaryBean.salary.conveyanceall}" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+											value="#{salaryBean.salary.conveyanceall}" label="ConveyanceAll" />
 									</div>
 								</div>
 							</div>
@@ -106,13 +108,15 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="Prof Tax Deduction *" />
-										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.proftaxdeduction}" required="true" symbol="&#8377; " />
+										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.proftaxdeduction}" required="true"
+											symbol="&#8377; " label="ProfTaxDeduction" />
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="Other Deduction *" />
-										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.otherdeduction}" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+											value="#{salaryBean.salary.otherdeduction}" label="OtherDeduction" />
 									</div>
 								</div>
 							</div>
@@ -120,13 +124,15 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="PF Amount*" />
-										<pe:inputNumber styleClass="form-controlpe" required="true" value="#{salaryBean.salary.pfamount}" symbol="&#8377; " />
+										<pe:inputNumber styleClass="form-controlpe" required="true" value="#{salaryBean.salary.pfamount}"
+											symbol="&#8377; " label="PFAmount" />
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="Loan Amount *" />
-										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true" value="#{salaryBean.salary.loanamount}" />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+											value="#{salaryBean.salary.loanamount}" label="LoanAmount" />
 									</div>
 								</div>
 							</div>
@@ -134,36 +140,32 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="PF Rate *" />
-										<pe:inputNumber styleClass="form-controlpe" required="true" value="#{salaryBean.salary.pfrate}" symbol="%" symbolPosition="s" emptyValue="sign"/>
+										<pe:inputNumber styleClass="form-controlpe" required="true" value="#{salaryBean.salary.pfrate}" symbol="%"
+											symbolPosition="s" emptyValue="sign" label="PFRate" />
 									</div>
 								</div>
 								<h:inputHidden value="#{salaryBean.salary.employeeid}" id="hiddenId" />
-							</div>							
+							</div>
 						</p:panel>
 					</div>
 				</div>
 
 				<!-- /.row -->
 				<div class="marginTop20">
-					<p:commandButton styleClass="btn btn-default btn-lg btn-block" value="Create" actionListener="#{salaryBean.save}" onclick="setHiddenValue('#{staffFilterView.selectedStaffIdByCategory}');"
-						validateClient="true" update="@form" />
+
+					<p:commandButton styleClass="btn btn-default btn-lg btn-block" value="Update" actionListener="#{salaryBean.save}"
+						onclick="setHiddenValue('#{staffFilterView.selectedStaffIdByCategory}');" validateClient="true" update="@form" />
 				</div>
 			</p:outputPanel>
 		</p:outputPanel>
 
-		<p:outputPanel id="formOutputPanel2" rendered="#{!salaryBean.showForm}">
-			<div class="marginTop20">
-				<p:commandButton styleClass="btn btn-default btn-lg btn-block" value="Add another record ?" />
-			</div>
-		</p:outputPanel>
+		<script type="text/javascript">
+			function setHiddenValue(new_value) {
 
-<script type="text/javascript">
-   function setHiddenValue(new_value){
-			
-	document.getElementById('createStaffSalaryForm:hiddenId').value = new_value;
-			
-   }
-</script>
+				document.getElementById('createStaffSalaryForm:hiddenId').value = new_value;
+
+			}
+		</script>
 
 	</ui:composition>
 </h:body>

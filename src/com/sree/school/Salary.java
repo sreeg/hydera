@@ -3,31 +3,31 @@ package com.sree.school;
 public class Salary {
 
 	private String employeeid;
-	private double basicsalary;
-	private double fixedda;
-	private double hra;
-	private double conveyanceall;
+	private Double basicsalary;
+	private Double fixedda;
+	private Double hra;
+	private Double conveyanceall;
 	private String pfno;
 	private String sbacno;
-	private double pfrate;
-	private double proftaxdeduction;
-	private double otherdeduction;
-	private double pfamount;
-	private double loanamount;
+	private Double pfrate;
+	private Double proftaxdeduction;
+	private Double otherdeduction;
+	private Double pfamount;
+	private Double loanamount;
 
-	public double getHra() {
+	public Double getHra() {
 		return hra;
 	}
 
-	public void setHra(double hra) {
+	public void setHra(Double hra) {
 		this.hra = hra;
 	}
 
-	public double getConveyanceall() {
+	public Double getConveyanceall() {
 		return conveyanceall;
 	}
 
-	public void setConveyanceall(double conveyanceall) {
+	public void setConveyanceall(Double conveyanceall) {
 		this.conveyanceall = conveyanceall;
 	}
 
@@ -47,43 +47,43 @@ public class Salary {
 		this.sbacno = sbacno;
 	}
 
-	public double getPfrate() {
+	public Double getPfrate() {
 		return pfrate;
 	}
 
-	public void setPfrate(double pfrate) {
+	public void setPfrate(Double pfrate) {
 		this.pfrate = pfrate;
 	}
 
-	public double getProftaxdeduction() {
+	public Double getProftaxdeduction() {
 		return proftaxdeduction;
 	}
 
-	public void setProftaxdeduction(double proftaxdeduction) {
+	public void setProftaxdeduction(Double proftaxdeduction) {
 		this.proftaxdeduction = proftaxdeduction;
 	}
 
-	public double getOtherdeduction() {
+	public Double getOtherdeduction() {
 		return otherdeduction;
 	}
 
-	public void setOtherdeduction(double otherdeduction) {
+	public void setOtherdeduction(Double otherdeduction) {
 		this.otherdeduction = otherdeduction;
 	}
 
-	public double getPfamount() {
+	public Double getPfamount() {
 		return pfamount;
 	}
 
-	public void setPfamount(double pfamount) {
+	public void setPfamount(Double pfamount) {
 		this.pfamount = pfamount;
 	}
 
-	public double getLoanamount() {
+	public Double getLoanamount() {
 		return loanamount;
 	}
 
-	public void setLoanamount(double loanamount) {
+	public void setLoanamount(Double loanamount) {
 		this.loanamount = loanamount;
 	}
 
@@ -95,19 +95,19 @@ public class Salary {
 		this.employeeid = employeeid;
 	}
 
-	public double getBasicsalary() {
+	public Double getBasicsalary() {
 		return basicsalary;
 	}
 
-	public void setBasicsalary(double basicsalary) {
+	public void setBasicsalary(Double basicsalary) {
 		this.basicsalary = basicsalary;
 	}
 
-	public double getFixedda() {
+	public Double getFixedda() {
 		return fixedda;
 	}
 
-	public void setFixedda(double fixedda) {
+	public void setFixedda(Double fixedda) {
 		this.fixedda = fixedda;
 	}
 }

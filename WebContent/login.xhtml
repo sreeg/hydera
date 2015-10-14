@@ -113,7 +113,7 @@ body, .loginForm {
 						</div>
 						<div class="panel-body">
 							<div class="well">
-								<h:form id="loginForm">
+								<h:form id="loginForm" autocomplete="off">
 									<p:growl id="growl" showDetail="true" sticky="true" />
 									<fieldset>
 										<div class="form-group">
@@ -122,10 +122,6 @@ body, .loginForm {
 										<div class="form-group">
 											<p:password styleClass="form-control" placeholder="Enter Password" id="password"
 												value="#{loginBean.password}" feedback="false"></p:password>
-										</div>
-										<div class="checkbox">
-											<label> <input name="remember" type="checkbox" value="Remember Me" />Remember Me
-											</label>
 										</div>
 
 										<p:commandButton styleClass="btn btn-success btn-block" action="#{loginBean.loginProject}" value="Login"
