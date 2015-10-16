@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Payroll Management</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/sb-admin.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+	<style>
+@media print {
+	@page {
+		size: landscape;
+	}
+}
+</style>
+</h:head>
+
+<body>
+	<h:form id="form">
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<div id="wrapper">
+
+			<!-- Navigation -->
+			<ui:insert name="nav">
+				<ui:include src="nav.xhtml">
+					<ui:param name="page" value="reports" />
+				</ui:include>
+			</ui:insert>
+
+			<div id="page-wrapper">
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Staff Salary Information</h1>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col-lg-12">
+
+							<p:dataTable id="allStaffs" var="st" value="#{salaryView.salaries}"  tableStyleClass="" styleClass="table-responsive"
+								widgetVar="staffsTable" emptyMessage="No staff found with given criteria" reflow="true">
+								<f:facet name="header">
+									<p:outputPanel>
+									Staff Salary Details
+									<h:commandLink ajax="false">
+											<i class="fa fa-file-pdf-o fa-x" title="PDF"></i>
+											<p:dataExporter type="pdf" target="allStaffs"  preProcessor="#{salaryView.preProcessPDF}" fileName="Staffs" />
+										</h:commandLink>
+										<h:commandLink ajax="false">
+											<i class="fa fa-file-excel-o fa-x"></i>
+											<p:dataExporter type="xls" target="allStaffs" fileName="Staffs" />
+										</h:commandLink>
+									</p:outputPanel>
+								</f:facet>
+
+								<p:column headerText="Name" footerText="Total" >
+									<h:outputText value="#{st.employeename}" />
+								</p:column>
+
+								<p:column headerText="Basic Salary" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.basicsalary}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Fixed DA" footerText="#{salaryView.totalFixedDA}">
+									<h:outputText value="#{st.fixedda}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="HRA" footerText="#{salaryView.totalHRA}">
+									<h:outputText value="#{st.hra}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Conveyance" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.conveyanceall}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Gross Salary" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.grosssalary}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="PF Amount" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.pfamount}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Loan Amount" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.loanamount}">
+
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Prof Tax" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.proftaxdeduction}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Other Deductions" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.otherdeduction}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Total Deductions" footerText="#{salaryView.totalBasicSalary}">
+									<h:outputText value="#{st.totaldeductions}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Net Salary" footerText="#{salaryView.totalBasicSalary}">
+									 <h:outputText style="font-weight:600;" value="#{st.netsalary}">
+										<f:convertNumber currencySymbol="&#8377;" type="currency"  locale="en_IN" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+						</div>
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /#page-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+
+	</h:form>
+</body>
+</html>

@@ -14,7 +14,12 @@ public class Salary {
 	private Double otherdeduction;
 	private Double pfamount;
 	private Double loanamount;
-
+	private String employeename;
+	private String categoryname;
+	private Double grosssalary;
+	private Double totaldeductions;
+	private Double netsalary;
+	
 	public Double getHra() {
 		return hra;
 	}
@@ -109,5 +114,48 @@ public class Salary {
 
 	public void setFixedda(Double fixedda) {
 		this.fixedda = fixedda;
+	}
+
+	public String getEmployeename() {
+		return employeename;
+	}
+
+	public void setEmployeename(String employeename) {
+		this.employeename = employeename;
+	}
+
+	public String getCategoryname() {
+		return categoryname;
+	}
+
+	public void setCategoryname(String categoryname) {
+		this.categoryname = categoryname;
+	}
+
+	public Double getGrosssalary() {
+		grosssalary = getBasicsalary() + getFixedda() + getHra() + getConveyanceall();
+		return grosssalary;
+	}
+
+	public void setGrosssalary(Double grosssalary) {
+		this.grosssalary = grosssalary;
+	}
+
+	public Double getTotaldeductions() {
+		totaldeductions = getPfamount() + getOtherdeduction() + getLoanamount() + getProftaxdeduction();
+		return totaldeductions;
+	}
+
+	public void setTotaldeductions(Double totaldeductions) {
+		this.totaldeductions = totaldeductions;
+	}
+
+	public Double getNetsalary() {
+		netsalary = getGrosssalary() - getTotaldeductions();
+		return netsalary;
+	}
+
+	public void setNetsalary(Double netsalary) {
+		this.netsalary = netsalary;
 	}
 }
