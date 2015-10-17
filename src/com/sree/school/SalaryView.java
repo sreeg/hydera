@@ -36,6 +36,9 @@ public class SalaryView implements Serializable {
 	private double totalHRA;
 	private double totalConveyanceAll;
 	private double totalProfTaxDeduction;
+	private double totalOtherDeductions;
+	private double totalPFAmount;
+	private double totalLoanAmount;
 	
 	public SalaryView() {
 		salaries = getAllSalaryStaff();
@@ -83,6 +86,9 @@ public class SalaryView implements Serializable {
 				totalHRA += st.getHra();
 				totalConveyanceAll += st.getConveyanceall();
 				totalProfTaxDeduction += st.getProftaxdeduction();
+				totalOtherDeductions += st.getOtherdeduction();
+				totalPFAmount += st.getPfamount();
+				totalLoanAmount += st.getLoanamount();
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -151,6 +157,30 @@ public class SalaryView implements Serializable {
 
 	public void setTotalProfTaxDeduction(double totalProfTaxDeduction) {
 		this.totalProfTaxDeduction = totalProfTaxDeduction;
+	}
+
+	public double getTotalOtherDeductions() {
+		return totalOtherDeductions;
+	}
+
+	public void setTotalOtherDeductions(double totalOtherDeductions) {
+		this.totalOtherDeductions = totalOtherDeductions;
+	}
+
+	public double getTotalPFAmount() {
+		return totalPFAmount;
+	}
+
+	public void setTotalPFAmount(double totalPFAmount) {
+		this.totalPFAmount = totalPFAmount;
+	}
+
+	public double getTotalLoanAmount() {
+		return totalLoanAmount;
+	}
+
+	public void setTotalLoanAmount(double totalLoanAmount) {
+		this.totalLoanAmount = totalLoanAmount;
 	}
 
 }
