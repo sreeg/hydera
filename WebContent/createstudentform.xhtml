@@ -4,171 +4,169 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 <h:body>
 	<ui:composition>
-	<p:outputPanel id="formOutputPanel" rendered="#{studentBean.showForm}">
-		<div class="row">
-			<div class="col-lg-6">
-				<p:panel header="Personal Details">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Firstname *" />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.firstname}" required="true"
-									label="Firstname" />
+		<p:outputPanel id="formOutputPanel" rendered="#{studentBean.showForm}">
+			<div class="row">
+				<div class="col-lg-6">
+					<p:panel header="Personal Details">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Firstname *" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.firstname}" required="true"
+										label="Firstname" />
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Lastname: *" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.lastname}" required="true" label="Lastname" />
+								</div>
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Lastname: *" />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.lastname}" required="true" label="Lastname" />
-							</div>
-						</div>
-					</div>
 
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Date of birth " />
-								<p:calendar styleClass="date" id="mask" value="#{studentBean.student.dob}" pattern="dd-MM-yyyy"
-									mask="true" />
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Date of birth " />
+									<p:calendar styleClass="date" id="mask" value="#{studentBean.student.dob}" pattern="dd-MM-yyyy" mask="true" />
+								</div>
 							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Gender *" />
-								<h:selectOneMenu styleClass="form-control" required="true" id="gender" value="#{studentBean.student.sex}">
-									<f:selectItem itemLabel="Select Gender" itemValue="" noSelectionOption="true" />
-									<f:selectItems value="#{studentBean.student.gender}" />
-								</h:selectOneMenu>
-							</div>
-						</div>
-					</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Gender *" />
+									<p:selectOneRadio id="gender" value="#{studentBean.student.sex}" required="true" label="Gender" styleClass="RadioButton">
+										<f:selectItems value="#{studentBean.student.gender}" />
+									</p:selectOneRadio>
 
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Father's Name *" />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.fathername}" required="true"
-									label="Fathername" />
+								</div>
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Father's Occupation: " />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.fatheroccupation}" label="Fatheroccupation" />
-							</div>
-						</div>
-					</div>
 
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Mother's Name *" />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.mothername}" required="true"
-									label="Mothername" />
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Father's Name *" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.fathername}" required="true"
+										label="Fathername" />
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Father's Occupation: " />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.fatheroccupation}" label="Fatheroccupation" />
+								</div>
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Mother's Occupation: " />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.motheroccupation}" label="Motheroccupation" />
-							</div>
-						</div>
-					</div>
 
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Guardian's Name " />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.guardianname}" label="Guardianname" />
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Mother's Name *" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.mothername}" required="true"
+										label="Mothername" />
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Mother's Occupation: " />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.motheroccupation}" label="Motheroccupation" />
+								</div>
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Date of Joining " />
-								<p:calendar styleClass="date" id="maskdoj" value="#{studentBean.student.doj}" pattern="dd-MM-yyyy"
-									mask="true" />
-							</div>
-						</div>
-					</div>
 
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Class Name " />
-								<h:selectOneMenu styleClass="form-control" id="class" value="#{studentBean.student.classname}">
-									<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
-									<f:selectItems value="#{studentBean.student.classes}" />
-								</h:selectOneMenu>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Guardian's Name " />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.guardianname}" label="Guardianname" />
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Date of Joining " />
+									<p:calendar styleClass="date" id="maskdoj" value="#{studentBean.student.doj}" pattern="dd-MM-yyyy" mask="true" />
+								</div>
 							</div>
 						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Section Name " />
-								<h:selectOneMenu styleClass="form-control" id="section" value="#{studentBean.student.sectionname}">
-									<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
-									<f:selectItems value="#{studentBean.student.sections}" />
-								</h:selectOneMenu>
-							</div>
-						</div>
-					</div>
 
-				</p:panel>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Class Name " />
+									<h:selectOneMenu styleClass="form-control" id="class" value="#{studentBean.student.classname}">
+										<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{studentBean.student.classes}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Section Name " />
+									<h:selectOneMenu styleClass="form-control" id="section" value="#{studentBean.student.sectionname}">
+										<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{studentBean.student.sections}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+
+					</p:panel>
+				</div>
+				<div class="col-lg-6">
+					<p:panel header="Address Details" widgetVar="addressdetails">
+
+						<div class="form-group">
+							<h:outputText value="House No " />
+							<p:inputText styleClass="form-control" value="#{studentBean.student.houseno}" />
+						</div>
+						<div class="form-group">
+							<h:outputText value="Street " />
+							<p:inputText styleClass="form-control" value="#{studentBean.student.street}" />
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="City " />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.city}" />
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Postal Code " />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.postalCode}" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<h:outputText value="Email * " />
+							<p:inputText styleClass="form-control" value="#{studentBean.student.email}" label="Email" required="true" />
+						</div>
+						<div class="form-group">
+							<h:outputText value="Phone " />
+							<p:inputText styleClass="form-control" value="#{studentBean.student.phone}" />
+						</div>
+						<div class="form-group">
+							<h:outputText value="Mobile " />
+							<p:inputText styleClass="form-control" value="#{studentBean.student.mobile}" />
+						</div>
+
+					</p:panel>
+				</div>
 			</div>
-			<div class="col-lg-6">
-				<p:panel header="Address Details" widgetVar="addressdetails">
 
-					<div class="form-group">
-						<h:outputText value="House No " />
-						<p:inputText styleClass="form-control" value="#{studentBean.student.houseno}" />
-					</div>
-					<div class="form-group">
-						<h:outputText value="Street " />
-						<p:inputText styleClass="form-control" value="#{studentBean.student.street}" />
-					</div>
+			<!-- /.row -->
+			<div class="marginTop20">
 
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="City " />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.city}" />
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="form-group">
-								<h:outputText value="Postal Code " />
-								<p:inputText styleClass="form-control" value="#{studentBean.student.postalCode}" />
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<h:outputText value="Email * " />
-						<p:inputText styleClass="form-control" value="#{studentBean.student.email}" label="Email" required="true" />
-					</div>
-					<div class="form-group">
-						<h:outputText value="Phone " />
-						<p:inputText styleClass="form-control" value="#{studentBean.student.phone}" />
-					</div>
-					<div class="form-group">
-						<h:outputText value="Mobile " />
-						<p:inputText styleClass="form-control" value="#{studentBean.student.mobile}" />
-					</div>
-
-				</p:panel>
+				<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Create" actionListener="#{studentBean.save}"
+					validateClient="true" update="@form" />
 			</div>
-		</div>
-
-		<!-- /.row -->
-		<div class="marginTop20">
-		
-			<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Create" actionListener="#{studentBean.save}"
-				validateClient="true" update="@form" />
-		</div>
-				</p:outputPanel>
-					<p:outputPanel id="formOutputPanel2" rendered="#{!studentBean.showForm}">
-							<div class="marginTop20">
-			<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Add another student ?"  />
-		</div>
-				</p:outputPanel>
+		</p:outputPanel>
+		<p:outputPanel id="formOutputPanel2" rendered="#{!studentBean.showForm}">
+			<div class="marginTop20">
+				<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Add another student ?" />
+			</div>
+		</p:outputPanel>
 	</ui:composition>
 </h:body>
 </html>

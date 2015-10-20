@@ -90,6 +90,10 @@ body, .loginForm {
     color: #122748;
 }
 
+body{
+	height: 100%;
+}
+
 </style>
 </h:head>
 <body>
@@ -124,7 +128,7 @@ body, .loginForm {
 												value="#{loginBean.password}" feedback="false"></p:password>
 										</div>
 
-										<p:commandButton styleClass="btn btn-success btn-block" action="#{loginBean.loginProject}" value="Login"
+										<p:commandButton styleClass="btn btn-primary btn-block" action="#{loginBean.loginProject}" value="Login"
 											update="growl" ajax="true"></p:commandButton>
 
 									</fieldset>

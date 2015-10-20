@@ -268,3 +268,17 @@
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+
+.RadioButton label {
+	font-weight: 300;
+	margin: 0 5px;
+}
+
+.attendanceTable td.ui-cell-editing {
+	padding: 4px 10px !important;
+	background-color: transparent !important;
+}
+
+.centered {
+	text-align: center;
+}

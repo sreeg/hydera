@@ -255,7 +255,7 @@ public class StaffFilterView implements Serializable {
 	}
 
 	public void onStaffChange() {
-		setShowForm(selectedStaffIdByCategory != null && selectedCategoryId != null);
+		setShowForm(selectedStaffIdByCategory != null && !selectedStaffIdByCategory.equals("") && selectedCategoryId != null && !selectedCategoryId.equals(""));
 		selectedStaffByCategory = staffMap.get(selectedStaffIdByCategory);
 		getSalaryDetails(selectedStaffIdByCategory);
 	}

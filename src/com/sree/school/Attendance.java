@@ -7,6 +7,7 @@ public class Attendance extends Staff {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int dayspresent;
+	private int daysinmonth;
 	private String month;
 	private String year;
 
@@ -32,6 +33,14 @@ public class Attendance extends Staff {
 
 	public void setYear(String year) {
 		this.year = year;
+	}
+
+	public int getDaysinmonth() {
+		return daysinmonth;
+	}
+
+	public void setDaysinmonth(int daysinmonth) {
+		this.daysinmonth = daysinmonth;
 	}
 
 }

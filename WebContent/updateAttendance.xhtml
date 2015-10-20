@@ -46,48 +46,87 @@
 							<h1 class="page-header">Update Staff Attendance</h1>
 						</div>
 					</div>
-
 					<div class="row">
 
 						<div class="col-lg-6">
 
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<strong>Staff Details</strong>
+									<strong>Select Year and Month</strong>
 								</div>
 								<div class="panel-body">
-									<p:dataTable id="staffss" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}" widgetVar="staffsTable"
-										emptyMessage="No staff found">
-										<p:ajax event="cellEdit" listener="#{attendanceView.onCellEdit}"  />
-										<p:column headerText="Name">
-											<h:outputText value="#{st.firstname} #{st.lastname}" />
-										</p:column>
-										<p:column headerText="Category">
-											<h:outputText value="#{st.categoryName}" />
-										</p:column>
-
-										<p:column headerText="Days Present">
-											<p:cellEditor>
-												<f:facet name="output">
-													<p:inputText styleClass="form-control" maxlength="2" type="number" value="#{st.dayspresent}" />
-												</f:facet>
-												<f:facet name="input">
-													<p:inputText styleClass="form-control" maxlength="2" type="number" value="#{st.dayspresent}" />
-												</f:facet>
-											</p:cellEditor>
-										</p:column>
-
-									</p:dataTable>
+									<div class="col-lg-4">
+										<p:outputLabel for="year" value="Year : " />
+										<h:selectOneMenu styleClass="form-control" id="year" value="#{attendanceView.selectedyear}"
+											style="width:150px;display: inline;margin-left:10px;">
+											<p:ajax listener="#{attendanceView.onYearChange}" update="monthPanel,staffPanel" />
+											<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
+											<f:selectItems value="#{attendanceView.yearMap}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="col-lg-4">
+										<p:outputPanel id="monthPanel">
+											<p:outputLabel for="month" value="Month : " />
+											<h:selectOneMenu disabled="#{attendanceView.selectedyear == null or attendanceView.selectedyear == ''}"
+												styleClass="form-control" id="month" value="#{attendanceView.selectedmonth}" style="width:150px;display: inline;margin-left:10px;">
+												<p:ajax listener="#{attendanceView.onMonthChange}" update="staffPanel" />
+												<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
+												<f:selectItems value="#{attendanceView.monthMap}" />
+											</h:selectOneMenu>
+										</p:outputPanel>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<p:outputPanel id="staffPanel">
+						<p:outputPanel rendered="#{attendanceView.showForm}">
+							<div class="row">
 
-					<div class="marginTop20">
-						<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Update"
-							actionListener="#{attendanceView.save}" validateClient="true" update="@form" />
-					</div>
+								<div class="col-lg-6">
 
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<strong>Staff Details</strong>
+										</div>
+										<div class="panel-body">
+											<p>#{attendanceView.currentMonth} - #{attendanceView.currentYear}</p>
+											<p:dataTable id="staffss" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}"
+												widgetVar="staffsTable" emptyMessage="No staff found" styleClass="attendanceTable">
+												<p:ajax event="cellEdit" listener="#{attendanceView.onCellEdit}" />
+												<p:column headerText="Name">
+													<h:outputText value="#{st.firstname} #{st.lastname}" />
+												</p:column>
+												<p:column headerText="Category">
+													<h:outputText value="#{st.categoryName}" />
+												</p:column>
+												<p:column headerText="Days in Month" width="100" styleClass="centered">
+													<h:outputText value="#{attendanceView.daysincurrentmonth}" />
+												</p:column>
+
+												<p:column headerText="Days Present" width="100" style="max-width:100px;">
+													<p:cellEditor>
+														<f:facet name="output">
+															<p:inputText styleClass="form-control" maxlength="2" type="number" value="#{st.dayspresent}" />
+														</f:facet>
+														<f:facet name="input">
+															<p:inputText styleClass="form-control" maxlength="2" type="number" value="#{st.dayspresent}" />
+														</f:facet>
+													</p:cellEditor>
+												</p:column>
+
+											</p:dataTable>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="marginTop20">
+								<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Update"
+									actionListener="#{attendanceView.save}" validateClient="true" update="@form" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
 					<!-- /.row -->
 				</div>
 				<!-- /.container-fluid -->
