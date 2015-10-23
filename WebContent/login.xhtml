@@ -73,27 +73,30 @@ body, .loginForm {
 }
 
 .panel-login {
-    border-color: #122748;
+	border-color: #122748;
 }
 
 .panel-login .panel-heading {
-    border-color: #122748;
-    color: #fff;
-    background-color: #122748;
+	border-color: #122748;
+	color: #fff;
+	background-color: #122748;
 }
 
 .panel-login a {
-    color: #122748;
+	color: #122748;
 }
 
 .panel-login a:hover {
-    color: #122748;
+	color: #122748;
 }
 
-body{
+body {
 	height: 100%;
 }
 
+.hidden {
+	display: none;
+}
 </style>
 </h:head>
 <body>
@@ -107,7 +110,7 @@ body{
 				</div>
 			</div>
 		</header>
-		<br/>
+		<br />
 		<div class="container loginForm">
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4">
@@ -119,6 +122,9 @@ body{
 							<div class="well">
 								<h:form id="loginForm" autocomplete="off">
 									<p:growl id="growl" showDetail="true" sticky="true" />
+									<div class="hidden">
+										<input type="password" />
+									</div>
 									<fieldset>
 										<div class="form-group">
 											<p:inputText styleClass="form-control" placeholder="Enter Username" id="username" value="#{loginBean.uname}"></p:inputText>
@@ -139,7 +145,7 @@ body{
 				</div>
 			</div>
 		</div>
-<br/>
+		<br />
 		<footer class="footer">
 			<div class="marginTop20">
 				<div class="row">

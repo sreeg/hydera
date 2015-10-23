@@ -27,13 +27,12 @@
 
 <body>
 	<h:form id="form">
-		<p:growl id="growl" showDetail="true" />
 		<div id="wrapper">
 
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="" />
+					<ui:param name="page" value="updateAttendance" />
 				</ui:include>
 			</ui:insert>
 
@@ -47,6 +46,7 @@
 						</div>
 					</div>
 					<div class="row">
+						<p:growl id="growl" showDetail="true" />
 
 						<div class="col-lg-6">
 

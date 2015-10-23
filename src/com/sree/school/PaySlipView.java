@@ -321,7 +321,6 @@ public class PaySlipView implements Serializable {
 	}
 
 	public void onYearChange() {
-		System.out.println(selectedyear);
 	}
 
 	public void onMonthChange() throws ClassNotFoundException, SQLException {
@@ -353,7 +352,7 @@ public class PaySlipView implements Serializable {
 	public void save() throws ClassNotFoundException, SQLException {
 		payslips = getAllSalaryStaffByMonthAndYear();
 		setShowForm(true);
-
+		//TODO insert into payslip table
 	}
 
 	public List<PaySlip> getPayslips() {
