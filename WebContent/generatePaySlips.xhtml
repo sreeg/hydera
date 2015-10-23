@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<title>Payroll Management</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/sb-admin.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+</h:head>
+
+<body>
+	<h:form id="form">
+
+		<div id="wrapper">
+
+			<!-- Navigation -->
+			<ui:insert name="nav">
+				<ui:include src="nav.xhtml">
+					<ui:param name="page" value="" />
+				</ui:include>
+			</ui:insert>
+
+			<div id="page-wrapper">
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<p:growl id="growl" showDetail="true" />
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Generate Payslips</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<strong>Select Year and Month to generate payslips</strong>
+								</div>
+								<div class="panel-body">
+									<div class="col-lg-4 col-md-4">
+										<p:outputLabel for="year" style="min-width: 60px;" value="Year : " />
+										<h:selectOneMenu styleClass="form-control" id="year" value="#{payslipView.selectedyear}"
+											style="width:150px;display: inline;margin-left:10px;">
+											<p:ajax listener="#{payslipView.onYearChange}" update="monthPanel" />
+											<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
+											<f:selectItems value="#{payslipView.yearMap}" />
+										</h:selectOneMenu>
+									</div>
+									<div class="col-lg-4 col-md-4">
+										<p:outputPanel id="monthPanel">
+											<p:outputLabel for="month" style="min-width: 60px;" value="Month : " />
+											<h:selectOneMenu disabled="#{payslipView.selectedyear == null or payslipView.selectedyear == ''}"
+												styleClass="form-control" id="month" value="#{payslipView.selectedmonth}"
+												style="width:150px;display: inline;margin-left:10px;">
+												<p:ajax listener="#{payslipView.onMonthChange}" update="buttonPanel,payslipPanel" />
+												<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
+												<f:selectItems value="#{payslipView.monthMap}" />
+											</h:selectOneMenu>
+										</p:outputPanel>
+									</div>
+
+									<div class="col-lg-4 col-md-4">
+										<p:outputPanel id="buttonPanel" styleClass="centered">
+											<p:commandButton styleClass="marginRight20" value="Generate" update="payslipPanel, buttonPanel" disabled="#{payslipView.disableGenerateButton}"
+												icon="fa fa-refresh" actionListener="#{payslipView.save}" validateClient="true" />
+											<p:commandButton value="Print" type="button" icon="ui-icon-print" rendered="#{payslipView.showForm}">
+												<p:printer target="payslipPanel" />
+											</p:commandButton>
+
+										</p:outputPanel>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<p:outputPanel id="payslipPanel">
+						<p:outputPanel id="payslipPanelInner" rendered="#{payslipView.showForm}">
+
+							<p:dataGrid var="ps" value="#{payslipView.payslips}" id="payslips" columns="1" layout="grid">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="centered">
+											<strong>Payslip for #{ps.employeename}</strong>
+										</h4>
+									</div>
+									<div class="panel-body">
+										<div class="row rowWithBorder">
+											<div class="col-lg-6">
+												<p:graphicImage style="width:100%" name="images/logo.gif" />
+											</div>
+											<div class="col-lg-6">
+												<p class="pull-right">
+													Chaitanya Vidyalaya (ICSE)<br /> Domalguda<br /> Contact No : 65502579<br /> Email ID:
+													chaitanyavidyalaya@gmail.com
+												</p>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-lg-12 centered">
+												<strong>Payslip for the month of #{ps.month}, #{ps.year}</strong>
+											</div>
+										</div>
+
+										<div class="row margin10">
+											<table class="table table-bordered">
+												<tbody>
+													<tr>
+														<td>
+															<p>
+																Employee Code<br /> Employee Name<br /> Designation<br /> P.F. Number<br /> Bank Account Number<br />
+															</p>
+														</td>
+														<td>
+															<p>
+																#{ps.employeeid}<br /> #{ps.employeename}<br /> #{ps.designation}<br /> #{ps.sbacno}<br />
+																#{ps.pfno}<br />
+															</p>
+														</td>
+														<td>
+															<p>
+																Payable Days<br /> Paid Days<br /> Joining Date<br />Factor<br />
+															</p>
+														</td>
+														<td>
+															<p>
+																#{ps.daysinmonth}<br /> #{ps.dayspresent}<br /> #{ps.doj}<br /> #{ps.factor}
+															</p>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div class="row margin10">
+											<table class="table table-bordered">
+												<thead>
+													<th class="centered">Category</th>
+													<th class="centered">Earning</th>
+													<th class="centered">Dedcuctions</th>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<p>
+																Basic<br /> Fixed DA<br /> HRA<br /> Conveyance<br /> Provident Fund<br /> Loan Amount<br />
+																Professional Tax<br /> Other Deductions<br />
+															</p>
+														</td>
+														<td>
+															<p class="pull-right">
+																<h:outputText styleClass="pull-right" value="#{ps.basicsalary}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+																<br />
+																<h:outputText styleClass="pull-right" value="#{ps.fixedda}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+																<br />
+																<h:outputText styleClass="pull-right" value="#{ps.hra}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+																<br />
+																<h:outputText styleClass="pull-right" value="#{ps.conveyanceall}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+															</p>
+														</td>
+														<td>
+															<p class="pull-right">
+																<br /> <br /> <br /> <br />
+																<h:outputText styleClass="pull-right" value="#{ps.pfamount}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+																<br />
+																<h:outputText styleClass="pull-right" value="#{ps.loanamount}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+																<br />
+																<h:outputText styleClass="pull-right" value="#{ps.proftaxdeduction}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+																<br />
+																<h:outputText styleClass="pull-right" value="#{ps.otherdeduction}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>
+															</p>
+														</td>
+
+													</tr>
+												</tbody>
+												<tfoot>
+													<tr style="font-weight: 600;">
+														<td>Total</td>
+														<td><h:outputText styleClass="pull-right" value="#{ps.grosssalary}">
+																<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+															</h:outputText></td>
+														<td><h:outputText styleClass="pull-right" value="#{ps.totaldeductions}">
+																<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+															</h:outputText></td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+
+										<div class="row margin10">
+											<table class="table table-bordered">
+												<tbody>
+													<tr>
+														<td>
+															<h4>
+																<strong>Net Salary : <h:outputText styleClass="pull-right" value="#{ps.netsalary}">
+																		<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	</h:outputText></strong>
+															</h4>
+
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<br />
+								<br />
+								<br />
+								<br />
+							</p:dataGrid>
+						</p:outputPanel>
+					</p:outputPanel>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /#page-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+
+	</h:form>
+</body>
+</html>

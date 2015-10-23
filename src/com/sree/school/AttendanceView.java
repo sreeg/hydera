@@ -35,6 +35,8 @@ public class AttendanceView implements Serializable {
 	private static LinkedHashMap<String, String> monthMap;
 	private static LinkedHashMap<String, String> yearMap = new LinkedHashMap<String, String>();
 	private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
+
+	private static LinkedHashMap<String, Integer> monthDaysMap;
 	private Map<String, Staff> staffMap = new HashMap<>();
 	private List<Attendance> staffs;
 
@@ -53,7 +55,8 @@ public class AttendanceView implements Serializable {
 	private String selectedyear;
 	private String selectedmonth;
 	private int daysincurrentmonth;
-	
+	private int daysinselectedmonth;
+
 	SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
 
 	static {
@@ -79,6 +82,22 @@ public class AttendanceView implements Serializable {
 		monthMap.put("December", "December");
 	}
 
+	static {
+		monthDaysMap = new LinkedHashMap<String, Integer>();
+		monthDaysMap.put("January", 31);
+		monthDaysMap.put("February", 28);
+		monthDaysMap.put("March", 31);
+		monthDaysMap.put("April", 30);
+		monthDaysMap.put("May", 31);
+		monthDaysMap.put("May", 30);
+		monthDaysMap.put("July", 31);
+		monthDaysMap.put("August", 31);
+		monthDaysMap.put("September", 30);
+		monthDaysMap.put("October", 31);
+		monthDaysMap.put("November", 30);
+		monthDaysMap.put("December", 31);
+	}
+
 	public AttendanceView() throws ClassNotFoundException, SQLException {
 		staffsPermenant = new ArrayList<>();
 		staffsTemporary = new ArrayList<>();
@@ -91,6 +110,10 @@ public class AttendanceView implements Serializable {
 		setDaysincurrentmonth(now.getActualMaximum(Calendar.DATE));
 
 		yearMap.put(currentYear, currentYear);
+		setSelectedyear(getCurrentYear());
+		setSelectedmonth(getCurrentMonth());
+		setDaysinselectedmonth(monthDaysMap.get(getCurrentMonth()));
+		setShowForm(true);
 	}
 
 	public List<Attendance> getStaffs() {
@@ -128,20 +151,78 @@ public class AttendanceView implements Serializable {
 			at.setStreet(rs.getString("street"));
 			at.setCity(rs.getString("city"));
 			at.setPostalCode(rs.getString("postalcode"));
-			at.setDayspresent(rs.getInt("attendance.dayspresent"));
-			at.setDaysinmonth(rs.getInt("attendance.daysinmonth"));
-			String month = rs.getString("attendance.month");
+			at.setDayspresent(rs.getInt("dayspresent"));
+			at.setDaysinmonth(rs.getInt("daysinmonth"));
+			String month = rs.getString("month");
 			at.setMonth(month);
-			String year = rs.getString("attendance.year");
+			String year = rs.getString("year");
 			at.setYear(year);
 			attendance.add(at);
-			
+
 			if (year != null)
 				yearMap.put(year, year);
-			
-			if(month !=null)
+
+			if (month != null)
 				monthmapfromdb.put(month, month);
-			
+
+			if (at.getCategoryid().equals("1")) {
+				staffsPermenant.add(at);
+			}
+			if (at.getCategoryid().equals("2")) {
+				staffsDomestic.add(at);
+			}
+			if (at.getCategoryid().equals("3")) {
+				staffsTemporary.add(at);
+			}
+		}
+		return attendance;
+	}
+
+	public List<Attendance> getAllStaffByMonthAndYear() throws ClassNotFoundException, SQLException {
+		java.sql.Connection conn = DBConnection.getConnection();
+		ResultSet rs = conn.createStatement().executeQuery("select Id, FirstName, LastName, CategoryId, Designation,"
+				+ "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
+				+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode, "
+				+ "attendance.dayspresent, attendance.month, attendance.year, attendance.daysinmonth from staff "
+				+ "LEFT JOIN attendance ON staff.Id=attendance.staffid and attendance.year=" + "'" + getSelectedyear()
+				+ "'" + " and attendance.month = " + "'" + getSelectedmonth() + "'" + " ORDER BY staff.CategoryId");
+
+		List<Attendance> attendance = new ArrayList<>();
+		while (rs.next()) {
+			Attendance at = new Attendance();
+			at.setId(rs.getString("Id"));
+			at.setFirstname(rs.getString("FirstName"));
+			at.setLastname(rs.getString("Lastname"));
+			at.setCategoryid(rs.getString("CategoryId"));
+			at.setDesignation(rs.getString("Designation"));
+			at.setSpouseName(rs.getString("SpouseName"));
+			at.setSpouseOccupation(rs.getString("SpouseOccupation"));
+			at.setPhone(rs.getString("Phone"));
+			at.setDob(rs.getDate("DateOfBirth"));
+			at.setDoj(rs.getDate("DateOfJoining"));
+			at.setJoiningsalary(rs.getDouble("JoiningSalary"));
+			at.setSex(rs.getString("Gender"));
+			at.setMobile(rs.getString("Mobile"));
+			at.setEmail(rs.getString("Email"));
+			at.setProfiepic(rs.getString("ProfilePic"));
+			at.setHouseno(rs.getString("houseno"));
+			at.setStreet(rs.getString("street"));
+			at.setCity(rs.getString("city"));
+			at.setPostalCode(rs.getString("postalcode"));
+			at.setDayspresent(rs.getInt("dayspresent"));
+			at.setDaysinmonth(rs.getInt("daysinmonth"));
+			String month = rs.getString("month");
+			at.setMonth(month);
+			String year = rs.getString("year");
+			at.setYear(year);
+			attendance.add(at);
+
+			if (year != null)
+				yearMap.put(year, year);
+
+			if (month != null)
+				monthmapfromdb.put(month, month);
+
 			if (at.getCategoryid().equals("1")) {
 				staffsPermenant.add(at);
 			}
@@ -255,20 +336,32 @@ public class AttendanceView implements Serializable {
 		conn = DBConnection.getConnection();
 
 		for (Attendance staff : staffs) {
-			PreparedStatement ps = conn.prepareStatement(
-					"INSERT INTO ATTENDANCE (staffid, date, dayspresent, daysinmonth, createdatetime, updatedatetime)"
-							+ "VALUES (?,now(),?,?, now(), now())");
+			String selectedmonth = getSelectedmonth();
+			PreparedStatement ps;
+			if (monthmapfromdb.get(selectedmonth) != null) {
+				ps = conn.prepareStatement(
+						"UPDATE ATTENDANCE  set dayspresent = ?, updatedatetime = now()" + "where staffid = ?");
 
-			ps.setString(1, staff.getId());
-			ps.setInt(2, staff.getDayspresent());
-			ps.setInt(3, 30);
+				ps.setInt(1, staff.getDayspresent());
+				ps.setString(2, staff.getId());
+			} else {
+				ps = conn.prepareStatement(
+						"INSERT INTO ATTENDANCE (staffid, date, dayspresent, daysinmonth, createdatetime, updatedatetime, month, year )"
+								+ "VALUES (?,now(),?,?, now(), now(),?,?)");
+
+				ps.setString(1, staff.getId());
+				ps.setInt(2, staff.getDayspresent());
+				ps.setInt(3, daysinselectedmonth);
+				ps.setString(4, selectedmonth);
+				ps.setString(5, getSelectedyear());
+			}
 
 			int rs = ps.executeUpdate();
 
 			FacesMessage msg = null;
 			if (rs == 1) {
 				msg = new FacesMessage("Attendance added successfully", "");
-				setShowForm(false);
+				// setShowForm(false);
 			} else {
 				msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
 			}
@@ -344,20 +437,28 @@ public class AttendanceView implements Serializable {
 		System.out.println(selectedyear);
 	}
 
-	public void onMonthChange() {
-		System.out.println(selectedmonth);
-		if(selectedmonth != null && !selectedmonth.equals(""))
-		{
+	public void onMonthChange() throws ClassNotFoundException, SQLException {
+		if (selectedmonth != null && !selectedmonth.equals("")) {
+			setDaysinselectedmonth(monthDaysMap.get(selectedmonth));
+			staffs = getAllStaffByMonthAndYear();
 			setShowForm(true);
 		}
 	}
-	
+
 	public LinkedHashMap<String, String> getMonthmapfromdb() {
 		return monthmapfromdb;
 	}
 
 	public void setMonthmapfromdb(LinkedHashMap<String, String> monthmapfromdb) {
 		AttendanceView.monthmapfromdb = monthmapfromdb;
+	}
+
+	public int getDaysinselectedmonth() {
+		return daysinselectedmonth;
+	}
+
+	public void setDaysinselectedmonth(int daysinselectedmonth) {
+		this.daysinselectedmonth = daysinselectedmonth;
 	}
 
 }

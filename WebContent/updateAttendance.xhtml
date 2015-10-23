@@ -55,7 +55,7 @@
 									<strong>Select Year and Month</strong>
 								</div>
 								<div class="panel-body">
-									<div class="col-lg-4">
+									<div class="col-lg-6 col-md-6">
 										<p:outputLabel for="year" value="Year : " />
 										<h:selectOneMenu styleClass="form-control" id="year" value="#{attendanceView.selectedyear}"
 											style="width:150px;display: inline;margin-left:10px;">
@@ -64,12 +64,13 @@
 											<f:selectItems value="#{attendanceView.yearMap}" />
 										</h:selectOneMenu>
 									</div>
-									<div class="col-lg-4">
+									<div class="col-lg-6 col-md-6">
 										<p:outputPanel id="monthPanel">
 											<p:outputLabel for="month" value="Month : " />
 											<h:selectOneMenu disabled="#{attendanceView.selectedyear == null or attendanceView.selectedyear == ''}"
-												styleClass="form-control" id="month" value="#{attendanceView.selectedmonth}" style="width:150px;display: inline;margin-left:10px;">
-												<p:ajax listener="#{attendanceView.onMonthChange}" update="staffPanel" />
+												styleClass="form-control" id="month" value="#{attendanceView.selectedmonth}"
+												style="width:150px;display: inline;margin-left:10px;">
+												<p:ajax listener="#{attendanceView.onMonthChange}" update="staffPanel,staffPanelInner" />
 												<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
 												<f:selectItems value="#{attendanceView.monthMap}" />
 											</h:selectOneMenu>
@@ -80,11 +81,9 @@
 						</div>
 					</div>
 					<p:outputPanel id="staffPanel">
-						<p:outputPanel rendered="#{attendanceView.showForm}">
+						<p:outputPanel id="staffPanelInner" rendered="#{attendanceView.showForm}">
 							<div class="row">
-
 								<div class="col-lg-6">
-
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<strong>Staff Details</strong>
@@ -101,7 +100,7 @@
 													<h:outputText value="#{st.categoryName}" />
 												</p:column>
 												<p:column headerText="Days in Month" width="100" styleClass="centered">
-													<h:outputText value="#{attendanceView.daysincurrentmonth}" />
+													<h:outputText value="#{attendanceView.daysinselectedmonth}" />
 												</p:column>
 
 												<p:column headerText="Days Present" width="100" style="max-width:100px;">

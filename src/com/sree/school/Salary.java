@@ -19,6 +19,7 @@ public class Salary {
 	private Double grosssalary;
 	private Double totaldeductions;
 	private Double netsalary;
+	private double factor = 1.0f;
 	
 	public Double getHra() {
 		return hra;
@@ -29,7 +30,7 @@ public class Salary {
 	}
 
 	public Double getConveyanceall() {
-		return conveyanceall;
+		return getFactor() * conveyanceall;
 	}
 
 	public void setConveyanceall(Double conveyanceall) {
@@ -101,7 +102,7 @@ public class Salary {
 	}
 
 	public Double getBasicsalary() {
-		return basicsalary;
+		return getFactor() * basicsalary;
 	}
 
 	public void setBasicsalary(Double basicsalary) {
@@ -109,7 +110,7 @@ public class Salary {
 	}
 
 	public Double getFixedda() {
-		return fixedda;
+		return getFactor() * fixedda;
 	}
 
 	public void setFixedda(Double fixedda) {
@@ -134,7 +135,7 @@ public class Salary {
 
 	public Double getGrosssalary() {
 		grosssalary = getBasicsalary() + getFixedda() + getHra() + getConveyanceall();
-		return grosssalary;
+		return getFactor() * grosssalary;
 	}
 
 	public void setGrosssalary(Double grosssalary) {
@@ -152,10 +153,18 @@ public class Salary {
 
 	public Double getNetsalary() {
 		netsalary = getGrosssalary() - getTotaldeductions();
-		return netsalary;
+		return getFactor() * netsalary;
 	}
 
 	public void setNetsalary(Double netsalary) {
 		this.netsalary = netsalary;
+	}
+
+	public double getFactor() {
+		return factor;
+	}
+
+	public void setFactor(double factor) {
+		this.factor = factor;
 	}
 }
