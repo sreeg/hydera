@@ -1,9 +1,14 @@
 package com.sree.school;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PaySlip extends Salary {
+public class PaySlip extends Salary  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8645764245616466123L;
 	private String month;
 	private String Year;
 	private String designation;

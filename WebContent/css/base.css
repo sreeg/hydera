@@ -30,7 +30,6 @@
 	margin-bottom: 20px;
 }
 
-
 .centered {
 	text-align: center;
 }
@@ -162,7 +161,7 @@
 	.navbar-inverse .navbar-nav>.active>a:hover, .side-nav li a:hover,
 	.side-nav li a:focus {
 	color: #fff;
-	background-color: /*#0d4936*/#188260 !important;
+	background-color: /*#0d4936*/ #188260 !important;
 }
 
 .top-nav>li>a, .side-nav>li>ul>li>a {
@@ -184,20 +183,18 @@
 	background-color: #f5f5f5;
 }
 
-
-
-.ui-widget-content.ui-state-hover,
-.ui-widget-content .ui-state-highlight {
-		background: #188260;
+.ui-widget-content.ui-state-hover, .ui-widget-content .ui-state-highlight
+	{
+	background: #188260;
 	color: #FFFFFF;
 }
 
-.ui-button.buttonRed,
-.ui-button.buttonRed.ui-icon {
-		background: #D13F3F;
-	color: #FFFFFF;	
+.ui-button.buttonRed, .ui-button.buttonRed.ui-icon {
+	background: #D13F3F;
+	color: #FFFFFF;
 	border: none;
 }
+
 .buttonRed .ui-button-text {
 	text-shadow: none;
 }
@@ -214,59 +211,60 @@
 }
 
 .panel-custom1 {
-    border-color: #4C3973;
+	border-color: #4C3973;
 }
 
 .panel-custom1 .panel-heading {
-    border-color: #4C3973;
-    color: #fff;
-    background-color: #4C3973;
+	border-color: #4C3973;
+	color: #fff;
+	background-color: #4C3973;
 }
 
 .panel-custom1 a {
-    color: #4C3973;
+	color: #4C3973;
 }
 
 .panel-custom1 a:hover {
-    color: #171224;
+	color: #171224;
 }
 
 .panel-custom2 {
-    border-color: #A63F82;
+	border-color: #A63F82;
 }
 
 .panel-custom2 .panel-heading {
-    border-color: #A63F82;
-    color: #fff;
-    background-color: #A63F82;
+	border-color: #A63F82;
+	color: #fff;
+	background-color: #A63F82;
 }
 
 .panel-custom2 a {
-    color: #A63F82;
+	color: #A63F82;
 }
 
 .panel-custom2 a:hover {
-    color: #171224;
+	color: #171224;
 }
 
-.form-controlpe input,
-.form-group .date input {
-    display: block;
-    width: 100%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+.form-controlpe input, .form-group .date input {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
 .RadioButton label {
@@ -283,18 +281,20 @@
 	text-align: center;
 }
 
-// Classes
+//
+Classes
 .pull-left {
-  float: left !important;
+	float: left !important;
 }
+
 .pull-right {
-  float: right !important;
+	float: right !important;
 }
 
 .rowWithBorder {
 	padding-bottom: 9px;
-    margin: 10px 0 20px;
-    border-bottom: 1px solid #eee;
+	margin: 10px 0 20px;
+	border-bottom: 1px solid #eee;
 }
 
 .borderRight {
@@ -308,10 +308,19 @@
 .ui-datagrid-content.ui-widget-content.ui-grid.ui-grid-responsive {
 	border: none !important;
 }
+
 .table {
 	margin-bottom: 0px;
 }
 
 .marginRight20 {
 	margin-right: 20px;
+}
+
+italic {
+	font-style: italic;
+}
+
+tfoot {
+	font-weight: 600;
 }

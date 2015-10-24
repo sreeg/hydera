@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,6 +61,7 @@ public class PaySlipView implements Serializable {
 	private int daysincurrentmonth;
 	private int daysinselectedmonth;
 	SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
+	FacesMessage msg;
 
 	static {
 		monthMap = new LinkedHashMap<String, String>();
@@ -117,12 +116,22 @@ public class PaySlipView implements Serializable {
 			conn = DBConnection.getConnection();
 			ResultSet rs = conn.createStatement()
 					.executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,staff.firstname, staff.lastname,staff.categoryid,staff.designation,staff.DateOfJoining,"
+							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
+							+ "staff.firstname, staff.lastname,staff.categoryid,staff.designation,staff.DateOfJoining,"
 							+ "pfamount, loanamount, attendance.dayspresent, attendance.daysinmonth from salary "
 							+ "LEFT JOIN attendance ON salary.employeeid=attendance.staffid and attendance.year=" + "'"
 							+ getSelectedyear() + "'" + " and attendance.month = " + "'" + getSelectedmonth() + "'"
 							+ "LEFT JOIN staff ON salary.employeeid=staff.Id");
+			
 			totalBasicSalary = 0;
+			totalFixedDA = 0;
+			totalHRA = 0;
+			totalConveyanceAll = 0;
+			totalProfTaxDeduction = 0;
+			totalOtherDeductions = 0;
+			totalPFAmount = 0;
+			totalLoanAmount = 0;
+			
 			while (rs.next()) {
 				PaySlip ps = new PaySlip();
 				ps.setEmployeeid(rs.getString("employeeid"));
@@ -148,7 +157,7 @@ public class PaySlipView implements Serializable {
 				int dayspresent = ps.getDayspresent();
 
 				if (dayspresent == 0) {
-					FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+					msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
 							"Cannot generate payslips for " + selectedmonth + ", " + selectedyear,
 							"Enter attendance details first.");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -171,6 +180,12 @@ public class PaySlipView implements Serializable {
 				totalPFAmount += ps.getPfamount();
 				totalLoanAmount += ps.getLoanamount();
 			}
+
+			msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Succesfully generated payslips for " + selectedmonth + ", " + selectedyear,
+					"Press 'print' for print outs.");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -201,7 +216,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalBasicSalary() {
-		return totalBasicSalary;
+		return new BigDecimal(totalBasicSalary).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalBasicSalary(double totalBasicSalary) {
@@ -209,7 +224,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalHRA() {
-		return totalHRA;
+		return new BigDecimal(totalHRA).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalHRA(double totalHRA) {
@@ -217,7 +232,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalFixedDA() {
-		return totalFixedDA;
+		return new BigDecimal(totalFixedDA).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalFixedDA(double totalFixedDA) {
@@ -225,7 +240,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalConveyanceAll() {
-		return totalConveyanceAll;
+		return new BigDecimal(totalConveyanceAll).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalConveyanceAll(double totalConveyanceAll) {
@@ -233,7 +248,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalProfTaxDeduction() {
-		return totalProfTaxDeduction;
+		return new BigDecimal(totalProfTaxDeduction).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalProfTaxDeduction(double totalProfTaxDeduction) {
@@ -241,7 +256,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalOtherDeductions() {
-		return totalOtherDeductions;
+		return new BigDecimal(totalOtherDeductions).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalOtherDeductions(double totalOtherDeductions) {
@@ -249,7 +264,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalPFAmount() {
-		return totalPFAmount;
+		return new BigDecimal(totalPFAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalPFAmount(double totalPFAmount) {
@@ -257,7 +272,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public double getTotalLoanAmount() {
-		return totalLoanAmount;
+		return new BigDecimal(totalLoanAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public void setTotalLoanAmount(double totalLoanAmount) {
@@ -352,7 +367,7 @@ public class PaySlipView implements Serializable {
 	public void save() throws ClassNotFoundException, SQLException {
 		payslips = getAllSalaryStaffByMonthAndYear();
 		setShowForm(true);
-		//TODO insert into payslip table
+		// TODO insert into payslip table
 	}
 
 	public List<PaySlip> getPayslips() {

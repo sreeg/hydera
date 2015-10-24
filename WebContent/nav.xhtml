@@ -4,7 +4,7 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
 <h:body>
 	<ui:composition>
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<nav class="navbar navbar-inverse navbar-fixed-top hidden-print" role="navigation">
 
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
@@ -55,16 +55,22 @@
 							Dashboard</a></li>
 					<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml"><i
 							class="fa fa-fw fa-plus"></i> Add Student</a></li>
-					<li class="#{page == 'addstudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml"><i
-							class="fa fa-fw fa-money"></i> Update Student fees</a></li>
+
 					<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml"><i class="fa fa-fw fa-user"></i>
 							Add Staff</a></li>
 					<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml"><i
 							class="fa fa-fw fa-credit-card"></i> Add Staff Salary</a></li>
+
+					<li class="#{page == 'addstudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml"><i
+							class="fa fa-fw fa-money"></i> Update Student fees</a></li>
 					<li class="#{page == 'updateAttendance' ? 'active' : ''}"><a href="updateAttendance.xhtml"><i
-							class="fa fa-fw fa-table"></i> Update attendance</a></li>	
+							class="fa fa-fw fa-table"></i> Update attendance</a></li>
+					<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatestudentfee.xhtml"><i
+							class="fa fa-fw fa-share"></i> Generate fee receipts</a></li>
 					<li class="#{page == 'generatePaySlips' ? 'active' : ''}"><a href="generatePaySlips.xhtml"><i
-							class="fa fa-fw fa-table"></i> Generate payslips</a></li>																
+							class="fa fa-fw fa-file-text"></i> Generate payslips</a></li>
+					<li class="#{page == 'generatePaySlipsProposal' ? 'active' : ''}"><a href="generatePaySlipsProposal.xhtml"><i
+							class="fa fa-fw fa-list-alt"></i> Gen. Sal proposals</a></li>
 					<li class="#{page == 'reports' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse"
 						data-target="#demo"><i class="fa fa-fw fa-table"></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="demo" class="expand">

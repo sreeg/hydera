@@ -23,17 +23,18 @@
     <![endif]-->
 
 	<link type="text/css" rel="stylesheet" href="css/base.css" />
+
 </h:head>
 
 <body>
 	<h:form id="form">
-		<p:growl id="growl" showDetail="true" sticky="true" />
+
 		<div id="wrapper">
 
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="reports" />
+					<ui:param name="page" value="generatePaySlipsProposal" />
 				</ui:include>
 			</ui:insert>
 
@@ -41,23 +42,68 @@
 
 				<div class="container-fluid">
 					<!-- Page Heading -->
-					<div class="row">
+					<p:growl id="growl" showDetail="true" />
+					<p:messages styleClass="hidden-print" id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					<div class="row hidden-print">
 						<div class="col-lg-12">
-							<h1 class="page-header">Staff Salary Information</h1>
+							<h1 class="page-header">Generate Salary Proposals</h1>
+						</div>
+					</div>
+					<div class="row hidden-print">
+						<div class="col-lg-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<strong>Select Year and Month to generate payslip proposal</strong>
+								</div>
+								<div class="panel-body">
+									<div class="col-lg-3 col-md-4">
+										<p:outputLabel for="year" style="min-width: 54px;" value="Year : " />
+										<h:selectOneMenu styleClass="form-control" id="year" value="#{payslipView.selectedyear}"
+											style="width:150px;display: inline;margin-left:10px;">
+											<p:ajax listener="#{payslipView.onYearChange}" update="monthPanel" />
+											<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
+											<f:selectItems value="#{payslipView.yearMap}" />
+										</h:selectOneMenu>
+									</div>
+
+									<div class="col-lg-3 col-md-4">
+										<p:outputPanel id="monthPanel">
+											<p:outputLabel for="month" style="min-width: 54px;" value="Month : " />
+											<h:selectOneMenu disabled="#{payslipView.selectedyear == null or payslipView.selectedyear == ''}"
+												styleClass="form-control" id="month" value="#{payslipView.selectedmonth}"
+												style="width:150px;display: inline;margin-left:10px;">
+												<p:ajax listener="#{payslipView.onMonthChange}" update="buttonPanel" />
+												<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
+												<f:selectItems value="#{payslipView.monthMap}" />
+											</h:selectOneMenu>
+										</p:outputPanel>
+									</div>
+
+									<div class="col-lg-6 col-md-4">
+										<p:outputPanel id="buttonPanel" styleClass="centered">
+											<p:commandButton styleClass="marginRight20" value="Generate"
+												update="buttonPanel,allStaffs" disabled="#{payslipView.disableGenerateButton}"
+												icon="fa fa-refresh" actionListener="#{payslipView.save}" validateClient="true" />
+
+										</p:outputPanel>
+									</div>
+
+								</div>
+							</div>
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-lg-12">
-							<p:dataTable id="allStaffs" var="st" value="#{salaryView.salaries}" tableStyleClass=""
+							<p:dataTable id="allStaffs" var="st" value="#{payslipView.payslips}" tableStyleClass=""
 								styleClass="table-responsive" widgetVar="staffsTable" emptyMessage="No staff found with given criteria"
 								reflow="true">
 								<f:facet name="header">
-									<p:outputPanel style="display:block;text-align:right;clear:both;">
-
+								Salary Proposals for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}
+									<p:outputPanel style="display:inline-block;text-align:right;clear:both;">
 										<p:commandButton ajax="false" value="Print to PDF" icon="fa fa-file-pdf-o fa-x" styleClass="buttonRed"
 											style="margin: 10px;">
-											<p:dataExporter type="pdf" target="allStaffs" preProcessor="#{salaryView.preProcessPDF}" fileName="Staffs" />
+											<p:dataExporter type="pdf" target="allStaffs" preProcessor="#{payslipView.preProcessPDF}" fileName="Salary_Proposal_for #{payslipView.currentMonth}" />
 										</p:commandButton>
 										<p:commandButton ajax="false" value="Print to XLS" icon="fa fa-file-excel-o fa-x" styleClass="buttonRed"
 											style="margin: 10px;">
@@ -70,64 +116,66 @@
 								<p:column headerText="Name" footerText="Total">
 									<h:outputText value="#{st.employeename}" />
 								</p:column>
-
-								<p:column headerText="Basic" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Att" width="50" footerText="">
+									<h:outputText value="#{st.dayspresent}" />
+								</p:column>
+								<p:column headerText="Basic" footerText="#{payslipView.totalBasicSalary}">
 									<h:outputText value="#{st.basicsalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="Fixed DA" footerText="#{salaryView.totalFixedDA}">
+								<p:column headerText="Fixed DA" footerText="#{payslipView.totalFixedDA}">
 									<h:outputText value="#{st.fixedda}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="HRA" footerText="#{salaryView.totalHRA}">
+								<p:column headerText="HRA" footerText="#{payslipView.totalHRA}">
 									<h:outputText value="#{st.hra}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="Conveyance" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Conveyance" footerText="#{payslipView.totalBasicSalary}">
 									<h:outputText value="#{st.conveyanceall}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="Gross" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Gross" footerText="#{payslipView.totalBasicSalary}">
 									<h:outputText value="#{st.grosssalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="PF Amt" footerText="#{salaryView.totalPFAmount}">
+								<p:column headerText="PF Amt" footerText="#{payslipView.totalPFAmount}">
 									<h:outputText value="#{st.pfamount}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
-								<p:column headerText="Loan Amt" footerText="#{salaryView.totalLoanAmount}">
+								<p:column headerText="Loan Amt" footerText="#{payslipView.totalLoanAmount}">
 									<h:outputText value="#{st.loanamount}">
 
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
-								<p:column headerText="Prof Tax" footerText="#{salaryView.totalProfTaxDeduction}">
+								<p:column headerText="Prof Tax" footerText="#{payslipView.totalProfTaxDeduction}">
 									<h:outputText value="#{st.proftaxdeduction}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
-								<p:column headerText="Other Deductions" footerText="#{salaryView.totalOtherDeductions}">
+								<p:column headerText="Other Deductions" footerText="#{payslipView.totalOtherDeductions}">
 									<h:outputText value="#{st.otherdeduction}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
-								<p:column headerText="Total Deductions" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Total Deductions" footerText="#{payslipView.totalBasicSalary}">
 									<h:outputText value="#{st.totaldeductions}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
-								<p:column headerText="Net Salary" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Net Salary" footerText="#{payslipView.totalBasicSalary}">
 									<h:outputText style="font-weight:600;" value="#{st.netsalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
@@ -136,6 +184,7 @@
 
 						</div>
 					</div>
+
 					<!-- /.row -->
 				</div>
 				<!-- /.container-fluid -->

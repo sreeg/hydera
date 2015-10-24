@@ -1,7 +1,13 @@
 package com.sree.school;
 
-public class Salary {
+import java.io.Serializable;
 
+public class Salary  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3784360127530452986L;
 	private String employeeid;
 	private Double basicsalary;
 	private Double fixedda;
@@ -135,7 +141,7 @@ public class Salary {
 
 	public Double getGrosssalary() {
 		grosssalary = getBasicsalary() + getFixedda() + getHra() + getConveyanceall();
-		return getFactor() * grosssalary;
+		return grosssalary;
 	}
 
 	public void setGrosssalary(Double grosssalary) {
@@ -153,7 +159,7 @@ public class Salary {
 
 	public Double getNetsalary() {
 		netsalary = getGrosssalary() - getTotaldeductions();
-		return getFactor() * netsalary;
+		return netsalary;
 	}
 
 	public void setNetsalary(Double netsalary) {

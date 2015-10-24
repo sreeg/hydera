@@ -1,10 +1,7 @@
 package com.sree.school;
 
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import javax.annotation.PostConstruct;
 
 public class Staff extends User {
 
@@ -20,7 +17,6 @@ public class Staff extends User {
 	private String spouseName;
 	private String spouseOccupation;
 	private String categoryid;
-	@SuppressWarnings("unused")
 	private String categoryName;
 
 	static {
