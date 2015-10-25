@@ -51,26 +51,34 @@
 			<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
+
 					<li class="#{page == 'dashboard' ? 'active' : ''}"><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i>
 							Dashboard</a></li>
-					<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml"><i
-							class="fa fa-fw fa-plus"></i> Add Student</a></li>
 
-					<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml"><i class="fa fa-fw fa-user"></i>
-							Add Staff</a></li>
-					<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml"><i
-							class="fa fa-fw fa-credit-card"></i> Add Staff Salary</a></li>
+					<li class="#{page == 'add' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+							class="fa fa-fw fa-plus"></i> Add <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="demo" class="expand">
+							<li><a href="createstudent.xhtml">Add Student</a></li>
+							<li><a href="createstaff.xhtml">Add Staff</a></li>
+							<li><a href="createstaffSalary.xhtml">Add Staff salary</a></li>
+						</ul></li>
 
-					<li class="#{page == 'addstudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml"><i
-							class="fa fa-fw fa-money"></i> Update Student fees</a></li>
-					<li class="#{page == 'updateAttendance' ? 'active' : ''}"><a href="updateAttendance.xhtml"><i
-							class="fa fa-fw fa-table"></i> Update attendance</a></li>
-					<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatestudentfee.xhtml"><i
-							class="fa fa-fw fa-share"></i> Generate fee receipts</a></li>
-					<li class="#{page == 'generatePaySlips' ? 'active' : ''}"><a href="generatePaySlips.xhtml"><i
-							class="fa fa-fw fa-file-text"></i> Generate payslips</a></li>
-					<li class="#{page == 'generatePaySlipsProposal' ? 'active' : ''}"><a href="generatePaySlipsProposal.xhtml"><i
-							class="fa fa-fw fa-list-alt"></i> Gen. Sal proposals</a></li>
+					<li class="#{page == 'update' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+							class="glyphicon glyphicon-check"></i> Update <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="demo" class="expand">
+							<li><a href="createstudentfee.xhtml">Update Student fees</a></li>
+							<li><a href="updateAttendance.xhtml">Update attendance</a></li>
+						</ul></li>
+
+					<li class="#{page == 'generate' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+							class="glyphicon glyphicon-share"></i> Generate <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="demo" class="expand">
+							<li><a href="generatestudentfee.xhtml">Generate fee receipts</a></li>
+							<li><a href="generatePaySlips.xhtml">Generate payslips</a></li>
+							<li><a href="generatePaySlipsProposal.xhtml">Gen. Sal proposals</a></li>
+						</ul></li>
+
+
 					<li class="#{page == 'reports' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse"
 						data-target="#demo"><i class="fa fa-fw fa-table"></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="demo" class="expand">
@@ -80,6 +88,8 @@
 							<li class="active"><a href="staffByCategory.xhtml">Get Staff by Category</a></li>
 							<li class="active"><a href="staffSalaryInfo.xhtml">Get Staff Salary Details</a></li>
 						</ul></li>
+
+
 					<li class="#{page == 'charts' ? 'active' : ''}"><a href="charts.xhtml"><i class="fa fa-fw fa-bar-chart-o"></i>
 							Charts</a></li>
 					<li class="#{page == 'logout' ? 'active' : ''}"><p:commandLink id="nonAjax2"

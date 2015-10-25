@@ -30,18 +30,19 @@
 		margin: 0 auto;
 		position: absolute;
 		margin-left: -225px;
-
 	}
 	.imageLogo {
-		margin-top: -50px;	
+		margin-top: -50px;
 	}
 	.ui-growl {
 		display: none;
 	}
 }
 </style>
-<style type="text/css" media="print">
-  @page { size: landscape; }
+	<style type="text/css" media="print">
+@page {
+	size: landscape;
+}
 </style>
 </h:head>
 
@@ -53,7 +54,7 @@
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="generatePaySlipsProposal" />
+					<ui:param name="page" value="generate" />
 				</ui:include>
 			</ui:insert>
 

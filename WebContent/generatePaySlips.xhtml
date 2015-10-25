@@ -24,8 +24,7 @@
 
 	<link type="text/css" rel="stylesheet" href="css/base.css" />
 	<style>
-.ui-datagrid .ui-grid-row,
-.payslipProposalPanel {
+.ui-datagrid .ui-grid-row, .payslipProposalPanel {
 	page-break-after: always;
 }
 
@@ -35,8 +34,10 @@
 	}
 }
 </style>
-<style type="text/css" media="print">
-  @page { size: portrait; }
+	<style type="text/css" media="print">
+@page {
+	size: portrait;
+}
 </style>
 </h:head>
 
@@ -48,7 +49,7 @@
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="generatePaySlips" />
+					<ui:param name="page" value="generate" />
 				</ui:include>
 			</ui:insert>
 
@@ -95,9 +96,9 @@
 
 									<div class="col-lg-6 col-md-4">
 										<p:outputPanel id="buttonPanel" styleClass="centered">
-											<p:commandButton styleClass="marginRight20" value="Generate"
-												update="payslipPanel,buttonPanel" disabled="#{payslipView.disableGenerateButton}"
-												icon="fa fa-refresh" actionListener="#{payslipView.save}" validateClient="true" />
+											<p:commandButton styleClass="marginRight20" value="Generate" update="payslipPanel,buttonPanel"
+												disabled="#{payslipView.disableGenerateButton}" icon="fa fa-refresh" actionListener="#{payslipView.save}"
+												validateClient="true" />
 											<p:commandButton value="Print" styleClass="marginRight20" type="button" onclick="window.print();"
 												icon="ui-icon-print" rendered="#{payslipView.showForm}">
 											</p:commandButton>
@@ -146,13 +147,14 @@
 													<tr>
 														<td>
 															<p>
-																Employee Code<br /> Employee Name<br /> Designation<br />  Employee Type<br /> P.F. Number<br /> Bank Account Number<br />
+																Employee Code<br /> Employee Name<br /> Designation<br /> Employee Type<br /> P.F. Number<br />
+																Bank Account Number<br />
 															</p>
 														</td>
 														<td>
 															<p>
-																#{ps.employeeid}<br /> #{ps.employeename}<br /> #{ps.designation}<br /> #{ps.categoryname}<br /> #{ps.sbacno}<br />
-																#{ps.pfno}<br />
+																#{ps.employeeid}<br /> #{ps.employeename}<br /> #{ps.designation}<br /> #{ps.categoryname}<br />
+																#{ps.sbacno}<br /> #{ps.pfno}<br />
 															</p>
 														</td>
 														<td>
