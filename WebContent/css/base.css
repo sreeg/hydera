@@ -324,3 +324,11 @@ italic {
 tfoot {
 	font-weight: 600;
 }
+
+.alignRight {
+	text-align: right;
+}
+
+.ui-growl {
+    top: 55px;
+}

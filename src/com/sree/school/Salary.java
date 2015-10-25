@@ -1,6 +1,7 @@
 package com.sree.school;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 
 public class Salary  implements Serializable{
 
@@ -8,6 +9,7 @@ public class Salary  implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 3784360127530452986L;
+	private static LinkedHashMap<String, String> categoryInverse;
 	private String employeeid;
 	private Double basicsalary;
 	private Double fixedda;
@@ -26,6 +28,13 @@ public class Salary  implements Serializable{
 	private Double totaldeductions;
 	private Double netsalary;
 	private double factor = 1.0f;
+	
+	static {
+		categoryInverse = new LinkedHashMap<String, String>();
+		categoryInverse.put("1","Permanent");
+		categoryInverse.put("2","Domestic");
+		categoryInverse.put("3","Part Time");
+	}
 	
 	public Double getHra() {
 		return hra;
@@ -136,7 +145,7 @@ public class Salary  implements Serializable{
 	}
 
 	public void setCategoryname(String categoryname) {
-		this.categoryname = categoryname;
+		this.categoryname = categoryInverse.get(categoryname);
 	}
 
 	public Double getGrosssalary() {

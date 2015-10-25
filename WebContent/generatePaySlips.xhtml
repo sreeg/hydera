@@ -35,6 +35,9 @@
 	}
 }
 </style>
+<style type="text/css" media="print">
+  @page { size: portrait; }
+</style>
 </h:head>
 
 <body>
@@ -143,12 +146,12 @@
 													<tr>
 														<td>
 															<p>
-																Employee Code<br /> Employee Name<br /> Designation<br /> P.F. Number<br /> Bank Account Number<br />
+																Employee Code<br /> Employee Name<br /> Designation<br />  Employee Type<br /> P.F. Number<br /> Bank Account Number<br />
 															</p>
 														</td>
 														<td>
 															<p>
-																#{ps.employeeid}<br /> #{ps.employeename}<br /> #{ps.designation}<br /> #{ps.sbacno}<br />
+																#{ps.employeeid}<br /> #{ps.employeename}<br /> #{ps.designation}<br /> #{ps.categoryname}<br /> #{ps.sbacno}<br />
 																#{ps.pfno}<br />
 															</p>
 														</td>

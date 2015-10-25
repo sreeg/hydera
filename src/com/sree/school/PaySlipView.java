@@ -23,45 +23,26 @@ import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 
 @ManagedBean(name = "payslipView")
 @ViewScoped
 public class PaySlipView implements Serializable {
 
+	private static LinkedHashMap<String, Integer> monthDaysMap;
+
+	private static LinkedHashMap<String, String> monthMap;
+	private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private double totalBasicSalary;
-	private double totalFixedDA;
-	private double totalHRA;
-	private double totalConveyanceAll;
-	private double totalProfTaxDeduction;
-	private double totalOtherDeductions;
-	private double totalPFAmount;
-	private double totalLoanAmount;
-	private List<PaySlip> payslips;
-	private boolean showForm;
-	private boolean disableGenerateButton;
-
-	private static LinkedHashMap<String, String> monthMap;
 	private static LinkedHashMap<String, String> yearMap = new LinkedHashMap<String, String>();
-	private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
-
-	private static LinkedHashMap<String, Integer> monthDaysMap;
-
-	private String currentMonth;
-	private String currentYear;
-	private String selectedyear;
-	private String selectedmonth;
-	private int daysincurrentmonth;
-	private int daysinselectedmonth;
-	SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
-	FacesMessage msg;
 
 	static {
 		monthMap = new LinkedHashMap<String, String>();
@@ -95,6 +76,32 @@ public class PaySlipView implements Serializable {
 		monthDaysMap.put("December", 31);
 	}
 
+	private String currentMonth;
+	private String currentYear;
+	private int daysincurrentmonth;
+	private int daysinselectedmonth;
+	private boolean disableGenerateButton;
+
+	SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
+	FacesMessage msg;
+	private List<PaySlip> payslipDomestic;
+	private List<PaySlip> payslipPermenant;
+	private List<Categories> allPayslips;
+	private List<PaySlip> payslips;
+	private List<PaySlip> payslipTemporary;
+	private String selectedmonth;
+	private String selectedyear;
+	private boolean showForm;
+	
+	private double totalBasicSalary;
+	private double totalConveyanceAll;
+	private double totalFixedDA;
+	private double totalHRA;
+	private double totalLoanAmount;
+	private double totalOtherDeductions;
+	private double totalPFAmount;
+	private double totalProfTaxDeduction;
+
 	public PaySlipView() {
 		Calendar now = Calendar.getInstance();
 		setCurrentMonth(month_date.format(now.getTime()));
@@ -106,6 +113,11 @@ public class PaySlipView implements Serializable {
 		setSelectedmonth(getCurrentMonth());
 		setDaysinselectedmonth(monthDaysMap.get(getCurrentMonth()));
 		disableGenerateButton = false;
+
+		payslipPermenant = new ArrayList<>();
+		payslipDomestic = new ArrayList<>();
+		payslipTemporary = new ArrayList<>();
+		allPayslips = new ArrayList<>();
 	}
 
 	public List<PaySlip> getAllSalaryStaffByMonthAndYear() {
@@ -121,8 +133,8 @@ public class PaySlipView implements Serializable {
 							+ "pfamount, loanamount, attendance.dayspresent, attendance.daysinmonth from salary "
 							+ "LEFT JOIN attendance ON salary.employeeid=attendance.staffid and attendance.year=" + "'"
 							+ getSelectedyear() + "'" + " and attendance.month = " + "'" + getSelectedmonth() + "'"
-							+ "LEFT JOIN staff ON salary.employeeid=staff.Id");
-			
+							+ "LEFT JOIN staff ON salary.employeeid=staff.Id order by staff.categoryid");
+
 			totalBasicSalary = 0;
 			totalFixedDA = 0;
 			totalHRA = 0;
@@ -131,6 +143,11 @@ public class PaySlipView implements Serializable {
 			totalOtherDeductions = 0;
 			totalPFAmount = 0;
 			totalLoanAmount = 0;
+			
+			payslipPermenant = new ArrayList<>();
+			payslipDomestic = new ArrayList<>();
+			payslipTemporary = new ArrayList<>();
+			allPayslips = new ArrayList<>();
 			
 			while (rs.next()) {
 				PaySlip ps = new PaySlip();
@@ -145,7 +162,8 @@ public class PaySlipView implements Serializable {
 				ps.setProftaxdeduction(rs.getDouble("proftaxdeduction"));
 				ps.setOtherdeduction(rs.getDouble("otherdeduction"));
 				ps.setEmployeename(rs.getString("staff.firstname") + " " + rs.getString("staff.lastname"));
-				ps.setCategoryname(rs.getString("staff.categoryid"));
+				String categoryID = rs.getString("staff.categoryid");
+				ps.setCategoryname(categoryID);
 				ps.setPfamount(rs.getDouble("pfamount"));
 				ps.setLoanamount(rs.getDouble("loanamount"));
 				ps.setDaysinmonth(rs.getInt("daysinmonth"));
@@ -179,8 +197,29 @@ public class PaySlipView implements Serializable {
 				totalOtherDeductions += ps.getOtherdeduction();
 				totalPFAmount += ps.getPfamount();
 				totalLoanAmount += ps.getLoanamount();
-			}
 
+				if (categoryID.equals("1")) {
+					payslipPermenant.add(ps);
+				}
+				if (categoryID.equals("2")) {
+					payslipDomestic.add(ps);
+				}
+				if (categoryID.equals("3")) {
+					payslipTemporary.add(ps);
+				}
+			}
+			
+			Categories per = new Categories("Permanent");
+			per.setPayslips(payslipPermenant);
+			Categories dom = new Categories("Domestic");
+			dom.setPayslips(payslipDomestic);
+			Categories tem = new Categories("Temporary");
+			tem.setPayslips(payslipTemporary);
+			
+			allPayslips.add(per);
+			allPayslips.add(dom);
+			allPayslips.add(tem);
+			
 			msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Succesfully generated payslips for " + selectedmonth + ", " + selectedyear,
 					"Press 'print' for print outs.");
@@ -193,6 +232,111 @@ public class PaySlipView implements Serializable {
 		}
 
 		return paySlips;
+	}
+
+	public String getCurrentMonth() {
+		return currentMonth;
+	}
+
+	public String getCurrentYear() {
+		return currentYear;
+	}
+
+	public int getDaysincurrentmonth() {
+		return daysincurrentmonth;
+	}
+
+	public int getDaysinselectedmonth() {
+		return daysinselectedmonth;
+	}
+
+	public LinkedHashMap<String, String> getMonthMap() {
+		return monthMap;
+	}
+
+	public LinkedHashMap<String, String> getMonthmapfromdb() {
+		return monthmapfromdb;
+	}
+
+	public List<PaySlip> getPayslipDomestic() {
+		return payslipDomestic;
+	}
+
+	public List<PaySlip> getPayslipPermenant() {
+		return payslipPermenant;
+	}
+
+	public List<PaySlip> getPayslips() {
+		return payslips;
+	}
+
+	public List<PaySlip> getPayslipTemporary() {
+		return payslipTemporary;
+	}
+
+	public String getSelectedmonth() {
+		return selectedmonth;
+	}
+
+	public String getSelectedyear() {
+		return selectedyear;
+	}
+
+	public double getTotalBasicSalary() {
+		return new BigDecimal(totalBasicSalary).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public double getTotalConveyanceAll() {
+		return new BigDecimal(totalConveyanceAll).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public double getTotalFixedDA() {
+		return new BigDecimal(totalFixedDA).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public double getTotalHRA() {
+		return new BigDecimal(totalHRA).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public double getTotalLoanAmount() {
+		return new BigDecimal(totalLoanAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public double getTotalOtherDeductions() {
+		return new BigDecimal(totalOtherDeductions).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public double getTotalPFAmount() {
+		return new BigDecimal(totalPFAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public double getTotalProfTaxDeduction() {
+		return new BigDecimal(totalProfTaxDeduction).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	public LinkedHashMap<String, String> getYearMap() {
+		return yearMap;
+	}
+
+	public boolean isDisableGenerateButton() {
+		return disableGenerateButton;
+	}
+
+	public boolean isShowForm() {
+		return showForm;
+	}
+
+	public void onMonthChange() throws ClassNotFoundException, SQLException {
+		if (selectedmonth != null && !selectedmonth.equals("")) {
+			setDaysinselectedmonth(monthDaysMap.get(selectedmonth));
+			disableGenerateButton = false;
+		} else {
+			disableGenerateButton = true;
+			setShowForm(false);
+		}
+	}
+
+	public void onYearChange() {
 	}
 
 	public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
@@ -213,155 +357,12 @@ public class PaySlipView implements Serializable {
 		instance.setAlignment(Element.ALIGN_CENTER);
 		pdf.add(instance);
 		pdf.add(new Phrase("\n"));
-	}
 
-	public double getTotalBasicSalary() {
-		return new BigDecimal(totalBasicSalary).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalBasicSalary(double totalBasicSalary) {
-		this.totalBasicSalary = totalBasicSalary;
-	}
-
-	public double getTotalHRA() {
-		return new BigDecimal(totalHRA).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalHRA(double totalHRA) {
-		this.totalHRA = totalHRA;
-	}
-
-	public double getTotalFixedDA() {
-		return new BigDecimal(totalFixedDA).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalFixedDA(double totalFixedDA) {
-		this.totalFixedDA = totalFixedDA;
-	}
-
-	public double getTotalConveyanceAll() {
-		return new BigDecimal(totalConveyanceAll).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalConveyanceAll(double totalConveyanceAll) {
-		this.totalConveyanceAll = totalConveyanceAll;
-	}
-
-	public double getTotalProfTaxDeduction() {
-		return new BigDecimal(totalProfTaxDeduction).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalProfTaxDeduction(double totalProfTaxDeduction) {
-		this.totalProfTaxDeduction = totalProfTaxDeduction;
-	}
-
-	public double getTotalOtherDeductions() {
-		return new BigDecimal(totalOtherDeductions).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalOtherDeductions(double totalOtherDeductions) {
-		this.totalOtherDeductions = totalOtherDeductions;
-	}
-
-	public double getTotalPFAmount() {
-		return new BigDecimal(totalPFAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalPFAmount(double totalPFAmount) {
-		this.totalPFAmount = totalPFAmount;
-	}
-
-	public double getTotalLoanAmount() {
-		return new BigDecimal(totalLoanAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	public void setTotalLoanAmount(double totalLoanAmount) {
-		this.totalLoanAmount = totalLoanAmount;
-	}
-
-	public String getCurrentMonth() {
-		return currentMonth;
-	}
-
-	public void setCurrentMonth(String currentMonth) {
-		this.currentMonth = currentMonth;
-	}
-
-	public String getCurrentYear() {
-		return currentYear;
-	}
-
-	public void setCurrentYear(String currentYear) {
-		this.currentYear = currentYear;
-	}
-
-	public int getDaysincurrentmonth() {
-		return daysincurrentmonth;
-	}
-
-	public void setDaysincurrentmonth(int daysincurrentmonth) {
-		this.daysincurrentmonth = daysincurrentmonth;
-	}
-
-	public LinkedHashMap<String, String> getYearMap() {
-		return yearMap;
-	}
-
-	public void setYearMap(LinkedHashMap<String, String> yearMap) {
-		PaySlipView.yearMap = yearMap;
-	}
-
-	public String getSelectedyear() {
-		return selectedyear;
-	}
-
-	public void setSelectedyear(String selectedyear) {
-		this.selectedyear = selectedyear;
-	}
-
-	public String getSelectedmonth() {
-		return selectedmonth;
-	}
-
-	public void setSelectedmonth(String selectedmonth) {
-		this.selectedmonth = selectedmonth;
-	}
-
-	public LinkedHashMap<String, String> getMonthMap() {
-		return monthMap;
-	}
-
-	public void setMonthMap(LinkedHashMap<String, String> monthMap) {
-		PaySlipView.monthMap = monthMap;
-	}
-
-	public void onYearChange() {
-	}
-
-	public void onMonthChange() throws ClassNotFoundException, SQLException {
-		if (selectedmonth != null && !selectedmonth.equals("")) {
-			setDaysinselectedmonth(monthDaysMap.get(selectedmonth));
-			disableGenerateButton = false;
-		} else {
-			disableGenerateButton = true;
-			setShowForm(false);
-		}
-	}
-
-	public LinkedHashMap<String, String> getMonthmapfromdb() {
-		return monthmapfromdb;
-	}
-
-	public void setMonthmapfromdb(LinkedHashMap<String, String> monthmapfromdb) {
-		PaySlipView.monthmapfromdb = monthmapfromdb;
-	}
-
-	public int getDaysinselectedmonth() {
-		return daysinselectedmonth;
-	}
-
-	public void setDaysinselectedmonth(int daysinselectedmonth) {
-		this.daysinselectedmonth = daysinselectedmonth;
+		Paragraph paragraph = new Paragraph("Salary Proposals for the month of " + currentMonth + ", " + currentYear);
+		paragraph.setAlignment(Element.ALIGN_CENTER);
+		paragraph.setFont(FontFactory.getFont(FontFactory.HELVETICA_BOLD, 22, Font.BOLD));
+		pdf.add(paragraph);
+		pdf.add(new Phrase("\n"));
 	}
 
 	public void save() throws ClassNotFoundException, SQLException {
@@ -370,28 +371,104 @@ public class PaySlipView implements Serializable {
 		// TODO insert into payslip table
 	}
 
-	public List<PaySlip> getPayslips() {
-		return payslips;
+	public void setCurrentMonth(String currentMonth) {
+		this.currentMonth = currentMonth;
+	}
+
+	public void setCurrentYear(String currentYear) {
+		this.currentYear = currentYear;
+	}
+
+	public void setDaysincurrentmonth(int daysincurrentmonth) {
+		this.daysincurrentmonth = daysincurrentmonth;
+	}
+
+	public void setDaysinselectedmonth(int daysinselectedmonth) {
+		this.daysinselectedmonth = daysinselectedmonth;
+	}
+
+	public void setDisableGenerateButton(boolean disableGenerateButton) {
+		this.disableGenerateButton = disableGenerateButton;
+	}
+
+	public void setMonthMap(LinkedHashMap<String, String> monthMap) {
+		PaySlipView.monthMap = monthMap;
+	}
+
+	public void setMonthmapfromdb(LinkedHashMap<String, String> monthmapfromdb) {
+		PaySlipView.monthmapfromdb = monthmapfromdb;
+	}
+
+	public void setPayslipDomestic(List<PaySlip> payslipDomestic) {
+		this.payslipDomestic = payslipDomestic;
+	}
+
+	public void setPayslipPermenant(List<PaySlip> payslipPermenant) {
+		this.payslipPermenant = payslipPermenant;
 	}
 
 	public void setPayslips(List<PaySlip> payslips) {
 		this.payslips = payslips;
 	}
 
-	public boolean isShowForm() {
-		return showForm;
+	public void setPayslipTemporary(List<PaySlip> payslipTemporary) {
+		this.payslipTemporary = payslipTemporary;
+	}
+
+	public void setSelectedmonth(String selectedmonth) {
+		this.selectedmonth = selectedmonth;
+	}
+
+	public void setSelectedyear(String selectedyear) {
+		this.selectedyear = selectedyear;
 	}
 
 	public void setShowForm(boolean showForm) {
 		this.showForm = showForm;
 	}
 
-	public boolean isDisableGenerateButton() {
-		return disableGenerateButton;
+	public void setTotalBasicSalary(double totalBasicSalary) {
+		this.totalBasicSalary = totalBasicSalary;
 	}
 
-	public void setDisableGenerateButton(boolean disableGenerateButton) {
-		this.disableGenerateButton = disableGenerateButton;
+	public void setTotalConveyanceAll(double totalConveyanceAll) {
+		this.totalConveyanceAll = totalConveyanceAll;
+	}
+
+	public void setTotalFixedDA(double totalFixedDA) {
+		this.totalFixedDA = totalFixedDA;
+	}
+
+	public void setTotalHRA(double totalHRA) {
+		this.totalHRA = totalHRA;
+	}
+
+	public void setTotalLoanAmount(double totalLoanAmount) {
+		this.totalLoanAmount = totalLoanAmount;
+	}
+
+	public void setTotalOtherDeductions(double totalOtherDeductions) {
+		this.totalOtherDeductions = totalOtherDeductions;
+	}
+
+	public void setTotalPFAmount(double totalPFAmount) {
+		this.totalPFAmount = totalPFAmount;
+	}
+
+	public void setTotalProfTaxDeduction(double totalProfTaxDeduction) {
+		this.totalProfTaxDeduction = totalProfTaxDeduction;
+	}
+
+	public void setYearMap(LinkedHashMap<String, String> yearMap) {
+		PaySlipView.yearMap = yearMap;
+	}
+
+	public List<Categories> getAllPayslips() {
+		return allPayslips;
+	}
+
+	public void setAllPayslips(List<Categories> allPayslips) {
+		this.allPayslips = allPayslips;
 	}
 
 }
