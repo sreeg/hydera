@@ -135,13 +135,13 @@
 			<!-- /.row -->
 			<div class="marginTop20">
 
-				<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Create" actionListener="#{staffBean.save}"
+				<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Create" actionListener="#{staffBean.save}"
 					validateClient="true" update="@form" />
 			</div>
 		</p:outputPanel>
 		<p:outputPanel id="formOutputPanel2" rendered="#{!staffBean.showForm}">
 			<div class="marginTop20">
-				<p:commandButton styleClass="btn btn-success btn-lg btn-block" onclick="createstaff.xhtml" value="Add another record ?" />
+				<p:commandButton styleClass="btn btn-primary btn-lg btn-block" onclick="createstaff.xhtml" value="Add another record ?" />
 			</div>
 		</p:outputPanel>
 	</ui:composition>

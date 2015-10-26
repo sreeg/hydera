@@ -1,5 +1,6 @@
 package com.sree.school;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +11,12 @@ import javax.faces.bean.ManagedBean;
  
 @ManagedBean(name = "studentService")
 @ApplicationScoped
-public class StudentService {
+public class StudentService implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 644779773719132823L;
 
 	public List<Student> getAllAtudents() throws ClassNotFoundException, SQLException {
 		java.sql.Connection conn = DBConnection.getConnection();

@@ -13,6 +13,7 @@ public class User implements Serializable {
 
 	private String firstname;
 	private String lastname;
+	private String fullname;
 	private String sex;
 	private Date dob;
 	private String Id;
@@ -168,5 +169,13 @@ public class User implements Serializable {
 
 	public void setId(String id) {
 		Id = id;
+	}
+
+	public String getFullname() {
+		return firstname + " "+lastname;
+	}
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 }

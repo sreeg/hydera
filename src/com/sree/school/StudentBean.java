@@ -53,8 +53,8 @@ public class StudentBean implements Serializable {
 
 		ps = conn.prepareStatement("INSERT INTO STUDENT (Id, FirstName, LastName, Class, Section,"
 				+ "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
-				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode)"
-				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode, createdatetime, updatedatetime)"
+				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
 
 		ps.setString(1, "STUDENT_ID" + (i + 1));
 		ps.setString(2, student.getFirstname());

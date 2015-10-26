@@ -10,6 +10,10 @@
 	padding: 10px;
 }
 
+.padding5_0 {
+	padding: 5px 0;
+}
+
 .margin10_5 {
 	margin: 10px 5px;
 }
@@ -281,8 +285,6 @@
 	text-align: center;
 }
 
-//
-Classes
 .pull-left {
 	float: left !important;
 }
@@ -317,6 +319,11 @@ Classes
 	margin-right: 20px;
 }
 
+.marginLeft20 {
+	margin-left: 20px;
+}
+
+
 italic {
 	font-style: italic;
 }
@@ -331,4 +338,12 @@ tfoot {
 
 .ui-growl {
     top: 55px;
+}
+
+.autoCompleteMaxWidth {
+	display: block;
+}
+
+.autoCompleteMaxWidth input {
+	width: 100%;
 }

@@ -18,7 +18,7 @@
 			<!-- Top Menu Items -->
 			<ul class="nav navbar-right top-nav">
 
-				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
+				<li style="display:none" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i>
 						<b class="caret"></b></a>
 					<ul class="dropdown-menu alert-dropdown">
 						<li><a href="#">Alert Name <span class="label label-default">Alert Badge</span></a></li>
@@ -38,8 +38,6 @@
 								<h:outputText value="Profile" />
 							</p:commandLink></li>
 
-
-
 						<li><a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a></li>
 						<li class="divider"></li>
 						<li><p:commandLink id="nonAjax" actionListener="#{loginBean.logout}" ajax="false">
@@ -55,17 +53,17 @@
 					<li class="#{page == 'dashboard' ? 'active' : ''}"><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i>
 							Dashboard</a></li>
 
-					<li class="#{page == 'add' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+					<li class="#{page == 'add' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#add"><i
 							class="fa fa-fw fa-plus"></i> Add <i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="demo" class="expand">
+						<ul id="add" class="expand">
 							<li><a href="createstudent.xhtml">Add Student</a></li>
 							<li><a href="createstaff.xhtml">Add Staff</a></li>
 							<li><a href="createstaffSalary.xhtml">Add Staff salary</a></li>
 						</ul></li>
 
-					<li class="#{page == 'update' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+					<li class="#{page == 'update' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#update"><i
 							class="glyphicon glyphicon-check"></i> Update <i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="demo" class="expand">
+						<ul id="update" class="expand">
 							<li><a href="createstudentfee.xhtml">Update Student fees</a></li>
 							<li><a href="updateAttendance.xhtml">Update attendance</a></li>
 						</ul></li>
@@ -80,8 +78,8 @@
 
 
 					<li class="#{page == 'reports' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse"
-						data-target="#demo"><i class="fa fa-fw fa-table"></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="demo" class="expand">
+						data-target="#reports"><i class="fa fa-fw fa-table"></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="reports" class="expand">
 							<li><a href="showallstudents.xhtml">Get All Students</a></li>
 							<li><a href="#">Get Students By Class</a></li>
 							<li class="active"><a href="staffinfo.xhtml">Get Staff Details</a></li>

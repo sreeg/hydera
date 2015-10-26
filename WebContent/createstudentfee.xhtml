@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+	<title>Payroll Management</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/sb-admin.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+
+</h:head>
+
+<body>
+	<h:form id="form">
+
+		<div id="wrapper">
+
+			<!-- Navigation -->
+			<ui:insert name="nav">
+				<ui:include src="nav.xhtml">
+					<ui:param name="page" value="generate" />
+				</ui:include>
+			</ui:insert>
+
+			<div id="page-wrapper">
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<p:growl id="growl" showDetail="true" />
+					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">Update Student Fee</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<strong>Filter / Search criteria</strong>
+								</div>
+								<div class="panel-body">
+									<div class="col-lg-4 col-md-4">
+										<div class="form-group">
+											<p:outputLabel for="student" style="min-width: 70px;" value="Student Name : " />
+											<p:autoComplete styleClass="autoCompleteMaxWidth" id="student" value="#{studentFilterView.selectedStudentId}"
+												dropdown="true" completeMethod="#{studentFilterView.completeStudents}" var="theme" scrollHeight="400"
+												groupBy="#{theme.classname}" itemValue="#{theme.id}" itemLabel="#{theme.fullname}" forceSelection="true">
+												<p:ajax event="itemSelect" listener="#{studentFilterView.onStudentSelect}"
+													update="messages,feePanel,feePanelInner" />
+												<p:column>
+													<h:outputText value="#{theme.fullname}" />
+												</p:column>
+												<p:column>
+													<h:outputText value="#{theme.classname}" />
+												</p:column>
+												<p:column>
+													<h:outputText value="#{theme.sectionname}" />
+												</p:column>
+												<p:column>
+													<h:outputText value="#{theme.fathername}" />
+												</p:column>
+												<p:column>
+													<h:outputText value="#{theme.mothername}" />
+												</p:column>
+											</p:autoComplete>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<p:outputPanel id="feePanel">
+						<p:outputPanel id="feePanelInner" rendered="#{studentFilterView.showForm}">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<strong>Enter Fee Details - #{studentFilterView.selectedStudent.fullname},
+												#{studentFilterView.selectedStudent.classname} - #{studentFilterView.selectedStudent.sectionname}</strong>
+										</div>
+										<div class="panel-body">
+											<div class="col-lg-8 col-md-12">
+												<div class="form-group">
+													<h:outputText value="Term 1 payment " />
+													<p:selectBooleanCheckbox value="#{studentFilterView.studentfee.term1}"
+														disabled="#{not empty studentFilterView.studentfee.term1paiddate}" />
+
+													<h:outputText styleClass="marginLeft20" value="Term 2 payment " />
+													<p:selectBooleanCheckbox value="#{studentFilterView.studentfee.term2}"
+														disabled="#{not empty studentFilterView.studentfee.term2paiddate}" />
+
+													<h:outputText styleClass="marginLeft20" value="Term 3 payment " />
+													<p:selectBooleanCheckbox value="#{studentFilterView.studentfee.term3}"
+														disabled="#{not empty studentFilterView.studentfee.term3paiddate}" />
+												</div>
+
+												<div class="form-group">
+													<h:outputText value="Amount Paid *" />
+													<p:inputText styleClass="form-control" value="#{studentFilterView.studentfee.amount}" label="Amount Paid"
+														required="true"
+														disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
+												</div>
+												<div class="form-group">
+													<h:outputText value="Cheque Details *" />
+													<p:inputText styleClass="form-control" value="#{studentFilterView.studentfee.cheque}" label="Cheque No."
+														required="true"
+														disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<p:outputPanel
+										rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
+										<div class="panel panel-success">
+											<div class="panel-heading">
+												<strong>Payment History :</strong>
+											</div>
+											<div class="panel-body">
+												<table class="table table-condensed">
+													<thead>
+														<tr>
+															<th>Term</th>
+															<th>Amount</th>
+															<th>Paid date</th>
+															<th>Cheque Details</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<th scope="row">Term 1</th>
+															<td><h:outputText value="#{studentFilterView.studentfee.term1amount}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText value="#{studentFilterView.studentfee.term1paiddate}">
+																	<f:convertDateTime pattern="dd MMMM, yyyy" />
+																</h:outputText></td>
+															<td>#{studentFilterView.studentfee.term1cheque}</td>
+														</tr>
+														<tr>
+															<th scope="row">Term 2</th>
+															<td><h:outputText value="#{studentFilterView.studentfee.term2amount}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText value="#{studentFilterView.studentfee.term2paiddate}">
+																	<f:convertDateTime pattern="dd MMMM, yyyy" />
+																</h:outputText></td>
+															<td>#{studentFilterView.studentfee.term2cheque}</td>
+														</tr>
+														<tr>
+															<th scope="row">Term 3</th>
+															<td><h:outputText value="#{studentFilterView.studentfee.term3amount}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText value="#{studentFilterView.studentfee.term3paiddate}">
+																	<f:convertDateTime pattern="dd MMMM, yyyy" />
+																</h:outputText></td>
+															<td>#{studentFilterView.studentfee.term3cheque}</td>
+														</tr>
+													</tbody>
+												</table>
+												<h4 class="blue padding5_0">
+													Total amount paid :
+													<h:outputText value="#{studentFilterView.studentfee.amountPaid}">
+														<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+													</h:outputText>
+												</h4>
+
+											</div>
+										</div>
+									</p:outputPanel>
+								</div>
+
+							</div>
+
+							<div class="marginTop20">
+
+								<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Update"
+									actionListener="#{studentFilterView.save}" validateClient="true"
+									disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+
+
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /#page-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+
+	</h:form>
+</body>
+</html>

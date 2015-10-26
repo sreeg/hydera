@@ -117,12 +117,11 @@
 											</p:dataTable>
 										</div>
 									</div>
+									<div class="marginTop20">
+										<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Update"
+											actionListener="#{attendanceView.save}" validateClient="true" update="@form" />
+									</div>
 								</div>
-							</div>
-
-							<div class="marginTop20">
-								<p:commandButton styleClass="btn btn-success btn-lg btn-block" value="Update"
-									actionListener="#{attendanceView.save}" validateClient="true" update="@form" />
 							</div>
 						</p:outputPanel>
 					</p:outputPanel>
