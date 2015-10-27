@@ -44,12 +44,12 @@
 					<!-- Page Heading -->
 					<p:growl id="growl" showDetail="true" />
 					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-					<div class="row">
+					<div class="row hidden-print">
 						<div class="col-lg-12">
 							<h1 class="page-header">Update Student Fee</h1>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row hidden-print">
 						<div class="col-lg-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -90,7 +90,7 @@
 
 					<p:outputPanel id="feePanel">
 						<p:outputPanel id="feePanelInner" rendered="#{studentFilterView.showForm}">
-							<div class="row">
+							<div class="row hidden-print">
 								<div class="col-lg-6">
 									<div class="panel panel-default">
 										<div class="panel-heading">
@@ -98,7 +98,7 @@
 												#{studentFilterView.selectedStudent.classname} - #{studentFilterView.selectedStudent.sectionname}</strong>
 										</div>
 										<div class="panel-body">
-											<div class="col-lg-8 col-md-12">
+											<div class="col-lg-12 col-md-12">
 												<div class="form-group">
 													<h:outputText value="Term 1 payment " />
 													<p:selectBooleanCheckbox value="#{studentFilterView.studentfee.term1}"
@@ -131,7 +131,7 @@
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<p:outputPanel
+									<p:outputPanel id="paymenthistory"
 										rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
 										<div class="panel panel-success">
 											<div class="panel-heading">
@@ -191,15 +191,84 @@
 										</div>
 									</p:outputPanel>
 								</div>
-
 							</div>
 
-							<div class="marginTop20">
-
+							<div class="marginTop20 hidden-print">
 								<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Update"
-									actionListener="#{studentFilterView.save}" validateClient="true"
+									actionListener="#{studentFilterView.save}" validateClient="true" update="feereceipt"
 									disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
 							</div>
+							<p:outputPanel id="feereceipt">
+								<div class="panel panel-primary marginTop20 visible-print-block">
+									<div class="panel-body">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											<p:graphicImage style="width:100%;" name="images/logo.gif" />
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											<h5 class="pull-right">
+												Chaitanya Vidyalaya (ICSE),<br /> Domalguda - 500872,<br /> Contact No : 65502579,<br /> Email :
+												chaitanyavidyalaya@gmail.com
+											</h5>
+										</div>
+										<div class="col-lg-12">
+											<h3 class="centered">
+												<u>Fee Receipt :</u>
+											</h3>
+										</div>
+										<div class="col-lg-12">
+											<h4 class="centered">
+												Payment of <strong>&#8377; #{studentFilterView.studentfee.amount}</strong> has been received as part of term
+												payment -
+												<h:outputText value="1, " rendered="#{(not empty studentFilterView.studentfee.term1paiddate)}" />
+												<h:outputText value="2, " rendered="#{(not empty studentFilterView.studentfee.term2paiddate)}" />
+												<h:outputText value="3 " rendered="#{(not empty studentFilterView.studentfee.term3paiddate)}" />
+												from
+											</h4>
+										</div>
+										<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+											<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+												<div class="form-group">
+													<p>
+														<label class="">Student Name</label>
+													</p>
+													<p>
+														<label class="">Class Name</label>
+													</p>
+													<p>
+														<label class=" ">Section Name</label>
+													</p>
+													<p>
+														<label class=" ">Date of Receipt</label>
+													</p>
+													<p>
+														<label class=" ">Cheque Details</label>
+													</p>
+												</div>
+											</div>
+											<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+												<div class="form-group">
+													<p class="">#{studentFilterView.selectedStudent.fullname}</p>
+													<p class="">#{studentFilterView.selectedStudent.classname}</p>
+													<p class="">#{studentFilterView.selectedStudent.sectionname}</p>
+													<p class="">
+														<h:outputText value="#{session.lastAccessedTime}">
+															<f:convertDateTime pattern="dd MMMM yyyy" type="date" />
+														</h:outputText>
+													</p>
+													<p class="form-control-static">#{studentFilterView.studentfee.cheque}</p>
+												</div>
+											</div>
+										</div>
+										<br/>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<h5 class="centered">Please Note : This is a system generated receipt and does not require a signature.
+											</h5>
+										</div>
+										<br/>
+									</div>
+								</div>
+
+							</p:outputPanel>
 						</p:outputPanel>
 					</p:outputPanel>
 

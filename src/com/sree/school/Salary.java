@@ -45,7 +45,7 @@ public class Salary  implements Serializable{
 	}
 
 	public Double getConveyanceall() {
-		return getFactor() * conveyanceall;
+		return conveyanceall == null ? null : getFactor() * conveyanceall;
 	}
 
 	public void setConveyanceall(Double conveyanceall) {
@@ -117,7 +117,7 @@ public class Salary  implements Serializable{
 	}
 
 	public Double getBasicsalary() {
-		return getFactor() * basicsalary;
+		return basicsalary == null ? null : getFactor() * basicsalary;
 	}
 
 	public void setBasicsalary(Double basicsalary) {
@@ -125,7 +125,7 @@ public class Salary  implements Serializable{
 	}
 
 	public Double getFixedda() {
-		return getFactor() * fixedda;
+		return fixedda == null ? null : getFactor() * fixedda;
 	}
 
 	public void setFixedda(Double fixedda) {
