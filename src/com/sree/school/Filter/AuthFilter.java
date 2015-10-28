@@ -29,11 +29,10 @@ public class AuthFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		// check whether session variable is set
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
 		try {
-
-			// check whether session variable is set
-			HttpServletRequest req = (HttpServletRequest) request;
-			HttpServletResponse res = (HttpServletResponse) response;
 			HttpSession ses = req.getSession(false);
 			// allow user to proccede if url is login.xhtml or user logged in or
 			// user is accessing any page in //public folder
@@ -51,6 +50,7 @@ public class AuthFilter implements Filter {
 																			// page
 		} catch (Throwable t) {
 			System.out.println(t.getMessage());
+			res.sendRedirect(req.getContextPath() + "/pagenotfound.xhtml");
 		}
 	} // doFilter
 

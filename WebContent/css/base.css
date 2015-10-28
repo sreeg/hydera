@@ -146,8 +146,8 @@
 }
 
 .navbar.navbar-inverse.navbar-fixed-top, .side-nav {
-	background-color: #1D9F75;
-	border-color: #1a916a;
+	background-color: #00374C/*#1D9F75*/;
+	border-color: #335F70/*#1a916a*/;
 }
 
 .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav>li>a {
@@ -163,9 +163,9 @@
 	.top-nav>.open>a:focus, .side-nav li a:hover, .side-nav li a:focus,
 	.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus,
 	.navbar-inverse .navbar-nav>.active>a:hover, .side-nav li a:hover,
-	.side-nav li a:focus {
+	.side-nav li a:focus, .side-nav li.active {
 	color: #fff;
-	background-color: /*#0d4936*/ #188260 !important;
+	background-color: /*#0d4936, #188260*/ #005BAD !important;
 }
 
 .top-nav>li>a, .side-nav>li>ul>li>a {
@@ -189,8 +189,8 @@
 
 .ui-widget-content.ui-state-hover, .ui-widget-content .ui-state-highlight
 	{
-	background: #188260;
-	color: #FFFFFF;
+	background: #D4E0EE/*#188260*/;
+	color: #000;
 }
 
 .ui-button.buttonRed, .ui-button.buttonRed.ui-icon {
@@ -346,4 +346,8 @@ tfoot {
 
 .autoCompleteMaxWidth input {
 	width: 100%;
+}
+
+.inlineBlock {
+	display: inline-block;
 }

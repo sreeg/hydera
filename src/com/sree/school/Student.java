@@ -22,28 +22,28 @@ public class Student extends User {
 
 	static {
 		classes = new LinkedHashMap<String, String>();
-		classes.put("Class X", "Class X");
-		classes.put("Class IX", "Class IX");
-		classes.put("Class VIII", "Class VIII");
-		classes.put("Class VII", "Class VII");
-		classes.put("Class VI", "Class VI");
-		classes.put("Class V", "Class V");
-		classes.put("Class IV", "Class IV");
-		classes.put("Class III", "Class III");
-		classes.put("Class II", "Class II");
-		classes.put("Class I", "Class I");
-		classes.put("Class UKG", "Class UKG");
-		classes.put("Class LKG", "Class LKG");
-		classes.put("Class NURSERY", "Class NURSERY");
+		classes.put("Class X", "Class-X");
+		classes.put("Class IX", "Class-IX");
+		classes.put("Class VIII", "Class-VIII");
+		classes.put("Class VII", "Class-VII");
+		classes.put("Class VI", "Class-VI");
+		classes.put("Class V", "Class-V");
+		classes.put("Class IV", "Class-IV");
+		classes.put("Class III", "Class-III");
+		classes.put("Class II", "Class-II");
+		classes.put("Class I", "Class-I");
+		classes.put("Class UKG", "Class-UKG");
+		classes.put("Class LKG", "Class-LKG");
+		classes.put("Class NURSERY", "Class-NURSERY");
 	}
 
 	private static LinkedHashMap<String, String> sections;
 
 	static {
 		sections = new LinkedHashMap<String, String>();
-		sections.put("Section A", "Section A");
-		sections.put("Section B", "Section B");
-		sections.put("Section C", "Section C");
+		sections.put("Section A", "Section-A");
+		sections.put("Section B", "Section-B");
+		sections.put("Section C", "Section-C");
 	}
 
 	public String getClassname() {

@@ -9,6 +9,7 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+	
 	<title>Payroll Management</title>
 
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -34,7 +35,7 @@
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="generate" />
+					<ui:param name="page" value="updatestudentfee" />
 				</ui:include>
 			</ui:insert>
 
@@ -43,7 +44,7 @@
 				<div class="container-fluid">
 					<!-- Page Heading -->
 					<p:growl id="growl" showDetail="true" />
-					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+					<p:messages id="messages" styleClass="hidden-print"  showDetail="true" autoUpdate="true" closable="true" />
 					<div class="row hidden-print">
 						<div class="col-lg-12">
 							<h1 class="page-header">Update Student Fee</h1>
@@ -64,24 +65,32 @@
 												groupBy="#{theme.classname}" itemValue="#{theme.id}" itemLabel="#{theme.fullname}" forceSelection="true">
 												<p:ajax event="itemSelect" listener="#{studentFilterView.onStudentSelect}"
 													update="messages,feePanel,feePanelInner" />
-												<p:column>
+												<p:column headerText="Student Name">
 													<h:outputText value="#{theme.fullname}" />
 												</p:column>
-												<p:column>
+												<p:column headerText="Class Name">
 													<h:outputText value="#{theme.classname}" />
 												</p:column>
-												<p:column>
+												<p:column headerText="Section Name">
 													<h:outputText value="#{theme.sectionname}" />
 												</p:column>
-												<p:column>
+												<p:column headerText="Father Name">
 													<h:outputText value="#{theme.fathername}" />
 												</p:column>
-												<p:column>
+												<p:column headerText="Mother Name">
 													<h:outputText value="#{theme.mothername}" />
 												</p:column>
 											</p:autoComplete>
 										</div>
 									</div>
+									<div class="col-lg-4 col-md-4">
+										<p:outputPanel id="buttonPanel" styleClass="centered">
+											<p:commandButton value="Print receipt" styleClass="marginRight20" type="button" onclick="window.print();"
+												icon="ui-icon-print" rendered="#{studentFilterView.showPrintButton}">
+											</p:commandButton>
+										</p:outputPanel>
+									</div>
+
 
 								</div>
 							</div>
@@ -195,9 +204,10 @@
 
 							<div class="marginTop20 hidden-print">
 								<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Update"
-									actionListener="#{studentFilterView.save}" validateClient="true" update="feereceipt"
+									actionListener="#{studentFilterView.save}" validateClient="true" update="feereceipt,buttonPanel"
 									disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
 							</div>
+
 							<p:outputPanel id="feereceipt">
 								<div class="panel panel-primary marginTop20 visible-print-block">
 									<div class="panel-body">
@@ -259,12 +269,12 @@
 												</div>
 											</div>
 										</div>
-										<br/>
+										<br />
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<h5 class="centered">Please Note : This is a system generated receipt and does not require a signature.
 											</h5>
 										</div>
-										<br/>
+										<br />
 									</div>
 								</div>
 

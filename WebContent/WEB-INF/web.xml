@@ -53,11 +53,14 @@
 		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
 		<location>/login.xhtml</location>
 	</error-page>
-	
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/pagenotfound.xhtml</location>
+	</error-page>	
 	<session-config>
-<session-timeout>
-30
-</session-timeout>
-</session-config>
+		<session-timeout>
+		30
+		</session-timeout>
+	</session-config>
 
 </web-app>

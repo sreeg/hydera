@@ -53,38 +53,38 @@
 					<li class="#{page == 'dashboard' ? 'active' : ''}"><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i>
 							Dashboard</a></li>
 
-					<li class="#{page == 'add' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#add"><i
+					<li><a href="javascript:;" data-toggle="collapse" data-target="#add"><i
 							class="fa fa-fw fa-plus"></i> Add <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="add" class="expand">
-							<li><a href="createstudent.xhtml">Add Student</a></li>
-							<li><a href="createstaff.xhtml">Add Staff</a></li>
-							<li><a href="createstaffSalary.xhtml">Add Staff salary</a></li>
+							<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml">Add Student</a></li>
+							<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml">Add Staff</a></li>
+							<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml">Add Staff salary</a></li>
 						</ul></li>
 
-					<li class="#{page == 'update' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#update"><i
+					<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i
 							class="glyphicon glyphicon-check"></i> Update <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="update" class="expand">
-							<li><a href="createstudentfee.xhtml">Update Student fees</a></li>
-							<li><a href="updateAttendance.xhtml">Update attendance</a></li>
+							<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Update Student fees</a></li>
+							<li class="#{page == 'updateattendance' ? 'active' : ''}"><a href="updateAttendance.xhtml">Update attendance</a></li>
 						</ul></li>
 
-					<li class="#{page == 'generate' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
+					<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i
 							class="glyphicon glyphicon-share"></i> Generate <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="demo" class="expand">
-							<li><a href="generatestudentfee.xhtml">Generate fee receipts</a></li>
-							<li><a href="generatePaySlips.xhtml">Generate payslips</a></li>
-							<li><a href="generatePaySlipsProposal.xhtml">Gen. Sal proposals</a></li>
+							<li class="#{page == 'generatefeereceipts' ? 'active' : ''}"><a href="generatestudentfee.xhtml">Generate fee receipts</a></li>
+							<li class="#{page == 'generatepayslips' ? 'active' : ''}"><a href="generatePaySlips.xhtml">Generate payslips</a></li>
+							<li class="#{page == 'generatepayslipproposal' ? 'active' : ''}"><a href="generatePaySlipsProposal.xhtml">Gen. Sal proposals</a></li>
 						</ul></li>
 
 
-					<li class="#{page == 'reports' ? 'active' : ''}"><a href="javascript:;" data-toggle="collapse"
+					<li><a href="javascript:;" data-toggle="collapse"
 						data-target="#reports"><i class="fa fa-fw fa-table"></i> Reports <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="reports" class="expand">
-							<li><a href="showallstudents.xhtml">Get All Students</a></li>
-							<li><a href="#">Get Students By Class</a></li>
-							<li class="active"><a href="staffinfo.xhtml">Get Staff Details</a></li>
-							<li class="active"><a href="staffByCategory.xhtml">Get Staff by Category</a></li>
-							<li class="active"><a href="staffSalaryInfo.xhtml">Get Staff Salary Details</a></li>
+							<li class="#{page == 'showallstudents' ? 'active' : ''}"><a href="showallstudents.xhtml">Get All Students</a></li>
+							<li class="#{page == 'showallstudentsbyclass' ? 'active' : ''}"><a href="#">Get Students By Class</a></li>
+							<li class="#{page == 'showstaff' ? 'active' : ''}"><a href="staffinfo.xhtml">Get Staff Details</a></li>
+							<li class="#{page == 'showstaffbycategory' ? 'active' : ''}"><a href="staffByCategory.xhtml">Get Staff by Category</a></li>
+							<li class="#{page == 'showstaffsalary' ? 'active' : ''}"><a href="staffSalaryInfo.xhtml">Get Staff Salary Details</a></li>
 						</ul></li>
 
 

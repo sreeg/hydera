@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 
 	<title>Payroll Management</title>
 
@@ -49,7 +50,7 @@
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="generate" />
+					<ui:param name="page" value="generatepayslips" />
 				</ui:include>
 			</ui:insert>
 
@@ -58,7 +59,6 @@
 				<div class="container-fluid">
 					<!-- Page Heading -->
 					<p:growl id="growl" showDetail="true" />
-					<p:messages styleClass="hidden-print" id="messages" showDetail="true" autoUpdate="true" closable="true" />
 					<div class="row hidden-print">
 						<div class="col-lg-12">
 							<h1 class="page-header">Generate Payslips</h1>
@@ -71,45 +71,46 @@
 									<strong>Select Year and Month to generate payslips</strong>
 								</div>
 								<div class="panel-body">
-									<div class="col-lg-3 col-md-4">
-										<p:outputLabel for="year" style="min-width: 54px;" value="Year : " />
-										<h:selectOneMenu styleClass="form-control" id="year" value="#{payslipView.selectedyear}"
-											style="width:150px;display: inline;margin-left:10px;">
-											<p:ajax listener="#{payslipView.onYearChange}" update="monthPanel" />
-											<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
-											<f:selectItems value="#{payslipView.yearMap}" />
-										</h:selectOneMenu>
-									</div>
-
-									<div class="col-lg-3 col-md-4">
-										<p:outputPanel id="monthPanel">
-											<p:outputLabel for="month" style="min-width: 54px;" value="Month : " />
-											<h:selectOneMenu disabled="#{payslipView.selectedyear == null or payslipView.selectedyear == ''}"
-												styleClass="form-control" id="month" value="#{payslipView.selectedmonth}"
+									<div class="col-lg-12 col-md-12">
+										<div class="inlineBlock marginRight20">
+											<p:outputLabel for="year" style="min-width: 54px;" value="Year : " />
+											<h:selectOneMenu styleClass="form-control" id="year" value="#{payslipView.selectedyear}"
 												style="width:150px;display: inline;margin-left:10px;">
-												<p:ajax listener="#{payslipView.onMonthChange}" update="buttonPanel,payslipPanel" />
-												<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
-												<f:selectItems value="#{payslipView.monthMap}" />
+												<p:ajax listener="#{payslipView.onYearChange}" update="monthPanel" />
+												<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
+												<f:selectItems value="#{payslipView.yearMap}" />
 											</h:selectOneMenu>
-										</p:outputPanel>
-									</div>
+										</div>
+										<div class="inlineBlock marginRight20">
+											<p:outputPanel id="monthPanel">
+												<p:outputLabel for="month" style="min-width: 54px;" value="Month : " />
+												<h:selectOneMenu disabled="#{payslipView.selectedyear == null or payslipView.selectedyear == ''}"
+													styleClass="form-control" id="month" value="#{payslipView.selectedmonth}"
+													style="width:150px;display: inline;margin-left:10px;">
+													<p:ajax listener="#{payslipView.onMonthChange}" update="buttonPanel,payslipPanel" />
+													<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{payslipView.monthMap}" />
+												</h:selectOneMenu>
+											</p:outputPanel>
+										</div>
+										<div class="inlineBlock">
+											<p:outputPanel id="buttonPanel" styleClass="centered">
+												<p:commandButton styleClass="marginRight20" value="Generate" update="payslipPanel,buttonPanel"
+													disabled="#{payslipView.disableGenerateButton}" icon="fa fa-refresh" actionListener="#{payslipView.save}"
+													validateClient="true" />
+												<p:commandButton value="Print" styleClass="marginRight20" type="button" onclick="window.print();"
+													icon="ui-icon-print" rendered="#{payslipView.showForm}">
+												</p:commandButton>
 
-									<div class="col-lg-6 col-md-4">
-										<p:outputPanel id="buttonPanel" styleClass="centered">
-											<p:commandButton styleClass="marginRight20" value="Generate" update="payslipPanel,buttonPanel"
-												disabled="#{payslipView.disableGenerateButton}" icon="fa fa-refresh" actionListener="#{payslipView.save}"
-												validateClient="true" />
-											<p:commandButton value="Print" styleClass="marginRight20" type="button" onclick="window.print();"
-												icon="ui-icon-print" rendered="#{payslipView.showForm}">
-											</p:commandButton>
-
-										</p:outputPanel>
+											</p:outputPanel>
+										</div>
 									</div>
 
 								</div>
 							</div>
 						</div>
 					</div>
+					<p:messages styleClass="hidden-print" id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 					<p:outputPanel id="payslipPanel">
 						<p:outputPanel id="payslipPanelInner" rendered="#{payslipView.showForm}">

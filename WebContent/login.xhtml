@@ -126,10 +126,11 @@ body {
 						<div class="panel-body">
 							<div class="well">
 								<h:form id="loginForm" autocomplete="off">
-									<p:growl id="growl" showDetail="true" sticky="true" />
+									<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 									<div class="hidden">
 										<input type="password" />
 									</div>
+									<p:focus for="username"/>
 									<fieldset>
 										<div class="form-group">
 											<p:inputText styleClass="form-control" placeholder="Enter Username" id="username" value="#{loginBean.uname}"></p:inputText>
@@ -140,7 +141,7 @@ body {
 										</div>
 
 										<p:commandButton styleClass="btn btn-primary btn-block" action="#{loginBean.loginProject}" value="Login"
-											update="growl" ajax="true"></p:commandButton>
+											update="messages" ajax="true"></p:commandButton>
 
 									</fieldset>
 								</h:form>

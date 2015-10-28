@@ -37,6 +37,7 @@ public class StudentFilterView implements Serializable {
 	private Student selectedStudent;
 	private String selectedStudentId;
 	private boolean showForm;
+	private boolean showPrintButton;
 	private StudentFee studentfee;
 	private boolean studentfound;
 
@@ -47,6 +48,7 @@ public class StudentFilterView implements Serializable {
 		students = getAllAtudents();
 		studentfound = false;
 		setShowForm(false);
+		setShowPrintButton(false);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -96,7 +98,7 @@ public class StudentFilterView implements Serializable {
 		conn = DBConnection.getConnection();
 		ResultSet rs = conn.createStatement().executeQuery("select Id, FirstName, LastName, Class, Section,"
 				+ "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
-				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode from student");
+				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode from student order by Class");
 
 		List<Student> students = new ArrayList<>();
 		studentMap = new HashMap<>();
@@ -142,6 +144,7 @@ public class StudentFilterView implements Serializable {
 		selectedStudent = studentMap.get(selectedStudentId);
 		studentfee = getStudentFee();
 		setShowForm(true);
+		setShowPrintButton(false);
 	}
 
 	private StudentFee getStudentFee() {
@@ -313,6 +316,8 @@ public class StudentFilterView implements Serializable {
 		FacesMessage msg = null;
 		if (rs == 1) {
 			msg = new FacesMessage("Student fee updated successfully", "");
+			setShowPrintButton(true);
+			setShowForm(true);
 		} else {
 			msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
 		}
@@ -349,5 +354,13 @@ public class StudentFilterView implements Serializable {
 
 	public void setStudentfee(StudentFee studentfee) {
 		this.studentfee = studentfee;
+	}
+
+	public boolean isShowPrintButton() {
+		return showPrintButton;
+	}
+
+	public void setShowPrintButton(boolean showPrintButton) {
+		this.showPrintButton = showPrintButton;
 	}
 }
