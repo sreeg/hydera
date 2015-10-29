@@ -3,29 +3,24 @@ package com.sree.school;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.CategoryAxis;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartModel;
-
-import javax.annotation.PostConstruct;
-import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.HorizontalBarChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.HorizontalBarChartModel;
  
 @ManagedBean(name = "chartView")
 @RequestScoped
 public class ChartView implements Serializable {
  
-    private BarChartModel barModel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3768405787440247712L;
+	private BarChartModel barModel;
     private HorizontalBarChartModel horizontalBarModel;
  
     @PostConstruct

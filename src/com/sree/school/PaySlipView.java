@@ -176,8 +176,8 @@ public class PaySlipView implements Serializable {
 				int dayspresent = ps.getDayspresent();
 
 				if (dayspresent == 0) {
-					msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
-							"Cannot generate payslips for " + selectedmonth + ", " + selectedyear,
+					msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Cannot generate payslips for " + selectedmonth + ", " + selectedyear + ".",
 							"Enter attendance details first.");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
 					return paySlips;
@@ -295,7 +295,7 @@ public class PaySlipView implements Serializable {
 						"Please contant your system administrator.");
 				e.printStackTrace();
 			} finally {
-				
+
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		}

@@ -84,7 +84,7 @@
 					<p:outputPanel id="staffPanel">
 						<p:outputPanel id="staffPanelInner" rendered="#{attendanceView.showForm}">
 							<div class="row">
-								<div class="col-lg-6">
+								<div class="col-lg-8">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<strong>Staff Details</strong>
@@ -107,10 +107,13 @@
 												<p:column headerText="Days Present" width="100" style="max-width:100px;">
 													<p:cellEditor>
 														<f:facet name="output">
-															<p:inputText styleClass="form-control" maxlength="2" type="number" value="#{st.dayspresent}" />
+															<h:outputText value="#{st.dayspresent}" />
 														</f:facet>
 														<f:facet name="input">
-															<p:inputText styleClass="form-control" maxlength="2" type="number" value="#{st.dayspresent}" />
+															<p:inputText id="number" styleClass="form-control" value="#{st.dayspresent}" >
+															<f:validateDoubleRange minimum="0" maximum="#{attendanceView.daysinselectedmonth}" />
+															</p:inputText>
+															<p:message for="number" />
 														</f:facet>
 													</p:cellEditor>
 												</p:column>

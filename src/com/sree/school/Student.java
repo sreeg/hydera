@@ -18,7 +18,7 @@ public class Student extends User {
 	private String motheroccupation;
 	private String registrationnumber;
 
-	private static LinkedHashMap<String, String> classes;
+	public static LinkedHashMap<String, String> classes;
 
 	static {
 		classes = new LinkedHashMap<String, String>();

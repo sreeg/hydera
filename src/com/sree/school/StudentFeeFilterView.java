@@ -21,9 +21,9 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
 
-@ManagedBean(name = "studentFilterView")
+@ManagedBean(name = "studentFeeFilterView")
 @ViewScoped
-public class StudentFilterView implements Serializable {
+public class StudentFeeFilterView implements Serializable {
 
 	/**
 	 * 
@@ -32,9 +32,8 @@ public class StudentFilterView implements Serializable {
 	private static Connection conn;
 	private static Collection<String> classnames;
 	
-	private List<Student> students;
-	private List<Student> studentsWithFee;
-	private Map<String, Student> studentMap;
+	private List<StudentFee> students;
+	private Map<String, StudentFee> studentMap;
 	private List<Student> filteredStudents;
 	
 	private Student selectedStudent;
@@ -47,7 +46,7 @@ public class StudentFilterView implements Serializable {
 	@ManagedProperty("#{studentService}")
 	private StudentService service;
 
-	public StudentFilterView() throws ClassNotFoundException, SQLException {
+	public StudentFeeFilterView() throws ClassNotFoundException, SQLException {
 		students = getAllAtudents();
 		classnames=Student.classes.values();
 		studentfound = false;
@@ -69,10 +68,6 @@ public class StudentFilterView implements Serializable {
 		return ((Comparable) value).compareTo(Integer.valueOf(filterText)) > 0;
 	}
 
-	public List<Student> getStudents() {
-		return students;
-	}
-
 	public List<Student> getFilteredStudents() {
 		return filteredStudents;
 	}
@@ -85,12 +80,12 @@ public class StudentFilterView implements Serializable {
 		this.service = service;
 	}
 
-	public List<Student> completeStudents(String query) {
-		List<Student> allStudents = students;
-		List<Student> filteredStudents = new ArrayList<Student>();
+	public List<StudentFee> completeStudents(String query) {
+		List<StudentFee> allStudents = students;
+		List<StudentFee> filteredStudents = new ArrayList<StudentFee>();
 
 		for (int i = 0; i < allStudents.size(); i++) {
-			Student stu = allStudents.get(i);
+			StudentFee stu = allStudents.get(i);
 			if (stu.getFullname().toLowerCase().contains(query)) {
 				filteredStudents.add(stu);
 			}
@@ -98,16 +93,18 @@ public class StudentFilterView implements Serializable {
 		return filteredStudents;
 	}
 
-	public List<Student> getAllAtudents() throws ClassNotFoundException, SQLException {
+	public List<StudentFee> getAllAtudents() throws ClassNotFoundException, SQLException {
 		conn = DBConnection.getConnection();
 		ResultSet rs = conn.createStatement().executeQuery("select Id, FirstName, LastName, Class, Section,"
 				+ "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
-				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode from student order by Class, Section");
+				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, "
+				+ "ProfilePic, houseno, street, city, postalcode, term1paiddate, term2paiddate, term3paiddate, term1paymentamount, term2paymentamount, term3paymentamount from student "
+				+ "LEFT JOIN feepayment ON feepayment.studentid=student.Id order by Class, Section");
 
-		List<Student> students = new ArrayList<>();
+		List<StudentFee> students = new ArrayList<>();
 		studentMap = new HashMap<>();
 		while (rs.next()) {
-			Student st = new Student();
+			StudentFee st = new StudentFee();
 			st.setId(rs.getString("Id"));
 			st.setFirstname(rs.getString("FirstName"));
 			st.setLastname(rs.getString("Lastname"));
@@ -129,7 +126,13 @@ public class StudentFilterView implements Serializable {
 			st.setStreet(rs.getString("street"));
 			st.setCity(rs.getString("city"));
 			st.setPostalCode(rs.getString("postalcode"));
-
+			st.setTerm1paiddate(rs.getDate("term1paiddate"));
+			st.setTerm2paiddate(rs.getDate("term2paiddate"));
+			st.setTerm3paiddate(rs.getDate("term3paiddate"));
+			st.setTerm1amount(rs.getDouble("term1paymentamount"));
+			st.setTerm2amount(rs.getDouble("term2paymentamount"));
+			st.setTerm3amount(rs.getDouble("term3paymentamount"));
+			
 			students.add(st);
 			studentMap.put(rs.getString("Id"), st);
 		}
@@ -351,11 +354,11 @@ public class StudentFilterView implements Serializable {
 		this.selectedStudentId = selectedStudentId;
 	}
 
-	public Map<String, Student> getStudentMap() {
+	public Map<String, StudentFee> getStudentMap() {
 		return studentMap;
 	}
 
-	public void setStudentMap(Map<String, Student> studentMap) {
+	public void setStudentMap(Map<String, StudentFee> studentMap) {
 		this.studentMap = studentMap;
 	}
 
@@ -380,14 +383,15 @@ public class StudentFilterView implements Serializable {
 	}
 
 	public static void setClassnames(Collection<String> classnames) {
-		StudentFilterView.classnames = classnames;
+		StudentFeeFilterView.classnames = classnames;
 	}
 
-	public List<Student> getStudentsWithFee() {
-		return studentsWithFee;
+	public List<StudentFee> getStudents() {
+		return students;
 	}
 
-	public void setStudentsWithFee(List<Student> studentsWithFee) {
-		this.studentsWithFee = studentsWithFee;
+	public void setStudents(List<StudentFee> students) {
+		this.students = students;
 	}
+
 }

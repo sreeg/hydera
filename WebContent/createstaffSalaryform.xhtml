@@ -23,7 +23,7 @@
 						<h:outputText for="selectedStaff" value="Staff Name " />
 						<h:selectOneMenu styleClass="form-control" id="selectedStaff" onchange=""
 							value="#{staffFilterView.selectedStaffIdByCategory}">
-							<p:ajax listener="#{staffFilterView.onStaffChange}" update="staffDetails,formOutputPanel" />
+							<p:ajax listener="#{staffFilterView.onStaffChange}" update="staffDetails,formOutputPanel,pfpanel" />
 							<f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
 							<f:selectItems itemValue="#{st.id}" itemLabel="#{st.firstname} #{st.lastname} " var="st"
 								value="#{staffFilterView.filteredStaffsByCategory}" />
@@ -88,22 +88,6 @@
 									</div>
 								</div>
 							</div>
-
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<h:outputText value="PF Number " />
-										<p:inputText styleClass="form-control" value="#{salaryBean.salary.pfno}" label="PFNumber"/>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<h:outputText value="SB A/C Number " />
-										<p:inputText styleClass="form-control" value="#{salaryBean.salary.sbacno}" label="SBACNumber" />
-									</div>
-								</div>
-							</div>
-
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
@@ -120,32 +104,50 @@
 									</div>
 								</div>
 							</div>
+							<div class="row ">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="Loan Amount " />
+										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " value="#{salaryBean.salary.loanamount}"
+											label="LoanAmount" />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="SB A/C Number " />
+										<p:inputText styleClass="form-control" value="#{salaryBean.salary.sbacno}" label="SBACNumber" />
+									</div>
+								</div>
+							</div>
+
+							<p:outputPanel id='pfpanel' rendered="#{staffFilterView.selectedCategoryId == '1'}">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="PF Number " />
+										<p:inputText styleClass="form-control" value="#{salaryBean.salary.pfno}" label="PFNumber" />
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputText value="PF Rate " />
+										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.pfrate}" symbol="%" symbolPosition="s"
+											emptyValue="sign" label="PFRate" />
+									</div>
+								</div>
+
+							</div>
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
 										<h:outputText value="PF Amount " />
-										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.pfamount}"
-											symbol="&#8377; " label="PFAmount" />
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<h:outputText value="Loan Amount " />
-										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; "
-											value="#{salaryBean.salary.loanamount}" label="LoanAmount" />
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<h:outputText value="PF Rate " />
-										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.pfrate}" symbol="%"
-											symbolPosition="s" emptyValue="sign" label="PFRate" />
+										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.pfamount}" symbol="&#8377; "
+											label="PFAmount" />
 									</div>
 								</div>
 								<h:inputHidden value="#{salaryBean.salary.employeeid}" id="hiddenId" />
 							</div>
+						</p:outputPanel>
 						</p:panel>
 					</div>
 				</div>

@@ -24,6 +24,7 @@ public class StudentBean implements Serializable {
 	private static Connection conn;
 	private Student student = new Student();
 	private boolean showForm = true;
+	private static String ID = "STUDENT_ID";
 	
 	PreparedStatement ps = null;
 
@@ -56,7 +57,8 @@ public class StudentBean implements Serializable {
 				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode, createdatetime, updatedatetime)"
 				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
 
-		ps.setString(1, "STUDENT_ID" + (i + 1));
+
+		ps.setString(1, ID + (i + 1));
 		ps.setString(2, student.getFirstname());
 		ps.setString(3, student.getLastname());
 		ps.setString(4, student.getClassname());

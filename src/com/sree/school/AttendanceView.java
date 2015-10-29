@@ -367,7 +367,7 @@ public class AttendanceView implements Serializable {
 			}
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-
+		monthmapfromdb.put(selectedmonth, selectedmonth);
 	}
 
 	public void onCellEdit(CellEditEvent event) {
@@ -450,7 +450,7 @@ public class AttendanceView implements Serializable {
 	}
 
 	public void setMonthmapfromdb(LinkedHashMap<String, String> monthmapfromdb) {
-		AttendanceView.monthmapfromdb = monthmapfromdb;
+		monthmapfromdb = monthmapfromdb;
 	}
 
 	public int getDaysinselectedmonth() {

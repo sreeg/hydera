@@ -1,6 +1,7 @@
 package com.sree.school;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +19,7 @@ public class LoginBean {
 	private String uname;
 	private String password;
 	private String staffid;
+	private String lastlogindatettime;
 
 	public String getPassword() {
 		return password;
@@ -42,6 +44,7 @@ public class LoginBean {
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome!", uname));
 			setUname(Util.getUserName());
 			setStaffid(Util.getStaffid());
+			setLastlogindatettime(Util.getLastLoginDateTime());
 			return "home";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -64,5 +67,13 @@ public class LoginBean {
 
 	public void setStaffid(String staffid) {
 		this.staffid = staffid;
+	}
+
+	public String getLastlogindatettime() {
+		return lastlogindatettime;
+	}
+
+	public void setLastlogindatettime(String lastlogindatettime) {
+		this.lastlogindatettime = lastlogindatettime;
 	}
 }

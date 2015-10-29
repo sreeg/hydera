@@ -3,7 +3,7 @@ package com.sree.school;
 import java.io.Serializable;
 import java.util.Date;
 
-public class StudentFee implements Serializable {
+public class StudentFee extends Student implements Serializable {
 
 	/**
 	 * 
