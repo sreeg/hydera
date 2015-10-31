@@ -1,5 +1,6 @@
 package com.sree.school;
 
+import java.io.File;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +19,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
+import org.apache.commons.mail.*;
+import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.MultiPartEmail;
 import org.primefaces.event.SelectEvent;
 
 @ManagedBean(name = "studentFilterView")
@@ -31,12 +37,12 @@ public class StudentFilterView implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
 	private static Collection<String> classnames;
-	
+
 	private List<Student> students;
 	private List<Student> studentsWithFee;
 	private Map<String, Student> studentMap;
 	private List<Student> filteredStudents;
-	
+
 	private Student selectedStudent;
 	private String selectedStudentId;
 	private boolean showForm;
@@ -49,7 +55,7 @@ public class StudentFilterView implements Serializable {
 
 	public StudentFilterView() throws ClassNotFoundException, SQLException {
 		students = getAllAtudents();
-		classnames=Student.classes.values();
+		classnames = Student.classes.values();
 		studentfound = false;
 		setShowForm(false);
 		setShowPrintButton(false);
@@ -150,7 +156,7 @@ public class StudentFilterView implements Serializable {
 		setShowForm(true);
 		setShowPrintButton(false);
 	}
-	
+
 	public void onStudentFeeSelect(SelectEvent event) {
 		selectedStudent = studentMap.get(selectedStudentId);
 		studentfee = getStudentFee();
@@ -192,7 +198,7 @@ public class StudentFilterView implements Serializable {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return studentfee;
 	}
 
@@ -333,6 +339,42 @@ public class StudentFilterView implements Serializable {
 			msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void emailFeeReceipt() {
+		
+		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
+				.getContext();
+		String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"
+				+ File.separator + "logo.gif";
+		// Create the attachment
+		EmailAttachment attachment = new EmailAttachment();
+		attachment.setPath(logo);
+		attachment.setDisposition(EmailAttachment.ATTACHMENT);
+		attachment.setDescription("Picture of John");
+		attachment.setName("John");
+
+		// Create the email message
+		MultiPartEmail email = new MultiPartEmail();
+		email.setHostName("smtp.gmail.com");
+		email.setSmtpPort(465);
+		email.setAuthenticator(new DefaultAuthenticator("sreedhar.ganduri@gmail.com", "Dhar@1234"));
+		email.setSSLOnConnect(true);
+		try {
+			email.addTo("vijayvaddem@gmail.com");
+			email.setFrom("me@apache.org", "Mail from Chaitanya Vidyalaya");
+			email.setSubject("The picture");
+			email.setMsg("Here is the picture you wanted");
+
+			// add the attachment
+			email.attach(attachment);
+
+			// send the email
+			email.send();
+		} catch (EmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setShowForm(boolean showForm) {

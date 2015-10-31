@@ -50,7 +50,7 @@ public class AuthFilter implements Filter {
 																			// page
 		} catch (Throwable t) {
 			System.out.println(t.getMessage());
-			res.sendRedirect(req.getContextPath() + "/pagenotfound.xhtml");
+			res.sendRedirect(req.getContextPath() + "/error.xhtml");
 		}
 	} // doFilter
 

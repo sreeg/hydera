@@ -49,33 +49,32 @@
 					<div class="row">
 						<p:growl id="growl" showDetail="true" />
 
-						<div class="col-lg-6">
+						<div class="col-lg-8">
 
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<strong>Select Year and Month</strong>
 								</div>
 								<div class="panel-body">
-									<div class="col-lg-6 col-md-6">
-										<p:outputLabel for="year" value="Year : " />
-										<h:selectOneMenu styleClass="form-control" id="year" value="#{attendanceView.selectedyear}"
-											style="width:150px;display: inline;margin-left:10px;">
-											<p:ajax listener="#{attendanceView.onYearChange}" update="monthPanel,staffPanel" />
-											<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
-											<f:selectItems value="#{attendanceView.yearMap}" />
-										</h:selectOneMenu>
-									</div>
-									<div class="col-lg-6 col-md-6">
-										<p:outputPanel id="monthPanel">
-											<p:outputLabel for="month" value="Month : " />
-											<h:selectOneMenu disabled="#{attendanceView.selectedyear == null or attendanceView.selectedyear == ''}"
-												styleClass="form-control" id="month" value="#{attendanceView.selectedmonth}"
+									<div class="col-lg-12">
+										<span class="marginRight20 inlineBlock"> <p:outputLabel for="year" value="Year : " /> <h:selectOneMenu
+												styleClass="form-control" id="year" value="#{attendanceView.selectedyear}"
 												style="width:150px;display: inline;margin-left:10px;">
-												<p:ajax listener="#{attendanceView.onMonthChange}" update="staffPanel,staffPanelInner" />
-												<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
-												<f:selectItems value="#{attendanceView.monthMap}" />
+												<p:ajax listener="#{attendanceView.onYearChange}" update="monthPanel,staffPanel" />
+												<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
+												<f:selectItems value="#{attendanceView.yearMap}" />
 											</h:selectOneMenu>
-										</p:outputPanel>
+										</span> <span class="inlineBlock"> <p:outputPanel id="monthPanel">
+												<p:outputLabel for="month" value="Month : " />
+												<h:selectOneMenu disabled="#{attendanceView.selectedyear == null or attendanceView.selectedyear == ''}"
+													styleClass="form-control" id="month" value="#{attendanceView.selectedmonth}"
+													style="width:150px;display: inline;margin-left:10px;">
+													<p:ajax listener="#{attendanceView.onMonthChange}" update="staffPanel,staffPanelInner" />
+													<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{attendanceView.monthMap}" />
+												</h:selectOneMenu>
+											</p:outputPanel>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -90,8 +89,12 @@
 											<strong>Staff Details</strong>
 										</div>
 										<div class="panel-body">
-											<p>#{attendanceView.currentMonth} - #{attendanceView.currentYear}</p>
-											<p:dataTable id="staffss" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}"
+											<p class="alignRight">
+												<p:commandButton styleClass="btn btn-info btn-xs buttonRed"
+													value="Update #{attendanceView.daysinselectedmonth} days for all staff"
+													actionListener="#{attendanceView.prefill}" validateClient="true" update="staffs" />
+											</p>
+											<p:dataTable id="staffs" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}"
 												widgetVar="staffsTable" emptyMessage="No staff found" styleClass="attendanceTable">
 												<p:ajax event="cellEdit" listener="#{attendanceView.onCellEdit}" />
 												<p:column headerText="Name">
@@ -110,8 +113,8 @@
 															<h:outputText value="#{st.dayspresent}" />
 														</f:facet>
 														<f:facet name="input">
-															<p:inputText id="number" styleClass="form-control" value="#{st.dayspresent}" >
-															<f:validateDoubleRange minimum="0" maximum="#{attendanceView.daysinselectedmonth}" />
+															<p:inputText id="number" styleClass="form-control" value="#{st.dayspresent}">
+																<f:validateDoubleRange minimum="0" maximum="#{attendanceView.daysinselectedmonth}" />
 															</p:inputText>
 															<p:message for="number" />
 														</f:facet>

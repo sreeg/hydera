@@ -103,11 +103,11 @@ public class AttendanceView implements Serializable {
 		staffsTemporary = new ArrayList<>();
 		staffsDomestic = new ArrayList<>();
 
-		staffs = getAllStaff();
 		Calendar now = Calendar.getInstance();
 		setCurrentMonth(month_date.format(now.getTime()));
 		setCurrentYear("" + now.get(Calendar.YEAR));
 		setDaysincurrentmonth(now.getActualMaximum(Calendar.DATE));
+		staffs = getAllStaffAttendance();
 
 		yearMap.put(currentYear, currentYear);
 		setSelectedyear(getCurrentYear());
@@ -120,7 +120,7 @@ public class AttendanceView implements Serializable {
 		return staffs;
 	}
 
-	public List<Attendance> getAllStaff() throws ClassNotFoundException, SQLException {
+	public List<Attendance> getAllStaffAttendance() throws ClassNotFoundException, SQLException {
 		java.sql.Connection conn = DBConnection.getConnection();
 		ResultSet rs = conn.createStatement()
 				.executeQuery("select Id, FirstName, LastName, CategoryId, Designation,"
@@ -370,6 +370,12 @@ public class AttendanceView implements Serializable {
 		monthmapfromdb.put(selectedmonth, selectedmonth);
 	}
 
+	public void prefill() {
+		for(Attendance a : staffs)
+		{
+			a.setDayspresent(getDaysinselectedmonth());
+		}
+	}
 	public void onCellEdit(CellEditEvent event) {
 		Object oldValue = event.getOldValue();
 		Object newValue = event.getNewValue();

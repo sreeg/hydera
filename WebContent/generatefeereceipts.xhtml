@@ -88,6 +88,10 @@
 												icon="ui-icon-print"
 												rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
 											</p:commandButton>
+											<p:commandLink value="Email receipt" styleClass="marginRight20" type="button"
+												actionListener="#{studentFilterView.emailFeeReceipt}" icon="ui-icon-email" validateClient="true" 
+												rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
+											</p:commandLink>
 										</p:outputPanel>
 									</div>
 
@@ -99,16 +103,16 @@
 					<p:messages id="messages" styleClass="hidden-print" showDetail="true" autoUpdate="true" closable="true" />
 
 					<p:outputPanel id="feenotfound">
-					<p:outputPanel id="feenotfoundInner"
-					rendered="#{studentFilterView.showForm and !((not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate))}">
-						<div class="row hidden-print">
-							<div class="col-lg-12">
-								<div class="bs-callout bs-callout-warning" id="callout-badges-ie8-empty">
-									<h4>No fee information found.</h4>
-									<p>No fee payment information is found in the system.</p>
+						<p:outputPanel id="feenotfoundInner"
+							rendered="#{studentFilterView.showForm and !((not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate))}">
+							<div class="row hidden-print">
+								<div class="col-lg-12">
+									<div class="bs-callout bs-callout-warning" id="callout-badges-ie8-empty">
+										<h4>No fee information found.</h4>
+										<p>No fee payment information is found in the system.</p>
+									</div>
 								</div>
 							</div>
-						</div>
 						</p:outputPanel>
 					</p:outputPanel>
 					<p:outputPanel id="feePanel">
