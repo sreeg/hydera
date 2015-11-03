@@ -1,7 +1,13 @@
 package com.sree.school;
 
+import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +17,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -21,37 +26,83 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
-import org.apache.commons.mail.*;
+import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail.HtmlEmail;
+import org.primefaces.component.outputpanel.OutputPanel;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
 @ManagedBean(name = "studentFilterView")
 @ViewScoped
 public class StudentFilterView implements Serializable {
 
+	private static Font underline18 = new Font(Font.HELVETICA, 18, Font.UNDERLINE);
+	private static Font redFont = new Font(Font.HELVETICA, 12, Font.NORMAL, Color.RED);
+	private static Font smallBold = new Font(Font.HELVETICA, 12, Font.BOLD);
+	private static Font subFont = new Font(Font.HELVETICA, 14, Font.NORMAL);
+	private static Font smallestItalic = new Font(Font.HELVETICA, 10, Font.ITALIC);
+	
+	private static Collection<String> classnames;
+	private static Connection conn;
+	private static String FILE = "FirstPdf.pdf";
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Connection conn;
-	private static Collection<String> classnames;
 
-	private List<Student> students;
-	private List<Student> studentsWithFee;
-	private Map<String, Student> studentMap;
+	/** Definition of two columns */
+	public static final float[][] COLUMNS = { { 36, 36, 296, 806 }, { 299, 36, 559, 806 } };
+
+	private static void addEmptyLine(Paragraph paragraph, int number) {
+		for (int i = 0; i < number; i++) {
+			paragraph.add(new Paragraph(" "));
+		}
+	}
+
+	public static void setClassnames(Collection<String> classnames) {
+		StudentFilterView.classnames = classnames;
+	}
+
+	private OutputPanel feePanel;
+	private StreamedContent file;
 	private List<Student> filteredStudents;
-
 	private Student selectedStudent;
+
 	private String selectedStudentId;
-	private boolean showForm;
-	private boolean showPrintButton;
-	private StudentFee studentfee;
-	private boolean studentfound;
 
 	@ManagedProperty("#{studentService}")
 	private StudentService service;
+
+	private boolean showForm;
+
+	private boolean showPrintButton;
+
+	private StudentFee studentfee;
+
+	private boolean studentfound;
+
+	private Map<String, Student> studentMap;
+
+	private List<Student> students;
+
+	private List<Student> studentsWithFee;
 
 	public StudentFilterView() throws ClassNotFoundException, SQLException {
 		students = getAllAtudents();
@@ -59,36 +110,6 @@ public class StudentFilterView implements Serializable {
 		studentfound = false;
 		setShowForm(false);
 		setShowPrintButton(false);
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public boolean filterByPrice(Object value, Object filter, Locale locale) {
-		String filterText = (filter == null) ? null : filter.toString().trim();
-		if (filterText == null || filterText.equals("")) {
-			return true;
-		}
-
-		if (value == null) {
-			return false;
-		}
-
-		return ((Comparable) value).compareTo(Integer.valueOf(filterText)) > 0;
-	}
-
-	public List<Student> getStudents() {
-		return students;
-	}
-
-	public List<Student> getFilteredStudents() {
-		return filteredStudents;
-	}
-
-	public void setFilteredStudents(List<Student> filteredStudents) {
-		this.filteredStudents = filteredStudents;
-	}
-
-	public void setService(StudentService service) {
-		this.service = service;
 	}
 
 	public List<Student> completeStudents(String query) {
@@ -102,6 +123,178 @@ public class StudentFilterView implements Serializable {
 			}
 		}
 		return filteredStudents;
+	}
+
+	public void emailFeeReceipt() {
+		Document document = new Document();
+		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
+				.getContext();
+		String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"
+				+ File.separator + "logo.gif";
+		// Create the attachment
+		EmailAttachment attachment = new EmailAttachment();
+		attachment.setPath(FILE);
+		attachment.setDisposition(EmailAttachment.ATTACHMENT);
+		attachment.setDescription("fee recipt");
+		attachment.setName("fee.pdf");
+
+		// Create the email message
+		HtmlEmail email = new HtmlEmail();
+		email.setHostName("smtp.gmail.com");
+		email.setSmtpPort(465);
+		email.setAuthenticator(new DefaultAuthenticator("sreedhar.ganduri@gmail.com", "Dhar@1234"));
+		email.setSSLOnConnect(true);
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(FILE);
+			PdfWriter writer = PdfWriter.getInstance(document, fileOutputStream);
+			document.open();
+			document.addTitle("Fee receipt");
+			document.addSubject("Chaitanya Vidyalaya");
+			document.addAuthor("Chaitanya Vidyalaya");
+			document.addCreator("Chaitanya Vidyalaya");
+
+			Paragraph header = new Paragraph();
+			header.setAlignment(Element.ALIGN_CENTER);
+			header.setIndentationLeft(20);
+			header.setIndentationRight(20);
+			header.add(Image.getInstance(logo));
+			addEmptyLine(header, 2);
+
+			Paragraph paragraph = new Paragraph();
+			paragraph.setAlignment(Element.ALIGN_CENTER);
+			paragraph.setFont(underline18);
+			paragraph.add(new Chunk("Fee Receipt :"));
+			header.add(paragraph);
+
+			addEmptyLine(header, 1);
+			String headerString = "Payment of " + studentfee.getAmountPaid()
+					+ "  has been received as part of term payment ";
+			if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() != null
+					&& studentfee.getTerm3paiddate() != null) {
+				headerString += "1, 2 and 3 from ";
+			} else if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() != null
+					&& studentfee.getTerm3paiddate() == null) {
+				headerString += "1 and 2 from ";
+			} else if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() == null
+					&& studentfee.getTerm3paiddate() == null) {
+				headerString += "1 from ";
+			}
+
+			Paragraph paragraph2 = new Paragraph(headerString, subFont);
+			paragraph2.setAlignment(Element.ALIGN_CENTER);
+			header.add(paragraph2);
+			addEmptyLine(header, 1);
+			document.add(header);
+
+			Paragraph center = new Paragraph();
+			center.setAlignment(Element.ALIGN_JUSTIFIED);
+			center.setIndentationLeft(50);
+			center.setIndentationRight(50);
+			center.add(new Chunk("Student Name \t\t\t", smallBold));
+			center.add(new Chunk(selectedStudent.getFullname(), subFont));
+			addEmptyLine(center, 1);
+			center.add(new Chunk("Class Name \t\t\t", smallBold));
+			center.add(new Chunk(selectedStudent.getClassname(), subFont));
+			addEmptyLine(center, 1);
+			center.add(new Chunk("Section Name \t\t\t", smallBold));
+			center.add(new Chunk(selectedStudent.getSectionname(), subFont));
+			addEmptyLine(center, 1);
+
+			String dateOfReceipt = "Payment of " + studentfee.getAmountPaid()
+					+ "  has been received as part of term payment ";
+			if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() != null
+					&& studentfee.getTerm3paiddate() != null) {
+				dateOfReceipt = studentfee.getTerm1paiddate() + ", " + studentfee.getTerm2paiddate() + ", "
+						+ studentfee.getTerm3paiddate();
+			} else if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() != null
+					&& studentfee.getTerm3paiddate() == null) {
+				dateOfReceipt = studentfee.getTerm1paiddate() + ", " + studentfee.getTerm2paiddate();
+			} else if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() == null
+					&& studentfee.getTerm3paiddate() == null) {
+				dateOfReceipt = studentfee.getTerm1paiddate() + "";
+			}
+
+			center.add(new Chunk("Date of receipt \t\t\t", smallBold));
+			center.add(new Chunk(dateOfReceipt, subFont));
+			addEmptyLine(center, 1);
+
+			String chequeDetails = "Payment of " + studentfee.getAmountPaid()
+					+ "  has been received as part of term payment ";
+			if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() != null
+					&& studentfee.getTerm3paiddate() != null) {
+				chequeDetails = studentfee.getTerm1cheque() + ", " + studentfee.getTerm2cheque() + ", "
+						+ studentfee.getTerm3cheque();
+			} else if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() != null
+					&& studentfee.getTerm3paiddate() == null) {
+				chequeDetails = studentfee.getTerm1cheque() + ", " + studentfee.getTerm2cheque();
+			} else if (studentfee.getTerm1paiddate() != null && studentfee.getTerm2paiddate() == null
+					&& studentfee.getTerm3paiddate() == null) {
+				chequeDetails = studentfee.getTerm1cheque() + "";
+			}
+
+			center.add(new Chunk("Cheque details \t\t\t", smallBold));
+			center.add(new Chunk(chequeDetails, subFont));
+			addEmptyLine(center, 4);
+			document.add(center);
+			
+			Paragraph footer = new Paragraph();
+			footer.setAlignment(Element.ALIGN_CENTER);
+			footer.setIndentationLeft(20);
+			footer.setIndentationRight(20);
+			footer.add(new Chunk("Please Note : This is a system generated receipt and does not require a signature.", smallestItalic));
+			document.add(footer);
+			
+			PdfContentByte canvas = writer.getDirectContent();
+	        Rectangle rect = new Rectangle(36, 36, 559, 806);
+	        rect.setBorder(Rectangle.BOX);
+	        rect.setBorderWidth(1);
+	        canvas.rectangle(rect);
+	        
+			//document.newPage();
+			document.close();
+
+			setFile(new DefaultStreamedContent(new FileInputStream(new File(FILE)), "application/pdf"));
+
+			email.addTo("sreedharganduri@gmail.com");
+			email.setFrom("chaitanyavidyalaya@gmail.com", "Mail from Chaitanya Vidyalaya");
+			email.setSubject("The picture");
+			email.setMsg("Here is the picture you wanted");
+
+			email.setHtmlMsg("attached pdf");
+			email.attach(attachment);
+			// email.send();
+		} catch (EmailException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public PdfPTable getTable() throws SQLException, DocumentException, IOException {
+		PdfPTable table = new PdfPTable(new float[] { 2, 1, 2, 5, 1 });
+		table.setWidthPercentage(100f);
+		table.getDefaultCell().setUseAscender(true);
+		table.getDefaultCell().setUseDescender(true);
+		table.getDefaultCell().setBackgroundColor(Color.LIGHT_GRAY);
+		for (int i = 0; i < 2; i++) {
+			table.addCell("Location");
+			table.addCell("Time");
+			table.addCell("Run Length");
+			table.addCell("Title");
+			table.addCell("Year");
+		}
+		table.getDefaultCell().setBackgroundColor(null);
+		table.setHeaderRows(2);
+		table.setFooterRows(1);
+
+		return table;
 	}
 
 	public List<Student> getAllAtudents() throws ClassNotFoundException, SQLException {
@@ -142,26 +335,32 @@ public class StudentFilterView implements Serializable {
 		return students;
 	}
 
+	public Collection<String> getClassnames() {
+		return classnames;
+	}
+
+	public OutputPanel getFeePanel() {
+		return feePanel;
+	}
+
+	public StreamedContent getFile() {
+		return file;
+	}
+
+	public List<Student> getFilteredStudents() {
+		return filteredStudents;
+	}
+
 	public Student getSelectedStudent() {
 		return selectedStudent;
 	}
 
-	public void setSelectedStudent(Student selectedStudent) {
-		this.selectedStudent = selectedStudent;
+	public String getSelectedStudentId() {
+		return selectedStudentId;
 	}
 
-	public void onStudentSelect(SelectEvent event) {
-		selectedStudent = studentMap.get(selectedStudentId);
-		studentfee = getStudentFee();
-		setShowForm(true);
-		setShowPrintButton(false);
-	}
-
-	public void onStudentFeeSelect(SelectEvent event) {
-		selectedStudent = studentMap.get(selectedStudentId);
-		studentfee = getStudentFee();
-		setShowForm(true);
-		setShowPrintButton(true);
+	public StudentFee getStudentfee() {
+		return studentfee;
 	}
 
 	private StudentFee getStudentFee() {
@@ -200,6 +399,51 @@ public class StudentFilterView implements Serializable {
 		}
 
 		return studentfee;
+	}
+
+	public Map<String, Student> getStudentMap() {
+		return studentMap;
+	}
+
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	public List<Student> getStudentsWithFee() {
+		return studentsWithFee;
+	}
+
+	public boolean isShowForm() {
+		return showForm;
+	}
+
+	public boolean isShowPrintButton() {
+		return showPrintButton;
+	}
+
+	public void onStudentFeeSelect(SelectEvent event) {
+		selectedStudent = studentMap.get(selectedStudentId);
+		studentfee = getStudentFee();
+		setShowForm(true);
+		setShowPrintButton(true);
+	}
+
+	public void onStudentSelect(SelectEvent event) {
+		selectedStudent = studentMap.get(selectedStudentId);
+		studentfee = getStudentFee();
+		setShowForm(true);
+		setShowPrintButton(false);
+	}
+
+	public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+		Document pdf = (Document) document;
+		pdf.open();
+		pdf.setPageSize(PageSize.A4);
+
+		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
+				.getContext();
+		String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "demo"
+				+ File.separator + "images" + File.separator + "prime_logo.png";
 	}
 
 	public void save() throws ClassNotFoundException, SQLException {
@@ -341,92 +585,44 @@ public class StudentFilterView implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void emailFeeReceipt() {
-		
-		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
-				.getContext();
-		String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"
-				+ File.separator + "logo.gif";
-		// Create the attachment
-		EmailAttachment attachment = new EmailAttachment();
-		attachment.setPath(logo);
-		attachment.setDisposition(EmailAttachment.ATTACHMENT);
-		attachment.setDescription("Picture of John");
-		attachment.setName("John");
-
-		// Create the email message
-		MultiPartEmail email = new MultiPartEmail();
-		email.setHostName("smtp.gmail.com");
-		email.setSmtpPort(465);
-		email.setAuthenticator(new DefaultAuthenticator("sreedhar.ganduri@gmail.com", "Dhar@1234"));
-		email.setSSLOnConnect(true);
-		try {
-			email.addTo("vijayvaddem@gmail.com");
-			email.setFrom("me@apache.org", "Mail from Chaitanya Vidyalaya");
-			email.setSubject("The picture");
-			email.setMsg("Here is the picture you wanted");
-
-			// add the attachment
-			email.attach(attachment);
-
-			// send the email
-			email.send();
-		} catch (EmailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void setFeePanel(OutputPanel feePanel) {
+		this.feePanel = feePanel;
 	}
 
-	public void setShowForm(boolean showForm) {
-		this.showForm = showForm;
+	public void setFile(StreamedContent file) {
+		this.file = file;
 	}
 
-	public boolean isShowForm() {
-		return showForm;
+	public void setFilteredStudents(List<Student> filteredStudents) {
+		this.filteredStudents = filteredStudents;
 	}
 
-	public String getSelectedStudentId() {
-		return selectedStudentId;
+	public void setSelectedStudent(Student selectedStudent) {
+		this.selectedStudent = selectedStudent;
 	}
 
 	public void setSelectedStudentId(String selectedStudentId) {
 		this.selectedStudentId = selectedStudentId;
 	}
 
-	public Map<String, Student> getStudentMap() {
-		return studentMap;
+	public void setService(StudentService service) {
+		this.service = service;
 	}
 
-	public void setStudentMap(Map<String, Student> studentMap) {
-		this.studentMap = studentMap;
-	}
-
-	public StudentFee getStudentfee() {
-		return studentfee;
-	}
-
-	public void setStudentfee(StudentFee studentfee) {
-		this.studentfee = studentfee;
-	}
-
-	public boolean isShowPrintButton() {
-		return showPrintButton;
+	public void setShowForm(boolean showForm) {
+		this.showForm = showForm;
 	}
 
 	public void setShowPrintButton(boolean showPrintButton) {
 		this.showPrintButton = showPrintButton;
 	}
 
-	public Collection<String> getClassnames() {
-		return classnames;
+	public void setStudentfee(StudentFee studentfee) {
+		this.studentfee = studentfee;
 	}
 
-	public static void setClassnames(Collection<String> classnames) {
-		StudentFilterView.classnames = classnames;
-	}
-
-	public List<Student> getStudentsWithFee() {
-		return studentsWithFee;
+	public void setStudentMap(Map<String, Student> studentMap) {
+		this.studentMap = studentMap;
 	}
 
 	public void setStudentsWithFee(List<Student> studentsWithFee) {
