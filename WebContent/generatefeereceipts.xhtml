@@ -88,13 +88,13 @@
 												icon="ui-icon-print"
 												rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
 											</p:commandButton>
-											<p:commandLink value="Email receipt" styleClass="marginRight20" type="button"
-												actionListener="#{studentFilterView.emailFeeReceipt}" icon="ui-icon-email" validateClient="true" 
-												rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
-											</p:commandLink>
-<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-        <p:fileDownload value="#{studentFilterView.file}" />
-    </p:commandButton>
+											<div class="marginTop20">
+												<p:commandLink value="Email receipt" styleClass="marginRight20 fa fa-envelope" type="button"
+													title="Email to : #{studentFilterView.selectedStudent.email}" actionListener="#{studentFilterView.emailFeeReceipt}"
+													 validateClient="true" update="messages"
+													rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
+												</p:commandLink>
+											</div>
 										</p:outputPanel>
 									</div>
 
@@ -118,7 +118,7 @@
 							</div>
 						</p:outputPanel>
 					</p:outputPanel>
-					<p:outputPanel id="feePanel" binding="#{studentFilterView.feePanel}" >
+					<p:outputPanel id="feePanel" binding="#{studentFilterView.feePanel}">
 						<p:outputPanel id="feePanelInner" rendered="#{studentFilterView.showForm}">
 							<div class="row hidden-print">
 
@@ -187,7 +187,7 @@
 
 
 							<p:outputPanel id="feereceipt">
-								<div class="panel panel-primary marginTop20 visible-print-block">
+								<div class="panel panel-default marginTop20 visible-print-block">
 									<div class="panel-body">
 										<ui:insert name="receiptheader">
 											<ui:include src="receiptheader.xhtml" />

@@ -32,8 +32,9 @@ public class AuthFilter implements Filter {
 		// check whether session variable is set
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession ses = req.getSession(false);
+
 		try {
-			HttpSession ses = req.getSession(false);
 			// allow user to proccede if url is login.xhtml or user logged in or
 			// user is accessing any page in //public folder
 			String reqURI = req.getRequestURI();
@@ -50,6 +51,7 @@ public class AuthFilter implements Filter {
 																			// page
 		} catch (Throwable t) {
 			System.out.println(t.getMessage());
+			ses.putValue("errorDetails", t.toString());
 			res.sendRedirect(req.getContextPath() + "/error.xhtml");
 		}
 	} // doFilter

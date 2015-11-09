@@ -58,7 +58,7 @@ public class StudentFilterView implements Serializable {
 	private static Font smallBold = new Font(Font.HELVETICA, 12, Font.BOLD);
 	private static Font subFont = new Font(Font.HELVETICA, 14, Font.NORMAL);
 	private static Font smallestItalic = new Font(Font.HELVETICA, 10, Font.ITALIC);
-	
+
 	private static Collection<String> classnames;
 	private static Connection conn;
 	private static String FILE = "FirstPdf.pdf";
@@ -138,11 +138,13 @@ public class StudentFilterView implements Serializable {
 		attachment.setDescription("fee recipt");
 		attachment.setName("fee.pdf");
 
+		SystemSettingsBean sys = new SystemSettingsBean();
+
 		// Create the email message
 		HtmlEmail email = new HtmlEmail();
-		email.setHostName("smtp.gmail.com");
-		email.setSmtpPort(465);
-		email.setAuthenticator(new DefaultAuthenticator("sreedhar.ganduri@gmail.com", "Dhar@1234"));
+		email.setHostName(sys.getSystemSettings().getEmailhostname());
+		email.setSmtpPort(Integer.parseInt(sys.getSystemSettings().getSmtpport()));
+		email.setAuthenticator(new DefaultAuthenticator(sys.getSystemSettings().getEmail(), sys.getSystemSettings().getPassword()));
 		email.setSSLOnConnect(true);
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(FILE);
@@ -236,43 +238,50 @@ public class StudentFilterView implements Serializable {
 			center.add(new Chunk(chequeDetails, subFont));
 			addEmptyLine(center, 4);
 			document.add(center);
-			
+
 			Paragraph footer = new Paragraph();
 			footer.setAlignment(Element.ALIGN_CENTER);
 			footer.setIndentationLeft(20);
 			footer.setIndentationRight(20);
-			footer.add(new Chunk("Please Note : This is a system generated receipt and does not require a signature.", smallestItalic));
+			footer.add(new Chunk("Please Note : This is a system generated receipt and does not require a signature.",
+					smallestItalic));
 			document.add(footer);
-			
+
 			PdfContentByte canvas = writer.getDirectContent();
-	        Rectangle rect = new Rectangle(36, 36, 559, 806);
-	        rect.setBorder(Rectangle.BOX);
-	        rect.setBorderWidth(1);
-	        canvas.rectangle(rect);
-	        
-			//document.newPage();
+			Rectangle rect = new Rectangle(36, 36, 559, 806);
+			rect.setBorder(Rectangle.BOX);
+			rect.setBorderWidth(1);
+			canvas.rectangle(rect);
+
+			// document.newPage();
 			document.close();
 
 			setFile(new DefaultStreamedContent(new FileInputStream(new File(FILE)), "application/pdf"));
 
-			email.addTo("sreedharganduri@gmail.com");
+			email.addTo(selectedStudent.getEmail());
 			email.setFrom("chaitanyavidyalaya@gmail.com", "Mail from Chaitanya Vidyalaya");
-			email.setSubject("The picture");
-			email.setMsg("Here is the picture you wanted");
+			email.setSubject("Fee Receipt of "+selectedStudent.getFullname());
+			email.setMsg("Please find the fee receipt attached.");
 
-			email.setHtmlMsg("attached pdf");
+			email.setHtmlMsg("Please find the fee receipt attached.");
 			email.attach(attachment);
-			// email.send();
+			email.send();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Email sent succesfully to " + selectedStudent.getEmail(), ""));
 		} catch (EmailException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
 			e.printStackTrace();
 		} catch (DocumentException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
 			e.printStackTrace();
 		} catch (IOException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
 			e.printStackTrace();
 		}
 	}

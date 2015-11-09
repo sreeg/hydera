@@ -1,13 +1,13 @@
 package com.sree.school.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpSession;
 
+import com.sree.school.DBConnection;
 import com.sree.school.Util;
 
 public class UserDAO {
@@ -16,9 +16,7 @@ public class UserDAO {
 	public static String login(String user, String password) throws SQLException {
 		PreparedStatement ps = null;
 		try {
-
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/school", "root", "sreedhar");
+			conn = DBConnection.getConnection();
 			ps = conn.prepareStatement(
 					"select username, password, staffid, lastlogindatetime from userinfo where username= ? and password= ? ");
 			ps.setString(1, user);
@@ -26,7 +24,6 @@ public class UserDAO {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) // found
 			{
-
 				HttpSession session = Util.getSession();
 				session.setAttribute("username", rs.getString("username"));
 				session.setAttribute("staffid", rs.getString("staffid"));
@@ -41,7 +38,7 @@ public class UserDAO {
 			ps = conn.prepareStatement(
 					"update userinfo set lastlogindatetime = now() where username= "+ "'" + user + "'");
 			ps.executeUpdate();
-			conn.close();
+			//conn.close();
 		}
 	}
 }

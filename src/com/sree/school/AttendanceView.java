@@ -73,7 +73,7 @@ public class AttendanceView implements Serializable {
 		monthMap.put("March", "March");
 		monthMap.put("April", "April");
 		monthMap.put("May", "May");
-		monthMap.put("May", "June");
+		monthMap.put("June", "June");
 		monthMap.put("July", "July");
 		monthMap.put("August", "August");
 		monthMap.put("September", "September");
@@ -89,7 +89,7 @@ public class AttendanceView implements Serializable {
 		monthDaysMap.put("March", 31);
 		monthDaysMap.put("April", 30);
 		monthDaysMap.put("May", 31);
-		monthDaysMap.put("May", 30);
+		monthDaysMap.put("June", 30);
 		monthDaysMap.put("July", 31);
 		monthDaysMap.put("August", 31);
 		monthDaysMap.put("September", 30);
@@ -157,6 +157,7 @@ public class AttendanceView implements Serializable {
 			at.setMonth(month);
 			String year = rs.getString("year");
 			at.setYear(year);
+			if(month.equals(currentMonth))
 			attendance.add(at);
 
 			if (year != null)

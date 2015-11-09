@@ -286,16 +286,16 @@ public class PaySlipView implements Serializable {
 
 					if (rs == 1) {
 						msg = new FacesMessage("Payslips generated successfully", "");
+						FacesContext.getCurrentInstance().addMessage(null, msg);
 					} else {
 						msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
+						FacesContext.getCurrentInstance().addMessage(null, msg);
 					}
 				}
 			} catch (SQLException e) {
 				msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
 						"Please contant your system administrator.");
 				e.printStackTrace();
-			} finally {
-
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		}

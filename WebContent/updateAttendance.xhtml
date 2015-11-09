@@ -94,11 +94,11 @@
 													value="Update #{attendanceView.daysinselectedmonth} days for all staff"
 													actionListener="#{attendanceView.prefill}" validateClient="true" update="staffs" />
 											</p>
-											<p:dataTable id="staffs" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}"
+											<p:dataTable id="staffs" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}" 
 												widgetVar="staffsTable" emptyMessage="No staff found" styleClass="attendanceTable">
 												<p:ajax event="cellEdit" listener="#{attendanceView.onCellEdit}" />
 												<p:column headerText="Name">
-													<h:outputText value="#{st.firstname} #{st.lastname}" />
+													<h:outputText value="#{st.fullname}" />
 												</p:column>
 												<p:column headerText="Category">
 													<h:outputText value="#{st.categoryName}" />

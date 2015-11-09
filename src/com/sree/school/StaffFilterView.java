@@ -31,6 +31,7 @@ public class StaffFilterView implements Serializable {
 		category.put("Domestic", "2");
 		category.put("Part Time", "3");
 	}
+
 	public static void setCategory(LinkedHashMap<String, String> category) {
 		StaffFilterView.category = category;
 	}
@@ -59,6 +60,7 @@ public class StaffFilterView implements Serializable {
 	private List<Staff> staffsPermenant;
 
 	private List<Staff> staffsTemporary;
+
 
 	public StaffFilterView() throws ClassNotFoundException, SQLException {
 		staffsPermenant = new ArrayList<>();
@@ -145,7 +147,7 @@ public class StaffFilterView implements Serializable {
 		try {
 			java.sql.Connection conn = DBConnection.getConnection();
 			rs = conn.createStatement().executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-					+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
+					+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, modeofpayment,"
 					+ "pfamount, loanamount from salary where employeeid = " + "'" + selectedStaffIdByCategory2 + "'");
 			if (rs.next()) {
 				st.setEmployeeid(rs.getString("employeeid"));
@@ -160,21 +162,20 @@ public class StaffFilterView implements Serializable {
 				st.setOtherdeduction(rs.getDouble("otherdeduction"));
 				st.setPfamount(rs.getDouble("pfamount"));
 				st.setLoanamount(rs.getDouble("loanamount"));
-
+				st.setModeofpayment(rs.getString("modeofpayment"));
+				
 				FacesContext context = FacesContext.getCurrentInstance();
 				SalaryBean bean = context.getApplication().evaluateExpressionGet(context, "#{salaryBean}", SalaryBean.class);
 				
 				bean.setSalary(st);
+				bean.setSelectedmodeofpayment(rs.getString("modeofpayment"));
 				bean.setAlreadyPresent(true);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public String getSelectedCategoryId() {
@@ -385,5 +386,4 @@ public class StaffFilterView implements Serializable {
 	public void viewMyProfile() {
 		RequestContext.getCurrentInstance().openDialog("showmyprofile");
 	}
-
 }

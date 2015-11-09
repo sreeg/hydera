@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -24,7 +25,8 @@ public class SalaryBean implements Serializable {
 	private Salary salary = new Salary();
 	private boolean showForm = true;
 	private boolean alreadyPresent = false;
-
+	private static LinkedHashMap<String, String> modeofpayment;
+	private String selectedmodeofpayment;
 	PreparedStatement ps = null;
 
 	public Salary getSalary() {
@@ -40,6 +42,12 @@ public class SalaryBean implements Serializable {
 		this.salary.setLoanamount(Double.parseDouble("0"));
 	}
 
+	static {
+		modeofpayment = new LinkedHashMap<String, String>();
+		modeofpayment.put("Cash", "1");
+		modeofpayment.put("Cheque", "2");
+		modeofpayment.put("Online", "3");
+	}
 	public void save() {
 		FacesMessage msg = null;
 		int i = 0;
@@ -66,8 +74,8 @@ public class SalaryBean implements Serializable {
 			try {
 				ps = conn.prepareStatement("INSERT INTO SALARY (employeeid, basicsalary, fixedda, hra, conveyanceall,"
 						+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
-						+ "pfamount, loanamount, createdatetime, updatedatetime)"
-						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
+						+ "pfamount, loanamount, createdatetime, updatedatetime, modeofpayment) "
+						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?, now(), now(), ?)");
 
 				ps.setString(1, salary.getEmployeeid());
 				ps.setDouble(2, salary.getBasicsalary());
@@ -81,7 +89,8 @@ public class SalaryBean implements Serializable {
 				ps.setDouble(10, salary.getOtherdeduction());
 				ps.setDouble(11, salary.getPfamount());
 				ps.setDouble(12, salary.getLoanamount());
-
+				ps.setString(13, selectedmodeofpayment);
+				
 				int rs = ps.executeUpdate();
 
 				if (rs == 1) {
@@ -108,7 +117,7 @@ public class SalaryBean implements Serializable {
 			conn = DBConnection.getConnection();
 			ps = conn.prepareStatement("UPDATE SALARY set basicsalary = ?, fixedda = ?, hra = ?, conveyanceall = ?,"
 					+ "pfno = ?, sbacno = ?, pfrate = ?, proftaxdeduction = ?, otherdeduction = ?,"
-					+ "pfamount = ?, loanamount = ?, updatedatetime = now() where employeeid = ?");
+					+ "pfamount = ?, loanamount = ?, modeofpayment = ?, updatedatetime = now() where employeeid = ?");
 
 			ps.setDouble(1, salary.getBasicsalary());
 			ps.setDouble(2, salary.getFixedda());
@@ -119,10 +128,12 @@ public class SalaryBean implements Serializable {
 			ps.setDouble(7, salary.getPfrate());
 			ps.setDouble(8, salary.getProftaxdeduction());
 			ps.setDouble(9, salary.getOtherdeduction());
-			ps.setDouble(10, salary.getPfamount());
+			ps.setDouble(10, ((salary.getBasicsalary() + salary.getFixedda()) *salary.getPfrate())/100d);
 			ps.setDouble(11, salary.getLoanamount());
-			ps.setString(12, salary.getEmployeeid());
-
+			ps.setString(12, selectedmodeofpayment);
+			ps.setString(13, salary.getEmployeeid());
+			
+			
 			int rs = ps.executeUpdate();
 
 			if (rs == 1) {
@@ -131,17 +142,18 @@ public class SalaryBean implements Serializable {
 			} else {
 				msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
 			}
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (ClassNotFoundException e) {
 			msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
 					"Please contant your system administrator.");
 			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (SQLException e) {
 			msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
 					"Please contant your system administrator.");
 			e.printStackTrace();
-		} finally {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
+		} 
 
 	}
 
@@ -159,6 +171,18 @@ public class SalaryBean implements Serializable {
 
 	public void setAlreadyPresent(boolean alreadyPresent) {
 		this.alreadyPresent = alreadyPresent;
+	}
+
+	public LinkedHashMap<String, String> getModeofpayment() {
+		return modeofpayment;
+	}
+	
+	public String getSelectedmodeofpayment() {
+		return selectedmodeofpayment;
+	}
+
+	public void setSelectedmodeofpayment(String selectedmodeofpayment) {
+		this.selectedmodeofpayment = selectedmodeofpayment;
 	}
 
 }

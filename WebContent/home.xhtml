@@ -70,7 +70,7 @@
 					<!-- /.row -->
 					<div class="row">
 
-						<div class="col-lg-8">
+						<div class="#{(systemSettingsBean.systemSettings.showwidget1 == 'false' and systemSettingsBean.systemSettings.showwidget2 == 'false') ?  'col-lg-12' : 'col-lg-8'}">
 							<ol class="breadcrumb">
 								<li class="active"><i class="fa fa-dashboard fa-2x margin5"></i>Your Dashboard, last login on #{loginBean.lastlogindatettime}</li>
 							</ol>
@@ -213,7 +213,7 @@
 						</div>
 						<div class="col-lg-4">
 							<div class="layoutSecondary">
-								<p:panel id="Widgets" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px;">
+								<p:panel id="Widgets" rendered="#{systemSettingsBean.systemSettings.showwidget1 == 'true'}" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px;">
 									<f:facet name="header">
 									Simple Clock - <p:clock pattern="hh:mm:ss aa" />
 									</f:facet>
@@ -221,7 +221,7 @@
 										<pe:analogClock width="300" colorTheme="#{analogClock.customTheme}" />
 									</div>
 								</p:panel>
-								<p:panel widgetVar="WidgetCalc" collapsed="true" id="WidgetCalc" header="Calculator" toggleable="true"
+								<p:panel widgetVar="WidgetCalc" rendered="#{systemSettingsBean.systemSettings.showwidget2 == 'true'}" collapsed="#{systemSettingsBean.systemSettings.showwidget2 == 'false'}" id="WidgetCalc" header="Calculator" toggleable="true"
 									toggleSpeed="500" closeSpeed="500">
 									<div id="idCalculadora"></div>
 								</p:panel>

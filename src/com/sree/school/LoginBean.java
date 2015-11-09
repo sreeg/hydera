@@ -45,6 +45,7 @@ public class LoginBean {
 			setUname(Util.getUserName());
 			setStaffid(Util.getStaffid());
 			setLastlogindatettime(Util.getLastLoginDateTime());
+			
 			return "home";
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,

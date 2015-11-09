@@ -44,7 +44,7 @@
 										<h:outputText value="Profile" />
 									</p:commandLink></li>
 
-								<li><a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a></li>
+								<li><a href="settings.xhtml"><i class="fa fa-fw fa-gear"></i> Settings</a></li>
 								<li class="divider"></li>
 								<li><p:commandLink id="nonAjax" actionListener="#{loginBean.logout}" ajax="false">
 										<i class="fa fa-fw fa-power-off"></i>
@@ -96,7 +96,7 @@
 							<li class="#{page == 'showallstudents' ? 'active' : ''}"><a href="showallstudents.xhtml">Get Student
 									Details</a></li>
 							<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Get
-									Student Fee Details</a></li>
+									Student Fee Status</a></li>
 							<li class="#{page == 'showstaff' ? 'active' : ''}"><a href="staffinfo.xhtml">Get Staff Details</a></li>
 							<li class="#{page == 'showstaffsalary' ? 'active' : ''}"><a href="staffSalaryInfo.xhtml">Get Staff
 									Salary Details</a></li>

@@ -3,7 +3,7 @@ package com.sree.school;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-public class Salary  implements Serializable{
+public class Salary implements Serializable {
 
 	/**
 	 * 
@@ -28,14 +28,15 @@ public class Salary  implements Serializable{
 	private Double totaldeductions;
 	private Double netsalary;
 	private double factor = 1.0f;
-	
+	private String modeofpayment;
+
 	static {
 		categoryInverse = new LinkedHashMap<String, String>();
-		categoryInverse.put("1","Permanent");
-		categoryInverse.put("2","Domestic");
-		categoryInverse.put("3","Part Time");
+		categoryInverse.put("1", "Permanent");
+		categoryInverse.put("2", "Domestic");
+		categoryInverse.put("3", "Part Time");
 	}
-	
+
 	public Double getHra() {
 		return hra;
 	}
@@ -93,7 +94,11 @@ public class Salary  implements Serializable{
 	}
 
 	public Double getPfamount() {
-		return pfamount;
+		if (pfrate == null || pfrate == 0) {
+			return 0d;
+		} else {
+			return ((basicsalary + fixedda) * pfrate)/100d;
+		}
 	}
 
 	public void setPfamount(Double pfamount) {
@@ -181,5 +186,13 @@ public class Salary  implements Serializable{
 
 	public void setFactor(double factor) {
 		this.factor = factor;
+	}
+
+	public String getModeofpayment() {
+		return modeofpayment;
+	}
+
+	public void setModeofpayment(String modeofpayment) {
+		this.modeofpayment = modeofpayment;
 	}
 }

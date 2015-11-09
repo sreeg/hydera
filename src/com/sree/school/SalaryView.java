@@ -60,7 +60,7 @@ public class SalaryView implements Serializable {
 			conn = DBConnection.getConnection();
 			ResultSet rs = conn.createStatement()
 					.executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,staff.firstname, staff.lastname,staff.categoryid,"
+							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, modeofpayment, staff.firstname, staff.lastname,staff.categoryid,"
 							+ "pfamount, loanamount from salary INNER JOIN staff ON salary.employeeid=staff.Id");
 			totalBasicSalary =0;
 			while (rs.next()) {
@@ -79,7 +79,8 @@ public class SalaryView implements Serializable {
 				st.setCategoryname(rs.getString("staff.categoryid"));
 				st.setPfamount(rs.getDouble("pfamount"));
 				st.setLoanamount(rs.getDouble("loanamount"));
-
+				st.setModeofpayment(rs.getString("modeofpayment"));
+				
 				students.add(st);
 				totalBasicSalary += st.getBasicsalary(); 
 				totalFixedDA+= st.getFixedda();
