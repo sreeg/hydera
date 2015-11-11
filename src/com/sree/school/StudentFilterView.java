@@ -26,6 +26,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
@@ -84,9 +85,10 @@ public class StudentFilterView implements Serializable {
 	private StreamedContent file;
 	private List<Student> filteredStudents;
 	private Student selectedStudent;
-
+	private List<Student> selectedStudents;
+	private int noofselecteditems = 0;
 	private String selectedStudentId;
-
+	private List<String> selectedStudentIds;
 	@ManagedProperty("#{studentService}")
 	private StudentService service;
 
@@ -95,6 +97,7 @@ public class StudentFilterView implements Serializable {
 	private boolean showPrintButton;
 
 	private StudentFee studentfee;
+	private List<StudentFee> studentfees;
 
 	private boolean studentfound;
 
@@ -125,6 +128,175 @@ public class StudentFilterView implements Serializable {
 		return filteredStudents;
 	}
 
+	public void emailfees() {
+		
+		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
+				.getContext();
+		String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"
+				+ File.separator + "logo.gif";
+		// Create the attachment
+		EmailAttachment attachment = new EmailAttachment();
+		attachment.setPath(FILE);
+		attachment.setDisposition(EmailAttachment.ATTACHMENT);
+		attachment.setDescription("fee recipt");
+		attachment.setName("fee.pdf");
+
+		SystemSettingsBean sys = new SystemSettingsBean();
+
+		// Create the email message
+		String emailhostname = sys.getSystemSettings().getEmailhostname();
+		int smtpPort = Integer.parseInt(sys.getSystemSettings().getSmtpport());
+		DefaultAuthenticator defaultAuthenticator = new DefaultAuthenticator(sys.getSystemSettings().getEmail(), sys.getSystemSettings().getPassword());
+		
+		try {
+			for(StudentFee sf : studentfees)
+			{
+			FileOutputStream fileOutputStream = new FileOutputStream(FILE);
+			Document document = new Document();
+			PdfWriter writer = PdfWriter.getInstance(document, fileOutputStream);
+			document.open();
+			document.addTitle("Fee receipt");
+			document.addSubject("Chaitanya Vidyalaya");
+			document.addAuthor("Chaitanya Vidyalaya");
+			document.addCreator("Chaitanya Vidyalaya");
+
+			Paragraph header = new Paragraph();
+			header.setAlignment(Element.ALIGN_CENTER);
+			header.setIndentationLeft(20);
+			header.setIndentationRight(20);
+			header.add(Image.getInstance(logo));
+			addEmptyLine(header, 2);
+
+			Paragraph paragraph = new Paragraph();
+			paragraph.setAlignment(Element.ALIGN_CENTER);
+			paragraph.setFont(underline18);
+			paragraph.add(new Chunk("Fee Receipt :"));
+			header.add(paragraph);
+
+			addEmptyLine(header, 1);
+			String headerString = "Payment of " + sf.getAmountPaid()
+					+ "  has been received as part of term payment ";
+			if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null
+					&& sf.getTerm3paiddate() != null) {
+				headerString += "1, 2 and 3 from ";
+			} else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null
+					&& sf.getTerm3paiddate() == null) {
+				headerString += "1 and 2 from ";
+			} else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() == null
+					&& sf.getTerm3paiddate() == null) {
+				headerString += "1 from ";
+			}
+
+			Paragraph paragraph2 = new Paragraph(headerString, subFont);
+			paragraph2.setAlignment(Element.ALIGN_CENTER);
+			header.add(paragraph2);
+			addEmptyLine(header, 1);
+			document.add(header);
+
+			Paragraph center = new Paragraph();
+			center.setAlignment(Element.ALIGN_JUSTIFIED);
+			center.setIndentationLeft(50);
+			center.setIndentationRight(50);
+			center.add(new Chunk("Student Name \t\t\t", smallBold));
+			center.add(new Chunk(sf.getFullname(), subFont));
+			addEmptyLine(center, 1);
+			center.add(new Chunk("Class Name \t\t\t", smallBold));
+			center.add(new Chunk(sf.getClassname(), subFont));
+			addEmptyLine(center, 1);
+			center.add(new Chunk("Section Name \t\t\t", smallBold));
+			center.add(new Chunk(sf.getSectionname(), subFont));
+			addEmptyLine(center, 1);
+
+			String dateOfReceipt = "Payment of " + sf.getAmountPaid()
+					+ "  has been received as part of term payment ";
+			if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null
+					&& sf.getTerm3paiddate() != null) {
+				dateOfReceipt = sf.getTerm1paiddate() + ", " + sf.getTerm2paiddate() + ", "
+						+ sf.getTerm3paiddate();
+			} else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null
+					&& sf.getTerm3paiddate() == null) {
+				dateOfReceipt = sf.getTerm1paiddate() + ", " + sf.getTerm2paiddate();
+			} else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() == null
+					&& sf.getTerm3paiddate() == null) {
+				dateOfReceipt = sf.getTerm1paiddate() + "";
+			}
+
+			center.add(new Chunk("Date of receipt \t\t\t", smallBold));
+			center.add(new Chunk(dateOfReceipt, subFont));
+			addEmptyLine(center, 1);
+
+			String chequeDetails = "Payment of " + sf.getAmountPaid()
+					+ "  has been received as part of term payment ";
+			if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null
+					&& sf.getTerm3paiddate() != null) {
+				chequeDetails = sf.getTerm1cheque() + ", " + sf.getTerm2cheque() + ", "
+						+ sf.getTerm3cheque();
+			} else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null
+					&& sf.getTerm3paiddate() == null) {
+				chequeDetails = sf.getTerm1cheque() + ", " + sf.getTerm2cheque();
+			} else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() == null
+					&& sf.getTerm3paiddate() == null) {
+				chequeDetails = sf.getTerm1cheque() + "";
+			}
+
+			center.add(new Chunk("Cheque details \t\t\t", smallBold));
+			center.add(new Chunk(chequeDetails, subFont));
+			addEmptyLine(center, 4);
+			document.add(center);
+
+			Paragraph footer = new Paragraph();
+			footer.setAlignment(Element.ALIGN_CENTER);
+			footer.setIndentationLeft(20);
+			footer.setIndentationRight(20);
+			footer.add(new Chunk("Please Note : This is a system generated receipt and does not require a signature.",
+					smallestItalic));
+			document.add(footer);
+
+			PdfContentByte canvas = writer.getDirectContent();
+			Rectangle rect = new Rectangle(36, 36, 559, 806);
+			rect.setBorder(Rectangle.BOX);
+			rect.setBorderWidth(1);
+			canvas.rectangle(rect);
+
+			// document.newPage();
+			document.close();
+
+			setFile(new DefaultStreamedContent(new FileInputStream(new File(FILE)), "application/pdf"));
+			HtmlEmail email = new HtmlEmail();
+			email.setHostName(emailhostname);
+			email.setSmtpPort(smtpPort);
+			email.setAuthenticator(defaultAuthenticator);
+			email.setSSLOnConnect(true);
+			email.addTo(sf.getEmail());
+			email.setFrom("chaitanyavidyalaya@gmail.com", "Mail from Chaitanya Vidyalaya");
+			email.setSubject("Fee Receipt of " + sf.getFullname());
+			email.setMsg("Please find the fee receipt attached.");
+
+			email.setHtmlMsg("Please find the fee receipt attached.");
+			email.attach(attachment);
+			email.send();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Email sent succesfully to " + sf.getEmail(), ""));
+			}
+
+		} catch (EmailException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+			e.printStackTrace();
+		} catch (IOException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+			e.printStackTrace();
+		}
+	}
+	
 	public void emailFeeReceipt() {
 		Document document = new Document();
 		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
@@ -144,7 +316,8 @@ public class StudentFilterView implements Serializable {
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName(sys.getSystemSettings().getEmailhostname());
 		email.setSmtpPort(Integer.parseInt(sys.getSystemSettings().getSmtpport()));
-		email.setAuthenticator(new DefaultAuthenticator(sys.getSystemSettings().getEmail(), sys.getSystemSettings().getPassword()));
+		email.setAuthenticator(
+				new DefaultAuthenticator(sys.getSystemSettings().getEmail(), sys.getSystemSettings().getPassword()));
 		email.setSSLOnConnect(true);
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(FILE);
@@ -260,7 +433,7 @@ public class StudentFilterView implements Serializable {
 
 			email.addTo(selectedStudent.getEmail());
 			email.setFrom("chaitanyavidyalaya@gmail.com", "Mail from Chaitanya Vidyalaya");
-			email.setSubject("Fee Receipt of "+selectedStudent.getFullname());
+			email.setSubject("Fee Receipt of " + selectedStudent.getFullname());
 			email.setMsg("Please find the fee receipt attached.");
 
 			email.setHtmlMsg("Please find the fee receipt attached.");
@@ -337,8 +510,9 @@ public class StudentFilterView implements Serializable {
 			st.setStreet(rs.getString("street"));
 			st.setCity(rs.getString("city"));
 			st.setPostalCode(rs.getString("postalcode"));
-
+			
 			students.add(st);
+			
 			studentMap.put(rs.getString("Id"), st);
 		}
 		return students;
@@ -408,6 +582,66 @@ public class StudentFilterView implements Serializable {
 		}
 
 		return studentfee;
+	}
+
+	private List<StudentFee> getStudentFees(String parameters) {
+		try {
+
+			conn = DBConnection.getConnection();
+			PreparedStatement ps = conn
+					.prepareStatement("select studentid, term1paymentamount, term2paymentamount, term3paymentamount, "
+							+ "term1paiddate, term2paiddate, term3paiddate, term1cheque, term2cheque, term3cheque "
+							+ "from feepayment where studentid in (" + parameters + ") ");
+			ResultSet rs = ps.executeQuery();
+
+			studentfees = new ArrayList<>();
+			while (rs.next()) {
+				StudentFee sf = new StudentFee();
+				sf.setEmployeeid(rs.getString("studentid"));
+				sf.setTerm1amount(rs.getDouble("term1paymentamount"));
+				sf.setTerm2amount(rs.getDouble("term2paymentamount"));
+				sf.setTerm3amount(rs.getDouble("term3paymentamount"));
+				sf.setTerm1paiddate(rs.getDate("term1paiddate"));
+				sf.setTerm2paiddate(rs.getDate("term2paiddate"));
+				sf.setTerm3paiddate(rs.getDate("term3paiddate"));
+				sf.setTerm1cheque(rs.getString("term1cheque"));
+				sf.setTerm2cheque(rs.getString("term2cheque"));
+				sf.setTerm3cheque(rs.getString("term3cheque"));
+
+				sf.setTerm1(false);
+				sf.setTerm2(false);
+				sf.setTerm3(false);
+
+				sf.setAmountPaid(sf.getTerm1amount() + sf.getTerm2amount() + sf.getTerm3amount());
+				Student student = studentMap.get(sf.getEmployeeid());
+				sf.setFirstname(student.getFirstname());
+				sf.setLastname(student.getLastname());
+				sf.setClassname(student.getClassname());
+				sf.setSectionname(student.getSectionname());
+				sf.setEmail(student.getEmail());
+				
+				studentfees.add(sf);
+			}
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
+		return studentfees;
+	}
+
+	public void generatefees() {
+		String p = "";
+		selectedStudentIds = new ArrayList<>();
+		int size = selectedStudents.size();
+		for (int i = 0; i < size; i++) {
+			selectedStudentIds.add(selectedStudents.get(i).getId());
+			p = p + "'" + selectedStudents.get(i).getId() + "'";
+			if (i != size - 1) {
+				p = p + ", ";
+			}
+		}
+		getStudentFees(p);
 	}
 
 	public Map<String, Student> getStudentMap() {
@@ -636,5 +870,41 @@ public class StudentFilterView implements Serializable {
 
 	public void setStudentsWithFee(List<Student> studentsWithFee) {
 		this.studentsWithFee = studentsWithFee;
+	}
+
+	public List<Student> getSelectedStudents() {
+		return selectedStudents;
+	}
+
+	public void setSelectedStudents(List<Student> selectedStudents) {
+		this.selectedStudents = selectedStudents;
+	}
+
+	public int getNoofselecteditems() {
+		if (selectedStudents == null || selectedStudents.isEmpty()) {
+			return 0;
+		} else {
+			return selectedStudents.size();
+		}
+	}
+
+	public void setNoofselecteditems(int noofselecteditems) {
+		this.noofselecteditems = noofselecteditems;
+	}
+
+	public List<StudentFee> getStudentfees() {
+		return studentfees;
+	}
+
+	public void setStudentfees(List<StudentFee> studentfees) {
+		this.studentfees = studentfees;
+	}
+
+	public List<String> getSelectedStudentIds() {
+		return selectedStudentIds;
+	}
+
+	public void setSelectedStudentIds(List<String> selectedStudentIds) {
+		this.selectedStudentIds = selectedStudentIds;
 	}
 }

@@ -414,3 +414,7 @@ tfoot {
 	background: #969696;
 	color: #FFF;
 }
+
+.ui-state-highlight .ui-icon {
+    background-image: url("/School/javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap");
+}

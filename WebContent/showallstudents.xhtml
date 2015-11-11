@@ -54,10 +54,8 @@
 
 							<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
 								emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
-								rows="25" paginator="true" paginatorPosition="bottom" selectionMode="single"
 								selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}"
-								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
-								rowsPerPageTemplate="25,40, 50">
+								paginatorTemplate="{Exporters}">
 								<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
 								
 								<f:facet name="header">
@@ -88,7 +86,7 @@
 										<p:dataExporter type="xls" target="allStudents" fileName="Students" />
 									</h:commandLink>
 								</f:facet>
-								
+								<p:column selectionMode="multiple" style="width:32px;text-align:center"/>
 								<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
 									<h:outputText value="#{st.firstname} #{st.lastname}" />
 								</p:column>

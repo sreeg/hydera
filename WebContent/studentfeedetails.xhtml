@@ -24,6 +24,18 @@
     <![endif]-->
 
 	<link type="text/css" rel="stylesheet" href="css/base.css" />
+
+	<style type="text/css" media="print">
+.feepaymenttable>.ui-datatable-header {
+	display: none;
+}
+.feepaymenttable .true, .paidrow {
+display:none;
+}
+body {
+	margin-top: 0px !important;
+}
+</style>
 </h:head>
 
 <body>
@@ -53,16 +65,23 @@
 						<div class="col-lg-8">
 
 							<p:dataTable id="allStudents" var="st" value="#{studentFeeFilterView.students}" widgetVar="studentsTable"
-								emptyMessage="No students found with given criteria" filteredValue="#{studentFeeFilterView.filteredStudents}"
-								selectionMode="single" selection="#{studentFeeFilterView.selectedStudent}" rowKey="#{st.id}">
+								styleClass="feepaymenttable" emptyMessage="No students found with given criteria"
+								filteredValue="#{studentFeeFilterView.filteredStudents}" selectionMode="single"
+								rowStyleClass="#{(not empty st.term1paiddate and not empty st.term2paiddate and not empty st.term3paiddate) ? 'paidrow' : null}"
+								selection="#{studentFeeFilterView.selectedStudent}" rowKey="#{st.id}">
 								<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
 
 								<f:facet name="header">
 									<p:outputPanel>
-										<div class="form-group marginTop20" style="display: inline-block; width: 100%;">
+										<div class="form-group marginTop20 hidden-print" style="display: inline-block; width: 100%;padding-right:150px;">
 											<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
 												placeholder="To search enter a keyword" />
 										</div>
+										<div class="form-group marginTop20"
+											style="display: inline-block; float: right;margin-top: -45px;margin-right: 10px;min-height: 30px;font-weight: 100;">
+											<p:commandButton styleClass="" onclick="window.print();" value="Print" style="float:right"
+												icon="fa fa-print" />
+										</div>										
 									</p:outputPanel>
 								</f:facet>
 
@@ -72,18 +91,26 @@
 
 								<p:column filterBy="#{st.classname}" headerText="">
 									<f:facet name="filter">
-										<h:selectOneMenu onchange="tooltip(),PF('studentsTable').filter()">
+										<h:selectOneMenu styleClass="hidden-print" onchange="tooltip(),PF('studentsTable').filter()">
 											<f:selectItem itemLabel="Classes - All" itemValue="#{null}" noSelectionOption="true" />
 											<f:selectItems value="#{studentFeeFilterView.classnames}" />
 										</h:selectOneMenu>
 									</f:facet>
+								<f:facet name="header">
+									<h:outputText styleClass="visible-print-inline-block" value="Class Name" />
+									<h:outputText styleClass="hidden-print" value="" />
+								</f:facet>									
 									<h:outputText value="#{st.classname} - #{st.sectionname}" />
 								</p:column>
 
 								<p:column style="display:none" filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone number">
 									<h:outputText value="#{st.phone}, #{st.mobile} " />
 								</p:column>
-								<p:column styleClass="centered" filterStyle="display:none" filterBy="#{st.email}" headerText="Fee Payment">
+								<p:column styleClass="centered" filterStyle="display:none" filterBy="#{st.email}" headerText="Term wise payment">
+								<f:facet name="header">
+									<h:outputText styleClass="visible-print-inline-block" value="Payment due for term" />
+									<h:outputText styleClass="hidden-print" value="Term wise payment" />
+								</f:facet>
 									<div class="rounded #{not empty st.term1paiddate ? 'true' : 'false'} inlineBlock" data-toggle="tooltip"
 										data-placement="bottom"
 										title="#{not empty st.term1paiddate ? 'Paid &#8377; '.concat(st.term1amount).concat(' on ').concat(st.term1paiddate) : 'Not Paid'}">1</div>
