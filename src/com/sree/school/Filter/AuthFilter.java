@@ -51,7 +51,7 @@ public class AuthFilter implements Filter {
 																			// page
 		} catch (Throwable t) {
 			System.out.println(t.getMessage());
-			ses.putValue("errorDetails", t.toString());
+			ses.putValue("errorDetails", t.toString().trim());
 			res.sendRedirect(req.getContextPath() + "/error.xhtml");
 		}
 	} // doFilter

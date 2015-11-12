@@ -113,7 +113,7 @@
 					</div>
 					<p:messages styleClass="hidden-print" id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
-					<p:outputPanel id="payslipPanel">
+					<p:outputPanel id="payslipPanel" styleClass="paySlipOutputPanel">
 						<p:outputPanel id="payslipPanelInner" rendered="#{payslipView.showForm}">
 
 							<p:dataGrid var="ps" value="#{payslipView.payslips}" id="payslips" columns="1" layout="grid">
@@ -283,7 +283,13 @@
 		<!-- /#wrapper -->
 		<!-- Bootstrap Core JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
-
+		<script>
+		$(document).ready()
+		{
+			var h;
+			h = $(".paySlipOutputPanel").html();
+		}
+		</script>
 	</h:form>
 </body>
 </html>

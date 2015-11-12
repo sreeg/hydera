@@ -90,13 +90,13 @@
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="Conveyance" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Conveyance" footerText="#{salaryView.totalConveyanceAll}">
 									<h:outputText value="#{st.conveyanceall}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="Gross" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Gross" footerText="#{salaryView.totalGross}">
 									<h:outputText value="#{st.grosssalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
@@ -123,12 +123,12 @@
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
-								<p:column headerText="Total Deductions" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Total Deductions" footerText="#{salaryView.totalDeductions}">
 									<h:outputText value="#{st.totaldeductions}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
-								<p:column headerText="Net Salary" footerText="#{salaryView.totalBasicSalary}">
+								<p:column headerText="Net Salary" footerText="#{salaryView.totalNetSalary}">
 									<h:outputText style="font-weight:600;" value="#{st.netsalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>

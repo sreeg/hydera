@@ -283,11 +283,11 @@ body {
 							<div class="panel panel-default hidden-print">
 								<p:outputPanel id="topwell">
 									<div class="panel-body form-group">
-										<h:outputText value="#{studentFilterView.noofselecteditems} selected" />
+										<h:outputText value="#{studentFilterView.noofselecteditems} students selected." />
 										<p:commandButton styleClass="marginLeft20 inlineBlock" value="Print Receipts" validateClient="true"
 											actionListener="#{studentFilterView.generatefees}" icon="fa fa-print" oncomplete="window.print();"
 											update="form:tabs:payslips" />
-										<p:commandButton styleClass="marginLeft20 inlineBlock" value="Email Receipts" validateClient="true"
+										<p:commandButton styleClass="marginLeft20 inlineBlock" value="Email Receipts" validateClient="true" 
 											actionListener="#{studentFilterView.emailfees}" update="form:tabs:messagesm" icon="fa fa-envelope-o" />
 									</div>
 								</p:outputPanel>

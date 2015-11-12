@@ -64,9 +64,9 @@
 					<li><a href="javascript:;" data-toggle="collapse" data-target="#add"><i class="fa fa-fw fa-plus"></i> Add
 							<i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="add" class="expand">
-							<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml">Add Student</a></li>
-							<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml">Add Staff</a></li>
-							<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml">Add Staff
+							<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml">Add student</a></li>
+							<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml">Add staff</a></li>
+							<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml">Add staff
 									salary</a></li>
 						</ul></li>
 
@@ -75,7 +75,10 @@
 						<ul id="update" class="expand">
 							<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Student fees</a></li>
 							<li class="#{page == 'updateattendance' ? 'active' : ''}"><a href="updateAttendance.xhtml">Staff
-									Attendance</a></li>
+									attendance</a></li>
+							<li class="#{page == 'updatestudent' ? 'active' : ''}"><a href="updateStudent.xhtml">Update student</a></li>
+							<li class="#{page == 'updatestaff' ? 'active' : ''}"><a href="updateStaff.xhtml">Update staff</a></li>
+									
 						</ul></li>
 
 					<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="glyphicon glyphicon-share"></i>
@@ -84,7 +87,7 @@
 							<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatefeereceipts.xhtml">Fee
 									receipts</a></li>
 							<li class="#{page == 'generatepayslips' ? 'active' : ''}"><a href="generatePaySlips.xhtml">Staff
-									Payslips</a></li>
+									payslips</a></li>
 							<li class="#{page == 'generatepayslipproposal' ? 'active' : ''}"><a href="generatePaySlipsProposal.xhtml">Salary
 									proposals</a></li>
 						</ul></li>
@@ -93,13 +96,19 @@
 					<li><a href="javascript:;" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-table"></i>
 							Reports <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="reports" class="expand">
-							<li class="#{page == 'showallstudents' ? 'active' : ''}"><a href="showallstudents.xhtml">Get Student
-									Details</a></li>
-							<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Get
-									Student Fee Status</a></li>
-							<li class="#{page == 'showstaff' ? 'active' : ''}"><a href="staffinfo.xhtml">Get Staff Details</a></li>
-							<li class="#{page == 'showstaffsalary' ? 'active' : ''}"><a href="staffSalaryInfo.xhtml">Get Staff
-									Salary Details</a></li>
+							<li class="#{page == 'cashpayments' ? 'active' : ''}"><a href="staffCashPayments.xhtml">Staff cash
+									payments</a></li>
+							<li class="#{page == 'chequepayments' ? 'active' : ''}"><a href="staffChequePayments.xhtml">Staff cheque
+									payments</a></li>
+							<li class="#{page == 'onlinepayments' ? 'active' : ''}"><a href="staffOnlinePayments.xhtml">Staff online
+									payments</a></li>																	
+							<li class="#{page == 'showallstudents' ? 'active' : ''}"><a href="showallstudents.xhtml">Student
+									details</a></li>
+							<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Student fee status</a></li>
+							<li class="#{page == 'showstaff' ? 'active' : ''}"><a href="staffinfo.xhtml">Staff details</a></li>
+							<li class="#{page == 'showstaffsalary' ? 'active' : ''}"><a href="staffSalaryInfo.xhtml">Staff
+									salary details</a></li>
+
 						</ul></li>
 
 

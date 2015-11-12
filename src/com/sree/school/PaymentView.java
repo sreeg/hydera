@@ -1,11 +1,8 @@
 package com.sree.school;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -18,22 +15,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-
-@ManagedBean(name = "payslipView")
+@ManagedBean(name = "paymentView")
 @ViewScoped
-public class PaySlipView implements Serializable {
+public class PaymentView implements Serializable {
 
 	private static LinkedHashMap<String, Integer> monthDaysMap;
 	private java.sql.Connection conn;
@@ -86,11 +71,11 @@ public class PaySlipView implements Serializable {
 
 	SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
 	FacesMessage msg;
-	private List<PaySlip> payslipDomestic;
-	private List<PaySlip> payslipPermenant;
+	private List<PaySlip> payslipCheque;
+	private List<PaySlip> payslipCash;
 	private List<Categories> allPayslips;
 	private List<PaySlip> payslips;
-	private List<PaySlip> payslipTemporary;
+	private List<PaySlip> payslipOnline;
 	private String selectedmonth;
 	private String selectedyear;
 	private boolean showForm;
@@ -103,8 +88,12 @@ public class PaySlipView implements Serializable {
 	private double totalOtherDeductions;
 	private double totalPFAmount;
 	private double totalProfTaxDeduction;
+	
+	private double payslipCashTotal;
+	private double payslipChequeTotal;
+	private double payslipOnlineTotal;
 
-	public PaySlipView() {
+	public PaymentView() {
 		Calendar now = Calendar.getInstance();
 		setCurrentMonth(month_date.format(now.getTime()));
 		setCurrentYear("" + now.get(Calendar.YEAR));
@@ -116,9 +105,9 @@ public class PaySlipView implements Serializable {
 		setDaysinselectedmonth(monthDaysMap.get(getCurrentMonth()));
 		disableGenerateButton = false;
 
-		payslipPermenant = new ArrayList<>();
-		payslipDomestic = new ArrayList<>();
-		payslipTemporary = new ArrayList<>();
+		payslipCash = new ArrayList<>();
+		payslipCheque = new ArrayList<>();
+		payslipOnline = new ArrayList<>();
 		allPayslips = new ArrayList<>();
 		
 		try {
@@ -135,7 +124,7 @@ public class PaySlipView implements Serializable {
 			conn = DBConnection.getConnection();
 			ResultSet rs = conn.createStatement()
 					.executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
+							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,modeofpayment,"
 							+ "staff.firstname, staff.lastname,staff.categoryid,staff.designation,staff.DateOfJoining,"
 							+ "pfamount, loanamount, attendance.dayspresent, attendance.daysinmonth from salary "
 							+ "LEFT JOIN attendance ON salary.employeeid=attendance.staffid and attendance.year=" + "'"
@@ -151,9 +140,9 @@ public class PaySlipView implements Serializable {
 			totalPFAmount = 0;
 			totalLoanAmount = 0;
 
-			payslipPermenant = new ArrayList<>();
-			payslipDomestic = new ArrayList<>();
-			payslipTemporary = new ArrayList<>();
+			payslipCash = new ArrayList<>();
+			payslipCheque = new ArrayList<>();
+			payslipOnline = new ArrayList<>();
 			allPayslips = new ArrayList<>();
 
 			while (rs.next()) {
@@ -168,8 +157,11 @@ public class PaySlipView implements Serializable {
 				ps.setPfrate(rs.getDouble("pfrate"));
 				ps.setProftaxdeduction(rs.getDouble("proftaxdeduction"));
 				ps.setOtherdeduction(rs.getDouble("otherdeduction"));
+				
 				ps.setEmployeename(rs.getString("staff.firstname") + " " + rs.getString("staff.lastname"));
 				String categoryID = rs.getString("staff.categoryid");
+				String modeofpayment = rs.getString("modeofpayment");
+				ps.setModeofpayment(modeofpayment);
 				ps.setCategoryname(categoryID);
 				ps.setPfamount(rs.getDouble("pfamount"));
 				ps.setLoanamount(rs.getDouble("loanamount"));
@@ -205,30 +197,22 @@ public class PaySlipView implements Serializable {
 				totalPFAmount += ps.getPfamount();
 				totalLoanAmount += ps.getLoanamount();
 
-				if (categoryID.equals("1")) {
-					payslipPermenant.add(ps);
+				if (modeofpayment.equals("1")) {
+					payslipCash.add(ps);
+					payslipCashTotal = payslipCashTotal + ps.getNetsalary();
 				}
-				if (categoryID.equals("2")) {
-					payslipDomestic.add(ps);
+				if (modeofpayment.equals("2")) {
+					payslipCheque.add(ps);
+					payslipChequeTotal = payslipChequeTotal + ps.getNetsalary();
 				}
-				if (categoryID.equals("3")) {
-					payslipTemporary.add(ps);
+				if (modeofpayment.equals("3")) {
+					payslipOnline.add(ps);
+					payslipOnlineTotal = payslipOnlineTotal + ps.getNetsalary();
 				}
 			}
 
-			Categories per = new Categories("Permanent");
-			per.setPayslips(payslipPermenant);
-			Categories dom = new Categories("Domestic");
-			dom.setPayslips(payslipDomestic);
-			Categories tem = new Categories("Temporary");
-			tem.setPayslips(payslipTemporary);
-
-			allPayslips.add(per);
-			allPayslips.add(dom);
-			allPayslips.add(tem);
-
 			msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Succesfully generated payslips for " + selectedmonth + ", " + selectedyear,
+					"Succesfully generated payments for " + selectedmonth + ", " + selectedyear,
 					"Press 'print' for print outs.");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
@@ -241,72 +225,6 @@ public class PaySlipView implements Serializable {
 		return paySlips;
 	}
 
-	public void insert() {
-		FacesMessage msg = null;
-		int i = 0;
-		try {
-			conn = DBConnection.getConnection();
-			ResultSet rs1 = conn.createStatement().executeQuery("select * from PAYSLIP where month = " + "'"
-					+ getCurrentMonth() + "'" + " and year = " + "'" + getCurrentYear() + "'");
-
-			while (rs1.next()) {
-				i++;
-			}
-		} catch (ClassNotFoundException e) {
-			msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
-					"Please contant your system administrator.");
-			e.printStackTrace();
-		} catch (SQLException e) {
-			msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
-					"Please contant your system administrator.");
-			e.printStackTrace();
-		}
-		if (i <= 0) {
-
-			try {
-				for (PaySlip p : payslips) {
-					PreparedStatement ps = conn.prepareStatement(
-							"INSERT INTO PAYSLIP (employeeid, basicsalary, fixedda, hra, conveyanceall,"
-									+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
-									+ "pfamount, loanamount, month, year, dayspresent, daysinmonth, createdatetime, updatedatetime)"
-									+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
-
-					ps.setString(1, p.getEmployeeid());
-					ps.setDouble(2, p.getBasicsalary());
-					ps.setDouble(3, p.getFixedda());
-					ps.setDouble(4, p.getHra());
-					ps.setDouble(5, p.getConveyanceall());
-					ps.setString(6, p.getPfno());
-					ps.setString(7, p.getSbacno());
-					ps.setDouble(8, p.getPfrate());
-					ps.setDouble(9, p.getProftaxdeduction());
-					ps.setDouble(10, p.getOtherdeduction());
-					ps.setDouble(11, p.getPfamount());
-					ps.setDouble(12, p.getLoanamount());
-					ps.setString(13, getCurrentMonth());
-					ps.setString(14, getCurrentYear());
-					ps.setInt(15, p.getDayspresent());
-					ps.setInt(16, p.getDaysinmonth());
-
-					int rs = ps.executeUpdate();
-
-					if (rs == 1) {
-						msg = new FacesMessage("Payslips generated successfully", "");
-						FacesContext.getCurrentInstance().addMessage(null, msg);
-					} else {
-						msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
-						FacesContext.getCurrentInstance().addMessage(null, msg);
-					}
-				}
-			} catch (SQLException e) {
-				msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
-						"Please contant your system administrator.");
-				e.printStackTrace();
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-			}
-		}
-
-	}
 
 	public String getCurrentMonth() {
 		return currentMonth;
@@ -332,20 +250,20 @@ public class PaySlipView implements Serializable {
 		return monthmapfromdb;
 	}
 
-	public List<PaySlip> getPayslipDomestic() {
-		return payslipDomestic;
+	public List<PaySlip> getPayslipCheque() {
+		return payslipCheque;
 	}
 
-	public List<PaySlip> getPayslipPermenant() {
-		return payslipPermenant;
+	public List<PaySlip> getPayslipCash() {
+		return payslipCash;
 	}
 
 	public List<PaySlip> getPayslips() {
 		return payslips;
 	}
 
-	public List<PaySlip> getPayslipTemporary() {
-		return payslipTemporary;
+	public List<PaySlip> getPayslipOnline() {
+		return payslipOnline;
 	}
 
 	public String getSelectedmonth() {
@@ -413,35 +331,8 @@ public class PaySlipView implements Serializable {
 	public void onYearChange() {
 	}
 
-	public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
-		Document pdf = (Document) document;
-
-		pdf.setMargins(-70, -70, 10, 10);
-		pdf.setPageSize(PageSize.A4.rotate());
-
-		pdf.setMarginMirroring(true);
-		pdf.open();
-
-		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
-				.getContext();
-		String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"
-				+ File.separator + "logo.gif";
-
-		Image instance = Image.getInstance(logo);
-		instance.setAlignment(Element.ALIGN_CENTER);
-		pdf.add(instance);
-		pdf.add(new Phrase("\n"));
-
-		Paragraph paragraph = new Paragraph("Salary Proposals for the month of " + currentMonth + ", " + currentYear);
-		paragraph.setAlignment(Element.ALIGN_CENTER);
-		paragraph.setFont(FontFactory.getFont(FontFactory.HELVETICA_BOLD, 22, Font.BOLD));
-		pdf.add(paragraph);
-		pdf.add(new Phrase("\n"));
-	}
-
 	public void save() throws ClassNotFoundException, SQLException {
 		payslips = getAllSalaryStaffByMonthAndYear();
-		insert();
 		setShowForm(true);
 	}
 
@@ -466,27 +357,27 @@ public class PaySlipView implements Serializable {
 	}
 
 	public void setMonthMap(LinkedHashMap<String, String> monthMap) {
-		PaySlipView.monthMap = monthMap;
+		PaymentView.monthMap = monthMap;
 	}
 
 	public void setMonthmapfromdb(LinkedHashMap<String, String> monthmapfromdb) {
-		PaySlipView.monthmapfromdb = monthmapfromdb;
+		PaymentView.monthmapfromdb = monthmapfromdb;
 	}
 
-	public void setPayslipDomestic(List<PaySlip> payslipDomestic) {
-		this.payslipDomestic = payslipDomestic;
+	public void setPayslipCheque(List<PaySlip> payslipCheque) {
+		this.payslipCheque = payslipCheque;
 	}
 
-	public void setPayslipPermenant(List<PaySlip> payslipPermenant) {
-		this.payslipPermenant = payslipPermenant;
+	public void setPayslipCash(List<PaySlip> payslipCash) {
+		this.payslipCash = payslipCash;
 	}
 
 	public void setPayslips(List<PaySlip> payslips) {
 		this.payslips = payslips;
 	}
 
-	public void setPayslipTemporary(List<PaySlip> payslipTemporary) {
-		this.payslipTemporary = payslipTemporary;
+	public void setPayslipOnline(List<PaySlip> payslipOnline) {
+		this.payslipOnline = payslipOnline;
 	}
 
 	public void setSelectedmonth(String selectedmonth) {
@@ -534,7 +425,7 @@ public class PaySlipView implements Serializable {
 	}
 
 	public void setYearMap(LinkedHashMap<String, String> yearMap) {
-		PaySlipView.yearMap = yearMap;
+		PaymentView.yearMap = yearMap;
 	}
 
 	public List<Categories> getAllPayslips() {
@@ -543,6 +434,30 @@ public class PaySlipView implements Serializable {
 
 	public void setAllPayslips(List<Categories> allPayslips) {
 		this.allPayslips = allPayslips;
+	}
+
+	public double getPayslipCashTotal() {
+		return payslipCashTotal;
+	}
+
+	public void setPayslipCashTotal(double payslipCashTotal) {
+		this.payslipCashTotal = payslipCashTotal;
+	}
+
+	public double getPayslipChequeTotal() {
+		return payslipChequeTotal;
+	}
+
+	public void setPayslipChequeTotal(double payslipChequeTotal) {
+		this.payslipChequeTotal = payslipChequeTotal;
+	}
+
+	public double getPayslipOnlineTotal() {
+		return payslipOnlineTotal;
+	}
+
+	public void setPayslipOnlineTotal(double payslipOnlineTotal) {
+		this.payslipOnlineTotal = payslipOnlineTotal;
 	}
 
 }

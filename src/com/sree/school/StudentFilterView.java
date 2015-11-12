@@ -129,6 +129,14 @@ public class StudentFilterView implements Serializable {
 	}
 
 	public void emailfees() {
+		if(studentfees == null || studentfees.isEmpty())
+		{
+			generatefees();
+			if(studentfees == null || studentfees.isEmpty())
+			{
+				return;
+			}
+		}
 		
 		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext()
 				.getContext();
@@ -631,6 +639,11 @@ public class StudentFilterView implements Serializable {
 	}
 
 	public void generatefees() {
+		if(selectedStudents == null || selectedStudents.isEmpty())
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No students selected","Select students and then check for receipts."));
+			return;
+		}
 		String p = "";
 		selectedStudentIds = new ArrayList<>();
 		int size = selectedStudents.size();

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+
+	<title>Payroll Management</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/sb-admin.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+	<style>
+.ui-datagrid .ui-grid-row, .payslipProposalPanel {
+	page-break-after: always;
+}
+
+@media print {
+	body {
+		margin-top: 0px !important;
+	}
+}
+</style>
+	<style type="text/css" media="print">
+@page {
+	size: portrait;
+}
+
+.panel-default {
+	border: none;
+}
+
+.container-fluid, #page-wrapper {
+	padding: 0;
+}
+</style>
+</h:head>
+
+<body>
+	<h:form id="form">
+
+		<div id="wrapper">
+
+			<!-- Navigation -->
+			<ui:insert name="nav">
+				<ui:include src="nav.xhtml">
+					<ui:param name="page" value="onlinepayments" />
+				</ui:include>
+			</ui:insert>
+
+			<div id="page-wrapper">
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<p:growl id="growl" showDetail="true" />
+					<div class="row hidden-print">
+						<div class="col-lg-12">
+							<h1 class="page-header">Staff Online Payments</h1>
+						</div>
+					</div>
+					<div class="row hidden-print">
+						<div class="col-lg-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<strong>Select Year and Month to generate report</strong>
+								</div>
+								<div class="panel-body">
+									<div class="col-lg-12 col-md-12">
+										<div class="inlineBlock marginRight20">
+											<p:outputLabel for="year" style="min-width: 54px;" value="Year : " />
+											<h:selectOneMenu styleClass="form-control" id="year" value="#{paymentView.selectedyear}"
+												style="width:150px;display: inline;margin-left:10px;">
+												<p:ajax listener="#{paymentView.onYearChange}" update="monthPanel" />
+												<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
+												<f:selectItems value="#{paymentView.yearMap}" />
+											</h:selectOneMenu>
+										</div>
+										<div class="inlineBlock marginRight20">
+											<p:outputPanel id="monthPanel">
+												<p:outputLabel for="month" style="min-width: 54px;" value="Month : " />
+												<h:selectOneMenu disabled="#{paymentView.selectedyear == null or paymentView.selectedyear == ''}"
+													styleClass="form-control" id="month" value="#{paymentView.selectedmonth}"
+													style="width:150px;display: inline;margin-left:10px;">
+													<p:ajax listener="#{paymentView.onMonthChange}" update="buttonPanel,payslipPanel" />
+													<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{paymentView.monthMap}" />
+												</h:selectOneMenu>
+											</p:outputPanel>
+										</div>
+										<div class="inlineBlock">
+											<p:outputPanel id="buttonPanel" styleClass="centered">
+												<p:commandButton styleClass="marginRight20" value="Generate" update="payslipPanel,buttonPanel"
+													disabled="#{paymentView.disableGenerateButton}" icon="fa fa-refresh" actionListener="#{paymentView.save}"
+													validateClient="true" />
+												<p:commandButton value="Print" styleClass="marginRight20" type="button" onclick="window.print();"
+													icon="ui-icon-print" rendered="#{paymentView.showForm}">
+												</p:commandButton>
+
+											</p:outputPanel>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<p:messages styleClass="hidden-print" id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+					<p:outputPanel id="payslipPanel" styleClass="paySlipOutputPanel">
+						<p:outputPanel id="payslipPanelInner" rendered="#{paymentView.showForm}">
+
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<p:graphicImage style="width:100%" name="images/logo.gif" />
+									<h5 class="centered">
+										<strong> #1-2-594, Domalguda, Hyderabad - 500029, Contact No : 65502579, Email :
+											chaitanyavidyalaya@gmail.com </strong>
+									</h5>
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="pull-right marginRight20">Date : _____________</div>
+									</div>
+
+									<div class="row marginTop20 marginLeft20">
+										<div class="col-lg-12">
+											<div>To,</div>
+											<div>The Manager,</div>
+											<div>Syndicate Bank,</div>
+											<div>Ramakrishna Math,</div>
+											<div>Domalguda Branch,</div>
+											<div>Hyderabad - 500029</div>
+										</div>
+									</div>
+									<div class="row marginTop20 marginLeft20">
+										<div class="col-lg-12">Dear Sir,</div>
+									</div>
+
+									<div class="row marginTop20 marginLeft20">
+										<div class="col-lg-12 centered">Sub: Deposit of payments</div>
+									</div>
+
+									<div class="row marginTop20 marginLeft20">
+										<div class="col-lg-12">Please credit the amounts to the respective S.B A/c's as indicated below:</div>
+									</div>
+									<div class="row marginTop20 marginLeft20">
+										<div class="col-lg-12 marginTop20">
+											<p:dataTable var="staff" value="#{paymentView.payslipOnline}" sortBy="#{staff.modeofpayment}">
+												<p:column headerText="Staff Name">
+													<h:outputText value="#{staff.employeename}" />
+												</p:column>
+												<p:column headerText="SB A/C number">
+													<h:outputText value="#{staff.sbacno}" />
+												</p:column>
+												<p:column headerText="Payable Amount">
+													<h:outputText styleClass="pull-right" value="#{staff.netsalary}">
+														<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+													</h:outputText>
+												</p:column>
+												<p:summaryRow>
+													<p:column colspan="2">
+														<h:outputText value="Total:" />
+													</p:column>
+													<p:column>
+														<h:outputText styleClass="pull-right" value="#{paymentView.payslipOnlineTotal}">
+															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														</h:outputText>
+													</p:column>
+												</p:summaryRow>
+											</p:dataTable>
+										</div>
+									</div>
+
+									<div class="marginTop20 marginLeft20 row">
+										<div class="col-lg-12">Thank you,</div>
+										<div class="col-lg-12">Your's sincerely,</div>
+									</div>
+									<div class="marginTop100 marginLeft20 row">
+										<div class="col-lg-12">Smt. Jyothi Rao</div>
+										<div class="col-lg-12">Person-In-Charge</div>
+									</div>
+									<div class="marginTop20 marginLeft20 row">
+										<div class="col-lg-12">Note: The amounts to be credited on the first working day of the month.</div>
+									</div>
+								</div>
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /#page-wrapper -->
+		</div>
+		<!-- /#wrapper -->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+	</h:form>
+</body>
+</html>
