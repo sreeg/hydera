@@ -8,9 +8,11 @@ import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -37,7 +39,9 @@ public class PaySlipView implements Serializable {
 
 	private static LinkedHashMap<String, Integer> monthDaysMap;
 	private java.sql.Connection conn;
-
+	  private static final String USED_DATE_FORMAT = "dd,MMMM,yyyy";
+	  SimpleDateFormat formatter = new SimpleDateFormat(USED_DATE_FORMAT);
+	  
 	private static LinkedHashMap<String, String> monthMap;
 	private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
 	/**
@@ -89,6 +93,8 @@ public class PaySlipView implements Serializable {
 	private List<PaySlip> payslipDomestic;
 	private List<PaySlip> payslipPermenant;
 	private List<Categories> allPayslips;
+	private List<Categories> pfPayslips;
+	private List<Categories> nonpfPayslips;
 	private List<PaySlip> payslips;
 	private List<PaySlip> payslipTemporary;
 	private String selectedmonth;
@@ -104,6 +110,13 @@ public class PaySlipView implements Serializable {
 	private double totalPFAmount;
 	private double totalProfTaxDeduction;
 
+	private List<PaySlip> payslipWithPF;
+	private List<PaySlip> payslipWithPFDomestic;
+	
+	private List<PaySlip> payslipWithoutPF;
+	private List<PaySlip> payslipWithoutPFDomestic;
+	private List<PaySlip> payslipWithoutPFPartTime;
+	
 	public PaySlipView() {
 		Calendar now = Calendar.getInstance();
 		setCurrentMonth(month_date.format(now.getTime()));
@@ -135,7 +148,7 @@ public class PaySlipView implements Serializable {
 			conn = DBConnection.getConnection();
 			ResultSet rs = conn.createStatement()
 					.executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
+							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,iseligibleforpf,"
 							+ "staff.firstname, staff.lastname,staff.categoryid,staff.designation,staff.DateOfJoining,"
 							+ "pfamount, loanamount, attendance.dayspresent, attendance.daysinmonth from salary "
 							+ "LEFT JOIN attendance ON salary.employeeid=attendance.staffid and attendance.year=" + "'"
@@ -155,7 +168,15 @@ public class PaySlipView implements Serializable {
 			payslipDomestic = new ArrayList<>();
 			payslipTemporary = new ArrayList<>();
 			allPayslips = new ArrayList<>();
-
+			
+			pfPayslips = new ArrayList<>();
+			nonpfPayslips = new ArrayList<>();
+			payslipWithPF = new ArrayList<>();
+			payslipWithoutPF = new ArrayList<>();
+			payslipWithPFDomestic = new ArrayList<>();
+			payslipWithoutPFDomestic = new ArrayList<>();
+			payslipWithoutPFPartTime = new ArrayList<>();
+			
 			while (rs.next()) {
 				PaySlip ps = new PaySlip();
 				ps.setEmployeeid(rs.getString("employeeid"));
@@ -179,6 +200,8 @@ public class PaySlipView implements Serializable {
 				ps.setYear(getSelectedyear());
 				ps.setDesignation(rs.getString("designation"));
 				ps.setDoj(rs.getDate("DateOfJoining"));
+				ps.setIseligibleforpf(rs.getBoolean("iseligibleforpf"));
+				
 				int dayspresent = ps.getDayspresent();
 
 				if (dayspresent == 0) {
@@ -207,25 +230,63 @@ public class PaySlipView implements Serializable {
 
 				if (categoryID.equals("1")) {
 					payslipPermenant.add(ps);
+					if(ps.getIseligibleforpf())
+					{
+						payslipWithPF.add(ps);
+					}
+					else
+					{
+						payslipWithoutPF.add(ps);
+					}
 				}
 				if (categoryID.equals("2")) {
 					payslipDomestic.add(ps);
+					if(ps.getIseligibleforpf())
+					{
+						payslipWithPFDomestic.add(ps);
+					}
+					else
+					{
+						payslipWithoutPFDomestic.add(ps);
+					}					
 				}
 				if (categoryID.equals("3")) {
 					payslipTemporary.add(ps);
+					payslipWithoutPFPartTime.add(ps);
 				}
+				
 			}
 
 			Categories per = new Categories("Permanent");
 			per.setPayslips(payslipPermenant);
 			Categories dom = new Categories("Domestic");
 			dom.setPayslips(payslipDomestic);
-			Categories tem = new Categories("Temporary");
+			Categories tem = new Categories("Part Time");
 			tem.setPayslips(payslipTemporary);
 
 			allPayslips.add(per);
 			allPayslips.add(dom);
 			allPayslips.add(tem);
+			
+			Categories per1 = new Categories("Permanent");
+			per1.setPayslips(payslipWithPF);
+			Categories dom1 = new Categories("Domestic");
+			dom1.setPayslips(payslipWithPFDomestic);
+
+			pfPayslips.add(per1);
+			pfPayslips.add(dom1);
+			
+			Categories per2 = new Categories("Permanent");
+			per2.setPayslips(payslipWithoutPF);
+			Categories dom2 = new Categories("Domestic");
+			dom2.setPayslips(payslipWithoutPFDomestic);
+			Categories tem2 = new Categories("Part Time");
+			tem2.setPayslips(payslipWithoutPFPartTime);
+
+			nonpfPayslips.add(per2);
+			nonpfPayslips.add(dom2);
+			nonpfPayslips.add(tem2);
+			
 
 			msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Succesfully generated payslips for " + selectedmonth + ", " + selectedyear,
@@ -247,8 +308,8 @@ public class PaySlipView implements Serializable {
 		try {
 			conn = DBConnection.getConnection();
 			ResultSet rs1 = conn.createStatement().executeQuery("select * from PAYSLIP where month = " + "'"
-					+ getCurrentMonth() + "'" + " and year = " + "'" + getCurrentYear() + "'");
-
+					+ getSelectedmonth() + "'" + " and year = " + "'" + getSelectedyear() + "'");
+			rs1.setFetchSize(1);
 			while (rs1.next()) {
 				i++;
 			}
@@ -268,8 +329,8 @@ public class PaySlipView implements Serializable {
 					PreparedStatement ps = conn.prepareStatement(
 							"INSERT INTO PAYSLIP (employeeid, basicsalary, fixedda, hra, conveyanceall,"
 									+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
-									+ "pfamount, loanamount, month, year, dayspresent, daysinmonth, createdatetime, updatedatetime)"
-									+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
+									+ "pfamount, loanamount, month, year, dayspresent, daysinmonth, iseligibleforpf, monthyeardate, createdatetime, updatedatetime)"
+									+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
 
 					ps.setString(1, p.getEmployeeid());
 					ps.setDouble(2, p.getBasicsalary());
@@ -283,10 +344,14 @@ public class PaySlipView implements Serializable {
 					ps.setDouble(10, p.getOtherdeduction());
 					ps.setDouble(11, p.getPfamount());
 					ps.setDouble(12, p.getLoanamount());
-					ps.setString(13, getCurrentMonth());
-					ps.setString(14, getCurrentYear());
+					ps.setString(13, getSelectedmonth());
+					ps.setString(14, getSelectedyear());
 					ps.setInt(15, p.getDayspresent());
 					ps.setInt(16, p.getDaysinmonth());
+					ps.setBoolean(17, p.getIseligibleforpf());
+					Calendar instance = Calendar.getInstance();
+					instance.setTime(formatter.parse("01,"+getSelectedmonth()+","+getSelectedyear()));
+					ps.setDate(18, new java.sql.Date(instance.getTime().getTime()));
 
 					int rs = ps.executeUpdate();
 
@@ -303,6 +368,9 @@ public class PaySlipView implements Serializable {
 						"Please contant your system administrator.");
 				e.printStackTrace();
 				FacesContext.getCurrentInstance().addMessage(null, msg);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
@@ -415,7 +483,6 @@ public class PaySlipView implements Serializable {
 
 	public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
 		Document pdf = (Document) document;
-
 		pdf.setMargins(-70, -70, 10, 10);
 		pdf.setPageSize(PageSize.A4.rotate());
 
@@ -543,6 +610,62 @@ public class PaySlipView implements Serializable {
 
 	public void setAllPayslips(List<Categories> allPayslips) {
 		this.allPayslips = allPayslips;
+	}
+
+	public List<Categories> getPfPayslips() {
+		return pfPayslips;
+	}
+
+	public void setPfPayslips(List<Categories> pfPayslips) {
+		this.pfPayslips = pfPayslips;
+	}
+
+	public List<Categories> getNonpfPayslips() {
+		return nonpfPayslips;
+	}
+
+	public void setNonpfPayslips(List<Categories> nonpfPayslips) {
+		this.nonpfPayslips = nonpfPayslips;
+	}
+
+	public List<PaySlip> getPayslipWithoutPF() {
+		return payslipWithoutPF;
+	}
+
+	public void setPayslipWithoutPF(List<PaySlip> payslipWithoutPF) {
+		this.payslipWithoutPF = payslipWithoutPF;
+	}
+
+	public List<PaySlip> getPayslipWithPF() {
+		return payslipWithPF;
+	}
+
+	public void setPayslipWithPF(List<PaySlip> payslipWithPF) {
+		this.payslipWithPF = payslipWithPF;
+	}
+
+	public List<PaySlip> getPayslipWithPFDomestic() {
+		return payslipWithPFDomestic;
+	}
+
+	public void setPayslipWithPFDomestic(List<PaySlip> payslipWithPFDomestic) {
+		this.payslipWithPFDomestic = payslipWithPFDomestic;
+	}
+
+	public List<PaySlip> getPayslipWithoutPFDomestic() {
+		return payslipWithoutPFDomestic;
+	}
+
+	public void setPayslipWithoutPFDomestic(List<PaySlip> payslipWithoutPFDomestic) {
+		this.payslipWithoutPFDomestic = payslipWithoutPFDomestic;
+	}
+
+	public List<PaySlip> getPayslipWithoutPFPartTime() {
+		return payslipWithoutPFPartTime;
+	}
+
+	public void setPayslipWithoutPFPartTime(List<PaySlip> payslipWithoutPFPartTime) {
+		this.payslipWithoutPFPartTime = payslipWithoutPFPartTime;
 	}
 
 }

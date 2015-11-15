@@ -1,6 +1,7 @@
 package com.sree.school;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
 public class Salary implements Serializable {
@@ -29,6 +30,8 @@ public class Salary implements Serializable {
 	private Double netsalary;
 	private double factor = 1.0f;
 	private String modeofpayment;
+	private Boolean iseligibleforpf;
+	private Date monthyearDate;
 
 	static {
 		categoryInverse = new LinkedHashMap<String, String>();
@@ -70,7 +73,7 @@ public class Salary implements Serializable {
 	}
 
 	public Double getPfrate() {
-		return pfrate;
+		return 0.12d;
 	}
 
 	public void setPfrate(Double pfrate) {
@@ -94,10 +97,10 @@ public class Salary implements Serializable {
 	}
 
 	public Double getPfamount() {
-		if (pfrate == null || pfrate == 0) {
+		if (!iseligibleforpf) {
 			return 0d;
 		} else {
-			return ((basicsalary + fixedda) * pfrate)/100d;
+			return ((basicsalary + fixedda) * pfrate) / 100d;
 		}
 	}
 
@@ -194,5 +197,24 @@ public class Salary implements Serializable {
 
 	public void setModeofpayment(String modeofpayment) {
 		this.modeofpayment = modeofpayment;
+	}
+
+	public Boolean getIseligibleforpf() {
+		if ("Part Time".equalsIgnoreCase(categoryname))
+			return false;
+		else
+			return iseligibleforpf;
+	}
+
+	public void setIseligibleforpf(Boolean iseligibleforpf) {
+		this.iseligibleforpf = iseligibleforpf;
+	}
+
+	public Date getMonthyearDate() {
+		return monthyearDate;
+	}
+
+	public void setMonthyearDate(Date monthyearDate) {
+		this.monthyearDate = monthyearDate;
 	}
 }

@@ -1,7 +1,6 @@
 package com.sree.school;
 
 import java.sql.SQLException;
-import java.util.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

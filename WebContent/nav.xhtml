@@ -7,7 +7,7 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top hidden-print" role="navigation">
 
 			<div class="row">
-				<div class="col-lg-3">
+				<div class="col-lg-4">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -19,9 +19,9 @@
 					</div>
 				</div>
 
-				<div class="centered col-lg-6 navbar-brand">Payroll Management System</div>
+				<div class="navbar-header centered col-lg-4 navbar-brand">Payroll Management System</div>
 				<!-- Top Menu Items -->
-				<div class="col-lg-3">
+				<div class="col-lg-4">
 					<ul class="nav navbar-right top-nav">
 
 						<li style="display: none" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -36,8 +36,11 @@
 								<li class="divider"></li>
 								<li><a href="#">View All</a></li>
 							</ul></li>
+						<li><a href="viewStudentDetails.xhtml"><i class="glyphicon glyphicon-edit"></i> <span class="mobile">View and Edit</span></a></li>
+							
+						<li><a href="charts.xhtml"><i class="fa fa-bar-chart"></i> <span class="mobile">Charts</span></a></li>	
 						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-								#{staffFilterView.staffbylogin.firstname} #{staffFilterView.staffbylogin.lastname} <b class="caret"></b></a>
+								<span class="mobile">#{staffFilterView.staffbylogin.firstname} #{staffFilterView.staffbylogin.lastname} <b class="caret"></b></span></a>
 							<ul class="dropdown-menu">
 								<li><p:commandLink id="ajax" actionListener="#{staffFilterView.viewMyProfile}">
 										<i class="fa fa-fw fa-user"></i>
@@ -71,17 +74,15 @@
 						</ul></li>
 
 					<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i
-							class="glyphicon glyphicon-check"></i> Update <i class="fa fa-fw fa-caret-down"></i></a>
+							class="fa fa-edit"></i> Update <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="update" class="expand">
 							<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Student fees</a></li>
 							<li class="#{page == 'updateattendance' ? 'active' : ''}"><a href="updateAttendance.xhtml">Staff
 									attendance</a></li>
-							<li class="#{page == 'updatestudent' ? 'active' : ''}"><a href="updateStudent.xhtml">Update student</a></li>
-							<li class="#{page == 'updatestaff' ? 'active' : ''}"><a href="updateStaff.xhtml">Update staff</a></li>
 									
 						</ul></li>
 
-					<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="glyphicon glyphicon-share"></i>
+					<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-external-link"></i>
 							Generate <i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="demo" class="expand">
 							<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatefeereceipts.xhtml">Fee
@@ -101,14 +102,9 @@
 							<li class="#{page == 'chequepayments' ? 'active' : ''}"><a href="staffChequePayments.xhtml">Staff cheque
 									payments</a></li>
 							<li class="#{page == 'onlinepayments' ? 'active' : ''}"><a href="staffOnlinePayments.xhtml">Staff online
-									payments</a></li>																	
-							<li class="#{page == 'showallstudents' ? 'active' : ''}"><a href="showallstudents.xhtml">Student
-									details</a></li>
+									payments</a></li>
+							<li class="#{page == 'profTax' ? 'active' : ''}"><a href="profTaxStatement.xhtml">Prof. Tax Statement</a></li>																											
 							<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Student fee status</a></li>
-							<li class="#{page == 'showstaff' ? 'active' : ''}"><a href="staffinfo.xhtml">Staff details</a></li>
-							<li class="#{page == 'showstaffsalary' ? 'active' : ''}"><a href="staffSalaryInfo.xhtml">Staff
-									salary details</a></li>
-
 						</ul></li>
 
 

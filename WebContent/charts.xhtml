@@ -14,7 +14,8 @@
 
 	<!-- Bootstrap Core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
-
+	<link href="css/highlight.css" rel="stylesheet" />
+	<link href="css/bootstrap-switch.min.css" rel="stylesheet" />
 	<!-- Custom CSS -->
 	<link href="css/sb-admin.css" rel="stylesheet" />
 
@@ -50,34 +51,38 @@
 							<h1 class="page-header">Charts</h1>
 						</div>
 					</div>
+					<div class="pull-right inlineBlock marginBottom10">
+						<h4 class="inlineBlock marginRight5">Switch to Cumulative chart</h4>
+						<input data-size="small" id="switch-state" name="cumulative" type="checkbox" data-on-text="Yes" data-off-text="No"></input>
+					</div>
 
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-lg-12 normal">
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h3 class="panel-title">
-										<i class="fa fa-graduation-cap fa-fw"></i> Student Composition
+									<h3 class="panel-title inlineBlock">
+										<i class="fa fa-users fa-fw"></i> All Employee Salary Payment History
 									</h3>
+
 								</div>
 								<div class="panel-body">
-
-									<p:chart widgetVar="w_linechart1" type="line" model="#{areaChartView.lineModel2}" style="height:300px;"
-										responsive="true" />
+									<p:chart type="bar" model="#{chartView.barModel}" responsive="true" />
+									<div class="text-right hidden">
+										<a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12">
+						<div class="col-lg-12 cumulative" style="z-index: -2000; height: 0">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
-										<i class="fa fa-users fa-fw"></i> Employee Composition
+										<i class="fa fa-users fa-fw"></i> All Employee Salary Payment History
 									</h3>
 								</div>
 								<div class="panel-body">
-									<p:chart type="bar" model="#{chartView.barModel}" style="height:300px" />
-									<div class="text-right">
+									<p:chart type="bar" model="#{chartView.cumBarModel}" responsive="true" />
+									<div class="text-right hidden">
 										<a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
@@ -85,6 +90,35 @@
 						</div>
 
 					</div>
+					<div class="row">
+						<div class="col-lg-4">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<i class="glyphicon glyphicon-plus-sign"></i> Overall Salary Payment Composition
+									</h3>
+								</div>
+								<div class="panel-body">
+									<p:chart type="pie" model="#{chartView.pieModel1}" responsive="true" />
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-8">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<i class="fa fa-user fa-fw"></i> Staff Composition
+									</h3>
+								</div>
+								<div class="panel-body">
+									<p:chart type="bar" model="#{chartView.horizontalBarModel}" responsive="true" />
+									<!-- <p:chart widgetVar="w_linechart1" type="line" model="#{areaChartView.lineModel2}" style="height:300px;"
+										responsive="true" /> -->
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<!-- /.row -->
 
 
@@ -102,7 +136,38 @@
 
 		<!-- Bootstrap Core JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/highlight.js"></script>
+		<script src="js/bootstrap-switch.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			function overrideAxis() {
+				alert();
+				this.cfg.axes = {
+					yaxis : {
+						tickOptions : {
+							formatString : "&#8377; %2$'d",
+							angle : 0
+						}
+					}
+				}
+			};
 
+			$('input[name="cumulative"]').on('switchChange.bootstrapSwitch',
+					function(event, state) {
+						console.log(this); // DOM element
+						console.log(event); // jQuery event
+						console.log(state); // true | false
+						if (state) {
+							$(".normal").css('display', 'none');
+							$(".cumulative").css('z-index', 'initial');
+							$(".cumulative").css('height', 'initial');
+						} else {
+							$(".normal").css('display', 'block');
+							$(".cumulative").css('z-index', '-2000');
+							$(".cumulative").css('height', '0');
+						}
+					});
+		</script>
 
 	</h:form>
 </body>

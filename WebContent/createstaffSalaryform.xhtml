@@ -10,7 +10,7 @@
 				<div class="col-lg-3">
 					<div class="form-group">
 						<h:outputText value="Staff Category" />
-						<h:selectOneMenu styleClass="form-control" required="true" id="class"
+						<h:selectOneMenu styleClass="form-control categorynamefield" required="true" id="class"
 							value="#{staffFilterView.selectedCategoryId}">
 							<p:ajax listener="#{staffFilterView.onCategoryChange}" update="selectedStaff,staffDetails,formOutputPanel" />
 							<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
@@ -21,9 +21,8 @@
 				<div class="col-lg-3">
 					<div class="form-group">
 						<h:outputText for="selectedStaff" value="Staff Name " />
-						<h:selectOneMenu styleClass="form-control" id="selectedStaff" onchange=""
-							value="#{staffFilterView.selectedStaffIdByCategory}">
-							<p:ajax listener="#{staffFilterView.onStaffChange}" update="staffDetails,formOutputPanel" />
+						<h:selectOneMenu styleClass="form-control" id="selectedStaff" value="#{staffFilterView.selectedStaffIdByCategory}">
+							<p:ajax listener="#{staffFilterView.onStaffChange}" update="staffDetails,formOutputPanel" oncomplete="showPFNo()" />
 							<f:selectItem itemLabel="Select Staff" itemValue="" noSelectionOption="true" />
 							<f:selectItems itemValue="#{st.id}" itemLabel="#{st.firstname} #{st.lastname} " var="st"
 								value="#{staffFilterView.filteredStaffsByCategory}" />
@@ -99,12 +98,6 @@
 										<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " value="#{salaryBean.salary.loanamount}"
 											label="LoanAmount" />
 									</div>
-									<div class="form-group">
-										<h:outputText value="PF Amount " />
-										<pe:inputNumber styleClass="form-controlpe" disabled="true"
-											value="#{((salaryBean.salary.basicsalary + salaryBean.salary.fixedda) * salaryBean.salary.pfrate)/100 }" id="pfamount" symbol="&#8377; "
-											label="PFAmount" />
-									</div>
 								</div>
 								<div class="col-lg-4">
 									<div class="form-group">
@@ -118,20 +111,22 @@
 									</div>
 									<div class="form-group">
 										<h:outputText value="SB A/C Number " />
-										<p:inputText id="sbacno" styleClass="form-control" value="#{salaryBean.salary.sbacno}"
-											label="SBACNumber" />
+										<p:inputText id="sbacno" styleClass="form-control" value="#{salaryBean.salary.sbacno}" label="SBACNumber" />
 									</div>
-									<div class="form-group">
-										<h:outputText value="PF Rate " />
-										<pe:inputNumber styleClass="form-controlpe" value="#{salaryBean.salary.pfrate}" onchange="" symbol="%"
-											symbolPosition="s" emptyValue="sign" label="PFRate">
-											<p:ajax event="blur" update="pfamount" />
-										</pe:inputNumber>
+									<div class="form-group iseligibleforpf">
+										<h:outputText value="Is Eligible for PF *" />
+										<h:selectOneMenu styleClass="form-control iseligibleforpf" value="#{salaryBean.salary.iseligibleforpf}"
+											required="true" onchange="showPFNo()">
+											<f:selectItem itemLabel="Select One" itemValue="" />
+											<f:selectItem itemLabel="Yes" itemValue="true" />
+											<f:selectItem itemLabel="No" itemValue="false" />
+										</h:selectOneMenu>
 									</div>
-									<div class="form-group">
+									<div class="form-group" id="pfnofield" style="display: none;">
 										<h:outputText value="PF Number " />
 										<p:inputText styleClass="form-control" value="#{salaryBean.salary.pfno}" label="PFNumber" />
 									</div>
+
 								</div>
 							</div>
 
@@ -157,6 +152,22 @@
 				document.getElementById('createStaffSalaryForm:hiddenId').value = new_value;
 
 			}
+			function showPFNo() {
+				var v = $(".iseligibleforpf").val();
+				var c = $(".categorynamefield").val();
+				if (v == "true") {
+					$("#pfnofield").css('display', 'block');
+				} else {
+					$("#pfnofield").css('display', 'none');
+				}
+				if (c == "3") {
+					$(".iseligibleforpf").css('display', 'none');
+					$("#pfnofield").css('display', 'none');
+				}
+			}
+			$(document).ready(function() {
+				showPFNo();
+			});
 		</script>
 
 	</ui:composition>

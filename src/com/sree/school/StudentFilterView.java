@@ -26,7 +26,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
@@ -55,7 +54,6 @@ import com.lowagie.text.pdf.PdfWriter;
 public class StudentFilterView implements Serializable {
 
 	private static Font underline18 = new Font(Font.HELVETICA, 18, Font.UNDERLINE);
-	private static Font redFont = new Font(Font.HELVETICA, 12, Font.NORMAL, Color.RED);
 	private static Font smallBold = new Font(Font.HELVETICA, 12, Font.BOLD);
 	private static Font subFont = new Font(Font.HELVETICA, 14, Font.NORMAL);
 	private static Font smallestItalic = new Font(Font.HELVETICA, 10, Font.ITALIC);

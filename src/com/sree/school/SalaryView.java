@@ -57,13 +57,13 @@ public class SalaryView implements Serializable {
 
 	public List<Salary> getAllSalaryStaff() {
 		java.sql.Connection conn;
-		List<Salary> students = new ArrayList<>();
+		List<Salary> salaries = new ArrayList<>();
 
 		try {
 			conn = DBConnection.getConnection();
 			ResultSet rs = conn.createStatement()
 					.executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, modeofpayment, staff.firstname, staff.lastname,staff.categoryid,"
+							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, modeofpayment, iseligibleforpf, staff.firstname, staff.lastname,staff.categoryid,"
 							+ "pfamount, loanamount from salary INNER JOIN staff ON salary.employeeid=staff.Id");
 			totalBasicSalary =0;
 			while (rs.next()) {
@@ -79,12 +79,17 @@ public class SalaryView implements Serializable {
 				st.setProftaxdeduction(rs.getDouble("proftaxdeduction"));
 				st.setOtherdeduction(rs.getDouble("otherdeduction"));
 				st.setEmployeename(rs.getString("staff.firstname") + " " + rs.getString("staff.lastname"));
-				st.setCategoryname(rs.getString("staff.categoryid"));
+				String categoryId = rs.getString("staff.categoryid");
+				st.setCategoryname(categoryId);
 				st.setPfamount(rs.getDouble("pfamount"));
 				st.setLoanamount(rs.getDouble("loanamount"));
 				st.setModeofpayment(rs.getString("modeofpayment"));
-				
-				students.add(st);
+				st.setIseligibleforpf(rs.getBoolean("iseligibleforpf"));
+				if("3".equals(categoryId))
+				{
+					st.setPfamount(0d);
+				}
+				salaries.add(st);
 				totalBasicSalary += st.getBasicsalary(); 
 				totalFixedDA+= st.getFixedda();
 				totalHRA += st.getHra();
@@ -103,7 +108,7 @@ public class SalaryView implements Serializable {
 			e.printStackTrace();
 		}
 
-		return students;
+		return salaries;
 	}
 
 	public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
@@ -213,5 +218,4 @@ public class SalaryView implements Serializable {
 	public void setTotalNetSalary(double totalNetSalary) {
 		this.totalNetSalary = totalNetSalary;
 	}
-
 }

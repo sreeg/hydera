@@ -34,7 +34,7 @@
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="showstaffsalary" />
+					<ui:param name="page" value="viewDetails" />
 				</ui:include>
 			</ui:insert>
 
@@ -44,11 +44,17 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Staff Salary Information</h1>
+							<h1 class="page-header">View Student/Staff Information</h1>
 						</div>
 					</div>
 
-					<div class="row">
+					<ul class="nav nav-pills nav-justified">
+						<li role="presentation" class="inactive"><a href="viewStudentDetails.xhtml">Student Details</a></li>
+						<li role="presentation" class="inactive"><a href="staffinfo.xhtml">Staff Details</a></li>
+						<li role="presentation" class="active"><a href="staffSalaryInfo.xhtml">Staff Salary Details</a></li>
+					</ul>
+
+					<div class="row marginTop20">
 						<div class="col-lg-12">
 							<p:dataTable id="allStaffs" var="st" value="#{salaryView.salaries}" tableStyleClass=""
 								styleClass="table-responsive" widgetVar="staffsTable" emptyMessage="No staff found with given criteria"
@@ -73,63 +79,117 @@
 								</p:column>
 
 								<p:column headerText="Basic" footerText="#{salaryView.totalBasicSalary}">
-									<h:outputText value="#{st.basicsalary}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalBasicSalary}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.basicsalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
 								<p:column headerText="Fixed DA" footerText="#{salaryView.totalFixedDA}">
-									<h:outputText value="#{st.fixedda}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalFixedDA}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.fixedda}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
 								<p:column headerText="HRA" footerText="#{salaryView.totalHRA}">
-									<h:outputText value="#{st.hra}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalHRA}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.hra}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
 								<p:column headerText="Conveyance" footerText="#{salaryView.totalConveyanceAll}">
-									<h:outputText value="#{st.conveyanceall}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalConveyanceAll}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.conveyanceall}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="Gross" footerText="#{salaryView.totalGross}">
-									<h:outputText value="#{st.grosssalary}">
+								<p:column headerText="Gross">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalGross}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.grosssalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="PF Amt" footerText="#{salaryView.totalPFAmount}">
-									<h:outputText value="#{st.pfamount}">
+								<p:column headerText="PF Amt">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalPFAmount}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.pfamount}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 								<p:column headerText="Loan Amt" footerText="#{salaryView.totalLoanAmount}">
-									<h:outputText value="#{st.loanamount}">
-
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalLoanAmount}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.loanamount}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 								<p:column headerText="Prof Tax" footerText="#{salaryView.totalProfTaxDeduction}">
-									<h:outputText value="#{st.proftaxdeduction}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalProfTaxDeduction}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.proftaxdeduction}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 								<p:column headerText="Other Deductions" footerText="#{salaryView.totalOtherDeductions}">
-									<h:outputText value="#{st.otherdeduction}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalOtherDeductions}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.otherdeduction}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 								<p:column headerText="Total Deductions" footerText="#{salaryView.totalDeductions}">
-									<h:outputText value="#{st.totaldeductions}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalDeductions}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" value="#{st.totaldeductions}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 								<p:column headerText="Net Salary" footerText="#{salaryView.totalNetSalary}">
-									<h:outputText style="font-weight:600;" value="#{st.netsalary}">
+									<f:facet name="footer">
+										<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{salaryView.totalNetSalary}">
+											<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										</h:outputText>
+									</f:facet>
+									<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{st.netsalary}">
 										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>

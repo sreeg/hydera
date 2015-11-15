@@ -20,10 +20,8 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class PaymentView implements Serializable {
 
-	private static LinkedHashMap<String, Integer> monthDaysMap;
 	private java.sql.Connection conn;
 
-	private static LinkedHashMap<String, String> monthMap;
 	private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
 	/**
 	 * 
@@ -31,42 +29,8 @@ public class PaymentView implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static LinkedHashMap<String, String> yearMap = new LinkedHashMap<String, String>();
 
-	static {
-		monthMap = new LinkedHashMap<String, String>();
-		monthMap.put("January", "January");
-		monthMap.put("February", "February");
-		monthMap.put("March", "March");
-		monthMap.put("April", "April");
-		monthMap.put("May", "May");
-		monthMap.put("May", "June");
-		monthMap.put("July", "July");
-		monthMap.put("August", "August");
-		monthMap.put("September", "September");
-		monthMap.put("October", "October");
-		monthMap.put("November", "November");
-		monthMap.put("December", "December");
-	}
-
-	static {
-		monthDaysMap = new LinkedHashMap<String, Integer>();
-		monthDaysMap.put("January", 31);
-		monthDaysMap.put("February", 28);
-		monthDaysMap.put("March", 31);
-		monthDaysMap.put("April", 30);
-		monthDaysMap.put("May", 31);
-		monthDaysMap.put("May", 30);
-		monthDaysMap.put("July", 31);
-		monthDaysMap.put("August", 31);
-		monthDaysMap.put("September", 30);
-		monthDaysMap.put("October", 31);
-		monthDaysMap.put("November", 30);
-		monthDaysMap.put("December", 31);
-	}
-
 	private String currentMonth;
 	private String currentYear;
-	private int daysincurrentmonth;
-	private int daysinselectedmonth;
 	private boolean disableGenerateButton;
 
 	SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
@@ -92,17 +56,16 @@ public class PaymentView implements Serializable {
 	private double payslipCashTotal;
 	private double payslipChequeTotal;
 	private double payslipOnlineTotal;
+	private List<Integer> profTaxList;
 
-	public PaymentView() {
+	public PaymentView() throws ClassNotFoundException, SQLException {
 		Calendar now = Calendar.getInstance();
 		setCurrentMonth(month_date.format(now.getTime()));
 		setCurrentYear("" + now.get(Calendar.YEAR));
-		setDaysincurrentmonth(now.getActualMaximum(Calendar.DATE));
 
 		yearMap.put(currentYear, currentYear);
 		setSelectedyear(getCurrentYear());
 		setSelectedmonth(getCurrentMonth());
-		setDaysinselectedmonth(monthDaysMap.get(getCurrentMonth()));
 		disableGenerateButton = false;
 
 		payslipCash = new ArrayList<>();
@@ -110,11 +73,7 @@ public class PaymentView implements Serializable {
 		payslipOnline = new ArrayList<>();
 		allPayslips = new ArrayList<>();
 		
-		try {
-			save();
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+		//save();
 	}
 
 	public List<PaySlip> getAllSalaryStaffByMonthAndYear() {
@@ -124,7 +83,7 @@ public class PaymentView implements Serializable {
 			conn = DBConnection.getConnection();
 			ResultSet rs = conn.createStatement()
 					.executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,modeofpayment,"
+							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,modeofpayment,iseligibleforpf,"
 							+ "staff.firstname, staff.lastname,staff.categoryid,staff.designation,staff.DateOfJoining,"
 							+ "pfamount, loanamount, attendance.dayspresent, attendance.daysinmonth from salary "
 							+ "LEFT JOIN attendance ON salary.employeeid=attendance.staffid and attendance.year=" + "'"
@@ -162,6 +121,7 @@ public class PaymentView implements Serializable {
 				String categoryID = rs.getString("staff.categoryid");
 				String modeofpayment = rs.getString("modeofpayment");
 				ps.setModeofpayment(modeofpayment);
+				ps.setIseligibleforpf(rs.getBoolean("iseligibleforpf"));
 				ps.setCategoryname(categoryID);
 				ps.setPfamount(rs.getDouble("pfamount"));
 				ps.setLoanamount(rs.getDouble("loanamount"));
@@ -178,6 +138,7 @@ public class PaymentView implements Serializable {
 							"Cannot generate payslips for " + selectedmonth + ", " + selectedyear + ".",
 							"Enter attendance details first.");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
+					setShowForm(false);
 					return paySlips;
 				}
 
@@ -215,6 +176,7 @@ public class PaymentView implements Serializable {
 					"Succesfully generated payments for " + selectedmonth + ", " + selectedyear,
 					"Press 'print' for print outs.");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+			setShowForm(true);
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -234,16 +196,8 @@ public class PaymentView implements Serializable {
 		return currentYear;
 	}
 
-	public int getDaysincurrentmonth() {
-		return daysincurrentmonth;
-	}
-
-	public int getDaysinselectedmonth() {
-		return daysinselectedmonth;
-	}
-
 	public LinkedHashMap<String, String> getMonthMap() {
-		return monthMap;
+		return Commons.monthMap;
 	}
 
 	public LinkedHashMap<String, String> getMonthmapfromdb() {
@@ -318,22 +272,20 @@ public class PaymentView implements Serializable {
 		return showForm;
 	}
 
-	public void onMonthChange() throws ClassNotFoundException, SQLException {
+	public void onMonthChange() {
 		if (selectedmonth != null && !selectedmonth.equals("")) {
-			setDaysinselectedmonth(monthDaysMap.get(selectedmonth));
 			disableGenerateButton = false;
 		} else {
 			disableGenerateButton = true;
-			setShowForm(false);
 		}
+		setShowForm(false);
 	}
 
 	public void onYearChange() {
 	}
 
-	public void save() throws ClassNotFoundException, SQLException {
+	public void save() {
 		payslips = getAllSalaryStaffByMonthAndYear();
-		setShowForm(true);
 	}
 
 	public void setCurrentMonth(String currentMonth) {
@@ -344,22 +296,10 @@ public class PaymentView implements Serializable {
 		this.currentYear = currentYear;
 	}
 
-	public void setDaysincurrentmonth(int daysincurrentmonth) {
-		this.daysincurrentmonth = daysincurrentmonth;
-	}
-
-	public void setDaysinselectedmonth(int daysinselectedmonth) {
-		this.daysinselectedmonth = daysinselectedmonth;
-	}
-
 	public void setDisableGenerateButton(boolean disableGenerateButton) {
 		this.disableGenerateButton = disableGenerateButton;
 	}
-
-	public void setMonthMap(LinkedHashMap<String, String> monthMap) {
-		PaymentView.monthMap = monthMap;
-	}
-
+	
 	public void setMonthmapfromdb(LinkedHashMap<String, String> monthmapfromdb) {
 		PaymentView.monthmapfromdb = monthmapfromdb;
 	}
@@ -458,6 +398,47 @@ public class PaymentView implements Serializable {
 
 	public void setPayslipOnlineTotal(double payslipOnlineTotal) {
 		this.payslipOnlineTotal = payslipOnlineTotal;
+	}
+
+	public List<Integer> getProfTaxList() {
+		int slab1 = 0, slab2 = 0,slab3 = 0,slab4 = 0,slab5 = 0,slab6 = 0,slab7 = 0,slab8 = 0, slab9 = 0;
+		for(PaySlip p : payslips)
+		{
+			Double netsalary = p.getNetsalary();
+			if(netsalary <= 2000)
+				slab1++;
+			else if(netsalary > 2000 && netsalary <=3000 )
+				slab2++;
+			else if(netsalary > 3000 && netsalary <=4000 )
+				slab3++;
+			else if(netsalary > 4000 && netsalary <=5000 )
+				slab4++;
+			else if(netsalary > 5000 && netsalary <=6000 )
+				slab5++;
+			else if(netsalary > 6000 && netsalary <=10000 )
+				slab6++;
+			else if(netsalary > 10000 && netsalary <=15000 )
+				slab7++;
+			else if(netsalary > 15000 && netsalary <=20000 )
+				slab8++;
+			else if(netsalary > 20000 )
+				slab9++;
+		}
+		profTaxList = new ArrayList<Integer>();
+		profTaxList.add(slab1);
+		profTaxList.add(slab2);
+		profTaxList.add(slab3);
+		profTaxList.add(slab4);
+		profTaxList.add(slab5);
+		profTaxList.add(slab6);
+		profTaxList.add(slab7);
+		profTaxList.add(slab8);
+		profTaxList.add(slab9);
+		return profTaxList;
+	}
+
+	public void setProfTaxList(List<Integer> profTaxList) {
+		this.profTaxList = profTaxList;
 	}
 
 }

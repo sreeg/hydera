@@ -147,7 +147,7 @@ public class StaffFilterView implements Serializable {
 		try {
 			java.sql.Connection conn = DBConnection.getConnection();
 			rs = conn.createStatement().executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
-					+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, modeofpayment,"
+					+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, modeofpayment,iseligibleforpf,"
 					+ "pfamount, loanamount from salary where employeeid = " + "'" + selectedStaffIdByCategory2 + "'");
 			if (rs.next()) {
 				st.setEmployeeid(rs.getString("employeeid"));
@@ -163,6 +163,7 @@ public class StaffFilterView implements Serializable {
 				st.setPfamount(rs.getDouble("pfamount"));
 				st.setLoanamount(rs.getDouble("loanamount"));
 				st.setModeofpayment(rs.getString("modeofpayment"));
+				st.setIseligibleforpf(rs.getBoolean("iseligibleforpf"));
 				
 				FacesContext context = FacesContext.getCurrentInstance();
 				SalaryBean bean = context.getApplication().evaluateExpressionGet(context, "#{salaryBean}", SalaryBean.class);

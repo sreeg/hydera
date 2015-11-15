@@ -30,13 +30,16 @@
 	margin: 5px 0;
 }
 
-
 .marginTop20 {
 	margin-top: 20px;
 }
 
 .marginTop100 {
 	margin-top: 100px;
+}
+
+.marginBottom10 {
+	margin-bottom: 10px;
 }
 
 .marginBottom20 {
@@ -324,6 +327,10 @@
 	margin-bottom: 0px;
 }
 
+.marginRight5 {
+	margin-right: 5px;
+}
+
 .marginRight20 {
 	margin-right: 20px;
 }
@@ -420,5 +427,39 @@ tfoot {
 }
 
 .ui-state-highlight .ui-icon {
-    background-image: url("/School/javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap");
+	background-image:
+		url("/School/javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap");
+}
+
+.attendanceImg {
+	background-image: url("../resources/images/attendance.png");
+	width: 70px;
+	height: 70px;
+	display: inherit;
+	background-size: contain;
+	box-sizing: border-box;
+}
+
+.nav-pills>li.inactive>a,
+.nav-pills>li.inactive>a:focus, 
+.nav-pills>li.inactive>a:hover {
+    background-color: #eef5fa;
+    color: #000;
+}
+
+.nav-pills>li+li {
+    padding-left: 5px;
+}
+
+.underline {
+	text-decoration: underline;
+}
+.hidden {
+	display: none;
+}
+
+@media all and (max-width: 1080px) and (min-width: 520px) {
+  .mobile {
+    display: none;
+  }
 }

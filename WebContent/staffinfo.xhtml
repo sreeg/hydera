@@ -35,7 +35,7 @@
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="showstaff" />
+					<ui:param name="page" value="viewDetails" />
 				</ui:include>
 			</ui:insert>
 
@@ -45,11 +45,17 @@
 					<!-- Page Heading -->
 					<div class="row">
 						<div class="col-lg-12">
-							<h1 class="page-header">Staff Information</h1>
+							<h1 class="page-header">View Student/Staff Information</h1>
 						</div>
 					</div>
 
-					<p:tabView>
+					<ul class="nav nav-pills nav-justified">
+						<li role="presentation" class="inactive"><a href="viewStudentDetails.xhtml">Student Details</a></li>
+						<li role="presentation" class="active"><a href="staffinfo.xhtml">Staff Details</a></li>
+						<li role="presentation" class="inactive"><a href="staffSalaryInfo.xhtml">Staff Salary Details</a></li>
+					</ul>
+
+					<p:tabView styleClass="marginTop20">
 						<p:tab title="All Staff">
 							<div class="row">
 

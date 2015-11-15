@@ -75,7 +75,7 @@ public class SalaryBean implements Serializable {
 				ps = conn.prepareStatement("INSERT INTO SALARY (employeeid, basicsalary, fixedda, hra, conveyanceall,"
 						+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
 						+ "pfamount, loanamount, createdatetime, updatedatetime, modeofpayment) "
-						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?, now(), now(), ?)");
+						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?, now(), now(), ?,?)");
 
 				ps.setString(1, salary.getEmployeeid());
 				ps.setDouble(2, salary.getBasicsalary());
@@ -90,6 +90,7 @@ public class SalaryBean implements Serializable {
 				ps.setDouble(11, salary.getPfamount());
 				ps.setDouble(12, salary.getLoanamount());
 				ps.setString(13, selectedmodeofpayment);
+				ps.setBoolean(14, salary.getIseligibleforpf());
 				
 				int rs = ps.executeUpdate();
 
@@ -117,7 +118,7 @@ public class SalaryBean implements Serializable {
 			conn = DBConnection.getConnection();
 			ps = conn.prepareStatement("UPDATE SALARY set basicsalary = ?, fixedda = ?, hra = ?, conveyanceall = ?,"
 					+ "pfno = ?, sbacno = ?, pfrate = ?, proftaxdeduction = ?, otherdeduction = ?,"
-					+ "pfamount = ?, loanamount = ?, modeofpayment = ?, updatedatetime = now() where employeeid = ?");
+					+ "pfamount = ?, loanamount = ?, modeofpayment = ?, iseligibleforpf = ?, updatedatetime = now() where employeeid = ?");
 
 			ps.setDouble(1, salary.getBasicsalary());
 			ps.setDouble(2, salary.getFixedda());
@@ -131,7 +132,8 @@ public class SalaryBean implements Serializable {
 			ps.setDouble(10, ((salary.getBasicsalary() + salary.getFixedda()) *salary.getPfrate())/100d);
 			ps.setDouble(11, salary.getLoanamount());
 			ps.setString(12, selectedmodeofpayment);
-			ps.setString(13, salary.getEmployeeid());
+			ps.setBoolean(13, salary.getIseligibleforpf());
+			ps.setString(14, salary.getEmployeeid());
 			
 			
 			int rs = ps.executeUpdate();
