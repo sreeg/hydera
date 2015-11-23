@@ -120,62 +120,76 @@ public class AttendanceView implements Serializable {
 		return staffs;
 	}
 
-	public List<Attendance> getAllStaffAttendance() throws ClassNotFoundException, SQLException {
-		java.sql.Connection conn = DBConnection.getConnection();
-		ResultSet rs = conn.createStatement()
-				.executeQuery("select Id, FirstName, LastName, CategoryId, Designation,"
-						+ "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
-						+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode, "
-						+ "attendance.dayspresent, attendance.month, attendance.year, attendance.daysinmonth from staff "
-						+ "LEFT JOIN attendance ON staff.Id=attendance.staffid ORDER BY staff.CategoryId");
-
+	public List<Attendance> getAllStaffAttendance() {
+		ResultSet rs;
 		List<Attendance> attendance = new ArrayList<>();
-		while (rs.next()) {
-			Attendance at = new Attendance();
-			at.setId(rs.getString("Id"));
-			at.setFirstname(rs.getString("FirstName"));
-			at.setLastname(rs.getString("Lastname"));
-			at.setCategoryid(rs.getString("CategoryId"));
-			at.setDesignation(rs.getString("Designation"));
-			at.setSpouseName(rs.getString("SpouseName"));
-			at.setSpouseOccupation(rs.getString("SpouseOccupation"));
-			at.setPhone(rs.getString("Phone"));
-			at.setDob(rs.getDate("DateOfBirth"));
-			at.setDoj(rs.getDate("DateOfJoining"));
-			at.setJoiningsalary(rs.getDouble("JoiningSalary"));
-			at.setSex(rs.getString("Gender"));
-			at.setMobile(rs.getString("Mobile"));
-			at.setEmail(rs.getString("Email"));
-			at.setProfiepic(rs.getString("ProfilePic"));
-			at.setHouseno(rs.getString("houseno"));
-			at.setStreet(rs.getString("street"));
-			at.setCity(rs.getString("city"));
-			at.setPostalCode(rs.getString("postalcode"));
-			at.setDayspresent(rs.getInt("dayspresent"));
-			at.setDaysinmonth(rs.getInt("daysinmonth"));
-			String month = rs.getString("month");
-			at.setMonth(month);
-			String year = rs.getString("year");
-			at.setYear(year);
-			if(month.equals(currentMonth))
-			attendance.add(at);
 
-			if (year != null)
-				yearMap.put(year, year);
+		try {
+			java.sql.Connection conn = DBConnection.getConnection();
 
-			if (month != null)
-				monthmapfromdb.put(month, month);
+			rs = conn.createStatement()
+					.executeQuery("select Id, FirstName, LastName, CategoryId, Designation,"
+							+ "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
+							+ "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode, "
+							+ "attendance.dayspresent, attendance.month, attendance.year, attendance.daysinmonth from attendance "
+							+ "LEFT JOIN staff ON staff.Id=attendance.staffid ORDER BY staff.CategoryId");
+			
+			while (rs.next()) {
+				Attendance at = new Attendance();
+				at.setId(rs.getString("Id"));
+				at.setFirstname(rs.getString("FirstName"));
+				at.setLastname(rs.getString("Lastname"));
+				at.setCategoryid(rs.getString("CategoryId"));
+				at.setDesignation(rs.getString("Designation"));
+				at.setSpouseName(rs.getString("SpouseName"));
+				at.setSpouseOccupation(rs.getString("SpouseOccupation"));
+				at.setPhone(rs.getString("Phone"));
+				at.setDob(rs.getDate("DateOfBirth"));
+				at.setDoj(rs.getDate("DateOfJoining"));
+				at.setJoiningsalary(rs.getDouble("JoiningSalary"));
+				at.setSex(rs.getString("Gender"));
+				at.setMobile(rs.getString("Mobile"));
+				at.setEmail(rs.getString("Email"));
+				at.setProfiepic(rs.getString("ProfilePic"));
+				at.setHouseno(rs.getString("houseno"));
+				at.setStreet(rs.getString("street"));
+				at.setCity(rs.getString("city"));
+				at.setPostalCode(rs.getString("postalcode"));
+				at.setDayspresent(rs.getInt("dayspresent"));
+				at.setDaysinmonth(rs.getInt("daysinmonth"));
+				String month = rs.getString("month");
+				at.setMonth(month);
+				String year = rs.getString("year");
+				at.setYear(year);
+				if(month.equals(currentMonth))
+				attendance.add(at);
 
-			if (at.getCategoryid().equals("1")) {
-				staffsPermenant.add(at);
+				if (year != null)
+					yearMap.put(year, year);
+
+				if (month != null)
+					monthmapfromdb.put(month, month);
+
+				if (at.getCategoryid().equals("1")) {
+					staffsPermenant.add(at);
+				}
+				if (at.getCategoryid().equals("2")) {
+					staffsDomestic.add(at);
+				}
+				if (at.getCategoryid().equals("3")) {
+					staffsTemporary.add(at);
+				}
 			}
-			if (at.getCategoryid().equals("2")) {
-				staffsDomestic.add(at);
-			}
-			if (at.getCategoryid().equals("3")) {
-				staffsTemporary.add(at);
-			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+
+		
 		return attendance;
 	}
 
@@ -213,6 +227,7 @@ public class AttendanceView implements Serializable {
 			at.setDayspresent(rs.getInt("dayspresent"));
 			at.setDaysinmonth(rs.getInt("daysinmonth"));
 			String month = rs.getString("month");
+
 			at.setMonth(month);
 			String year = rs.getString("year");
 			at.setYear(year);

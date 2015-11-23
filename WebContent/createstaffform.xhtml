@@ -46,8 +46,8 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Spouse Name *" />
-									<p:inputText styleClass="form-control" value="#{staffBean.staff.spouseName}" required="true" label="Spousename" />
+									<h:outputText value="Spouse Name" />
+									<p:inputText styleClass="form-control" value="#{staffBean.staff.spouseName}" label="Spousename" />
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -83,6 +83,12 @@
 										<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{staffBean.staff.category}" />
 									</h:selectOneMenu>
+								</div>
+							</div>
+														<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Designation " />
+									<p:inputText styleClass="form-control" value="#{staffBean.staff.designation}" label="designation" />
 								</div>
 							</div>
 						</div>

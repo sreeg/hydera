@@ -9,17 +9,17 @@ import java.util.Properties;
 
 public class DBConnection {
 
-	private static Connection conn;
-	private static String databaseServer;
-	private static String databaseName;
-	private static String databaseUserName;
-	private static String databaseServerPort;
-	private static String databaseJDBCDriver;
-	private static String databaseUserPassword;
+	public static Connection conn;
+	public static String databaseServer;
+	public static String databaseName;
+	public static String databaseUserName;
+	public static String databaseServerPort;
+	public static String databaseJDBCDriver;
+	public static String databaseUserPassword;
 
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {
 		if (conn == null) {
-			readProperties();
+			//readProperties();
 			
 //			Class.forName("com.mysql.jdbc.Driver");
 //			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/school", "root", "sreedhar");
@@ -36,26 +36,6 @@ public class DBConnection {
 
 		}
 		return conn;
-	}
-
-	private static void readProperties() {
-		Properties props = new Properties();
-		try {
-			FileInputStream in = new FileInputStream("C://db.properties");
-			props.load(in);
-			in.close();
-
-			databaseServer = props.getProperty("db.server");
-			databaseServerPort = props.getProperty("db.port");
-			databaseName = props.getProperty("db.name");
-			databaseUserName = props.getProperty("db.user");
-			databaseUserPassword = props.getProperty("db.password");
-			databaseJDBCDriver = props.getProperty("db.jdbc.driver");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 }

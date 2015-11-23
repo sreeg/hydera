@@ -458,7 +458,7 @@ tfoot {
 	display: none;
 }
 
-@media all and (max-width: 1080px) and (min-width: 520px) {
+@media all and (max-width: 1080px) and (min-width: 320px) {
   .mobile {
     display: none;
   }

@@ -18,7 +18,7 @@ public class Salary implements Serializable {
 	private Double conveyanceall;
 	private String pfno;
 	private String sbacno;
-	private Double pfrate;
+	private Double pfrate = 0.12d;
 	private Double proftaxdeduction;
 	private Double otherdeduction;
 	private Double pfamount;
@@ -41,7 +41,7 @@ public class Salary implements Serializable {
 	}
 
 	public Double getHra() {
-		return hra;
+		return hra == null ? null : getFactor() * hra;
 	}
 
 	public void setHra(Double hra) {
@@ -100,7 +100,7 @@ public class Salary implements Serializable {
 		if (!iseligibleforpf) {
 			return 0d;
 		} else {
-			return ((basicsalary + fixedda) * pfrate) / 100d;
+			return ((getBasicsalary() + getFixedda()) * getPfrate());
 		}
 	}
 

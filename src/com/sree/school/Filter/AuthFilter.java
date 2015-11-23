@@ -1,7 +1,11 @@
 package com.sree.school.Filter;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -13,7 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/*Sreedhar*/
+import com.sree.school.DBConnection;
+import com.sree.school.LoginBean;
 
 @WebFilter(filterName = "AuthFilter", urlPatterns = { "*.xhtml" })
 public class AuthFilter implements Filter {
@@ -23,7 +28,8 @@ public class AuthFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
+		System.out.println("In Init of AuthFilter");
+		readProperties();
 	}
 
 	@Override
@@ -58,6 +64,34 @@ public class AuthFilter implements Filter {
 
 	@Override
 	public void destroy() {
+
+	}
+
+	private static void readProperties() {
+		Properties props = new Properties();
+		try {
+			File configDir = new File(System.getProperty("catalina.base"), "conf");
+			File configFile = new File(configDir, "db.properties");
+
+			FileInputStream in = new FileInputStream(configFile);
+			props.load(in);
+			in.close();
+
+			DBConnection.databaseServer = props.getProperty("db.server");
+			DBConnection.databaseServerPort = props.getProperty("db.port");
+			DBConnection.databaseName = props.getProperty("db.name");
+			DBConnection.databaseUserName = props.getProperty("db.user");
+			DBConnection.databaseUserPassword = props.getProperty("db.password");
+			DBConnection.databaseJDBCDriver = props.getProperty("db.jdbc.driver");
+
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext()
+					.getSession(false);
+
+			LoginBean.schoolname = props.getProperty("app.schoolname");
+			LoginBean.shortdescription = props.getProperty("app.shortdescription");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 }

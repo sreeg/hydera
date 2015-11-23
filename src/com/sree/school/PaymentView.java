@@ -139,7 +139,7 @@ public class PaymentView implements Serializable {
 							"Enter attendance details first.");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
 					setShowForm(false);
-					return paySlips;
+					//return paySlips;
 				}
 
 				Double factor = (double) ((1.0f * dayspresent) / ps.getDaysinmonth());

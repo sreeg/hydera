@@ -19,6 +19,8 @@ public class LoginBean {
 	private String password;
 	private String staffid;
 	private String lastlogindatettime;
+	public static String schoolname;
+	public static String shortdescription;
 
 	public String getPassword() {
 		return password;
@@ -75,5 +77,21 @@ public class LoginBean {
 
 	public void setLastlogindatettime(String lastlogindatettime) {
 		this.lastlogindatettime = lastlogindatettime;
+	}
+
+	public String getShortdescription() {
+		return shortdescription;
+	}
+
+	public void setShortdescription(String shortdescription) {
+		this.shortdescription = shortdescription;
+	}
+
+	public String getSchoolname() {
+		return schoolname;
+	}
+
+	public void setSchoolname(String schoolname) {
+		this.schoolname = schoolname;
 	}
 }

@@ -110,13 +110,15 @@ body {
 			<div class="container1">
 
 				<div class="center-block" style="text-align: center">
-					<h1>Chaitanya Vidyalaya</h1>
-					<h4>Payroll Management System</h4>
+					<h1><i class="fa fa-university marginRight20"></i>#{loginBean.schoolname}</h1>
+					<h4>#{loginBean.shortdescription}</h4>
 				</div>
 			</div>
 		</header>
 		<br />
 		<div class="container loginForm">
+				<p:messages id="messages" styleClass="hidden-print" showDetail="true" autoUpdate="true" closable="true" />
+		
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4">
 					<div class=" panel panel-login">

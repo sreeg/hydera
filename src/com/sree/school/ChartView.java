@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -37,19 +36,80 @@ public class ChartView implements Serializable {
 	private static final long serialVersionUID = 3768405787440247712L;
 	private static final String USED_DATE_FORMAT = "MMMM,yyyy";
 	private BarChartModel barModel;
+	private BarChartModel cashModel;
 	private Connection conn;
-	private BarChartModel cumBarModel;
 
+	private BarChartModel cumBarModel;
 	private Double cumilativeDom;
 	private Double cumilativePer;
 	private Double cumilativeTem;
 	private Map<Date, Double> domestic;
+	
 	SimpleDateFormat formatter = new SimpleDateFormat(USED_DATE_FORMAT);
 	private HorizontalBarChartModel horizontalBarModel;
 	private Map<Date, Double> parttime;
 	private Map<Date, Double> permanant;
 	private PieChartModel pieModel1;
 	private Map<Date, Double> total;
+	private Double totalFeeCollected;
+	private Double totalSalarySpent;
+	private int totalNumberOfPerm;
+	private int totalNumberOfDom;
+	private int totalNumberOfTemp;
+
+	private Set<String> staffsDomestic;
+
+	private Set<String> staffsPermenant;
+
+	private Set<String> staffsTemporary;
+	
+	public Set<String> getStaffsDomestic() {
+		return staffsDomestic;
+	}
+
+	public void setStaffsDomestic(Set<String> staffsDomestic) {
+		this.staffsDomestic = staffsDomestic;
+	}
+
+	public Set<String> getStaffsPermenant() {
+		return staffsPermenant;
+	}
+
+	public void setStaffsPermenant(Set<String> staffsPermenant) {
+		this.staffsPermenant = staffsPermenant;
+	}
+
+	public Set<String> getStaffsTemporary() {
+		return staffsTemporary;
+	}
+
+	public void setStaffsTemporary(Set<String> staffsTemporary) {
+		this.staffsTemporary = staffsTemporary;
+	}
+
+	public int getTotalNumberOfPerm() {
+		return totalNumberOfPerm;
+	}
+
+	public void setTotalNumberOfPerm(int totalNumberOfPerm) {
+		this.totalNumberOfPerm = totalNumberOfPerm;
+	}
+
+	public int getTotalNumberOfDom() {
+		return totalNumberOfDom;
+	}
+
+	public void setTotalNumberOfDom(int totalNumberOfDom) {
+		this.totalNumberOfDom = totalNumberOfDom;
+	}
+
+	public int getTotalNumberOfTemp() {
+		return totalNumberOfTemp;
+	}
+
+	public void setTotalNumberOfTemp(int totalNumberOfTemp) {
+		this.totalNumberOfTemp = totalNumberOfTemp;
+	}
 
 	public ChartView() {
 		permanant = new TreeMap<>();
@@ -59,7 +119,44 @@ public class ChartView implements Serializable {
 		cumilativePer = 0d;
 		cumilativeDom = 0d;
 		cumilativeTem = 0d;
+		totalFeeCollected =0d;
+		totalSalarySpent=0d;
+		totalNumberOfPerm =0;
+		totalNumberOfDom =0;
+		totalNumberOfTemp =0;
+		staffsPermenant =  new HashSet<>();
+		staffsDomestic = new HashSet<>();
+		staffsTemporary = new HashSet<>();
 		getAllPayslips();
+		getFeePaymentDetails();
+		getStaffCount();
+	}
+
+	private void getStaffCount() {
+		
+		try {
+			conn = DBConnection.getConnection();
+			ResultSet rs = conn.createStatement()
+					.executeQuery("SELECT CategoryId, count(*) as 'Cnt' FROM school.staff GROUP BY CategoryId");
+
+			while (rs.next()) {
+				if("1".equals(rs.getString("CategoryId")))
+						{
+					totalNumberOfPerm = Integer.parseInt(rs.getString("Cnt"));
+						}
+				else if("2".equals(rs.getString("CategoryId")))
+				{
+			totalNumberOfDom = Integer.parseInt(rs.getString("Cnt"));
+				}
+				else if("3".equals(rs.getString("CategoryId")))
+				{
+			totalNumberOfTemp = Integer.parseInt(rs.getString("Cnt"));
+				}
+
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void createBarModel() {
@@ -79,6 +176,42 @@ public class ChartView implements Serializable {
 		// yAxis.setMax(100);
 	}
 
+	private void createCashModel() {
+		cashModel = new BarChartModel();
+
+		ChartSeries cash = new ChartSeries();
+		cash.setLabel("Cash in-flow");
+		cash.set(" ", totalFeeCollected);
+		
+		ChartSeries cashOut = new ChartSeries();
+		cashOut.setLabel("Cash out-flow ");		
+		cashOut.set(" ", totalSalarySpent);
+		
+		ChartSeries diff = new ChartSeries();
+		diff.setLabel("Difference");		
+		diff.set(" ", (totalFeeCollected - totalSalarySpent));
+
+		cashModel.addSeries(cash);
+		cashModel.addSeries(cashOut);
+		cashModel.addSeries(diff);
+		
+		cashModel.setShowPointLabels(true);
+		cashModel.setSeriesColors("005BAD,F74A4A,33C7AB,5CB85C,A63F82,A30303");
+		cashModel.setDatatipFormat("&#8377; %2$s");
+		
+		cashModel.setLegendCols(3);
+		cashModel.setLegendPosition("ne");
+		
+		Axis xAxis = cashModel.getAxis(AxisType.X);
+		xAxis.setLabel("Cash flows");
+		Axis yAxis = cashModel.getAxis(AxisType.Y);
+		yAxis.setLabel("Amount");
+		yAxis.setTickFormat("%'d");
+		
+		cashModel.setAnimate(true);
+		
+	}
+
 	private void createCumBarModel() {
 		cumBarModel = initBarModel(true);
 		cumBarModel.setShowPointLabels(true);
@@ -95,6 +228,8 @@ public class ChartView implements Serializable {
 		// yAxis.setMin(0);
 		// yAxis.setMax(100);
 		cumBarModel.setStacked(true);
+		cumBarModel.
+		setAnimate(true);
 	}
 
 	private void createPieModel1() {
@@ -113,22 +248,35 @@ public class ChartView implements Serializable {
 		horizontalBarModel = new HorizontalBarChartModel();
 
 		ChartSeries staff = new ChartSeries();
-		staff.set("Permanent", permanant.size());
-		staff.set("Domestic", domestic.size());
-		staff.set("Part Time", parttime.size());
+		staff.set(" ", totalNumberOfPerm);
+		staff.setLabel("Permanent");	
+		
+		ChartSeries staffD = new ChartSeries();
+		staffD.set(" ", totalNumberOfDom);
+		staffD.setLabel("Domestic");	
+		
+		ChartSeries staffT = new ChartSeries();
+		staffT.set(" ", totalNumberOfTemp);
+		staffT.setLabel("Part Time");	
 
 		horizontalBarModel.addSeries(staff);
+		horizontalBarModel.addSeries(staffD);
+		horizontalBarModel.addSeries(staffT);
+		
 		horizontalBarModel.setShowPointLabels(true);
-		horizontalBarModel.setSeriesColors("F74A4A,337AB7,5CB85C,4C3973,A63F82,A30303");
+		horizontalBarModel.setSeriesColors("5CB85C, F74A4A,337AB7,5CB85C,4C3973,A63F82");
+
+		horizontalBarModel.setLegendCols(1);
+		horizontalBarModel.setLegendPosition("ne");
+		horizontalBarModel.setDatatipFormat("%1$s");
 		
 		Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
 		xAxis.setLabel("No. of Staff");
-		xAxis.setTickCount(10);
-		xAxis.setMax(50);
+		xAxis.setTickFormat("%d");
 		
 		Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
 		yAxis.setLabel("Staff Type");
-		yAxis.setTickFormat("%d");
+		
 
 	}
 
@@ -140,7 +288,7 @@ public class ChartView implements Serializable {
 			ResultSet rs = conn.createStatement()
 					.executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
 							+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, CategoryId,"
-							+ "pfamount, loanamount, month, year, iseligibleforpf,monthyeardate from payslip LEFT JOIN staff ON payslip.employeeid=staff.Id order by monthyeardate");
+							+ "pfamount, loanamount, month, year, iseligibleforpf,monthyeardate from payslip LEFT OUTER JOIN staff ON payslip.employeeid=staff.Id order by monthyeardate");
 
 			while (rs.next()) {
 				PaySlip ps = new PaySlip();
@@ -169,34 +317,48 @@ public class ChartView implements Serializable {
 
 				if (cat.equals("1") && permanant.get(monthAndYear) == null) {
 					permanant.put(monthAndYear, ps.getNetsalary());
+					totalNumberOfPerm++;
+					staffsPermenant.add(ps.getEmployeeid());
 				} else if (cat.equals("1")) {
 					Double netsalary = permanant.get(monthAndYear);
 					netsalary += ps.getNetsalary();
 					permanant.put(monthAndYear, netsalary);
+					totalNumberOfPerm++;
+					staffsPermenant.add(ps.getEmployeeid());
 				}
 
 				if (cat.equals("2") && domestic.get(monthAndYear) == null) {
 					domestic.put(monthAndYear, ps.getNetsalary());
+					totalNumberOfDom++;
+					staffsDomestic.add(ps.getEmployeeid());
 				} else if (cat.equals("2")) {
 					Double netsalary = domestic.get(monthAndYear);
 					netsalary += ps.getNetsalary();
 					domestic.put(monthAndYear, netsalary);
+					totalNumberOfDom++;
+					staffsDomestic.add(ps.getEmployeeid());
 				}
 
 				if (cat.equals("3") && parttime.get(monthAndYear) == null) {
 					parttime.put(monthAndYear, ps.getNetsalary());
+					totalNumberOfTemp++;
+					staffsTemporary.add(ps.getEmployeeid());
 				} else if (cat.equals("3")) {
 					Double netsalary = parttime.get(monthAndYear);
 					netsalary += ps.getNetsalary();
 					parttime.put(monthAndYear, netsalary);
+					totalNumberOfTemp++;
+					staffsTemporary.add(ps.getEmployeeid());
 				}
 
 				if (total.get(monthAndYear) == null) {
 					total.put(monthAndYear, ps.getNetsalary());
+					totalSalarySpent+= ps.getNetsalary();
 				} else {
 					Double netsalary = total.get(monthAndYear);
 					netsalary += ps.getNetsalary();
 					total.put(monthAndYear, netsalary);
+					totalSalarySpent+= ps.getNetsalary();
 				}
 
 			}
@@ -214,8 +376,30 @@ public class ChartView implements Serializable {
 		return barModel;
 	}
 
+	public BarChartModel getCashModel() {
+		return cashModel;
+	}
+
 	public BarChartModel getCumBarModel() {
 		return cumBarModel;
+	}
+
+	private void getFeePaymentDetails() {
+		try {
+			conn = DBConnection.getConnection();
+			ResultSet rs = conn.createStatement()
+					.executeQuery("select studentid, term1paymentamount, term2paymentamount, term3paymentamount, "
+							+ "term1paiddate, term2paiddate, term3paiddate, term1cheque, term2cheque, term3cheque "
+							+ "from feepayment");
+
+			while (rs.next()) {
+				totalFeeCollected += rs.getDouble("term1paymentamount") + rs.getDouble("term2paymentamount")
+						+ rs.getDouble("term3paymentamount");
+
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public HorizontalBarChartModel getHorizontalBarModel() {
@@ -226,12 +410,21 @@ public class ChartView implements Serializable {
 		return pieModel1;
 	}
 
+	public Double getTotalFeeCollected() {
+		return totalFeeCollected;
+	}
+
+	public Double getTotalSalarySpent() {
+		return totalSalarySpent;
+	}
+
 	@PostConstruct
 	public void init() {
 		createBarModel();
 		createCumBarModel();
 		createPieModel1();
 		createStaffCompositionModel();
+		createCashModel();
 	}
 
 	private BarChartModel initBarModel(boolean isCum) {
@@ -280,6 +473,10 @@ public class ChartView implements Serializable {
 		return formatter.parse("01," + monthYearString);
 	}
 
+	public void setCashModel(HorizontalBarChartModel cashModel) {
+		this.cashModel = cashModel;
+	}
+
 	public void setCumBarModel(BarChartModel cumBarModel) {
 		this.cumBarModel = cumBarModel;
 	}
@@ -290,5 +487,13 @@ public class ChartView implements Serializable {
 
 	public void setPieModel1(PieChartModel pieModel1) {
 		this.pieModel1 = pieModel1;
+	}
+
+	public void setTotalFeeCollected(Double totalFeeCollected) {
+		this.totalFeeCollected = totalFeeCollected;
+	}
+
+	public void setTotalSalarySpent(Double totalSalarySpent) {
+		this.totalSalarySpent = totalSalarySpent;
 	}
 }

@@ -48,6 +48,7 @@ public class SalaryBean implements Serializable {
 		modeofpayment.put("Cheque", "2");
 		modeofpayment.put("Online", "3");
 	}
+
 	public void save() {
 		FacesMessage msg = null;
 		int i = 0;
@@ -74,8 +75,8 @@ public class SalaryBean implements Serializable {
 			try {
 				ps = conn.prepareStatement("INSERT INTO SALARY (employeeid, basicsalary, fixedda, hra, conveyanceall,"
 						+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
-						+ "pfamount, loanamount, createdatetime, updatedatetime, modeofpayment) "
-						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?, now(), now(), ?,?)");
+						+ "pfamount, loanamount, modeofpayment, iseligibleforpf, createdatetime, updatedatetime) "
+						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,now(),now())");
 
 				ps.setString(1, salary.getEmployeeid());
 				ps.setDouble(2, salary.getBasicsalary());
@@ -91,7 +92,7 @@ public class SalaryBean implements Serializable {
 				ps.setDouble(12, salary.getLoanamount());
 				ps.setString(13, selectedmodeofpayment);
 				ps.setBoolean(14, salary.getIseligibleforpf());
-				
+
 				int rs = ps.executeUpdate();
 
 				if (rs == 1) {
@@ -100,13 +101,14 @@ public class SalaryBean implements Serializable {
 				} else {
 					msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
 				}
+				FacesContext.getCurrentInstance().addMessage(null, msg);
 
 			} catch (SQLException e) {
 				msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
 						"Please contant your system administrator.");
 				e.printStackTrace();
-			} finally {
 				FacesContext.getCurrentInstance().addMessage(null, msg);
+
 			}
 		}
 
@@ -129,13 +131,12 @@ public class SalaryBean implements Serializable {
 			ps.setDouble(7, salary.getPfrate());
 			ps.setDouble(8, salary.getProftaxdeduction());
 			ps.setDouble(9, salary.getOtherdeduction());
-			ps.setDouble(10, ((salary.getBasicsalary() + salary.getFixedda()) *salary.getPfrate())/100d);
+			ps.setDouble(10, ((salary.getBasicsalary() + salary.getFixedda()) * salary.getPfrate()) / 100d);
 			ps.setDouble(11, salary.getLoanamount());
 			ps.setString(12, selectedmodeofpayment);
 			ps.setBoolean(13, salary.getIseligibleforpf());
 			ps.setString(14, salary.getEmployeeid());
-			
-			
+
 			int rs = ps.executeUpdate();
 
 			if (rs == 1) {
@@ -155,7 +156,7 @@ public class SalaryBean implements Serializable {
 					"Please contant your system administrator.");
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} 
+		}
 
 	}
 
@@ -178,7 +179,7 @@ public class SalaryBean implements Serializable {
 	public LinkedHashMap<String, String> getModeofpayment() {
 		return modeofpayment;
 	}
-	
+
 	public String getSelectedmodeofpayment() {
 		return selectedmodeofpayment;
 	}

@@ -204,15 +204,16 @@ public class PaySlipView implements Serializable {
 				
 				int dayspresent = ps.getDayspresent();
 
-				if (dayspresent == 0) {
+				if (rs.getString("dayspresent") == null) {
 					msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Cannot generate payslips for " + selectedmonth + ", " + selectedyear + ".",
-							"Enter attendance details first.");
+							"Attendance for " + ps.getEmployeename()+" for the month of "+selectedmonth + ", " + selectedyear + " is zero.",
+							"Check if it is correct, otherwise fill attendance details and generate the payslips.");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
-					return paySlips;
+					//return paySlips;
 				}
-
-				Double factor = (double) ((1.0f * dayspresent) / ps.getDaysinmonth());
+				Double factor =0d;
+				if(ps.getDaysinmonth() != 0)
+					factor= (double) ((1.0f * dayspresent) / ps.getDaysinmonth());
 				BigDecimal bd = new BigDecimal(factor);
 				bd = bd.setScale(4, RoundingMode.HALF_UP);
 

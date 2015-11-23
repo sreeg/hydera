@@ -14,12 +14,12 @@
 							<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand inlineBlock" href="home.xhtml"><i class="fa fa-graduation-cap fa-fw"></i> Chaitanya
-							Vidyalaya</a>
+						<a class="navbar-brand inlineBlock" href="home.xhtml"><i class="fa fa-graduation-cap fa-fw"></i>
+							#{loginBean.schoolname}</a>
 					</div>
 				</div>
 
-				<div class="navbar-header centered col-lg-4 navbar-brand">Payroll Management System</div>
+				<div class="navbar-header centered col-lg-4 navbar-brand mobile">#{loginBean.shortdescription}</div>
 				<!-- Top Menu Items -->
 				<div class="col-lg-4">
 					<ul class="nav navbar-right top-nav">
@@ -36,11 +36,13 @@
 								<li class="divider"></li>
 								<li><a href="#">View All</a></li>
 							</ul></li>
-						<li><a href="viewStudentDetails.xhtml"><i class="glyphicon glyphicon-edit"></i> <span class="mobile">View and Edit</span></a></li>
-							
-						<li><a href="charts.xhtml"><i class="fa fa-bar-chart"></i> <span class="mobile">Charts</span></a></li>	
+						<li><a href="viewStudentDetails.xhtml"><i class="glyphicon glyphicon-edit"></i> <span class="mobile">View
+									and Edit</span></a></li>
+
+						<li><a href="charts.xhtml"><i class="fa fa-bar-chart"></i> <span class="mobile">Charts</span></a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-								<span class="mobile">#{staffFilterView.staffbylogin.firstname} #{staffFilterView.staffbylogin.lastname} <b class="caret"></b></span></a>
+								<span class="mobile">#{staffFilterView.staffbylogin.firstname} #{staffFilterView.staffbylogin.lastname} <b
+									class="caret"></b></span></a>
 							<ul class="dropdown-menu">
 								<li><p:commandLink id="ajax" actionListener="#{staffFilterView.viewMyProfile}">
 										<i class="fa fa-fw fa-user"></i>
@@ -64,35 +66,36 @@
 					<li class="#{page == 'dashboard' ? 'active' : ''}"><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i>
 							Dashboard</a></li>
 
-					<li><a href="javascript:;" data-toggle="collapse" data-target="#add"><i class="fa fa-fw fa-plus"></i> Add
+					<li><a href="javascript:;" data-toggle="collapse" data-target="#add"><i class="fa fa-fw fa fa-user"></i> Contact Management
 							<i class="fa fa-fw fa-caret-down"></i></a>
 						<ul id="add" class="expand">
 							<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml">Add student</a></li>
 							<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml">Add staff</a></li>
+
+						</ul></li>
+
+					<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i class="fa fa-file-text-o"></i> Salary Management
+							<i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="update" class="expand">
 							<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml">Add staff
 									salary</a></li>
-						</ul></li>
-
-					<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i
-							class="fa fa-edit"></i> Update <i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="update" class="expand">
-							<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Student fees</a></li>
 							<li class="#{page == 'updateattendance' ? 'active' : ''}"><a href="updateAttendance.xhtml">Staff
 									attendance</a></li>
-									
-						</ul></li>
 
-					<li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-external-link"></i>
-							Generate <i class="fa fa-fw fa-caret-down"></i></a>
-						<ul id="demo" class="expand">
-							<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatefeereceipts.xhtml">Fee
-									receipts</a></li>
 							<li class="#{page == 'generatepayslips' ? 'active' : ''}"><a href="generatePaySlips.xhtml">Staff
 									payslips</a></li>
 							<li class="#{page == 'generatepayslipproposal' ? 'active' : ''}"><a href="generatePaySlipsProposal.xhtml">Salary
-									proposals</a></li>
+									proposals</a></li>									
 						</ul></li>
-
+					<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i class="fa fa-money"></i> Fee Management
+							<i class="fa fa-fw fa-caret-down"></i></a>
+						<ul id="update" class="expand">
+							<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Student fees</a></li>
+							<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatefeereceipts.xhtml">Fee
+									receipts</a></li>
+							<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Student
+									fee status</a></li>									
+						</ul></li>
 
 					<li><a href="javascript:;" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-table"></i>
 							Reports <i class="fa fa-fw fa-caret-down"></i></a>
@@ -103,8 +106,7 @@
 									payments</a></li>
 							<li class="#{page == 'onlinepayments' ? 'active' : ''}"><a href="staffOnlinePayments.xhtml">Staff online
 									payments</a></li>
-							<li class="#{page == 'profTax' ? 'active' : ''}"><a href="profTaxStatement.xhtml">Prof. Tax Statement</a></li>																											
-							<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Student fee status</a></li>
+							<li class="#{page == 'profTax' ? 'active' : ''}"><a href="profTaxStatement.xhtml">Prof. Tax Statement</a></li>
 						</ul></li>
 
 
@@ -119,7 +121,9 @@
 			</div>
 			<!-- /.navbar-collapse -->
 		</nav>
-
+		<p:idleMonitor timeout="300000">
+			<p:ajax event="idle" listener="#{loginBean.logout()}" />
+		</p:idleMonitor>
 	</ui:composition>
 </h:body>
 </html>
