@@ -18,7 +18,7 @@ public class UserDAO {
 		try {
 			conn = DBConnection.getConnection();
 			ps = conn.prepareStatement(
-					"select username, password, staffid, lastlogindatetime from userinfo where username= ? and password= ? ");
+					"select username, password, staffid, lastlogindatetime, issuperuser, firstname, lastname, gender from userinfo where username= ? and password= ? ");
 			ps.setString(1, user);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
@@ -28,6 +28,10 @@ public class UserDAO {
 				session.setAttribute("username", rs.getString("username"));
 				session.setAttribute("staffid", rs.getString("staffid"));
 				session.setAttribute("lastlogindatettime", rs.getTimestamp("lastlogindatetime"));
+				session.setAttribute("issuperuser", rs.getBoolean("issuperuser"));
+				session.setAttribute("firstname", rs.getString("firstname"));
+				session.setAttribute("lastname", rs.getString("lastname"));
+				session.setAttribute("gender", rs.getString("gender"));
 				return "staff";
 			} else
 				return "login";

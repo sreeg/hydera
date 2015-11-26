@@ -39,9 +39,9 @@ public class PaySlipView implements Serializable {
 
 	private static LinkedHashMap<String, Integer> monthDaysMap;
 	private java.sql.Connection conn;
-	  private static final String USED_DATE_FORMAT = "dd,MMMM,yyyy";
-	  SimpleDateFormat formatter = new SimpleDateFormat(USED_DATE_FORMAT);
-	  
+	private static final String USED_DATE_FORMAT = "dd,MMMM,yyyy";
+	SimpleDateFormat formatter = new SimpleDateFormat(USED_DATE_FORMAT);
+
 	private static LinkedHashMap<String, String> monthMap;
 	private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
 	/**
@@ -112,11 +112,11 @@ public class PaySlipView implements Serializable {
 
 	private List<PaySlip> payslipWithPF;
 	private List<PaySlip> payslipWithPFDomestic;
-	
+
 	private List<PaySlip> payslipWithoutPF;
 	private List<PaySlip> payslipWithoutPFDomestic;
 	private List<PaySlip> payslipWithoutPFPartTime;
-	
+
 	public PaySlipView() {
 		Calendar now = Calendar.getInstance();
 		setCurrentMonth(month_date.format(now.getTime()));
@@ -133,7 +133,7 @@ public class PaySlipView implements Serializable {
 		payslipDomestic = new ArrayList<>();
 		payslipTemporary = new ArrayList<>();
 		allPayslips = new ArrayList<>();
-		
+
 		try {
 			save();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -168,7 +168,7 @@ public class PaySlipView implements Serializable {
 			payslipDomestic = new ArrayList<>();
 			payslipTemporary = new ArrayList<>();
 			allPayslips = new ArrayList<>();
-			
+
 			pfPayslips = new ArrayList<>();
 			nonpfPayslips = new ArrayList<>();
 			payslipWithPF = new ArrayList<>();
@@ -176,7 +176,7 @@ public class PaySlipView implements Serializable {
 			payslipWithPFDomestic = new ArrayList<>();
 			payslipWithoutPFDomestic = new ArrayList<>();
 			payslipWithoutPFPartTime = new ArrayList<>();
-			
+
 			while (rs.next()) {
 				PaySlip ps = new PaySlip();
 				ps.setEmployeeid(rs.getString("employeeid"));
@@ -201,19 +201,21 @@ public class PaySlipView implements Serializable {
 				ps.setDesignation(rs.getString("designation"));
 				ps.setDoj(rs.getDate("DateOfJoining"));
 				ps.setIseligibleforpf(rs.getBoolean("iseligibleforpf"));
-				
+
 				int dayspresent = ps.getDayspresent();
 
 				if (rs.getString("dayspresent") == null) {
 					msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Attendance for " + ps.getEmployeename()+" for the month of "+selectedmonth + ", " + selectedyear + " is zero.",
+							"Attendance for " + ps.getEmployeename() + " for the month of " + selectedmonth + ", "
+									+ selectedyear + " is zero.",
 							"Check if it is correct, otherwise fill attendance details and generate the payslips.");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
-					//return paySlips;
+					// return paySlips;
 				}
-				Double factor =0d;
-				if(ps.getDaysinmonth() != 0)
-					factor= (double) ((1.0f * dayspresent) / ps.getDaysinmonth());
+
+				Double factor = 0d;
+				if (ps.getDaysinmonth() != 0)
+					factor = (double) ((1.0f * dayspresent) / ps.getDaysinmonth());
 				BigDecimal bd = new BigDecimal(factor);
 				bd = bd.setScale(4, RoundingMode.HALF_UP);
 
@@ -231,31 +233,25 @@ public class PaySlipView implements Serializable {
 
 				if (categoryID.equals("1")) {
 					payslipPermenant.add(ps);
-					if(ps.getIseligibleforpf())
-					{
+					if (ps.getIseligibleforpf()) {
 						payslipWithPF.add(ps);
-					}
-					else
-					{
+					} else {
 						payslipWithoutPF.add(ps);
 					}
 				}
 				if (categoryID.equals("2")) {
 					payslipDomestic.add(ps);
-					if(ps.getIseligibleforpf())
-					{
+					if (ps.getIseligibleforpf()) {
 						payslipWithPFDomestic.add(ps);
-					}
-					else
-					{
+					} else {
 						payslipWithoutPFDomestic.add(ps);
-					}					
+					}
 				}
 				if (categoryID.equals("3")) {
 					payslipTemporary.add(ps);
 					payslipWithoutPFPartTime.add(ps);
 				}
-				
+
 			}
 
 			Categories per = new Categories("Permanent");
@@ -268,7 +264,7 @@ public class PaySlipView implements Serializable {
 			allPayslips.add(per);
 			allPayslips.add(dom);
 			allPayslips.add(tem);
-			
+
 			Categories per1 = new Categories("Permanent");
 			per1.setPayslips(payslipWithPF);
 			Categories dom1 = new Categories("Domestic");
@@ -276,7 +272,7 @@ public class PaySlipView implements Serializable {
 
 			pfPayslips.add(per1);
 			pfPayslips.add(dom1);
-			
+
 			Categories per2 = new Categories("Permanent");
 			per2.setPayslips(payslipWithoutPF);
 			Categories dom2 = new Categories("Domestic");
@@ -287,7 +283,6 @@ public class PaySlipView implements Serializable {
 			nonpfPayslips.add(per2);
 			nonpfPayslips.add(dom2);
 			nonpfPayslips.add(tem2);
-			
 
 			msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Succesfully generated payslips for " + selectedmonth + ", " + selectedyear,
@@ -313,6 +308,11 @@ public class PaySlipView implements Serializable {
 			rs1.setFetchSize(1);
 			while (rs1.next()) {
 				i++;
+
+			}
+			if (i > 0) {
+				conn.createStatement().executeUpdate("DELETE from PAYSLIP where month = " + "'" + getSelectedmonth()
+						+ "'" + " and year = " + "'" + getSelectedyear() + "'");
 			}
 		} catch (ClassNotFoundException e) {
 			msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
@@ -323,56 +323,54 @@ public class PaySlipView implements Serializable {
 					"Please contant your system administrator.");
 			e.printStackTrace();
 		}
-		if (i <= 0) {
 
-			try {
-				for (PaySlip p : payslips) {
-					PreparedStatement ps = conn.prepareStatement(
-							"INSERT INTO PAYSLIP (employeeid, basicsalary, fixedda, hra, conveyanceall,"
-									+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
-									+ "pfamount, loanamount, month, year, dayspresent, daysinmonth, iseligibleforpf, monthyeardate, createdatetime, updatedatetime)"
-									+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
+		try {
+			for (PaySlip p : payslips) {
+				PreparedStatement ps = conn
+						.prepareStatement("INSERT INTO PAYSLIP (employeeid, basicsalary, fixedda, hra, conveyanceall,"
+								+ "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction,"
+								+ "pfamount, loanamount, month, year, dayspresent, daysinmonth, iseligibleforpf, monthyeardate, createdatetime, updatedatetime)"
+								+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
 
-					ps.setString(1, p.getEmployeeid());
-					ps.setDouble(2, p.getBasicsalary());
-					ps.setDouble(3, p.getFixedda());
-					ps.setDouble(4, p.getHra());
-					ps.setDouble(5, p.getConveyanceall());
-					ps.setString(6, p.getPfno());
-					ps.setString(7, p.getSbacno());
-					ps.setDouble(8, p.getPfrate());
-					ps.setDouble(9, p.getProftaxdeduction());
-					ps.setDouble(10, p.getOtherdeduction());
-					ps.setDouble(11, p.getPfamount());
-					ps.setDouble(12, p.getLoanamount());
-					ps.setString(13, getSelectedmonth());
-					ps.setString(14, getSelectedyear());
-					ps.setInt(15, p.getDayspresent());
-					ps.setInt(16, p.getDaysinmonth());
-					ps.setBoolean(17, p.getIseligibleforpf());
-					Calendar instance = Calendar.getInstance();
-					instance.setTime(formatter.parse("01,"+getSelectedmonth()+","+getSelectedyear()));
-					ps.setDate(18, new java.sql.Date(instance.getTime().getTime()));
+				ps.setString(1, p.getEmployeeid());
+				ps.setDouble(2, p.getBasicsalary());
+				ps.setDouble(3, p.getFixedda());
+				ps.setDouble(4, p.getHra());
+				ps.setDouble(5, p.getConveyanceall());
+				ps.setString(6, p.getPfno());
+				ps.setString(7, p.getSbacno());
+				ps.setDouble(8, p.getPfrate());
+				ps.setDouble(9, p.getProftaxdeduction());
+				ps.setDouble(10, p.getOtherdeduction());
+				ps.setDouble(11, p.getPfamount());
+				ps.setDouble(12, p.getLoanamount());
+				ps.setString(13, getSelectedmonth());
+				ps.setString(14, getSelectedyear());
+				ps.setInt(15, p.getDayspresent());
+				ps.setInt(16, p.getDaysinmonth());
+				ps.setBoolean(17, p.getIseligibleforpf());
+				Calendar instance = Calendar.getInstance();
+				instance.setTime(formatter.parse("01," + getSelectedmonth() + "," + getSelectedyear()));
+				ps.setDate(18, new java.sql.Date(instance.getTime().getTime()));
 
-					int rs = ps.executeUpdate();
+				int rs = ps.executeUpdate();
 
-					if (rs == 1) {
-						msg = new FacesMessage("Payslips generated successfully", "");
-						FacesContext.getCurrentInstance().addMessage(null, msg);
-					} else {
-						msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
-						FacesContext.getCurrentInstance().addMessage(null, msg);
-					}
+				if (rs == 1) {
+					msg = new FacesMessage("Payslips generated successfully", "");
+					FacesContext.getCurrentInstance().addMessage(null, msg);
+				} else {
+					msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
+					FacesContext.getCurrentInstance().addMessage(null, msg);
 				}
-			} catch (SQLException e) {
-				msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
-						"Please contant your system administrator.");
-				e.printStackTrace();
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+		} catch (SQLException e) {
+			msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong",
+					"Please contant your system administrator.");
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}

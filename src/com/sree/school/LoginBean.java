@@ -19,8 +19,34 @@ public class LoginBean {
 	private String password;
 	private String staffid;
 	private String lastlogindatettime;
-	public static String schoolname;
-	public static String shortdescription;
+	private String firstname;
+	private String lastname;
+	private String fullname;
+	private String gender;
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	public String getPassword() {
 		return password;
@@ -46,6 +72,7 @@ public class LoginBean {
 			setUname(Util.getUserName());
 			setStaffid(Util.getStaffid());
 			setLastlogindatettime(Util.getLastLoginDateTime());
+			setFullname(Util.getUserFullName());
 			
 			return "home";
 		} else {
@@ -79,19 +106,12 @@ public class LoginBean {
 		this.lastlogindatettime = lastlogindatettime;
 	}
 
-	public String getShortdescription() {
-		return shortdescription;
+	public String getFullname() {
+		return fullname;
 	}
 
-	public void setShortdescription(String shortdescription) {
-		this.shortdescription = shortdescription;
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 
-	public String getSchoolname() {
-		return schoolname;
-	}
-
-	public void setSchoolname(String schoolname) {
-		this.schoolname = schoolname;
-	}
 }

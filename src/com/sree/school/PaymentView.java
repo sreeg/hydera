@@ -52,7 +52,7 @@ public class PaymentView implements Serializable {
 	private double totalOtherDeductions;
 	private double totalPFAmount;
 	private double totalProfTaxDeduction;
-	
+
 	private double payslipCashTotal;
 	private double payslipChequeTotal;
 	private double payslipOnlineTotal;
@@ -72,8 +72,8 @@ public class PaymentView implements Serializable {
 		payslipCheque = new ArrayList<>();
 		payslipOnline = new ArrayList<>();
 		allPayslips = new ArrayList<>();
-		
-		//save();
+
+		// save();
 	}
 
 	public List<PaySlip> getAllSalaryStaffByMonthAndYear() {
@@ -116,7 +116,7 @@ public class PaymentView implements Serializable {
 				ps.setPfrate(rs.getDouble("pfrate"));
 				ps.setProftaxdeduction(rs.getDouble("proftaxdeduction"));
 				ps.setOtherdeduction(rs.getDouble("otherdeduction"));
-				
+
 				ps.setEmployeename(rs.getString("staff.firstname") + " " + rs.getString("staff.lastname"));
 				String categoryID = rs.getString("staff.categoryid");
 				String modeofpayment = rs.getString("modeofpayment");
@@ -135,14 +135,17 @@ public class PaymentView implements Serializable {
 
 				if (dayspresent == 0) {
 					msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Cannot generate payslips for " + selectedmonth + ", " + selectedyear + ".",
-							"Enter attendance details first.");
+							"Attendance for " + ps.getEmployeename()+" for the month of "+selectedmonth + ", " + selectedyear + " is zero.",
+							"Check if it is correct, otherwise fill attendance details and generate the payslips.");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
 					setShowForm(false);
-					//return paySlips;
+					// return paySlips;
 				}
 
-				Double factor = (double) ((1.0f * dayspresent) / ps.getDaysinmonth());
+				Double factor = 0d;
+				if (ps.getDaysinmonth() != 0)
+
+					factor = (double) ((1.0f * dayspresent) / ps.getDaysinmonth());
 				BigDecimal bd = new BigDecimal(factor);
 				bd = bd.setScale(4, RoundingMode.HALF_UP);
 
@@ -186,7 +189,6 @@ public class PaymentView implements Serializable {
 
 		return paySlips;
 	}
-
 
 	public String getCurrentMonth() {
 		return currentMonth;
@@ -299,7 +301,7 @@ public class PaymentView implements Serializable {
 	public void setDisableGenerateButton(boolean disableGenerateButton) {
 		this.disableGenerateButton = disableGenerateButton;
 	}
-	
+
 	public void setMonthmapfromdb(LinkedHashMap<String, String> monthmapfromdb) {
 		PaymentView.monthmapfromdb = monthmapfromdb;
 	}
@@ -401,27 +403,26 @@ public class PaymentView implements Serializable {
 	}
 
 	public List<Integer> getProfTaxList() {
-		int slab1 = 0, slab2 = 0,slab3 = 0,slab4 = 0,slab5 = 0,slab6 = 0,slab7 = 0,slab8 = 0, slab9 = 0;
-		for(PaySlip p : payslips)
-		{
+		int slab1 = 0, slab2 = 0, slab3 = 0, slab4 = 0, slab5 = 0, slab6 = 0, slab7 = 0, slab8 = 0, slab9 = 0;
+		for (PaySlip p : payslips) {
 			Double netsalary = p.getNetsalary();
-			if(netsalary <= 2000)
+			if (netsalary <= 2000)
 				slab1++;
-			else if(netsalary > 2000 && netsalary <=3000 )
+			else if (netsalary > 2000 && netsalary <= 3000)
 				slab2++;
-			else if(netsalary > 3000 && netsalary <=4000 )
+			else if (netsalary > 3000 && netsalary <= 4000)
 				slab3++;
-			else if(netsalary > 4000 && netsalary <=5000 )
+			else if (netsalary > 4000 && netsalary <= 5000)
 				slab4++;
-			else if(netsalary > 5000 && netsalary <=6000 )
+			else if (netsalary > 5000 && netsalary <= 6000)
 				slab5++;
-			else if(netsalary > 6000 && netsalary <=10000 )
+			else if (netsalary > 6000 && netsalary <= 10000)
 				slab6++;
-			else if(netsalary > 10000 && netsalary <=15000 )
+			else if (netsalary > 10000 && netsalary <= 15000)
 				slab7++;
-			else if(netsalary > 15000 && netsalary <=20000 )
+			else if (netsalary > 15000 && netsalary <= 20000)
 				slab8++;
-			else if(netsalary > 20000 )
+			else if (netsalary > 20000)
 				slab9++;
 		}
 		profTaxList = new ArrayList<Integer>();

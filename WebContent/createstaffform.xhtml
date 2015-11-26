@@ -34,11 +34,10 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Gender " />
-									<h:selectOneMenu styleClass="form-control" id="gender" value="#{staffBean.staff.sex}">
-										<f:selectItem itemLabel="Select Gender" itemValue="" noSelectionOption="true" />
+									<h:outputText value="Gender *" styleClass="displayBlock" />
+									<p:selectOneButton styleClass="displayBlock" value="#{staffBean.staff.sex}" required="true" label="Gender">
 										<f:selectItems value="#{staffBean.staff.gender}" />
-									</h:selectOneMenu>
+									</p:selectOneButton>									
 								</div>
 							</div>
 						</div>
@@ -78,8 +77,8 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Category Name " />
-									<h:selectOneMenu styleClass="form-control" required="true" id="class" value="#{staffBean.staff.categoryid}">
+									<h:outputText value="Category Name *" />
+									<h:selectOneMenu styleClass="form-control" required="true" label="Category" id="class" value="#{staffBean.staff.categoryid}">
 										<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{staffBean.staff.category}" />
 									</h:selectOneMenu>

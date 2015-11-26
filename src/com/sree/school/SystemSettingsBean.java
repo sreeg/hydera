@@ -11,6 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.StreamedContent;
+
 @ManagedBean(name = "systemSettingsBean")
 @SessionScoped
 public class SystemSettingsBean implements Serializable {
@@ -21,7 +23,11 @@ public class SystemSettingsBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static Connection conn;
 	public SystemSettings systemSettings = new SystemSettings();
-
+	public static String schoolname;
+	public static String shortdescription;
+	public static boolean disableemail;
+	public static StreamedContent logo;
+	
 	PreparedStatement ps = null;
 
 	public SystemSettingsBean() {
@@ -43,7 +49,7 @@ public class SystemSettingsBean implements Serializable {
 	public void getSystemSettingsFromDB() throws ClassNotFoundException, SQLException {
 		conn = DBConnection.getConnection();
 		ResultSet rs = conn.createStatement().executeQuery(
-				"SELECT email, password, showwidget1, showwidget2, emailhost, smtpport from SYSTEMSETTINGS");
+				"SELECT email, password, showwidget1, showwidget2, emailhost, smtpport, disableemail from SYSTEMSETTINGS");
 		while (rs.next()) {
 			systemSettings.setEmail(rs.getString("email"));
 			systemSettings.setPassword(rs.getString("password"));
@@ -51,6 +57,7 @@ public class SystemSettingsBean implements Serializable {
 			systemSettings.setShowwidget2(rs.getBoolean("showwidget2"));
 			systemSettings.setEmailhostname(rs.getString("emailhost"));
 			systemSettings.setSmtpport(rs.getString("smtpport"));
+			systemSettings.setDisableemail(rs.getBoolean("disableemail"));
 		}
 	}
 
@@ -58,8 +65,8 @@ public class SystemSettingsBean implements Serializable {
 		deleteSystemSettings();
 		conn = DBConnection.getConnection();
 		ps = conn.prepareStatement(
-				"INSERT INTO SYSTEMSETTINGS (email, password, showwidget1, showwidget2, emailhost, smtpport)"
-						+ "VALUES (?,?,?,?,?,?)");
+				"INSERT INTO SYSTEMSETTINGS (email, password, showwidget1, showwidget2, emailhost, smtpport, disableemail)"
+						+ "VALUES (?,?,?,?,?,?,?)");
 
 		ps.setString(1, systemSettings.getEmail());
 		ps.setString(2, systemSettings.getPassword());
@@ -67,6 +74,7 @@ public class SystemSettingsBean implements Serializable {
 		ps.setBoolean(4, systemSettings.isShowwidget2());
 		ps.setString(5, systemSettings.getEmailhostname());
 		ps.setString(6, systemSettings.getSmtpport());
+		ps.setBoolean(7, systemSettings.getDisableemail());
 		int rs = ps.executeUpdate();
 
 		FacesMessage msg = null;
@@ -83,4 +91,36 @@ public class SystemSettingsBean implements Serializable {
 		conn.createStatement().executeUpdate("DELETE from SYSTEMSETTINGS");
 	}
 
+
+	public String getShortdescription() {
+		return shortdescription;
+	}
+
+	public void setShortdescription(String shortdescription) {
+		SystemSettingsBean.shortdescription = shortdescription;
+	}
+
+	public String getSchoolname() {
+		return schoolname;
+	}
+
+	public void setSchoolname(String schoolname) {
+		SystemSettingsBean.schoolname = schoolname;
+	}
+
+	public boolean isDisableemail() {
+		return disableemail;
+	}
+
+	public void setDisableemail(boolean disableemail) {
+		SystemSettingsBean.disableemail = disableemail;
+	}
+
+	public StreamedContent getLogo() {
+		return logo;
+	}
+
+	public void setLogo(StreamedContent logo) {
+		SystemSettingsBean.logo = logo;
+	}
 }

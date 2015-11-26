@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,8 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.properties.EncryptableProperties;
+import org.primefaces.model.DefaultStreamedContent;
+
 import com.sree.school.DBConnection;
 import com.sree.school.LoginBean;
+import com.sree.school.SystemSettingsBean;
 
 @WebFilter(filterName = "AuthFilter", urlPatterns = { "*.xhtml" })
 public class AuthFilter implements Filter {
@@ -41,7 +45,7 @@ public class AuthFilter implements Filter {
 		HttpSession ses = req.getSession(false);
 
 		try {
-			// allow user to proccede if url is login.xhtml or user logged in or
+			// allow user to proceed if url is login.xhtml or user logged in or
 			// user is accessing any page in //public folder
 			String reqURI = req.getRequestURI();
 			if (reqURI.indexOf("/login.xhtml") >= 0 || (ses != null && ses.getAttribute("username") != null)
@@ -68,7 +72,10 @@ public class AuthFilter implements Filter {
 	}
 
 	private static void readProperties() {
-		Properties props = new Properties();
+		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+		encryptor.setPassword("sree"); // could be got from web, env variable...
+		Properties props = new EncryptableProperties(encryptor);
+
 		try {
 			File configDir = new File(System.getProperty("catalina.base"), "conf");
 			File configFile = new File(configDir, "db.properties");
@@ -84,11 +91,10 @@ public class AuthFilter implements Filter {
 			DBConnection.databaseUserPassword = props.getProperty("db.password");
 			DBConnection.databaseJDBCDriver = props.getProperty("db.jdbc.driver");
 
-			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext()
-					.getSession(false);
-
-			LoginBean.schoolname = props.getProperty("app.schoolname");
-			LoginBean.shortdescription = props.getProperty("app.shortdescription");
+			SystemSettingsBean.schoolname = props.getProperty("app.schoolname");
+			SystemSettingsBean.shortdescription = props.getProperty("app.shortdescription");
+			SystemSettingsBean.disableemail = Boolean.getBoolean(props.getProperty("app.disableemail"));
+			SystemSettingsBean.logo = new DefaultStreamedContent(new FileInputStream(new File(System.getProperty("catalina.base"), "conf/resources/images/logo.gif")), "image/gif");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -33,11 +33,10 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Gender *" />
-									<p:selectOneRadio id="gender" value="#{studentBean.student.sex}" required="true" label="Gender" styleClass="RadioButton">
+									<h:outputText value="Gender *"  styleClass="displayBlock" />
+									<p:selectOneButton  styleClass="displayBlock" value="#{studentBean.student.sex}" required="true" label="Gender">
 										<f:selectItems value="#{studentBean.student.gender}" />
-									</p:selectOneRadio>
-
+									</p:selectOneButton>
 								</div>
 							</div>
 						</div>
@@ -164,7 +163,8 @@
 		</p:outputPanel>
 		<p:outputPanel id="formOutputPanel2" rendered="#{!studentBean.showForm}">
 			<div class="marginTop20">
-				<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Add another student ?" onclick="createstudent.xhtml" />
+				<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Add another student ?"
+					onclick="createstudent.xhtml" />
 			</div>
 		</p:outputPanel>
 	</ui:composition>

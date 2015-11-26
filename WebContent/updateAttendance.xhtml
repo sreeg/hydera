@@ -84,6 +84,7 @@
 						<p:outputPanel id="staffPanelInner" rendered="#{attendanceView.showForm}">
 							<div class="row">
 								<div class="col-lg-8">
+
 									<div class="panel panel-default">
 										<div class="panel-heading">
 											<strong>Staff Details</strong>
@@ -92,9 +93,9 @@
 											<p class="alignRight">
 												<p:commandButton styleClass="btn btn-info btn-xs buttonRed"
 													value="Update #{attendanceView.daysinselectedmonth} days for all staff"
-													actionListener="#{attendanceView.prefill}" validateClient="true" update="staffs" />
+													actionListener="#{attendanceView.prefill}" update="staffs" />
 											</p>
-											<p:dataTable id="staffs" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}" 
+											<p:dataTable id="staffs" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}"
 												widgetVar="staffsTable" emptyMessage="No staff found" styleClass="attendanceTable">
 												<p:ajax event="cellEdit" listener="#{attendanceView.onCellEdit}" />
 												<p:column headerText="Name">
@@ -108,17 +109,11 @@
 												</p:column>
 
 												<p:column headerText="Days Present" width="100" style="max-width:100px;">
-													<p:cellEditor>
-														<f:facet name="output">
-															<h:outputText value="#{st.dayspresent}" />
-														</f:facet>
-														<f:facet name="input">
-															<p:inputText id="number" styleClass="form-control" value="#{st.dayspresent}">
-																<f:validateDoubleRange minimum="0" maximum="#{attendanceView.daysinselectedmonth}" />
-															</p:inputText>
-															<p:message for="number" />
-														</f:facet>
-													</p:cellEditor>
+
+													<p:inputText id="number" styleClass="form-control" value="#{st.dayspresent}">
+														<f:validateDoubleRange minimum="0" maximum="#{attendanceView.daysinselectedmonth}" />
+													</p:inputText>
+
 												</p:column>
 
 											</p:dataTable>
@@ -126,7 +121,7 @@
 									</div>
 									<div class="marginTop20">
 										<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Update"
-											actionListener="#{attendanceView.save}" validateClient="true" update="@form" />
+											actionListener="#{attendanceView.save}"  update="@form" />
 									</div>
 								</div>
 							</div>

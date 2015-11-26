@@ -367,6 +367,10 @@ tfoot {
 	display: inline-block;
 }
 
+.displayBlock {
+	display: block;
+}
+
 .bs-callout {
 	padding: 20px;
 	margin: 20px 0;
@@ -462,4 +466,18 @@ tfoot {
   .mobile {
     display: none;
   }
+}
+
+.ui-inputswitch .ui-inputswitch-on, .ui-inputswitch .ui-inputswitch-off {
+	padding-top: 0;
+}
+
+.ui-inputswitch {
+	vertical-align: bottom;
+}
+
+.ui-selectonebutton .ui-state-active {
+	background: #337AB7;
+	color: #FFF;
+	text-shadow: none;
 }

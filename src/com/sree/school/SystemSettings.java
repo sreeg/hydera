@@ -15,6 +15,7 @@ public class SystemSettings implements Serializable {
 	private boolean showwidget2;
 	private String emailhostname;
 	private String smtpport;
+	private boolean disableemail;
 
 	public String getPassword() {
 		return password;
@@ -62,6 +63,14 @@ public class SystemSettings implements Serializable {
 
 	public void setSmtpport(String smtpport) {
 		this.smtpport = smtpport;
+	}
+
+	public boolean getDisableemail() {
+		return disableemail;
+	}
+
+	public void setDisableemail(boolean disableemail) {
+		this.disableemail = disableemail;
 	}
 
 }
