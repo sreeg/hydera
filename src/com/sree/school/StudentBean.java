@@ -90,7 +90,6 @@ public class StudentBean implements Serializable {
 			msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong", "Please contant your system administrator.");
 		}
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		
 	}
 
 	public boolean isShowForm() {

@@ -29,9 +29,11 @@
 .feepaymenttable>.ui-datatable-header {
 	display: none;
 }
+
 .feepaymenttable .true, .paidrow {
-display:none;
+	display: none;
 }
+
 body {
 	margin-top: 0px !important;
 }
@@ -73,15 +75,15 @@ body {
 
 								<f:facet name="header">
 									<p:outputPanel>
-										<div class="form-group marginTop20 hidden-print" style="display: inline-block; width: 100%;padding-right:150px;">
+										<div class="form-group marginTop20 hidden-print"
+											style="display: inline-block; width: 100%; padding-right: 150px;">
 											<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
 												placeholder="To search enter a keyword" />
 										</div>
 										<div class="form-group marginTop20"
-											style="display: inline-block; float: right;margin-top: -45px;margin-right: 10px;min-height: 30px;font-weight: 100;">
-											<p:commandButton styleClass="" onclick="window.print();" value="Print" style="float:right"
-												icon="fa fa-print" />
-										</div>										
+											style="display: inline-block; float: right; margin-top: -45px; margin-right: 10px; min-height: 30px; font-weight: 100;">
+											<p:commandButton styleClass="" onclick="window.print();" value="Print" style="float:right" icon="fa fa-print" />
+										</div>
 									</p:outputPanel>
 								</f:facet>
 
@@ -89,17 +91,17 @@ body {
 									<h:outputText value="#{st.fullname}" />
 								</p:column>
 
-								<p:column filterBy="#{st.classname}" headerText="">
+								<p:column filterBy="#{st.classname}" headerText="" filterMatchMode="equals">
 									<f:facet name="filter">
 										<h:selectOneMenu styleClass="hidden-print" onchange="tooltip(),PF('studentsTable').filter()">
 											<f:selectItem itemLabel="Classes - All" itemValue="#{null}" noSelectionOption="true" />
 											<f:selectItems value="#{studentFeeFilterView.classnames}" />
 										</h:selectOneMenu>
 									</f:facet>
-								<f:facet name="header">
-									<h:outputText styleClass="visible-print-inline-block" value="Class Name" />
-									<h:outputText styleClass="hidden-print" value="" />
-								</f:facet>									
+									<f:facet name="header">
+										<h:outputText styleClass="visible-print-inline-block" value="Class Name" />
+										<h:outputText styleClass="hidden-print" value="" />
+									</f:facet>
 									<h:outputText value="#{st.classname} - #{st.sectionname}" />
 								</p:column>
 
@@ -107,19 +109,19 @@ body {
 									<h:outputText value="#{st.phone}, #{st.mobile} " />
 								</p:column>
 								<p:column styleClass="centered" filterStyle="display:none" filterBy="#{st.email}" headerText="Term wise payment">
-								<f:facet name="header">
-									<h:outputText styleClass="visible-print-inline-block" value="Payment due for term" />
-									<h:outputText styleClass="hidden-print" value="Term wise payment" />
-								</f:facet>
-									<div class="rounded #{not empty st.term1paiddate ? 'true' : 'false'} inlineBlock" data-toggle="tooltip"
+									<f:facet name="header">
+										<h:outputText styleClass="visible-print-inline-block" value="Payment due for term" />
+										<h:outputText styleClass="hidden-print" value="Term wise payment" />
+									</f:facet>
+									<div class="rounded #{st.term1 ? 'true' : 'false'} inlineBlock" data-toggle="tooltip"
 										data-placement="bottom"
-										title="#{not empty st.term1paiddate ? 'Paid &#8377; '.concat(st.term1amount).concat(' on ').concat(st.term1paiddate) : 'Not Paid'}">1</div>
-									<div class="rounded #{not empty st.term2paiddate ? 'true' : 'false'} inlineBlock" data-toggle="tooltip"
+										title="#{st.term1 ? 'Paid &#8377; '.concat(st.term1amount).concat(' on ').concat(st.term1paiddate) : 'Not Paid'}">1</div>
+									<div class="rounded #{st.term2 ? 'true' : 'false'} inlineBlock" data-toggle="tooltip"
 										data-placement="bottom"
-										title="#{not empty st.term2paiddate ? 'Paid &#8377; '.concat(st.term2amount).concat(' on ').concat(st.term2paiddate) : 'Not Paid'}">2</div>
-									<div class="rounded #{not empty st.term3paiddate ? 'true' : 'false'} inlineBlock" data-toggle="tooltip"
+										title="#{st.term2 ? 'Paid &#8377; '.concat(st.term2amount).concat(' on ').concat(st.term2paiddate) : 'Not Paid'}">2</div>
+									<div class="rounded #{st.term3 ? 'true' : 'false'} inlineBlock" data-toggle="tooltip"
 										data-placement="bottom"
-										title="#{not empty st.term3paiddate ? 'Paid &#8377; '.concat(st.term3amount).concat(' on ').concat(st.term3paiddate) : 'Not Paid'}">3</div>
+										title="#{st.term3 ? 'Paid &#8377; '.concat(st.term3amount).concat(' on ').concat(st.term3paiddate) : 'Not Paid'}">3</div>
 								</p:column>
 							</p:dataTable>
 

@@ -22,7 +22,7 @@ public class StudentService implements Serializable {
 		java.sql.Connection conn = DBConnection.getConnection();
 		ResultSet rs = conn.createStatement().executeQuery("select (Id, FirstName, LastName, Class, Section,"
 				+ "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
-				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic) from student");
+				+ "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic) from student where isarchived = '0'");
 
 		List<Student> students = new ArrayList<>();
 		while (rs.next()) {

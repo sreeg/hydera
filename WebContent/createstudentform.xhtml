@@ -27,8 +27,8 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Date of birth " />
-									<p:calendar styleClass="date" id="mask" value="#{studentBean.student.dob}" pattern="dd-MM-yyyy" mask="true" />
+									<h:outputText value="Date of birth *" />
+									<p:calendar styleClass="date" id="mask" value="#{studentBean.student.dob}" required="true" pattern="dd-MM-yyyy" mask="true" />
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -82,8 +82,8 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Date of Joining " />
-									<p:calendar styleClass="date" id="maskdoj" value="#{studentBean.student.doj}" pattern="dd-MM-yyyy" mask="true" />
+									<h:outputText value="Date of Joining *" />
+									<p:calendar styleClass="date" id="maskdoj" value="#{studentBean.student.doj}" required="true" pattern="dd-MM-yyyy" mask="true" />
 								</div>
 							</div>
 						</div>
@@ -163,8 +163,8 @@
 		</p:outputPanel>
 		<p:outputPanel id="formOutputPanel2" rendered="#{!studentBean.showForm}">
 			<div class="marginTop20">
-				<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Add another student ?"
-					onclick="createstudent.xhtml" />
+				<a class="btn btn-primary btn-lg btn-block" 
+					href="createstudent.xhtml" >Add another student ?</a>
 			</div>
 		</p:outputPanel>
 	</ui:composition>

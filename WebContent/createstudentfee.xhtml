@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta charset="utf-8" />
@@ -9,7 +9,7 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-	
+
 	<title>Payroll Management</title>
 
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -56,46 +56,72 @@
 									<strong>Filter / Search criteria</strong>
 								</div>
 								<div class="panel-body">
-									<div class="col-lg-4 col-md-4">
-										<div class="form-group">
-											<p:outputLabel for="student" style="min-width: 70px;" value="Student Name : " />
-											<p:autoComplete styleClass="autoCompleteMaxWidth" id="student" value="#{studentFilterView.selectedStudentId}"
-												dropdown="true" completeMethod="#{studentFilterView.completeStudents}" var="theme" scrollHeight="400"
-												groupBy="#{theme.classname}" itemValue="#{theme.id}" itemLabel="#{theme.fullname}" forceSelection="true">
-												<p:ajax event="itemSelect" listener="#{studentFilterView.onStudentSelect}"
-													update="messages,feePanel,feePanelInner" />
-												<p:column headerText="Student Name">
-													<h:outputText value="#{theme.fullname}" />
-												</p:column>
-												<p:column headerText="Class Name">
-													<h:outputText value="#{theme.classname}" />
-												</p:column>
-												<p:column headerText="Section Name">
-													<h:outputText value="#{theme.sectionname}" />
-												</p:column>
-												<p:column headerText="Father Name">
-													<h:outputText value="#{theme.fathername}" />
-												</p:column>
-												<p:column headerText="Mother Name">
-													<h:outputText value="#{theme.mothername}" />
-												</p:column>
-											</p:autoComplete>
+									<div class="row">
+										<div class="col-lg-3 col-md-3">
+											<div class="form-group">
+												<h:outputText value="Class Name" />
+												<h:selectOneMenu styleClass="form-control categorynamefield" id="class"
+													value="#{studentFilterView.selectedClass}">
+													<p:ajax listener="#{studentFilterView.onClassChange}" update="studentbyclass" />
+													<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{studentFilterView.classnames}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-lg-3 col-md-3">
+											<div class="form-group">
+												<h:outputText value="Student" />
+												<h:selectOneMenu styleClass="form-control categorynamefield" id="studentbyclass"
+													value="#{studentFilterView.selectedStudentId}">
+													<p:ajax listener="#{studentFilterView.onStudentChange}" update="messages,feePanel,feePanelInner" />
+													<f:selectItem itemLabel="Select Student" itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{studentFilterView.studentbyclass}" />
+												</h:selectOneMenu>
+											</div>
+
+										</div>
+
+										<div class="col-lg-6 col-md-6">
+											<div class="form-group">
+												<h:outputText for="student" style="min-width: 70px;" value="Search by Student name : " />
+												<p:autoComplete styleClass="autoCompleteMaxWidth" id="student"
+													value="#{studentFilterView.selectedStudentId}" dropdown="true"
+													completeMethod="#{studentFilterView.completeStudents}" var="theme" scrollHeight="400"
+													groupBy="#{theme.classname}" itemValue="#{theme.id}" itemLabel="#{theme.fullname}" forceSelection="true">
+													<p:ajax event="itemSelect" listener="#{studentFilterView.onStudentSelect}"
+														update="messages,feePanel,feePanelInner" />
+													<p:column headerText="Student Name">
+														<h:outputText value="#{theme.fullname}" />
+													</p:column>
+													<p:column headerText="Class Name">
+														<h:outputText value="#{theme.classname}" />
+													</p:column>
+													<p:column headerText="Section Name">
+														<h:outputText value="#{theme.sectionname}" />
+													</p:column>
+													<p:column headerText="Father Name">
+														<h:outputText value="#{theme.fathername}" />
+													</p:column>
+													<p:column headerText="Mother Name">
+														<h:outputText value="#{theme.mothername}" />
+													</p:column>
+												</p:autoComplete>
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-4">
+											<p:outputPanel id="buttonPanel" styleClass="centered">
+												<p:commandButton value="Print receipt" styleClass="marginRight20" type="button" onclick="window.print();"
+													icon="ui-icon-print" rendered="#{studentFilterView.showPrintButton}">
+												</p:commandButton>
+											</p:outputPanel>
 										</div>
 									</div>
-									<div class="col-lg-4 col-md-4">
-										<p:outputPanel id="buttonPanel" styleClass="centered">
-											<p:commandButton value="Print receipt" styleClass="marginRight20" type="button" onclick="window.print();"
-												icon="ui-icon-print" rendered="#{studentFilterView.showPrintButton}">
-											</p:commandButton>
-										</p:outputPanel>
-									</div>
-
 
 								</div>
 							</div>
 						</div>
 					</div>
-					<p:messages id="messages" styleClass="hidden-print"  showDetail="true" autoUpdate="true" closable="true" />
+					<p:messages id="messages" styleClass="hidden-print" showDetail="true" autoUpdate="true" closable="true" />
 
 					<p:outputPanel id="feePanel">
 						<p:outputPanel id="feePanelInner" rendered="#{studentFilterView.showForm}">
@@ -107,32 +133,55 @@
 												#{studentFilterView.selectedStudent.classname} - #{studentFilterView.selectedStudent.sectionname}</strong>
 										</div>
 										<div class="panel-body">
-											<div class="col-lg-12 col-md-12">
-												<div class="form-group">
-													<h:outputText value="Term 1 payment " />
-													<p:selectBooleanCheckbox value="#{studentFilterView.studentfee.term1}"
-														disabled="#{not empty studentFilterView.studentfee.term1paiddate}" />
 
-													<h:outputText styleClass="marginLeft20" value="Term 2 payment " />
-													<p:selectBooleanCheckbox value="#{studentFilterView.studentfee.term2}"
-														disabled="#{not empty studentFilterView.studentfee.term2paiddate}" />
+											<div class="row">
+												<div class="col-lg-12 col-md-12">
 
-													<h:outputText styleClass="marginLeft20" value="Term 3 payment " />
-													<p:selectBooleanCheckbox value="#{studentFilterView.studentfee.term3}"
-														disabled="#{not empty studentFilterView.studentfee.term3paiddate}" />
+													<div class="form-group">
+														<h:outputText value="For Term :" class="marginRight20" />
+														<p:selectManyButton value="#{studentFilterView.selectedTermOptions}">
+															<f:selectItem itemLabel="term 1" itemValue="term 1" itemDisabled="#{studentFilterView.studentfee.term1}" />
+															<f:selectItem itemLabel="term 2" itemValue="term 2" itemDisabled="#{studentFilterView.studentfee.term2}" />
+															<f:selectItem itemLabel="term 3" itemValue="term 3" itemDisabled="#{studentFilterView.studentfee.term3}" />
+														</p:selectManyButton>
+													</div>
 												</div>
-
-												<div class="form-group">
-													<h:outputText value="Amount Paid *" />
-													<p:inputText styleClass="form-control" value="#{studentFilterView.studentfee.amount}" label="Amount Paid"
-														required="true"
-														disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
+											</div>
+											<div class="row">
+												<div class="col-lg-6 col-md-6">
+													<div class="form-group">
+														<h:outputText value="Amount paid *" />
+														<p:inputText styleClass="form-control" value="#{studentFilterView.studentfee.amount}" label="Amount Paid"
+															required="true"
+															disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
+													</div>
 												</div>
-												<div class="form-group">
-													<h:outputText value="Cheque Details *" />
-													<p:inputText styleClass="form-control" value="#{studentFilterView.studentfee.cheque}" label="Cheque No."
-														required="true"
-														disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
+												<div class="col-lg-6 col-md-6">
+													<div class="form-group">
+														<h:outputText value="Payment mode *" styleClass="displayBlock" />
+														<p:selectOneButton styleClass="displayBlock" value="#{studentFilterView.studentfee.paymentmode}"
+															required="true" label="Paymentmode">
+															<f:selectItem itemLabel="Cheque" itemValue="Cheque" />
+															<f:selectItem itemLabel="Cash" itemValue="Cash" />
+														</p:selectOneButton>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12 col-md-12">
+													<div class="form-group">
+														<h:outputText value="Payment details *" />
+														<p:inputText styleClass="form-control" value="#{studentFilterView.studentfee.paymentdetails}"
+															label="Cheque No." required="true"
+															disabled="#{(not empty studentFilterView.studentfee.term1paiddate) and (not empty studentFilterView.studentfee.term2paiddate) and (not empty studentFilterView.studentfee.term3paiddate)}" />
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<h:outputText value="Payment Date *" />
+														<p:calendar styleClass="date" id="maskdoj" value="#{studentFilterView.studentfee.paymentdate}"
+															required="true" pattern="dd-MM-yyyy" mask="true" />
+													</div>
 												</div>
 											</div>
 
@@ -140,61 +189,48 @@
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<p:outputPanel id="paymenthistory"
-										rendered="#{(not empty studentFilterView.studentfee.term1paiddate) or (not empty studentFilterView.studentfee.term2paiddate) or (not empty studentFilterView.studentfee.term3paiddate)}">
-										<div class="panel panel-info">
+									<p:outputPanel id="paymenthistory">
+										<div class="panel panel-default">
 											<div class="panel-heading">
 												<strong>Payment History :</strong>
 											</div>
 											<div class="panel-body">
-												<table class="table table-condensed">
-													<thead>
-														<tr>
-															<th>Term</th>
-															<th>Amount</th>
-															<th>Paid date</th>
-															<th>Cheque Details</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<th scope="row">Term 1</th>
-															<td><h:outputText value="#{studentFilterView.studentfee.term1amount}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText></td>
-															<td><h:outputText value="#{studentFilterView.studentfee.term1paiddate}">
-																	<f:convertDateTime pattern="dd MMMM, yyyy" />
-																</h:outputText></td>
-															<td>#{studentFilterView.studentfee.term1cheque}</td>
-														</tr>
-														<tr>
-															<th scope="row">Term 2</th>
-															<td><h:outputText value="#{studentFilterView.studentfee.term2amount}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText></td>
-															<td><h:outputText value="#{studentFilterView.studentfee.term2paiddate}">
-																	<f:convertDateTime pattern="dd MMMM, yyyy" />
-																</h:outputText></td>
-															<td>#{studentFilterView.studentfee.term2cheque}</td>
-														</tr>
-														<tr>
-															<th scope="row">Term 3</th>
-															<td><h:outputText value="#{studentFilterView.studentfee.term3amount}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText></td>
-															<td><h:outputText value="#{studentFilterView.studentfee.term3paiddate}">
-																	<f:convertDateTime pattern="dd MMMM, yyyy" />
-																</h:outputText></td>
-															<td>#{studentFilterView.studentfee.term3cheque}</td>
-														</tr>
-													</tbody>
-												</table>
-												<h4 class="blue padding5_0">
-													Total amount paid :
-													<h:outputText value="#{studentFilterView.studentfee.amountPaid}">
-														<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-													</h:outputText>
-												</h4>
+
+												<p:dataTable styleClass="autoWidthDataTable" var="fee" value="#{studentFilterView.studentfeeList}"
+													resizableColumns="true">
+													<p:column headerText="Receipt id">
+														<h:outputText value="#{fee.receiptid}" />
+													</p:column>
+
+													<p:column headerText="Amount paid">
+														<h:outputText styleClass="pull-right" value="#{fee.amountPaid}">
+															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														</h:outputText>
+													</p:column>
+
+													<p:column headerText="Payment date">
+														<h:outputText value="#{fee.paymentdate}" />
+													</p:column>
+
+													<p:column headerText="Payment mode">
+														<h:outputText value="#{fee.paymentmode}" />
+													</p:column>
+													<p:column headerText="For term">
+															<h:outputText rendered="#{fee.term1}" value="term 1 " />
+															<h:outputText rendered="#{fee.term2}" value="term 2 " />
+															<h:outputText rendered="#{fee.term3}" value="term 3 " />
+													</p:column>
+													<p:column headerText="Payment details">
+														<h:outputText value="#{fee.paymentdetails}" />
+													</p:column>
+
+													<f:facet name="footer">
+														Total amount paid : <h:outputText style="text-align:left"
+															value="#{studentFilterView.studentfeeList.stream().map(fee->fee.amountPaid).sum()}">
+															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														</h:outputText>
+													</f:facet>
+												</p:dataTable>
 
 											</div>
 										</div>
@@ -221,17 +257,15 @@
 											</h5>
 										</div>
 										<div class="col-lg-12">
-											<h3 class="centered underline">
-												Fee Receipt :
-											</h3>
+											<h3 class="centered underline">Fee Receipt id -  #{studentFilterView.studentfee.receiptid}</h3>
 										</div>
 										<div class="col-lg-12">
 											<h4 class="centered">
 												Payment of <strong>&#8377; #{studentFilterView.studentfee.amount}</strong> has been received as part of term
 												payment -
-												<h:outputText value="1, " rendered="#{(not empty studentFilterView.studentfee.term1paiddate)}" />
-												<h:outputText value="2, " rendered="#{(not empty studentFilterView.studentfee.term2paiddate)}" />
-												<h:outputText value="3 " rendered="#{(not empty studentFilterView.studentfee.term3paiddate)}" />
+												<h:outputText value="1, " rendered="#{(studentFilterView.studentfee.term1)}" />
+												<h:outputText value="2, " rendered="#{(studentFilterView.studentfee.term2)}" />
+												<h:outputText value="3 " rendered="#{(studentFilterView.studentfee.term3)}" />
 												from
 											</h4>
 										</div>
@@ -261,11 +295,11 @@
 													<p class="">#{studentFilterView.selectedStudent.classname}</p>
 													<p class="">#{studentFilterView.selectedStudent.sectionname}</p>
 													<p class="">
-														<h:outputText value="#{session.lastAccessedTime}">
+														<h:outputText value="#{studentFilterView.studentfee.paymentdate}">
 															<f:convertDateTime pattern="dd MMMM yyyy" type="date" />
 														</h:outputText>
 													</p>
-													<p class="">#{studentFilterView.studentfee.cheque}</p>
+													<p class="">#{studentFilterView.studentfee.paymentdetails}</p>
 												</div>
 											</div>
 										</div>
