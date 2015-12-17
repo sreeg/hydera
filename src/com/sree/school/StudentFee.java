@@ -39,6 +39,9 @@ public class StudentFee extends Student implements Serializable
   private boolean term2;
   private boolean term3;
   private String paymentdetails;
+  private String bankname;
+  private String receivedfrom;
+
   private List<String> terms;
 
   public double getAmount()
@@ -49,6 +52,11 @@ public class StudentFee extends Student implements Serializable
   public double getAmountPaid()
   {
     return amountPaid;
+  }
+
+  public String getBankname()
+  {
+    return bankname;
   }
 
   public String getCheque()
@@ -79,6 +87,11 @@ public class StudentFee extends Student implements Serializable
   public String getReceiptid()
   {
     return receiptid;
+  }
+
+  public String getReceivedfrom()
+  {
+    return receivedfrom;
   }
 
   public double getTerm1amount()
@@ -156,6 +169,11 @@ public class StudentFee extends Student implements Serializable
     this.amountPaid = amountPaid;
   }
 
+  public void setBankname(String bankname)
+  {
+    this.bankname = bankname;
+  }
+
   public void setCheque(String cheque)
   {
     this.cheque = cheque;
@@ -184,6 +202,11 @@ public class StudentFee extends Student implements Serializable
   public void setReceiptid(String receiptid)
   {
     this.receiptid = receiptid;
+  }
+
+  public void setReceivedfrom(String receivedfrom)
+  {
+    this.receivedfrom = receivedfrom;
   }
 
   public void setTerm1(boolean term1)

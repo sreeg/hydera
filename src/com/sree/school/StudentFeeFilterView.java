@@ -2,10 +2,13 @@ package com.sree.school;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,8 @@ public class StudentFeeFilterView implements Serializable
     StudentFeeFilterView.classnames = classnames;
   }
 
+  private List<String> selectedOptions;
+
   private List<StudentFee> students;
   private Map<String, StudentFee> studentMap;
 
@@ -42,14 +47,17 @@ public class StudentFeeFilterView implements Serializable
   private boolean showForm;
   private boolean showPrintButton;
   private StudentFee studentfee;
-
+  private List<StudentFee> feepayments;
   @ManagedProperty("#{studentService}")
   private StudentService service;
+  private Date fromdate;
+  private Date todate;
 
   public StudentFeeFilterView() throws ClassNotFoundException, SQLException
   {
     students = getAllAtudents();
     classnames = Student.classes.values();
+    feepayments = getAllFeePayments();
     setShowForm(false);
     setShowPrintButton(false);
   }
@@ -68,6 +76,11 @@ public class StudentFeeFilterView implements Serializable
       }
     }
     return filteredStudents;
+  }
+
+  public void filterByDate()
+  {
+    getAllFeePaymentsByFilter();
   }
 
   public List<StudentFee> getAllAtudents() throws ClassNotFoundException, SQLException
@@ -150,14 +163,142 @@ public class StudentFeeFilterView implements Serializable
     return students;
   }
 
+  private List<StudentFee> getAllFeePayments()
+  {
+    try
+    {
+      conn = DBConnection.getConnection();
+      PreparedStatement ps = conn
+          .prepareStatement("select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment");
+      ResultSet rs = ps.executeQuery();
+
+      feepayments = new ArrayList<>();
+      while (rs.next())
+      {
+        StudentFee sf = new StudentFee();
+        sf.setEmployeeid(rs.getString("studentid"));
+        sf.setPaymentmode(rs.getString("paymentmode"));
+        sf.setTerm1(rs.getBoolean("term1"));
+        sf.setTerm2(rs.getBoolean("term2"));
+        sf.setTerm3(rs.getBoolean("term3"));
+        sf.setAmountPaid(rs.getDouble("amountpaid"));
+        sf.setPaymentdate(rs.getDate("paymentdate"));
+        sf.setPaymentdetails(rs.getString("paymentdetails"));
+        sf.setReceiptid(rs.getString("feereceiptid"));
+        sf.setBankname(rs.getString("bankname"));
+        sf.setReceivedfrom(rs.getString("receivedfrom"));
+
+        Student student = studentMap.get(sf.getEmployeeid());
+        sf.setFirstname(student.getFirstname());
+        sf.setLastname(student.getLastname());
+        sf.setClassname(student.getClassname());
+        sf.setSectionname(student.getSectionname());
+        sf.setEmail(student.getEmail());
+
+        feepayments.add(sf);
+      }
+    }
+    catch (ClassNotFoundException | SQLException e)
+    {
+      e.printStackTrace();
+    }
+
+    return feepayments;
+  }
+
+  private List<StudentFee> getAllFeePaymentsByFilter()
+  {
+    try
+    {
+      int size = selectedOptions.size();
+      String options = "";
+      if (size == 0)
+      {
+        options = "'Cheque', 'DD', 'Cash'";
+      }
+      for (int i = 0; i < size; i++)
+      {
+        options = options + "'" + selectedOptions.get(i) + "'";
+        if (i != size - 1)
+        {
+          options = options + ", ";
+        }
+      }
+
+      conn = DBConnection.getConnection();
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+      String string = "";
+      if (todate != null && fromdate != null)
+      {
+        string = "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment where paymentmode in ("
+            + options + ") and DATE(paymentdate) <= " + "'" + simpleDateFormat.format(todate) + "'" + " and DATE(paymentdate) >= " + "'" + simpleDateFormat.format(fromdate) + "'";
+      }
+      else
+      {
+        string = "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment where paymentmode in ("
+            + options + ")";
+      }
+
+      PreparedStatement ps = conn.prepareStatement(string);
+      ResultSet rs = ps.executeQuery();
+
+      feepayments = new ArrayList<>();
+      while (rs.next())
+      {
+        StudentFee sf = new StudentFee();
+        sf.setEmployeeid(rs.getString("studentid"));
+        sf.setPaymentmode(rs.getString("paymentmode"));
+        sf.setTerm1(rs.getBoolean("term1"));
+        sf.setTerm2(rs.getBoolean("term2"));
+        sf.setTerm3(rs.getBoolean("term3"));
+        sf.setAmountPaid(rs.getDouble("amountpaid"));
+        sf.setPaymentdate(rs.getDate("paymentdate"));
+        sf.setPaymentdetails(rs.getString("paymentdetails"));
+        sf.setReceiptid(rs.getString("feereceiptid"));
+        sf.setBankname(rs.getString("bankname"));
+        sf.setReceivedfrom(rs.getString("receivedfrom"));
+
+        Student student = studentMap.get(sf.getEmployeeid());
+        sf.setFirstname(student.getFirstname());
+        sf.setLastname(student.getLastname());
+        sf.setClassname(student.getClassname());
+        sf.setSectionname(student.getSectionname());
+        sf.setEmail(student.getEmail());
+
+        feepayments.add(sf);
+      }
+    }
+    catch (ClassNotFoundException | SQLException e)
+    {
+      e.printStackTrace();
+    }
+
+    return feepayments;
+  }
+
   public Collection<String> getClassnames()
   {
     return classnames;
   }
 
+  public List<StudentFee> getFeepayments()
+  {
+    return feepayments;
+  }
+
   public List<Student> getFilteredStudents()
   {
     return filteredStudents;
+  }
+
+  public Date getFromdate()
+  {
+    return fromdate;
+  }
+
+  public List<String> getSelectedOptions()
+  {
+    return selectedOptions;
   }
 
   public Student getSelectedStudent()
@@ -224,6 +365,11 @@ public class StudentFeeFilterView implements Serializable
     return students;
   }
 
+  public Date getTodate()
+  {
+    return todate;
+  }
+
   public boolean isShowForm()
   {
     return showForm;
@@ -232,6 +378,12 @@ public class StudentFeeFilterView implements Serializable
   public boolean isShowPrintButton()
   {
     return showPrintButton;
+  }
+
+  public void onPaymentChange()
+  {
+    System.out.println(selectedOptions.toString());
+    feepayments = getAllFeePaymentsByFilter();
   }
 
   public void onStudentFeeSelect(SelectEvent event)
@@ -250,9 +402,24 @@ public class StudentFeeFilterView implements Serializable
     setShowPrintButton(false);
   }
 
+  public void setFeepayments(List<StudentFee> feepayments)
+  {
+    this.feepayments = feepayments;
+  }
+
   public void setFilteredStudents(List<Student> filteredStudents)
   {
     this.filteredStudents = filteredStudents;
+  }
+
+  public void setFromdate(Date fromdate)
+  {
+    this.fromdate = fromdate;
+  }
+
+  public void setSelectedOptions(List<String> selectedOptions)
+  {
+    this.selectedOptions = selectedOptions;
   }
 
   public void setSelectedStudent(Student selectedStudent)
@@ -293,6 +460,11 @@ public class StudentFeeFilterView implements Serializable
   public void setStudents(List<StudentFee> students)
   {
     this.students = students;
+  }
+
+  public void setTodate(Date todate)
+  {
+    this.todate = todate;
   }
 
 }

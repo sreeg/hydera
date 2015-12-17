@@ -71,7 +71,7 @@
 
 					<c:if test="#{systemSettingsBean.peoplemanagement == 'true'}">
 						<li><a href="javascript:;" data-toggle="collapse" data-target="#add"><i class="fa fa-fw fa fa-user"></i>
-								People Management <i class="fa fa-fw fa-caret-down"></i></a>
+								Admissions <i class="fa fa-fw fa-caret-down"></i></a>
 							<ul id="add" class="expand">
 								<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml">Add student</a></li>
 								<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml">Add staff</a></li>
@@ -103,6 +103,8 @@
 										receipts</a></li>
 								<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Student
 										fee status</a></li>
+								<li class="#{page == 'showstudentfeepayments' ? 'active' : ''}"><a href="studentfeepayments.xhtml">Student
+										fee payments</a></li>										
 							</ul></li>
 					</c:if>
 					<li><a href="javascript:;" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-table"></i>

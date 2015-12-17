@@ -339,6 +339,10 @@
 	margin-left: 20px;
 }
 
+.marginLeft5 {
+	margin-left: 5px;
+}
+
 italic {
 	font-style: italic;
 }
@@ -510,8 +514,24 @@ tfoot {
 
 .autoWidthDataTable {
 	display: table;
+	box-shadow: none;
+	width: 100%;
 }
 
 .autoWidthDataTable table {
     table-layout: auto !important;
+}
+
+.side-nav {
+    padding-bottom: 0;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-left: -4px;
+	margin-top: 6px;
+}
+
+.ui-selectonemenu .ui-inputfield {
+	padding: 0;
+	box-shadow: none;
 }

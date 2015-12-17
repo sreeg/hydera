@@ -37,7 +37,29 @@
 
 	<link rel="stylesheet" href="css/SimpleCalculadorajQuery.css" />
 	<script src="js/SimpleCalculadorajQuery.js"></script>
+	<style>
 
+
+.arc-text {
+	font: 16px sans-serif;
+}
+
+.arc-center {
+	fill: none;
+}
+
+#credit {
+	position: absolute;
+	font: 24px sans-serif;
+	right: 10px;
+	bottom: 10px;
+	color: #000;
+}
+
+#credit a {
+	color: inherit;
+}
+</style>
 </h:head>
 
 <body>
@@ -61,8 +83,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<h1 class="page-header">
-								Welcome <small>#{loginBean.fullname}, <p:clock
-										pattern="EEEE, dd MMMM yyyy" /></small>
+								Welcome <small>#{loginBean.fullname}, <p:clock pattern="EEEE, dd MMMM yyyy" /></small>
 							</h1>
 
 						</div>
@@ -70,9 +91,11 @@
 					<!-- /.row -->
 					<div class="row">
 
-						<div class="#{(systemSettingsBean.systemSettings.showwidget1 == 'false' and systemSettingsBean.systemSettings.showwidget2 == 'false') ?  'col-lg-12' : 'col-lg-8'}">
+						<div
+							class="#{(systemSettingsBean.systemSettings.showwidget1 == 'false' and systemSettingsBean.systemSettings.showwidget2 == 'false') ?  'col-lg-12' : 'col-lg-8'}">
 							<ol class="breadcrumb">
-								<li class="active"><i class="fa fa-dashboard fa-2x margin5"></i>Your Dashboard, last login on #{loginBean.lastlogindatettime}</li>
+								<li class="active"><i class="fa fa-dashboard fa-2x margin5"></i>Your Dashboard, last login on
+									#{loginBean.lastlogindatettime}</li>
 							</ol>
 							<div class="alert alert-info alert-dismissable">
 								<button type="button" class="close" data-toggle="tooltipClose" data-placement="bottom" title="Click to close"
@@ -144,7 +167,7 @@
 											</div>
 										</a>
 									</div>
-								</div>								
+								</div>
 								<div class="col-lg-4 col-md-6">
 									<div class="panel panel-yellow">
 										<div class="panel-heading">
@@ -208,13 +231,14 @@
 											</div>
 										</a>
 									</div>
-								</div>								
+								</div>
 
 							</div>
 						</div>
 						<div class="col-lg-4">
 							<div class="layoutSecondary">
-								<p:panel id="Widgets" rendered="#{systemSettingsBean.systemSettings.showwidget1 == 'true'}" toggleable="true" toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px;">
+								<p:panel id="Widgets" rendered="#{systemSettingsBean.systemSettings.showwidget1 == 'true'}" toggleable="true"
+									toggleSpeed="500" closeSpeed="500" style="margin-bottom:20px;">
 									<f:facet name="header">
 									Simple Clock - <p:clock pattern="hh:mm:ss aa" />
 									</f:facet>
@@ -222,13 +246,15 @@
 										<pe:analogClock width="300" colorTheme="#{analogClock.customTheme}" />
 									</div>
 								</p:panel>
-								<p:panel widgetVar="WidgetCalc" rendered="#{systemSettingsBean.systemSettings.showwidget2 == 'true'}" collapsed="#{systemSettingsBean.systemSettings.showwidget2 == 'false'}" id="WidgetCalc" header="Calculator" toggleable="true"
-									toggleSpeed="500" closeSpeed="500">
+								<p:panel widgetVar="WidgetCalc" rendered="#{systemSettingsBean.systemSettings.showwidget2 == 'true'}"
+									collapsed="#{systemSettingsBean.systemSettings.showwidget2 == 'false'}" id="WidgetCalc" header="Calculator"
+									toggleable="true" toggleSpeed="500" closeSpeed="500">
 									<div id="idCalculadora"></div>
 								</p:panel>
 							</div>
 						</div>
 					</div>
+
 					<!-- /.row -->
 
 				</div>
@@ -253,6 +279,8 @@
 			})
 			$("#idCalculadora").Calculadora();
 		</script>
+
+		<script src="js/d3.js"></script>
 	</h:form>
 </body>
 

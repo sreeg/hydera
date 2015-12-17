@@ -651,9 +651,9 @@ public class StudentFilterView implements Serializable
     try
     {
       conn = DBConnection.getConnection();
-      ResultSet rs = conn.createStatement()
-          .executeQuery("select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails from feepayment where studentid = " + "'"
-              + selectedStudentId + "'");
+      ResultSet rs = conn.createStatement().executeQuery(
+          "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment where studentid = "
+              + "'" + selectedStudentId + "'");
 
       studentfeeList = new ArrayList<>();
       studentfound = false;
@@ -670,6 +670,9 @@ public class StudentFilterView implements Serializable
         sfee.setAmountPaid(rs.getDouble("amountpaid"));
         sfee.setPaymentdate(rs.getDate("paymentdate"));
         sfee.setPaymentdetails(rs.getString("paymentdetails"));
+        sfee.setBankname(rs.getString("bankname"));
+        sfee.setReceivedfrom(rs.getString("receivedfrom"));
+
         studentfound = true;
         studentfeeList.add(sfee);
         if (sfee.isTerm1())
@@ -711,7 +714,8 @@ public class StudentFilterView implements Serializable
     {
       conn = DBConnection.getConnection();
       PreparedStatement ps = conn.prepareStatement(
-          "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails from feepayment where studentid in (" + parameters + ") ");
+          "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment where studentid in ("
+              + parameters + ") ");
       ResultSet rs = ps.executeQuery();
 
       studentfees = new ArrayList<>();
@@ -727,6 +731,8 @@ public class StudentFilterView implements Serializable
         sf.setPaymentdate(rs.getDate("paymentdate"));
         sf.setPaymentdetails(rs.getString("paymentdetails"));
         sf.setReceiptid(rs.getString("feereceiptid"));
+        sf.setBankname(rs.getString("bankname"));
+        sf.setReceivedfrom(rs.getString("receivedfrom"));
 
         Student student = studentMap.get(sf.getEmployeeid());
         sf.setFirstname(student.getFirstname());
@@ -842,11 +848,11 @@ public class StudentFilterView implements Serializable
   public void save() throws ClassNotFoundException, SQLException
   {
     conn = DBConnection.getConnection();
-    Calendar c = Calendar.getInstance();
     PreparedStatement ps;
 
-    ps = conn.prepareStatement("INSERT INTO FEEPAYMENT (paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, createdatetime, updatedatetime )"
-        + "VALUES (?,?,?,?,?,?,?,?, now(), now())");
+    ps = conn.prepareStatement(
+        "INSERT INTO FEEPAYMENT (paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom, createdatetime, updatedatetime )"
+            + "VALUES (?,?,?,?,?,?,?,?,?,?, now(), now())");
 
     studentfee.setTerm1(false);
     studentfee.setTerm2(false);
@@ -870,6 +876,8 @@ public class StudentFilterView implements Serializable
     ps.setDate(6, new java.sql.Date(studentfee.getPaymentdate().getTime()));
     ps.setString(7, studentfee.getEmployeeid());
     ps.setString(8, studentfee.getPaymentdetails());
+    ps.setString(9, studentfee.getBankname());
+    ps.setString(10, studentfee.getReceivedfrom());
 
     int rs = ps.executeUpdate();
     FacesMessage msg = null;
@@ -884,6 +892,12 @@ public class StudentFilterView implements Serializable
       msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
     }
     FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    ResultSet r = conn.createStatement().executeQuery("select MAX(feereceiptid) as feereceiptid from FEEPAYMENT");
+    while (r.next())
+    {
+      studentfee.setReceiptid("" + r.getInt("feereceiptid"));
+    }
   }
 
   public String saveSuccess(Student student)
