@@ -137,10 +137,10 @@
 
 											<div class="row">
 												<div class="col-lg-12 col-md-12">
-
 													<div class="form-group">
 														<h:outputText value="For Term :" class="marginRight20" />
 														<p:selectManyButton value="#{studentFilterView.selectedTermOptions}">
+														<p:ajax listener="#{studentFilterView.onTermOptionsChange}" />
 															<f:selectItem itemLabel="term 1" itemValue="term 1" itemDisabled="#{studentFilterView.studentfee.term1}" />
 															<f:selectItem itemLabel="term 2" itemValue="term 2" itemDisabled="#{studentFilterView.studentfee.term2}" />
 															<f:selectItem itemLabel="term 3" itemValue="term 3" itemDisabled="#{studentFilterView.studentfee.term3}" />

@@ -538,7 +538,7 @@ public class StudentFilterView implements Serializable
   {
     conn = DBConnection.getConnection();
     ResultSet rs = conn.createStatement().executeQuery("select Id, FirstName, LastName, Class, Section," + "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
-        + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode from student where isarchived = '0' order by Class, Section");
+        + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode, fatherdetails, motherdetails from student where isarchived = '0' order by Class, Section");
 
     List<Student> students = new ArrayList<>();
     studentMap = new HashMap<>();
@@ -566,7 +566,8 @@ public class StudentFilterView implements Serializable
       st.setStreet(rs.getString("street"));
       st.setCity(rs.getString("city"));
       st.setPostalCode(rs.getString("postalcode"));
-
+      st.setFatheroccupationdetails(rs.getString("fatherdetails"));
+      st.setMotheroccupationdetails(rs.getString("motherdetails"));
       students.add(st);
 
       studentMap.put(rs.getString("Id"), st);
@@ -833,6 +834,11 @@ public class StudentFilterView implements Serializable
     studentfee = getStudentFee();
     setShowForm(true);
     setShowPrintButton(false);
+  }
+
+  public void onTermOptionsChange()
+  {
+
   }
 
   public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException

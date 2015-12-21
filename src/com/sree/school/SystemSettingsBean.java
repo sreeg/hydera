@@ -5,12 +5,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.StreamedContent;
 
 @ManagedBean(name = "systemSettingsBean")
@@ -31,6 +34,10 @@ public class SystemSettingsBean implements Serializable
   public static boolean feemanagement;
   public static boolean charts;
   public static StreamedContent logo;
+  private String designationItem;
+  private String designationItemStaff;
+  private String staffCategoryItem;
+  private String bankNameItem;
 
   public SystemSettings systemSettings = new SystemSettings();
 
@@ -48,10 +55,123 @@ public class SystemSettingsBean implements Serializable
     }
   }
 
+  public String addBankNames()
+  {
+    Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    String type = params.get("type");
+    FacesMessage msg;
+    if (bankNameItem != null && !"".equals(bankNameItem))
+    {
+      try
+      {
+        conn = DBConnection.getConnection();
+        conn.createStatement().executeUpdate("INSERT INTO lists (name, type) VALUES( '" + bankNameItem + "', '" + type + "')");
+      }
+      catch (SQLException e)
+      {
+        e.printStackTrace();
+      }
+      catch (ClassNotFoundException e)
+      {
+        e.printStackTrace();
+      }
+
+      systemSettings.getBanknamesList().add(this.bankNameItem);
+      this.bankNameItem = "";
+      msg = new FacesMessage("Item Added");
+    }
+    else
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Name cannot be empty", "");
+    }
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    return null;
+  }
+
+  public String addDesignation()
+  {
+    Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    String type = params.get("type");
+    FacesMessage msg;
+    if (designationItem != null && !"".equals(designationItem))
+    {
+      try
+      {
+        conn = DBConnection.getConnection();
+        conn.createStatement().executeUpdate("INSERT INTO lists (name, type) VALUES( '" + designationItem + "', '" + type + "')");
+      }
+      catch (SQLException e)
+      {
+        e.printStackTrace();
+      }
+      catch (ClassNotFoundException e)
+      {
+        e.printStackTrace();
+      }
+
+      systemSettings.getDesignationsList().add(this.designationItem);
+      this.designationItem = "";
+      msg = new FacesMessage("Item Added");
+    }
+    else
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Name cannot be empty", "");
+    }
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    return null;
+  }
+
+  public String addDesignationStaff()
+  {
+    Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    String type = params.get("type");
+    FacesMessage msg;
+    if (designationItemStaff != null && !"".equals(designationItemStaff))
+    {
+      try
+      {
+        conn = DBConnection.getConnection();
+        conn.createStatement().executeUpdate("INSERT INTO lists (name, type) VALUES( '" + designationItemStaff + "', '" + type + "')");
+      }
+      catch (SQLException e)
+      {
+        e.printStackTrace();
+      }
+      catch (ClassNotFoundException e)
+      {
+        e.printStackTrace();
+      }
+      systemSettings.getDesignationsListStaff().add(this.designationItemStaff);
+      this.designationItemStaff = "";
+      msg = new FacesMessage("Item Added");
+    }
+    else
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Name cannot be empty", "");
+    }
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    return null;
+  }
+
   private void deleteSystemSettings() throws ClassNotFoundException, SQLException
   {
     conn = DBConnection.getConnection();
     conn.createStatement().executeUpdate("DELETE from SYSTEMSETTINGS");
+  }
+
+  public String getBankNameItem()
+  {
+    return bankNameItem;
+  }
+
+  public String getDesignationItem()
+  {
+    return designationItem;
+  }
+
+  public String getDesignationItemStaff()
+  {
+    return designationItemStaff;
   }
 
   public StreamedContent getLogo()
@@ -67,6 +187,11 @@ public class SystemSettingsBean implements Serializable
   public String getShortdescription()
   {
     return shortdescription;
+  }
+
+  public String getStaffCategoryItem()
+  {
+    return staffCategoryItem;
   }
 
   public SystemSettings getSystemSettings()
@@ -88,6 +213,41 @@ public class SystemSettingsBean implements Serializable
       systemSettings.setSmtpport(rs.getString("smtpport"));
       systemSettings.setDisableemail(rs.getBoolean("disableemail"));
     }
+
+    ArrayList<String> d = new ArrayList<>();
+    ArrayList<String> dS = new ArrayList<>();
+    ArrayList<String> banks = new ArrayList<>();
+    rs = conn.createStatement().executeQuery("SELECT name,type,description from lists order by name");
+    while (rs.next())
+    {
+      String dType = rs.getString("type");
+      String list_name = rs.getString("name");
+      if ("parent".equals(dType))
+        d.add(list_name);
+      else if ("staff".equals(dType))
+        dS.add(list_name);
+      else if ("banks".equals(dType))
+        banks.add(list_name);
+    }
+    systemSettings.setDesignationsList(d);
+    systemSettings.setDesignationsListStaff(dS);
+    systemSettings.setBanknamesList(banks);
+
+    ArrayList<FeeDetails> fd = new ArrayList<FeeDetails>();
+    rs = conn.createStatement().executeQuery("SELECT classname, term1amount, term1amount, term2amount, term3amount, noofterms, termamount from feedetails order by row");
+    while (rs.next())
+    {
+      FeeDetails f = new FeeDetails();
+      f.setClassname(rs.getString("classname"));
+      f.setTerm1amount(rs.getDouble("term1amount"));
+      f.setTerm2amount(rs.getDouble("term2amount"));
+      f.setTerm3amount(rs.getDouble("term3amount"));
+      f.setTermamount(rs.getDouble("termamount"));
+      f.setNoofterms(rs.getInt("noofterms"));
+      fd.add(f);
+    }
+    systemSettings.setFeedetails(fd);
+
   }
 
   public boolean isCharts()
@@ -115,11 +275,66 @@ public class SystemSettingsBean implements Serializable
     return salarymanagement;
   }
 
+  public void onCancelDesignation(RowEditEvent event)
+  {
+    FacesMessage msg = new FacesMessage("Item Removed");
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    String object = (String) event.getObject();
+    systemSettings.getDesignationsList().remove(object);
+
+    try
+    {
+      conn = DBConnection.getConnection();
+      conn.createStatement().executeUpdate("DELETE from lists where name = '" + object + "'");
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+
+  }
+
+  public void onCancelFeedetails(RowEditEvent event)
+  {
+
+  }
+
+  public void onEditDesignation(RowEditEvent event)
+  {
+
+  }
+
+  public void onEditFeedetails(RowEditEvent event)
+  {
+    FeeDetails fd = (FeeDetails) event.getObject();
+    try
+    {
+      conn = DBConnection.getConnection();
+      conn.createStatement()
+          .executeUpdate("UPDATE feedetails set term1amount = '" + fd.getTerm1amount() + "'" + ", term2amount = '" + fd.getTerm2amount() + "'" + ", term3amount = '"
+              + fd.getTerm3amount() + "' , termamount = '" + fd.getTermamount() + "', noofterms = '" + fd.getNoofterms() + "' where classname = '" + fd.getClassname() + "'");
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+    FacesMessage msg = new FacesMessage("Updated the record");
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
+
   public void save() throws ClassNotFoundException, SQLException
   {
     deleteSystemSettings();
     conn = DBConnection.getConnection();
-    ps = conn.prepareStatement("INSERT INTO SYSTEMSETTINGS (email, password, showwidget1, showwidget2, emailhost, smtpport, disableemail)" + "VALUES (?,?,?,?,?,?,?)");
+    ps = conn.prepareStatement("INSERT INTO SYSTEMSETTINGS (email, password, showwidget1, showwidget2, emailhost, smtpport, disableemail)" + " VALUES (?,?,?,?,?,?,?)");
 
     ps.setString(1, systemSettings.getEmail());
     ps.setString(2, systemSettings.getPassword());
@@ -128,6 +343,7 @@ public class SystemSettingsBean implements Serializable
     ps.setString(5, systemSettings.getEmailhostname());
     ps.setString(6, systemSettings.getSmtpport());
     ps.setBoolean(7, systemSettings.getDisableemail());
+
     int rs = ps.executeUpdate();
 
     FacesMessage msg = null;
@@ -142,9 +358,24 @@ public class SystemSettingsBean implements Serializable
     FacesContext.getCurrentInstance().addMessage(null, msg);
   }
 
+  public void setBankNameItem(String bankNameItem)
+  {
+    this.bankNameItem = bankNameItem;
+  }
+
   public void setCharts(boolean charts)
   {
     SystemSettingsBean.charts = charts;
+  }
+
+  public void setDesignationItem(String designationItem)
+  {
+    this.designationItem = designationItem;
+  }
+
+  public void setDesignationItemStaff(String designationItemStaff)
+  {
+    this.designationItemStaff = designationItemStaff;
   }
 
   public void setDisableemail(boolean disableemail)
@@ -180,6 +411,11 @@ public class SystemSettingsBean implements Serializable
   public void setShortdescription(String shortdescription)
   {
     SystemSettingsBean.shortdescription = shortdescription;
+  }
+
+  public void setStaffCategoryItem(String staffCategoryItem)
+  {
+    this.staffCategoryItem = staffCategoryItem;
   }
 
   public void setSystemSettings(SystemSettings systemSettings)

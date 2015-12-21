@@ -108,7 +108,7 @@
 													<h:outputText value="#{st.sex}" />
 												</p:column>
 
-												<p:column headerText="Category"  sortBy="#{st.categoryName}">
+												<p:column headerText="Category" sortBy="#{st.categoryName}">
 													<h:outputText value="#{st.categoryName}" />
 												</p:column>
 
@@ -124,12 +124,12 @@
 													<h:outputText style="float:right" value="&#8377; #{st.joiningsalary}" />
 												</p:column>
 
-										<p:column style="width:60px">
-											<p:commandButton id="iconOnly" icon="fa fa-pencil-square-o" title="Icon Only">
-												<pe:selectDetailLevel contextValue="#{st}" />
-											</p:commandButton>
-										</p:column>
-										
+												<p:column style="width:60px">
+													<p:commandButton id="iconOnly" icon="fa fa-pencil-square-o" title="Icon Only">
+														<pe:selectDetailLevel contextValue="#{st}" />
+													</p:commandButton>
+												</p:column>
+
 											</p:dataTable>
 										</pe:masterDetailLevel>
 										<pe:masterDetailLevel level="2" contextVar="staff" levelLabel="Edit Staff details">
@@ -141,15 +141,13 @@
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<h:outputText value="Firstname *" />
-																	<p:inputText styleClass="form-control" value="#{staff.firstname}" required="true"
-																		label="Firstname" />
+																	<p:inputText styleClass="form-control" value="#{staff.firstname}" required="true" label="Firstname" />
 																</div>
 															</div>
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<h:outputText value="Lastname: *" />
-																	<p:inputText styleClass="form-control" value="#{staff.lastname}" required="true"
-																		label="Lastname" />
+																	<p:inputText styleClass="form-control" value="#{staff.lastname}" required="true" label="Lastname" />
 																</div>
 															</div>
 														</div>
@@ -164,8 +162,7 @@
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<h:outputText value="Gender *" styleClass="displayBlock" />
-																	<p:selectOneButton styleClass="displayBlock" value="#{staff.sex}" required="true"
-																		label="Gender">
+																	<p:selectOneButton styleClass="displayBlock" value="#{staff.sex}" required="true" label="Gender">
 																		<f:selectItems value="#{staff.gender}" />
 																	</p:selectOneButton>
 																</div>
@@ -182,8 +179,7 @@
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<h:outputText value="Spouse Occupation: " />
-																	<p:inputText styleClass="form-control" value="#{staff.spouseOccupation}"
-																		label="Spouseoccupation" />
+																	<p:inputText styleClass="form-control" value="#{staff.spouseOccupation}" label="Spouseoccupation" />
 																</div>
 															</div>
 														</div>
@@ -200,8 +196,7 @@
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<h:outputText value="Date of Joining " />
-																	<p:calendar styleClass="date" id="maskdoj" value="#{staff.doj}" pattern="dd-MM-yyyy"
-																		mask="true" />
+																	<p:calendar styleClass="date" id="maskdoj" value="#{staff.doj}" pattern="dd-MM-yyyy" mask="true" />
 																</div>
 															</div>
 														</div>
@@ -220,7 +215,10 @@
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<h:outputText value="Designation " />
-																	<p:inputText styleClass="form-control" value="#{staff.designation}" label="designation" />
+																	<h:selectOneMenu styleClass="form-control" value="#{staff.designation}" label="Designation">
+																		<f:selectItem itemLabel="Select Designation" itemValue="" noSelectionOption="true" />
+																		<f:selectItems value="#{systemSettingsBean.systemSettings.designationsListStaff}" />
+																	</h:selectOneMenu>
 																</div>
 															</div>
 														</div>
@@ -269,7 +267,7 @@
 													</p:panel>
 												</div>
 											</div>
-																						<div class="row">
+											<div class="row">
 												<div class="col-lg-8">
 													<div class="form-group">
 														<p:commandButton value="Update" styleClass="btn btn-primary marginRight20" process="masterDetail"
@@ -281,17 +279,18 @@
 													</div>
 												</div>
 											</div>
-									<p:dialog header="Delete confirmation" widgetVar="deletedDlg" modal="true" appendToBody="true" resizable="false">
-										<h:panelGroup layout="block" style="padding:5px;">
-											<h:outputText value="Are you sure you want to delete this person?" />
-										</h:panelGroup>
-										<p:commandButton id="deleteBtn" value="Delete" styleClass="btn btn-danger marginRight20"
-											action="#{staffFilterView.delete(staff)}" process="@this" style="margin-top:10px;">
-											<pe:selectDetailLevel level="1" />
-										</p:commandButton>
-										<p:commandButton value="Cancel" type="button" styleClass="btn btn-primary"
-											onclick="PF('deletedDlg').hide();" style="margin-top:10px;" />
-									</p:dialog>											
+											<p:dialog header="Delete confirmation" widgetVar="deletedDlg" modal="true" appendToBody="true"
+												resizable="false">
+												<h:panelGroup layout="block" style="padding:5px;">
+													<h:outputText value="Are you sure you want to delete this person?" />
+												</h:panelGroup>
+												<p:commandButton id="deleteBtn" value="Delete" styleClass="btn btn-danger marginRight20"
+													action="#{staffFilterView.delete(staff)}" process="@this" style="margin-top:10px;">
+													<pe:selectDetailLevel level="1" />
+												</p:commandButton>
+												<p:commandButton value="Cancel" type="button" styleClass="btn btn-primary"
+													onclick="PF('deletedDlg').hide();" style="margin-top:10px;" />
+											</p:dialog>
 										</pe:masterDetailLevel>
 									</pe:masterDetail>
 								</div>

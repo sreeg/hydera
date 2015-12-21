@@ -52,11 +52,22 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Father's Occupation: " />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.fatheroccupation}" label="Fatheroccupation" />
+									<h:selectOneMenu styleClass="form-control" value="#{studentBean.student.fatheroccupation}">
+										<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
+									</h:selectOneMenu>									
 								</div>
 							</div>
 						</div>
-
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<h:outputText value="Father's Occupation Details " />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.fatheroccupationdetails}"
+										label="Father occupation details" />
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
@@ -68,11 +79,22 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Mother's Occupation: " />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.motheroccupation}" label="Motheroccupation" />
+									<h:selectOneMenu styleClass="form-control" value="#{studentBean.student.motheroccupation}" label="Motheroccupation">
+										<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
+									</h:selectOneMenu>										
 								</div>
 							</div>
 						</div>
-
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<h:outputText value="Mother's Occupation Details " />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.motheroccupationdetails}"
+										label="Mother occupation details" />
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">

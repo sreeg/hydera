@@ -23,14 +23,12 @@
 </h:head>
 <body>
 	<div id="wrapper">
-		<h:form>
+		<h:form id="settings">
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
 					<ui:param name="page" value="settings" />
 				</ui:include>
 			</ui:insert>
-		</h:form>
-		<h:form id="createStudent">
 			<div id="page-wrapper">
 				<div class="container-fluid">
 					<div class="row">
@@ -40,77 +38,274 @@
 							</h1>
 						</div>
 					</div>
-					<p:messages autoUpdate="true" />
-					<div class="row">
-						<p:outputPanel rendered="#{systemSettingsBean.disableemail == 'true'}">
-							<div class="col-lg-6">
-								<p:panel>
-									<f:facet name="header">
-										<div class="pull-left">
-											<h:outputText value="Outbound Email Preferences" />
+					<p:messages closable="true" autoUpdate="true" />
+					<p:tabView id="settingsTab">
+						<p:tab id="tab1" title="Configure Lists">
+							<p:growl id="messages1" showDetail="true" />
+
+							<div class="row">
+								<div class="col-lg-4">
+									<p:outputPanel id="designationlist">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<p:dataTable value="#{systemSettingsBean.systemSettings.designationsList}" var="d" id="desigtable"
+													widgetVar="design" editable="true">
+													<p:ajax event="rowEdit" listener="#{systemSettingsBean.onEditDesignation}"
+														update="settings:settingsTab:messages1" />
+													<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelDesignation}"
+														update="settings:settingsTab:messages1" />
+													<f:facet name="header">Parent's Designation List</f:facet>
+													<p:column headerText="Name">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText value="#{d}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText value="#{d}" style="width:100%" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Edit" style="width:50px">
+														<p:rowEditor />
+													</p:column>
+												</p:dataTable>
+											</div>
+											<div class="panel-footer">
+												<div class="form-group">
+													<p:inputText styleClass="form-control" placeholder="Enter new designation name"
+														value="#{systemSettingsBean.designationItem}" />
+												</div>
+												<p:commandButton icon="fa fa-plus" styleClass="btn btn-primary btn-xs" value="Add"
+													action="#{systemSettingsBean.addDesignation}" update="settings:settingsTab:designationlist">
+													<f:param name="type" value="parent" />
+												</p:commandButton>
+											</div>
 										</div>
-										<div class="pull-right hidden">
-											<p:inputSwitch offLabel="No" onLabel="Yes" styleClass=""
-												value="#{systemSettingsBean.systemSettings.disableemail}">
-											</p:inputSwitch>
+									</p:outputPanel>
+								</div>
+								<div class="col-lg-4">
+									<p:outputPanel id="designationlistStaff">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<p:dataTable value="#{systemSettingsBean.systemSettings.designationsListStaff}" id="stafftable" var="ds"
+													widgetVar="designationStaff" editable="true">
+													<p:ajax event="rowEdit" listener="#{systemSettingsBean.onEditDesignation}"
+														update="settings:settingsTab:messages1" />
+													<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelDesignation}"
+														update="settings:settingsTab:messages1" />
+													<f:facet name="header">Staff's Designation List</f:facet>
+													<p:column headerText="Name">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText value="#{ds}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText value="#{ds}" style="width:100%" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Edit" style="width:50px">
+														<p:rowEditor />
+													</p:column>
+												</p:dataTable>
+											</div>
+
+											<div class="panel-footer">
+												<div class="form-group">
+													<p:inputText styleClass="form-control" placeholder="Enter new designation name"
+														value="#{systemSettingsBean.designationItemStaff}" />
+												</div>
+												<p:commandButton icon="fa fa-plus" styleClass="btn btn-primary btn-xs" value="Add"
+													action="#{systemSettingsBean.addDesignationStaff}" update="settings:settingsTab:designationlistStaff">
+													<f:param name="type" value="staff" />
+												</p:commandButton>
+											</div>
 										</div>
-									</f:facet>
-									<div class="row">
-										<div class="col-lg-6">
-											<div class="form-group">
-												<h:outputText value="Email Hostname *" />
-												<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.emailhostname}"
-													required="true" label="Email" />
+									</p:outputPanel>
+								</div>
+								<div class="col-lg-4">
+									<p:outputPanel id="banknamesList">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<p:dataTable value="#{systemSettingsBean.systemSettings.banknamesList}" id="banktable" var="bank"
+													widgetVar="banknames" editable="true">
+													<p:ajax event="rowEdit" listener="#{systemSettingsBean.onEditDesignation}"
+														update="settings:settingsTab:messages1" />
+													<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelDesignation}"
+														update="settings:settingsTab:messages1" />
+													<f:facet name="header">Banks List</f:facet>
+													<p:column headerText="Class">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText value="#{bank}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText value="#{bank}" style="width:100%" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Edit" style="width:50px">
+														<p:rowEditor />
+													</p:column>
+												</p:dataTable>
 											</div>
-											<div class="form-group">
-												<h:outputText value="SMTP Port *" />
-												<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.smtpport}" required="true"
-													label="Email" />
-											</div>
-											<div class="form-group">
-												<h:outputText value="Email *" />
-												<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.email}" required="true"
-													label="Email" />
-											</div>
-											<div class="form-group">
-												<h:outputText value="Password *" />
-												<p:password styleClass="form-control" value="#{systemSettingsBean.systemSettings.password}" required="true"
-													redisplay="true" label="Password" />
+
+											<div class="panel-footer">
+												<div class="form-group">
+													<p:inputText styleClass="form-control" placeholder="Enter new bank name"
+														value="#{systemSettingsBean.bankNameItem}" />
+												</div>
+												<p:commandButton icon="fa fa-plus" styleClass="btn btn-primary btn-xs" value="Add"
+													action="#{systemSettingsBean.addBankNames}" update="settings:settingsTab:banknamesList">
+													<f:param name="type" value="banks" />
+												</p:commandButton>
 											</div>
 										</div>
-									</div>
-								</p:panel>
+									</p:outputPanel>
+								</div>								
 							</div>
-						</p:outputPanel>
-						<div class="col-lg-3">
-							<p:panel header="Widget Preferences">
+						</p:tab>
+						<p:tab id="tab2" title="Fee Amount Details">
+							<p:growl id="messages2" showDetail="true" />
+							<p:panel header="Class-wise Fee details">
 								<div class="row">
 									<div class="col-lg-12">
-										<div class="form-group">
-											<h:outputText style="min-width:150px;display:inline-block" value=" Show Clock :" />
+										<p:dataTable value="#{systemSettingsBean.systemSettings.feedetails}" id="feetable" var="d" widgetVar="fee"
+											editable="true">
+											<p:ajax event="rowEdit" listener="#{systemSettingsBean.onEditFeedetails}"
+												update="settings:settingsTab:messages2" />
+											<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelFeedetails}"
+												update="settings:settingsTab:messages2" />
+											<p:column headerText="Name">
+												<h:outputText value="#{d.classname}" />
+											</p:column>
+											<p:column headerText="No. of terms">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText styleClass="pull-right" value="#{d.noofterms}">
+														</h:outputText>
+													</f:facet>
+													<f:facet name="input">
+														<h:selectOneMenu id="noofterms" value="#{d.noofterms}" style="width:100%;" editable="true"
+															label="No. of terms" styleClass="form-control">
+															<f:selectItem itemLabel="1" itemValue="1" />
+															<f:selectItem itemLabel="2" itemValue="2" />
+															<f:selectItem itemLabel="3" itemValue="3" />
+															<f:selectItem itemLabel="4" itemValue="4" />
+															<f:selectItem itemLabel="5" itemValue="5" />
+															<f:selectItem itemLabel="6" itemValue="6" />
+															<f:selectItem itemLabel="7" itemValue="7" />
+															<f:selectItem itemLabel="8" itemValue="8" />
+															<f:selectItem itemLabel="9" itemValue="9" />
+															<f:selectItem itemLabel="10" itemValue="10" />
+															<f:selectItem itemLabel="11" itemValue="11" />
+															<f:selectItem itemLabel="12" itemValue="12" />
+														</h:selectOneMenu>
+													</f:facet>
+												</p:cellEditor>
 
-											<p:inputSwitch offLabel="No" onLabel="Yes" styleClass=""
-												value="#{systemSettingsBean.systemSettings.showwidget1}" />
-										</div>
-										<div class="form-group">
-											<h:outputText style="min-width:150px;display:inline-block" value="Show Calculator :" />
-
-											<p:inputSwitch offLabel="No" onLabel="Yes" styleClass=""
-												value="#{systemSettingsBean.systemSettings.showwidget2}" />
-										</div>
+											</p:column>
+											<p:column headerText="Term amount">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText styleClass="pull-right" value="#{d.termamount}">
+															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														</h:outputText>
+													</f:facet>
+													<f:facet name="input">
+														<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " value="#{d.termamount}" label="term amount" />
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+											<p:column headerText="Total amount">
+												<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{d.totalamount}">
+													<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+												</h:outputText>
+											</p:column>
+											<p:column headerText="Edit" style="width:50px">
+												<p:rowEditor />
+											</p:column>
+										</p:dataTable>
 									</div>
 								</div>
 							</p:panel>
-						</div>
-					</div>
+						</p:tab>
+						<p:tab id="tab3" title="Other">
+							<div class="row">
+								<p:outputPanel rendered="#{systemSettingsBean.disableemail == 'true'}">
+									<div class="col-lg-6">
+										<p:panel>
+											<f:facet name="header">
+												<div class="pull-left">
+													<h:outputText value="Outbound Email Preferences" />
+												</div>
+												<div class="pull-right hidden">
+													<p:inputSwitch offLabel="No" onLabel="Yes" styleClass=""
+														value="#{systemSettingsBean.systemSettings.disableemail}">
+													</p:inputSwitch>
+												</div>
+											</f:facet>
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<h:outputText value="Email Hostname *" />
+														<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.emailhostname}"
+															required="true" label="Email" />
+													</div>
+													<div class="form-group">
+														<h:outputText value="SMTP Port *" />
+														<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.smtpport}"
+															required="true" label="Email" />
+													</div>
+													<div class="form-group">
+														<h:outputText value="Email *" />
+														<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.email}" required="true"
+															label="Email" />
+													</div>
+													<div class="form-group">
+														<h:outputText value="Password *" />
+														<p:password styleClass="form-control" value="#{systemSettingsBean.systemSettings.password}"
+															required="true" redisplay="true" label="Password" />
+													</div>
+												</div>
+											</div>
+										</p:panel>
+									</div>
+								</p:outputPanel>
+								<div class="col-lg-3">
+									<p:panel header="Widget Preferences">
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="form-group">
+													<h:outputText style="min-width:150px;display:inline-block" value=" Show Clock :" />
 
-					<div class="marginTop20">
-						<p:commandButton styleClass="btn btn-primary" value="Save" actionListener="#{systemSettingsBean.save}"
-							validateClient="true" update="@form" />
+													<p:inputSwitch offLabel="No" onLabel="Yes" styleClass=""
+														value="#{systemSettingsBean.systemSettings.showwidget1}" />
+												</div>
+												<div class="form-group">
+													<h:outputText style="min-width:150px;display:inline-block" value="Show Calculator :" />
 
-						<p:commandButton styleClass="btn btn-default marginLeft20" validateClient="false" type="button" value="Cancel"
-							onclick="window.history.back()" />
-					</div>
+													<p:inputSwitch offLabel="No" onLabel="Yes" styleClass=""
+														value="#{systemSettingsBean.systemSettings.showwidget2}" />
+												</div>
+											</div>
+										</div>
+									</p:panel>
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="marginTop20">
+											<p:commandButton styleClass="btn btn-primary" value="Save" actionListener="#{systemSettingsBean.save}"
+												validateClient="true" update="@form" />
+
+											<p:commandButton styleClass="btn btn-default marginLeft20" validateClient="false" type="button"
+												value="Cancel" onclick="window.history.back()" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</p:tab>
+					</p:tabView>
 				</div>
 			</div>
 		</h:form>
