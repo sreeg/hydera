@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+
+	<title>Payroll Management</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/sb-admin.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+
+</h:head>
+
+<body>
+	<h:form id="form">
+		<div id="wrapper">
+			<ui:insert name="nav">
+				<ui:include src="nav.xhtml">
+					<ui:param name="page" value="updatestudentfee" />
+				</ui:include>
+			</ui:insert>
+
+			<div id="page-wrapper">
+				<div class="container-fluid">
+					<div class="row hidden-print">
+						<div class="col-lg-12">
+							<h1 class="page-header">Reports</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-9">
+							<c:if test="#{param['reportId'] == '4'}">
+								<ui:insert name="staffByCategory">
+									<ui:include src="staffByCategory.xhtml" />
+								</ui:insert>
+							</c:if>
+						</div>
+						<div class="col-lg-3">
+
+							<div class="panel panel-custom">
+
+								<div class="panel-body">
+									<h3>List of Reports</h3>
+
+									<div class="list-group">
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '1' ? 'active' : ''}" value="Show all students">
+											<f:param name="reportId" value="1" />
+										</p:button>
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '2' ? 'active' : ''}" value="Show all staff">
+											<f:param name="reportId" value="2" />
+										</p:button>
+										<p:button outcome="reports"
+											styleClass="list-group-item full-width #{param['reportId'] == '3' ? 'active' : ''}"
+											value="Parent's occupation">
+											<f:param name="reportId" value="3" />
+										</p:button>
+										<p:button outcome="reports"
+											styleClass="list-group-item full-width #{param['reportId'] == '4' ? 'active' : ''}" value="Staff by category">
+											<f:param name="reportId" value="4" />
+										</p:button>
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '5' ? 'active' : ''}" value="Students by class">
+											<f:param name="reportId" value="5" />
+										</p:button>
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '6' ? 'active' : ''}" value="Staff by designation">
+											<f:param name="reportId" value="6" />
+										</p:button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+	</h:form>
+</body>
+</html>

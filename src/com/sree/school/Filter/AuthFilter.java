@@ -56,6 +56,7 @@ public class AuthFilter implements Filter
       SystemSettingsBean.salarymanagement = props.getProperty("app.module.salarymanagement").equalsIgnoreCase("truesm");
       SystemSettingsBean.feemanagement = props.getProperty("app.module.feemanagement").equalsIgnoreCase("truefm");
       SystemSettingsBean.charts = props.getProperty("app.module.charts").equalsIgnoreCase("truecharts");
+      SystemSettingsBean.reports = props.getProperty("app.module.reports").equalsIgnoreCase("truereports");
 
       SystemSettingsBean.logo = new DefaultStreamedContent(new FileInputStream(new File(System.getProperty("catalina.base"), "conf/resources/images/logo.gif")), "image/gif");
     }

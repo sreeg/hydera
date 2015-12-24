@@ -140,7 +140,7 @@
 													<div class="form-group">
 														<h:outputText value="For Term :" class="marginRight20" />
 														<p:selectManyButton value="#{studentFilterView.selectedTermOptions}">
-														<p:ajax listener="#{studentFilterView.onTermOptionsChange}" />
+															<p:ajax listener="#{studentFilterView.onTermOptionsChange}" />
 															<f:selectItem itemLabel="term 1" itemValue="term 1" itemDisabled="#{studentFilterView.studentfee.term1}" />
 															<f:selectItem itemLabel="term 2" itemValue="term 2" itemDisabled="#{studentFilterView.studentfee.term2}" />
 															<f:selectItem itemLabel="term 3" itemValue="term 3" itemDisabled="#{studentFilterView.studentfee.term3}" />
@@ -182,20 +182,11 @@
 													<div class="form-group">
 														<h:outputText value="Bank name *" />
 
-														<p:selectOneMenu id="bankname" value="#{studentFilterView.studentfee.bankname}" editable="true" label="Bank name"
-															required="true" styleClass="form-control" style="width:100%">
-															<f:selectItem itemLabel="Select One" itemValue="" />
-															<f:selectItem itemLabel="HDFC" itemValue="HDFC" />
-															<f:selectItem itemLabel="ICICI" itemValue="ICICI" />
-															<f:selectItem itemLabel="AXIS" itemValue="AXIS" />
-															<f:selectItem itemLabel="SBI" itemValue="SBI" />
-															<f:selectItem itemLabel="SBH" itemValue="SBH" />
-															<f:selectItem itemLabel="Syndicate" itemValue="Syndicate" />
-															<f:selectItem itemLabel="Andhra Bank" itemValue="Andhra Bank" />
-															<f:selectItem itemLabel="IDBI" itemValue="IDBI" />
-															<f:selectItem itemLabel="City Bank" itemValue="City Bank" />
-															<f:selectItem itemLabel="HSBC" itemValue="HSBC" />
-															<f:selectItem itemLabel="Bank of India" itemValue="Bank of India" />
+
+														<p:selectOneMenu id="bankname" value="#{studentFilterView.studentfee.bankname}" editable="true"
+															label="Bank name" required="true" styleClass="form-control" style="width:100%">
+															<f:selectItem itemLabel="Select Bank name" itemValue="" noSelectionOption="true" />
+															<f:selectItems value="#{systemSettingsBean.systemSettings.banknamesList}" />
 
 														</p:selectOneMenu>
 

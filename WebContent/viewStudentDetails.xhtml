@@ -123,15 +123,20 @@
 
 										<p:column filterStyle="display:none" sortBy="#{st.sectionname}" filterBy="#{st.sectionname}"
 											headerText="Section name">
-											<h:outputText value="#{st.classname} - #{st.sectionname}" />
+											<h:outputText value="#{st.sectionname}" />
 										</p:column>
 
-										<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Father details">
-											<h:outputText value="#{st.fathername}, #{st.fatheroccupation}" />
+										<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Father Name">
+											<h:outputText value="#{st.fathername}" />
 										</p:column>
-
-										<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
-											<h:outputText value="#{st.doj}" />
+										<p:column filterMatchMode="equals" filterBy="#{st.fatheroccupation}" headerText="">
+											<f:facet name="filter">
+												<h:selectOneMenu onchange="PF('studentsTable').filter()">
+													<f:selectItem itemLabel="All Designations" itemValue="#{null}" noSelectionOption="true" />
+													<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
+												</h:selectOneMenu>
+											</f:facet>
+											<h:outputText value="#{st.fatheroccupation}" />
 										</p:column>
 
 										<p:column style="width:60px">
@@ -191,10 +196,10 @@
 												<div class="col-lg-6">
 													<div class="form-group">
 														<h:outputText value="Father's Occupation: " />
-														<p:selectOneMenu styleClass="form-control" value="#{student.fatheroccupation}">
+														<h:selectOneMenu styleClass="form-control" value="#{student.fatheroccupation}">
 															<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
 															<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
-														</p:selectOneMenu>
+														</h:selectOneMenu>
 													</div>
 												</div>
 											</div>

@@ -104,12 +104,11 @@
 												<p:column headerText="Category">
 													<h:outputText value="#{st.categoryName}" />
 												</p:column>
-												<p:column headerText="Days in Month" width="100" styleClass="centered">
+												<p:column headerText="Days in Month" width="125" style="max-width:125px;" styleClass="centered">
 													<h:outputText value="#{attendanceView.daysinselectedmonth}" />
 												</p:column>
 
-												<p:column headerText="Days Present" width="100" style="max-width:100px;">
-
+												<p:column headerText="Days Present" width="125" style="max-width:125px;">
 													<p:inputText id="number" styleClass="form-control" value="#{st.dayspresent}">
 														<f:validateDoubleRange minimum="0" maximum="#{attendanceView.daysinselectedmonth}" />
 													</p:inputText>

@@ -33,9 +33,13 @@ public class SystemSettingsBean implements Serializable
   public static boolean salarymanagement;
   public static boolean feemanagement;
   public static boolean charts;
+  public static boolean reports;
   public static StreamedContent logo;
+
   private String designationItem;
+
   private String designationItemStaff;
+
   private String staffCategoryItem;
   private String bankNameItem;
 
@@ -270,6 +274,11 @@ public class SystemSettingsBean implements Serializable
     return peoplemanagement;
   }
 
+  public boolean isReports()
+  {
+    return reports;
+  }
+
   public boolean isSalarymanagement()
   {
     return salarymanagement;
@@ -396,6 +405,11 @@ public class SystemSettingsBean implements Serializable
   public void setPeoplemanagement(boolean peoplemanagement)
   {
     SystemSettingsBean.peoplemanagement = peoplemanagement;
+  }
+
+  public void setReports(boolean reports)
+  {
+    SystemSettingsBean.reports = reports;
   }
 
   public void setSalarymanagement(boolean salarymanagement)
