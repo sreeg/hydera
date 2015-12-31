@@ -33,7 +33,7 @@
 		<div id="wrapper">
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="updatestudentfee" />
+					<ui:param name="page" value="reports" />
 				</ui:include>
 			</ui:insert>
 
@@ -41,29 +41,47 @@
 				<div class="container-fluid">
 					<div class="row hidden-print">
 						<div class="col-lg-12">
-							<h1 class="page-header">Reports</h1>
+							<h1 class="page-header">Charts &amp; Reports</h1>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-lg-9">
 							<c:if test="#{param['reportId'] == '4'}">
-								<ui:insert name="staffByCategory">
-									<ui:include src="staffByCategory.xhtml" />
-								</ui:insert>
+								<ui:include src="staffByCategory.xhtml" />
+							</c:if>
+							<c:if test="#{param['reportId'] == '1'}">
+								<ui:include src="showallstudents.xhtml" />
+							</c:if>
+							<c:if test="#{param['reportId'] == '2'}">
+								<ui:include src="showallstaff.xhtml" />
+							</c:if>
+							<c:if test="#{param['reportId'] == '3'}">
+								<ui:include src="studentsByParentOccupation.xhtml" />
+							</c:if>
+							<c:if test="#{param['chartId'] == '1'}">
+								<ui:include src="staffPaymentHistory.xhtml" />
+							</c:if>
+							<c:if test="#{param['chartId'] == '2'}">
+								<ui:include src="cashFlows.xhtml" />
+							</c:if>
+							<c:if test="#{param['chartId'] == '3'}">
+								<ui:include src="staffcomposition.xhtml" />
+							</c:if>
+							<c:if test="#{param['chartId'] == '4'}">
+								<ui:include src="byParentOccupation.xhtml" />
 							</c:if>
 						</div>
 						<div class="col-lg-3">
-
 							<div class="panel panel-custom">
-
 								<div class="panel-body">
 									<h3>List of Reports</h3>
-
 									<div class="list-group">
-										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '1' ? 'active' : ''}" value="Show all students">
+										<p:button outcome="reports"
+											styleClass="list-group-item full-width #{param['reportId'] == '1' ? 'active' : ''}" value="Show all students">
 											<f:param name="reportId" value="1" />
 										</p:button>
-										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '2' ? 'active' : ''}" value="Show all staff">
+										<p:button outcome="reports"
+											styleClass="list-group-item full-width #{param['reportId'] == '2' ? 'active' : ''}" value="Show all staff">
 											<f:param name="reportId" value="2" />
 										</p:button>
 										<p:button outcome="reports"
@@ -75,11 +93,34 @@
 											styleClass="list-group-item full-width #{param['reportId'] == '4' ? 'active' : ''}" value="Staff by category">
 											<f:param name="reportId" value="4" />
 										</p:button>
-										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '5' ? 'active' : ''}" value="Students by class">
+										<p:button outcome="reports"
+											styleClass="list-group-item full-width #{param['reportId'] == '5' ? 'active' : ''}"
+											value="Staff by designation">
 											<f:param name="reportId" value="5" />
 										</p:button>
-										<p:button outcome="reports" styleClass="list-group-item full-width #{param['reportId'] == '6' ? 'active' : ''}" value="Staff by designation">
-											<f:param name="reportId" value="6" />
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-custom">
+								<div class="panel-body">
+									<h3>Charts</h3>
+									<div class="list-group">
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['chartId'] == '1' ? 'active' : ''}"
+											value="Staff payment history">
+											<f:param name="chartId" value="1" />
+										</p:button>
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['chartId'] == '2' ? 'active' : ''}"
+											value="Cash flows">
+											<f:param name="chartId" value="2" />
+										</p:button>
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['chartId'] == '3' ? 'active' : ''}"
+											value="Staff composition">
+											<f:param name="chartId" value="3" />
+										</p:button>
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['chartId'] == '4' ? 'active' : ''}"
+											value="Parent's occupation">
+											<f:param name="chartId" value="4" />
 										</p:button>
 									</div>
 								</div>
@@ -91,6 +132,55 @@
 		</div>
 		<!-- Bootstrap Core JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/highlight.js"></script>
+		<script src="js/bootstrap-switch.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+			function overrideAxis() {
+				alert();
+				this.cfg.axes = {
+					yaxis : {
+						tickOptions : {
+							formatString : "&#8377; %2$'d",
+							angle : 0
+						}
+					}
+				}
+			};
+
+			$('input[name="cumulative"]').on('switchChange.bootstrapSwitch',
+					function(event, state) {
+						console.log(this); // DOM element
+						console.log(event); // jQuery event
+						console.log(state); // true | false
+						if (state) {
+							$(".normal").css('display', 'none');
+							$(".cumulative").css('z-index', 'initial');
+							$(".cumulative").css('height', 'initial');
+						} else {
+							$(".normal").css('display', 'block');
+							$(".cumulative").css('z-index', '-2000');
+							$(".cumulative").css('height', '0');
+						}
+					});
+			function chartExtender() {
+				// this = chart widget instance        
+				// this.cfg = options        
+				this.cfg.seriesDefaults = {
+			            renderer:$.jqplot.BarRenderer,
+			            rendererOptions: {
+			                // Set varyBarColor to tru to use the custom colors on the bars.
+			                varyBarColor: true,
+			                barDirection: 'horizontal'
+			            }
+				};
+				this.cfg.axes={
+						yaxis:{
+		                renderer: $.jqplot.CategoryAxisRenderer
+		            }
+				};
+			};
+		</script>
 	</h:form>
 </body>
 </html>

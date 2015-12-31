@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:body>
 	<ui:composition>
@@ -36,17 +37,14 @@
 								<li class="divider"></li>
 								<li><a href="#">View All</a></li>
 							</ul></li>
-						<li class="#{page == 'viewDetails' ? 'active' : ''}"><a href="viewStudentDetails.xhtml"><i
-								class="glyphicon glyphicon-edit"></i> <span class="mobile">View &amp; Edit</span></a></li>
 
-						<c:if test="#{systemSettingsBean.charts == 'true'}">
-							<li class="#{page == 'charts' ? 'active' : ''}"><a href="charts.xhtml"><i class="fa fa-bar-chart"></i> <span
-									class="mobile">Charts</span></a></li>
-						</c:if>
+
 						<c:if test="#{systemSettingsBean.reports == 'true'}">
-							<li class="#{page == 'reports' ? 'active' : ''}"><a href="reports.xhtml"><i class="fa fa-bar-chart"></i>
-									<span class="mobile">Reports</span></a></li>
+							<li class="#{page == 'reports' ? 'active' : ''}"><a href="reports.xhtml?reportId=1"><i
+									class="fa fa-bar-chart"></i> <span class="mobile">Charts &amp; Reports</span></a></li>
 						</c:if>
+						<li class="#{page == 'settings' ? 'active' : ''}"><a href="settings.xhtml"><i class="fa fa-gear"></i> <span
+								class="mobile">Settings</span></a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
 								<span class="mobile">#{staffFilterView.staffbylogin.firstname} #{staffFilterView.staffbylogin.lastname} <b
 									class="caret"></b></span></a>
@@ -126,7 +124,10 @@
 
 					<!--<li class="#{page == 'charts' ? 'active' : ''}"><a href="charts.xhtml"><i class="fa fa-fw fa-bar-chart-o"></i>
 							Charts</a></li> -->
-					<li class="#{page == 'logout' ? 'active' : ''}"><p:commandLink id="nonAjax2"
+						<li class="#{page == 'viewDetails' ? 'active' : ''}"><a href="viewStudentDetails.xhtml"><i
+								class="glyphicon glyphicon-edit"></i> <span class="mobile">View &amp; Edit</span></a></li>
+							
+					<li style="display: none" class="#{page == 'logout' ? 'active' : ''}"><p:commandLink id="nonAjax2"
 							actionListener="#{loginBean.logout}" ajax="false">
 							<i class="fa fa-fw fa-power-off"></i>
 							<h:outputText value=" Logout" />

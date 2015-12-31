@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class ChartView implements Serializable
 
   SimpleDateFormat formatter = new SimpleDateFormat(USED_DATE_FORMAT);
   private HorizontalBarChartModel horizontalBarModel;
+  private HorizontalBarChartModel parentOccupationModel;
   private Map<Date, Double> parttime;
   private Map<Date, Double> permanant;
   private PieChartModel pieModel1;
@@ -63,6 +65,8 @@ public class ChartView implements Serializable
   private Set<String> staffsPermenant;
 
   private Set<String> staffsTemporary;
+
+  Map<String, Integer> occupation;
 
   public ChartView()
   {
@@ -84,6 +88,7 @@ public class ChartView implements Serializable
     getAllPayslips();
     getFeePaymentDetails();
     getStaffCount();
+    getParentOccupation();
   }
 
   private void createBarModel()
@@ -161,6 +166,37 @@ public class ChartView implements Serializable
     cumBarModel.setAnimate(true);
   }
 
+  private void createParentOccupationModel()
+  {
+    parentOccupationModel = new HorizontalBarChartModel();
+    // parentOccupationModel.setExtender("chartExtender");
+    ChartSeries s = new ChartSeries();
+
+    for (Entry<String, Integer> entry : occupation.entrySet())
+    {
+      String key = entry.getKey();
+      Integer value = entry.getValue();
+      s.set(key, value.intValue());
+    }
+
+    parentOccupationModel.addSeries(s);
+    parentOccupationModel.setShowPointLabels(true);
+    parentOccupationModel.setSeriesColors("337AB7,5CB85C,4C3973,A63F82");
+    parentOccupationModel.setShowPointLabels(true);
+    parentOccupationModel.setAnimate(true);
+
+    Axis xAxis = parentOccupationModel.getAxis(AxisType.X);
+    xAxis.setLabel("No. of Students");
+
+    xAxis.setTickCount(1);
+    xAxis.setTickInterval("1");
+    xAxis.setTickFormat("%d");
+
+    Axis yAxis = parentOccupationModel.getAxis(AxisType.Y);
+    yAxis.setLabel("Occupation");
+    yAxis.setTickFormat("%s");
+  }
+
   private void createPieModel1()
   {
     pieModel1 = new PieChartModel();
@@ -200,6 +236,7 @@ public class ChartView implements Serializable
     horizontalBarModel.setLegendCols(1);
     horizontalBarModel.setLegendPosition("ne");
     horizontalBarModel.setDatatipFormat("%1$s");
+    horizontalBarModel.setAnimate(true);
 
     Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
     xAxis.setLabel("No. of Staff");
@@ -359,6 +396,30 @@ public class ChartView implements Serializable
     return horizontalBarModel;
   }
 
+  private void getParentOccupation()
+  {
+    occupation = new HashMap<>();
+    try
+    {
+      conn = DBConnection.getConnection();
+      ResultSet rs = conn.createStatement().executeQuery("SELECT fatheroccupation, count(*) as 'Cnt' from school.student GROUP BY fatheroccupation");
+
+      while (rs.next())
+      {
+        occupation.put(rs.getString("fatheroccupation"), Integer.valueOf(rs.getInt("Cnt")));
+      }
+    }
+    catch (ClassNotFoundException | SQLException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public HorizontalBarChartModel getParentOccupationModel()
+  {
+    return parentOccupationModel;
+  }
+
   public PieChartModel getPieModel1()
   {
     return pieModel1;
@@ -443,6 +504,7 @@ public class ChartView implements Serializable
     createPieModel1();
     createStaffCompositionModel();
     createCashModel();
+    createParentOccupationModel();
   }
 
   private BarChartModel initBarModel(boolean isCum)
@@ -510,6 +572,11 @@ public class ChartView implements Serializable
   public void setHorizontalBarModel(HorizontalBarChartModel horizontalBarModel)
   {
     this.horizontalBarModel = horizontalBarModel;
+  }
+
+  public void setParentOccupationModel(HorizontalBarChartModel parentOccupationModel)
+  {
+    this.parentOccupationModel = parentOccupationModel;
   }
 
   public void setPieModel1(PieChartModel pieModel1)

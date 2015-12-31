@@ -106,6 +106,7 @@ public class StudentFilterView implements Serializable
   private List<Student> students;
   private List<Student> studentsWithFee;
   private String selectedClass;
+  private double termamount;
 
   public StudentFilterView() throws ClassNotFoundException, SQLException
   {
@@ -580,6 +581,36 @@ public class StudentFilterView implements Serializable
     return classnames;
   }
 
+  private String getClassTobePromoted()
+  {
+    if (selectedClass.equals("Class IX"))
+      return "Class X";
+    if (selectedClass.equals("Class VIII"))
+      return "Class IX";
+    if (selectedClass.equals("Class VII"))
+      return "Class VIII";
+    if (selectedClass.equals("Class VI"))
+      return "Class VII";
+    if (selectedClass.equals("Class V"))
+      return "Class VI";
+    if (selectedClass.equals("Class IV"))
+      return "Class V";
+    if (selectedClass.equals("Class III"))
+      return "Class IV";
+    if (selectedClass.equals("Class II"))
+      return "Class III";
+    if (selectedClass.equals("Class I"))
+      return "Class II";
+    if (selectedClass.equals("UKG"))
+      return "Class I";
+    if (selectedClass.equals("LKG"))
+      return "UKG";
+    if (selectedClass.equals("Nursery"))
+      return "LKG";
+    else
+      return "";
+  }
+
   public OutputPanel getFeePanel()
   {
     return feePanel;
@@ -659,6 +690,7 @@ public class StudentFilterView implements Serializable
       studentfeeList = new ArrayList<>();
       studentfound = false;
       studentfee = new StudentFee();
+
       while (rs.next())
       {
         StudentFee sfee = new StudentFee();
@@ -689,6 +721,8 @@ public class StudentFilterView implements Serializable
           studentfee.setTerm3(true);
         }
       }
+
+      studentfee.setAmount(termamount);
       studentfee.setEmployeeid(selectedStudentId);
       studentfee.setPaymentdate(Calendar.getInstance().getTime());
     }
@@ -810,6 +844,23 @@ public class StudentFilterView implements Serializable
         studentbyclass.put(s.getFullname(), s.getId());
       }
     }
+    SystemSettingsBean sys = new SystemSettingsBean();
+    SystemSettings systemSettings = sys.getSystemSettings();
+    Map<String, FeeDetails> feedetailsByclass = systemSettings.getFeedetailsByclass();
+    FeeDetails feeDetails = feedetailsByclass.get(selectedClass);
+    termamount = feeDetails.getTermamount();
+  }
+
+  public void onClassChangePromotion()
+  {
+    filteredStudents = new ArrayList<>();
+    for (Student s : studentMap.values())
+    {
+      if (s.getClassname().equalsIgnoreCase(selectedClass))
+      {
+        filteredStudents.add(s);
+      }
+    }
   }
 
   public void onStudentChange()
@@ -838,7 +889,9 @@ public class StudentFilterView implements Serializable
 
   public void onTermOptionsChange()
   {
-
+    double amount = studentfee.getAmount();
+    amount = selectedTermOptions.size() * termamount;
+    studentfee.setAmount(amount);
   }
 
   public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException
@@ -849,6 +902,47 @@ public class StudentFilterView implements Serializable
 
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
     String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "demo" + File.separator + "images" + File.separator + "prime_logo.png";
+  }
+
+  public void promote()
+  {
+    FacesMessage msg = null;
+    String p = "";
+    int size = selectedStudents.size();
+    for (int i = 0; i < size; i++)
+    {
+      p = p + "'" + selectedStudents.get(i).getId() + "'";
+      if (i != size - 1)
+      {
+        p = p + ", ";
+      }
+    }
+    String newClass = getClassTobePromoted();
+    try
+    {
+      conn = DBConnection.getConnection();
+      if (!selectedClass.equals("Class X"))
+        conn.createStatement().executeUpdate("UPDATE student set class = " + "'" + newClass + "'" + ", updatedatetime = now() where id in (" + p + ") ");
+      else
+        conn.createStatement().executeUpdate("UPDATE student set isarchived = '1', updatedatetime = now() where id in (" + p + ") ");
+
+      msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Promotions Done", "");
+
+      selectedStudents = new ArrayList<>();
+      getAllAtudents();
+      onClassChangePromotion();
+    }
+    catch (ClassNotFoundException e)
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong", "Please contant your system administrator.");
+      e.printStackTrace();
+    }
+    catch (SQLException e)
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong", "Please contant your system administrator.");
+      e.printStackTrace();
+    }
+    FacesContext.getCurrentInstance().addMessage(null, msg);
   }
 
   public void save() throws ClassNotFoundException, SQLException

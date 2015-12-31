@@ -602,3 +602,11 @@ tfoot {
     border-color: transparent;
     background: #F5F5F5;
 }
+
+.byoccupation .ui-datatable-summaryrow {
+	background: #DFF0D8;
+}
+
+.ui-datatable-scrollable .ui-datatable-scrollable-body {
+	outline: none;
+}

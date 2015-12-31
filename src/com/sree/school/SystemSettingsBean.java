@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -251,7 +252,10 @@ public class SystemSettingsBean implements Serializable
       fd.add(f);
     }
     systemSettings.setFeedetails(fd);
-
+    Map<String, FeeDetails> map = new HashMap<String, FeeDetails>();
+    for (FeeDetails f : fd)
+      map.put(f.getClassname(), f);
+    systemSettings.setFeedetailsByclass(map);
   }
 
   public boolean isCharts()

@@ -162,7 +162,7 @@
 											</div>
 										</div>
 									</p:outputPanel>
-								</div>								
+								</div>
 							</div>
 						</p:tab>
 						<p:tab id="tab2" title="Fee Amount Details">
@@ -229,8 +229,13 @@
 									</div>
 								</div>
 							</p:panel>
+						</p:tab> 
+						<p:tab id="tab3" title="Promotions">
+							<p:growl id="promotionmessages" showDetail="true" />
+							<ui:include src="promotions.xhtml" />
+
 						</p:tab>
-						<p:tab id="tab3" title="Other">
+						<p:tab id="tab4" title="Other">
 							<div class="row">
 								<p:outputPanel rendered="#{systemSettingsBean.disableemail == 'true'}">
 									<div class="col-lg-6">

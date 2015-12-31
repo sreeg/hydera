@@ -1,7 +1,13 @@
 package com.sree.school;
 
-public class FeeDetails
+import java.io.Serializable;
+
+public class FeeDetails implements Serializable
 {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private String classname;
   private double term1amount;
   private double term2amount;

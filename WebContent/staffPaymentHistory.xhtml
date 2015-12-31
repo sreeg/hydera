@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title inlineBlock">
+							<i class="fa fa-users fa-fw"></i> All Employee Salary Payment History
+						</h3>
+
+					</div>
+					<div class="panel-body">
+						<p:chart type="bar" model="#{chartView.barModel}" responsive="true" />
+						<div class="text-right hidden">
+							<a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<i class="fa fa-users fa-fw"></i> All Employee Salary Payment History - Cumulative
+						</h3>
+					</div>
+					<div class="panel-body">
+						<p:chart type="bar" model="#{chartView.cumBarModel}" responsive="true" />
+						<div class="text-right hidden">
+							<a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:composition>
+</h:body>
+</html>

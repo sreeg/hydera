@@ -8,11 +8,8 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h3 class="">Staff by category</h3>
-
 				<div class="row">
-
 					<div class="col-lg-12">
-
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<strong>Permanent Staff</strong>
@@ -20,7 +17,6 @@
 							<div class="panel-body">
 								<p:dataTable id="permenantStaffss" var="stP" value="#{staffFilterView.staffsPermenant}" widgetVar="staffsTableP"
 									emptyMessage="No staff found with given criteria">
-
 
 									<p:column filterStyle="display:none" sortBy="#{stP.firstname}" filterBy="#{stP.firstname}" headerText="Name">
 										<h:outputText value="#{stP.firstname} #{stP.lastname}" />
@@ -50,14 +46,10 @@
 								</p:dataTable>
 							</div>
 						</div>
-
-
-
 					</div>
 				</div>
 
 				<div class="row">
-
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">

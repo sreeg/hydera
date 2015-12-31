@@ -1,138 +1,84 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition>
 
-<h:head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="" />
-	<meta name="author" content="" />
-	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+		<div class="row">
 
-	<title>Payroll Management</title>
+			<div class="col-lg-12">
 
-	<link href="css/bootstrap.min.css" rel="stylesheet" />
-	<link href="css/sb-admin.css" rel="stylesheet" />
-	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+				<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
+					emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
+					selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}" selectionMode="single" scrollable="true" scrollHeight="600" style="outline: none;"
+					paginatorTemplate="{Exporters}">
+					<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
 
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+					<f:facet name="header">
+						<p:outputPanel>
+							<div class="form-group marginTop20" style="display: inline-block; width: 100%; padding-right: 200px;">
+								<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
+									placeholder="To search enter a keyword" />
+							</div>
+							<div class="form-group marginTop20"
+								style="display: inline-block; float: right; margin-top: -45px; margin-right: 10px; min-height: 30px; font-weight: 100;">
+								<p:commandButton styleClass="buttonRed" id="toggler" type="button" value="Columns" style="float:right"
+									icon="fa fa-table" />
+								<p:columnToggler datasource="allStudents" trigger="toggler" />
+							</div>
+						</p:outputPanel>
+					</f:facet>
 
-	<link type="text/css" rel="stylesheet" href="css/base.css" />
-</h:head>
+					<f:facet name="{Exporters}">
+						<h:commandLink styleClass="pull-right" ajax="false">
+							<i style="font-size: 22px; color: #D13F3F; margin: 5px;" class="fa fa-file-pdf-o fa-x" title="Export to PDF"
+								data-toggle="tooltipPDF" data-placement="bottom"></i>
+							<p:dataExporter type="pdf" target="allStudents" fileName="Students" />
+						</h:commandLink>
+						<h:commandLink styleClass="pull-right" ajax="false">
+							<i style="font-size: 22px; color: #188260; margin: 5px;" class="fa fa-file-excel-o fa-x" title="Export to XLS"
+								data-toggle="tooltipXLS" data-placement="bottom"></i>
+							<p:dataExporter type="xls" target="allStudents" fileName="Students" />
+						</h:commandLink>
+					</f:facet>
+					<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
+						<h:outputText value="#{st.firstname} #{st.lastname}" />
+					</p:column>
 
-<body>
-	<h:form id="form">
-		<p:growl id="growl" showDetail="true" sticky="true" />
-		<div id="wrapper">
+					<p:column filterStyle="display:none" sortBy="#{st.classname}" filterBy="#{st.classname}" headerText="Class name">
+						<h:outputText value="#{st.classname} - #{st.sectionname}" />
+					</p:column>
 
-			<!-- Navigation -->
-			<ui:insert name="nav">
-				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="showallstudents" />
-				</ui:include>
-			</ui:insert>
+					<p:column headerText="Gender">
+						<h:outputText value="#{st.sex}" />
+					</p:column>
 
-			<div id="page-wrapper">
+					<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Father details">
+						<h:outputText value="#{st.fathername}, #{st.fatheroccupation}" />
+					</p:column>
 
-				<div class="container-fluid">
-					<!-- Page Heading -->
-					<div class="row">
-						<div class="col-lg-12">
-							<h1 class="page-header">Students Information</h1>
-						</div>
-					</div>
+					<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
+						<h:outputText value="#{st.doj}" />
+					</p:column>
 
-					<div class="row">
+					<p:column filterStyle="display:none" filterBy="#{st.dob}" headerText="Date of birth">
+						<h:outputText value="#{st.dob}" />
+					</p:column>
 
-						<div class="col-lg-12">
-
-							<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
-								emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
-								selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}" selectionMode="single"
-								paginatorTemplate="{Exporters}">
-								<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
-								
-								<f:facet name="header">
-									<p:outputPanel>
-										<div class="form-group marginTop20" style="display: inline-block; width: 100%; padding-right: 200px;">
-											<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
-												placeholder="To search enter a keyword" />
-										</div>
-										<div class="form-group marginTop20"
-											style="display: inline-block; float: right;margin-top: -45px;margin-right: 10px;min-height: 30px;font-weight: 100;">
-											<p:commandButton styleClass="buttonRed" id="toggler" type="button" value="Columns" style="float:right"
-												icon="fa fa-table" />
-											<p:columnToggler datasource="allStudents" trigger="toggler" />
-										</div>
-									</p:outputPanel>
-
-								</f:facet>
-								
-								<f:facet name="{Exporters}">
-									<h:commandLink styleClass="pull-right" ajax="false">
-										<i style="font-size: 22px; color: #D13F3F; margin: 5px;" class="fa fa-file-pdf-o fa-x" title="Export to PDF"
-											data-toggle="tooltipPDF" data-placement="bottom"></i>
-										<p:dataExporter type="pdf" target="allStudents" fileName="Students" />
-									</h:commandLink>
-									<h:commandLink styleClass="pull-right" ajax="false">
-										<i style="font-size: 22px; color: #188260; margin: 5px;" class="fa fa-file-excel-o fa-x" title="Export to XLS"
-											data-toggle="tooltipXLS" data-placement="bottom"></i>
-										<p:dataExporter type="xls" target="allStudents" fileName="Students" />
-									</h:commandLink>
-								</f:facet>
-								<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
-									<h:outputText value="#{st.firstname} #{st.lastname}" />
-								</p:column>
-
-								<p:column filterStyle="display:none" sortBy="#{st.classname}" filterBy="#{st.classname}" headerText="Class name">
-									<h:outputText value="#{st.classname} - #{st.sectionname}" />
-								</p:column>
-
-								<p:column headerText="Gender">
-									<h:outputText value="#{st.sex}" />
-								</p:column>
-
-								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Father details">
-									<h:outputText value="#{st.fathername}, #{st.fatheroccupation}" />
-								</p:column>
-
-								<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
-									<h:outputText value="#{st.doj}" />
-								</p:column>
-
-								<p:column filterStyle="display:none" filterBy="#{st.dob}" headerText="Date of birth">
-									<h:outputText value="#{st.dob}" />
-								</p:column>
-
-								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone number">
-									<h:outputText value="#{st.phone}" />
-								</p:column>
-								<p:column filterStyle="display:none" filterBy="#{st.mobile}" headerText="Mbile number">
-									<h:outputText value="#{st.mobile}" />
-								</p:column>
-								<p:column filterStyle="display:none" filterBy="#{st.email}" headerText="Email id">
-									<a href="mailto:#">#{st.email}</a>
-								</p:column>
-							</p:dataTable>
-
-						</div>
-					</div>
-					<!-- /.row -->
-				</div>
-				<!-- /.container-fluid -->
+					<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone number">
+						<h:outputText value="#{st.phone}" />
+					</p:column>
+					<p:column filterStyle="display:none" filterBy="#{st.mobile}" headerText="Mobile number">
+						<h:outputText value="#{st.mobile}" />
+					</p:column>
+					<p:column filterStyle="display:none" filterBy="#{st.email}" headerText="Email id">
+						<a href="mailto:#">#{st.email}</a>
+					</p:column>
+				</p:dataTable>
 			</div>
-			<!-- /#page-wrapper -->
 		</div>
-		<!-- /#wrapper -->
-		<!-- Bootstrap Core JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
-
 		<p:dialog header="#{studentFilterView.selectedStudent.firstname} #{studentFilterView.selectedStudent.lastname}"
 			widgetVar="studentDialog" id="studentDialogHeader" modal="true" minWidth="400" showEffect="fade" hideEffect="fade">
 			<p:outputPanel id="studentDetail">
@@ -162,19 +108,10 @@
 								</address>
 							</div>
 						</div>
-
 					</div>
 				</p:outputPanel>
 			</p:outputPanel>
 		</p:dialog>
-		<script>
-			$(function() {
-				$('[data-toggle="tooltipPDF"]').tooltip()
-			})
-			$(function() {
-				$('[data-toggle="tooltipXLS"]').tooltip()
-			})
-		</script>
-	</h:form>
-</body>
+	</ui:composition>
+</h:body>
 </html>

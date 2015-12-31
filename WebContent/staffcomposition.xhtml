@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+
+	<title>Payroll Management</title>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/highlight.css" rel="stylesheet" />
+	<link href="css/bootstrap-switch.min.css" rel="stylesheet" />
+	<!-- Custom CSS -->
+	<link href="css/sb-admin.css" rel="stylesheet" />
+
+	<!-- Custom Fonts -->
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<link type="text/css" rel="stylesheet" href="css/base.css" />
+</h:head>
+
+<h:body>
+	<ui:composition>
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<i class="fa fa-user fa-fw"></i> Staff Composition
+					</h3>
+				</div>
+				<div class="panel-body">
+					<p:chart type="bar" model="#{chartView.horizontalBarModel}" responsive="true" />
+					<!-- <p:chart widgetVar="w_linechart1" type="line" model="#{areaChartView.lineModel2}" style="height:300px;"
+										responsive="true" /> -->
+				</div>
+			</div>
+		</div>
+	</ui:composition>
+</h:body>
+
+</html>

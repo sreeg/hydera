@@ -15,19 +15,19 @@ public class Student extends User
   static
   {
     classes = new LinkedHashMap<String, String>();
-    classes.put("Class X", "Class-X");
-    classes.put("Class IX", "Class-IX");
-    classes.put("Class VIII", "Class-VIII");
-    classes.put("Class VII", "Class-VII");
-    classes.put("Class VI", "Class-VI");
-    classes.put("Class V", "Class-V");
-    classes.put("Class IV", "Class-IV");
-    classes.put("Class III", "Class-III");
-    classes.put("Class II", "Class-II");
-    classes.put("Class I", "Class-I");
-    classes.put("Class UKG", "Class-UKG");
-    classes.put("Class LKG", "Class-LKG");
-    classes.put("Class NURSERY", "Class-NURSERY");
+    classes.put("Class X", "Class X");
+    classes.put("Class IX", "Class IX");
+    classes.put("Class VIII", "Class VIII");
+    classes.put("Class VII", "Class VII");
+    classes.put("Class VI", "Class VI");
+    classes.put("Class V", "Class V");
+    classes.put("Class IV", "Class IV");
+    classes.put("Class III", "Class III");
+    classes.put("Class II", "Class II");
+    classes.put("Class I", "Class I");
+    classes.put("UKG", "UKG");
+    classes.put("LKG", "LKG");
+    classes.put("Nursery", "Nursery");
   }
 
   private static LinkedHashMap<String, String> sections;

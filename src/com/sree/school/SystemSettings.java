@@ -2,6 +2,7 @@ package com.sree.school;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public class SystemSettings implements Serializable
 {
@@ -23,6 +24,7 @@ public class SystemSettings implements Serializable
   private List<String> categoryListStaff;
   private List<String> banknamesList;
   private List<FeeDetails> feedetails;
+  private Map<String, FeeDetails> feedetailsByclass;
 
   public List<String> getBanknamesList()
   {
@@ -142,6 +144,16 @@ public class SystemSettings implements Serializable
   public void setSmtpport(String smtpport)
   {
     this.smtpport = smtpport;
+  }
+
+  public Map<String, FeeDetails> getFeedetailsByclass()
+  {
+    return feedetailsByclass;
+  }
+
+  public void setFeedetailsByclass(Map<String, FeeDetails> feedetailsByclass)
+  {
+    this.feedetailsByclass = feedetailsByclass;
   }
 
 }
