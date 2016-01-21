@@ -18,8 +18,8 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Lastname: *" />
-									<p:inputText styleClass="form-control" value="#{staffBean.staff.lastname}" required="true" label="Lastname" />
+									<h:outputText value="Lastname:" />
+									<p:inputText styleClass="form-control" value="#{staffBean.staff.lastname}" label="Lastname" />
 								</div>
 							</div>
 						</div>
@@ -77,8 +77,8 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Category Name *" />
-									<h:selectOneMenu styleClass="form-control" required="true" label="Category" id="class"
-										value="#{staffBean.staff.categoryid}">
+									<h:selectOneMenu styleClass="form-control categorynamefield" required="true" label="Category" id="class"
+										value="#{staffBean.staff.categoryid}" onchange="showPFNo()">
 										<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{staffBean.staff.category}" />
 									</h:selectOneMenu>
@@ -124,8 +124,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<h:outputText value="Email * " />
-							<p:inputText styleClass="form-control" value="#{staffBean.staff.email}" label="Email" required="true" />
+							<h:outputText value="Email " />
+							<p:inputText styleClass="form-control" value="#{staffBean.staff.email}" label="Email" />
 						</div>
 						<div class="form-group">
 							<h:outputText value="Phone " />
@@ -139,6 +139,90 @@
 					</p:panel>
 				</div>
 			</div>
+
+			<div class="row marginTop20">
+				<div class="col-lg-12">
+					<p:panel header="Salary Details">
+						<div class="row">
+							<div class="col-lg-4">
+								<div class="form-group">
+									<h:outputText value="Basic Salary *" />
+									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+										value="#{staffBean.salary.basicsalary}" emptyValue="empty" label="BasicSalary" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="Fixed DA *" />
+									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+										value="#{staffBean.salary.fixedda}" label="FixedDA" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="HRA *" />
+									<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.salary.hra}" required="true" symbol="&#8377; "
+										label="HRA" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="Conveyance All *" />
+									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+										value="#{staffBean.salary.conveyanceall}" label="ConveyanceAll" />
+								</div>
+							</div>
+
+							<div class="col-lg-4">
+								<div class="form-group">
+									<h:outputText value="Prof Tax Deduction *" />
+									<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.salary.proftaxdeduction}" required="true"
+										symbol="&#8377; " label="ProfTaxDeduction" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="Other Deduction *" />
+									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+										value="#{staffBean.salary.otherdeduction}" label="OtherDeduction" />
+								</div>
+								<div class="form-group">
+									<h:outputText value="Loan Amount " />
+									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " value="#{staffBean.salary.loanamount}"
+										label="LoanAmount" />
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="form-group">
+									<h:outputText value="Mode of payment *" />
+									<h:selectOneMenu styleClass="form-control" required="true" id="modeofpayment"
+										value="#{staffBean.selectedmodeofpayment}">
+										<p:ajax update="sbacno" />
+										<f:selectItem itemLabel="Select payment type" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{staffBean.modeofpayment}" />
+									</h:selectOneMenu>
+								</div>
+								<div class="form-group">
+									<h:outputText value="SB A/C Number " />
+									<p:inputText id="sbacno" styleClass="form-control" value="#{staffBean.salary.sbacno}" label="SBACNumber" />
+								</div>
+								<div class="form-group iseligibleforpf">
+									<h:outputText value="Is Eligible for PF *" />
+									<h:selectOneMenu styleClass="form-control iseligibleforpffield" value="#{staffBean.salary.iseligibleforpf}"
+										onchange="showPFNo()">
+										<f:selectItem itemLabel="Select One" itemValue="" />
+										<f:selectItem itemLabel="Yes" itemValue="true" />
+										<f:selectItem itemLabel="No" itemValue="false" />
+									</h:selectOneMenu>
+								</div>
+								<div class="form-group" id="pfnofield" style="display: none;">
+									<h:outputText value="PF Number " />
+									<p:inputText styleClass="form-control" value="#{staffBean.salary.pfno}" label="PFNumber" />
+								</div>
+
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-6"></div>
+							<h:inputHidden value="#{staffBean.salary.employeeid}" id="hiddenId" />
+						</div>
+					</p:panel>
+				</div>
+			</div>
+
 
 			<!-- /.row -->
 			<div class="marginTop20">
@@ -154,5 +238,6 @@
 			</div>
 		</p:outputPanel>
 	</ui:composition>
+
 </h:body>
 </html>

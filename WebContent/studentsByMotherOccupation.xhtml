@@ -8,13 +8,12 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
-					emptyMessage="No students found with given criteria" sortBy="#{st.fatheroccupation}" styleClass="byoccupation" style="outline: none;"
+					emptyMessage="No students found with given criteria" sortBy="#{st.motheroccupation}" styleClass="byoccupation" style="outline: none;"
 					scrollable="true" scrollHeight="600" paginatorTemplate="{Exporters}">
-
 
 					<p:summaryRow>
 						<p:column styleClass="success" colspan="6" style="text-align: center">
-							<h:outputText value="#{st.fatheroccupation}" />
+							<h:outputText value="#{st.motheroccupation}" />
 						</p:column>
 					</p:summaryRow>
 					<f:facet name="{Exporters}">
@@ -37,15 +36,15 @@
 						<h:outputText value="#{st.classname} - #{st.sectionname}" />
 					</p:column>
 
-					<p:column headerText="Father name">
-						<h:outputText value="#{st.fathername}" />
+					<p:column headerText="Mother name">
+						<h:outputText value="#{st.mothername}" />
 					</p:column>
 					<p:column headerText="Occupation Details">
-						<h:outputText value="#{st.fatheroccupationdetails}" />
+						<h:outputText value="#{st.motheroccupationdetails}" />
 					</p:column>
 
 					<p:column headerText="Mobile number">
-						<h:outputText value="#{st.mobile}" />
+						<h:outputText value="#{st.mothermobile}" />
 					</p:column>
 					<p:column headerText="Email id">
 						<a href="mailto:#">#{st.email}</a>

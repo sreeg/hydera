@@ -23,6 +23,7 @@ public class SystemSettings implements Serializable
   private List<String> designationsListStaff;
   private List<String> categoryListStaff;
   private List<String> banknamesList;
+  private List<String> sectionList;
   private List<FeeDetails> feedetails;
   private Map<String, FeeDetails> feedetailsByclass;
 
@@ -66,9 +67,19 @@ public class SystemSettings implements Serializable
     return feedetails;
   }
 
+  public Map<String, FeeDetails> getFeedetailsByclass()
+  {
+    return feedetailsByclass;
+  }
+
   public String getPassword()
   {
     return password;
+  }
+
+  public List<String> getSectionList()
+  {
+    return sectionList;
   }
 
   public String getSmtpport()
@@ -126,9 +137,19 @@ public class SystemSettings implements Serializable
     this.feedetails = feedetails;
   }
 
+  public void setFeedetailsByclass(Map<String, FeeDetails> feedetailsByclass)
+  {
+    this.feedetailsByclass = feedetailsByclass;
+  }
+
   public void setPassword(String password)
   {
     this.password = password;
+  }
+
+  public void setSectionList(List<String> sectionList)
+  {
+    this.sectionList = sectionList;
   }
 
   public void setShowwidget1(boolean showwidget1)
@@ -144,16 +165,6 @@ public class SystemSettings implements Serializable
   public void setSmtpport(String smtpport)
   {
     this.smtpport = smtpport;
-  }
-
-  public Map<String, FeeDetails> getFeedetailsByclass()
-  {
-    return feedetailsByclass;
-  }
-
-  public void setFeedetailsByclass(Map<String, FeeDetails> feedetailsByclass)
-  {
-    this.feedetailsByclass = feedetailsByclass;
   }
 
 }

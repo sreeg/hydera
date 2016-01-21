@@ -134,7 +134,7 @@
 													<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelDesignation}"
 														update="settings:settingsTab:messages1" />
 													<f:facet name="header">Banks List</f:facet>
-													<p:column headerText="Class">
+													<p:column headerText="Name">
 														<p:cellEditor>
 															<f:facet name="output">
 																<h:outputText value="#{bank}" />
@@ -163,6 +163,46 @@
 										</div>
 									</p:outputPanel>
 								</div>
+								<div class="col-lg-4">
+									<p:outputPanel id="sectionlist">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<p:dataTable value="#{systemSettingsBean.systemSettings.sectionList}" id="sectiontable" var="sec"
+													widgetVar="sectionnames" editable="true">
+													<p:ajax event="rowEdit" listener="#{systemSettingsBean.onEditSection}"
+														update="settings:settingsTab:messages1" />
+													<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelSection}"
+														update="settings:settingsTab:messages1" />
+													<f:facet name="header">Sections List</f:facet>
+													<p:column headerText="Name">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText value="#{sec}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText value="#{sec}" style="width:100%" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Edit" style="width:50px">
+														<p:rowEditor />
+													</p:column>
+												</p:dataTable>
+											</div>
+
+											<div class="panel-footer">
+												<div class="form-group">
+													<p:inputText styleClass="form-control" placeholder="Enter new Section name"
+														value="#{systemSettingsBean.sectionNameItem}" />
+												</div>
+												<p:commandButton icon="fa fa-plus" styleClass="btn btn-primary btn-xs" value="Add"
+													action="#{systemSettingsBean.addSectionNames}" update="settings:settingsTab:sectionlist">
+													<f:param name="type" value="section" />
+												</p:commandButton>
+											</div>
+										</div>
+									</p:outputPanel>
+								</div>								
 							</div>
 						</p:tab>
 						<p:tab id="tab2" title="Fee Amount Details">
@@ -176,7 +216,7 @@
 												update="settings:settingsTab:messages2" />
 											<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelFeedetails}"
 												update="settings:settingsTab:messages2" />
-											<p:column headerText="Name">
+											<p:column headerText="Class name">
 												<h:outputText value="#{d.classname}" />
 											</p:column>
 											<p:column headerText="No. of terms">

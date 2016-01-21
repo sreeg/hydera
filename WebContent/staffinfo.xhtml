@@ -73,7 +73,7 @@
 												emptyMessage="No staff found with given criteria" filteredValue="#{staffFilterView.filteredStaffs}"
 												rows="20" paginator="true" paginatorPosition="bottom" selectionMode="single"
 												selection="#{staffFilterView.selectedStaff}" rowKey="#{st.id}"
-												paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+												paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 												rowsPerPageTemplate="20,25,50">
 												<p:ajax event="rowSelect" update=":form:staffDialogHeader" oncomplete="PF('staffDialog').show()" />
 												<f:facet name="header">
@@ -84,19 +84,9 @@
 														</div>
 													</p:outputPanel>
 												</f:facet>
-												<f:facet name="{Exporters}">
-													<h:commandLink ajax="false">
-														<i class="fa fa-file-pdf-o fa-x" title="PDF"></i>
-														<p:dataExporter type="pdf" target="allStaffs" fileName="Staffs" />
-													</h:commandLink>
-													<h:commandLink ajax="false">
-														<i class="fa fa-file-excel-o fa-x"></i>
-														<p:dataExporter type="xls" target="allStaffs" fileName="Staffs" />
-													</h:commandLink>
 
-												</f:facet>
-												<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
-													<h:outputText value="#{st.firstname} #{st.lastname}" />
+												<p:column filterStyle="display:none" sortBy="#{st.fullname}" filterBy="#{st.fullname}" headerText="Name">
+													<h:outputText value="#{st.fullname}" />
 												</p:column>
 
 												<p:column filterStyle="display:none" sortBy="#{st.designation}" filterBy="#{st.designation}"
@@ -116,6 +106,10 @@
 													<h:outputText value="#{st.phone}" />
 												</p:column>
 
+												<p:column filterStyle="display:none" filterBy="#{st.mobile}" headerText="Mobile Number">
+													<h:outputText value="#{st.mobile}" />
+												</p:column>
+												
 												<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
 													<h:outputText value="#{st.doj}" />
 												</p:column>
@@ -252,8 +246,8 @@
 															</div>
 														</div>
 														<div class="form-group">
-															<h:outputText value="Email * " />
-															<p:inputText styleClass="form-control" value="#{staff.email}" label="Email" required="true" />
+															<h:outputText value="Email " />
+															<p:inputText styleClass="form-control" value="#{staff.email}" label="Email" />
 														</div>
 														<div class="form-group">
 															<h:outputText value="Phone " />

@@ -38,7 +38,7 @@ public class SystemSettingsBean implements Serializable
   public static StreamedContent logo;
 
   private String designationItem;
-
+  private String sectionNameItem;
   private String designationItemStaff;
 
   private String staffCategoryItem;
@@ -158,6 +158,39 @@ public class SystemSettingsBean implements Serializable
     return null;
   }
 
+  public String addSectionNames()
+  {
+    Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    String type = params.get("type");
+    FacesMessage msg;
+    if (sectionNameItem != null && !"".equals(sectionNameItem))
+    {
+      try
+      {
+        conn = DBConnection.getConnection();
+        conn.createStatement().executeUpdate("INSERT INTO lists (name, type) VALUES( '" + sectionNameItem + "', '" + type + "')");
+      }
+      catch (SQLException e)
+      {
+        e.printStackTrace();
+      }
+      catch (ClassNotFoundException e)
+      {
+        e.printStackTrace();
+      }
+
+      systemSettings.getSectionList().add(this.sectionNameItem);
+      this.sectionNameItem = "";
+      msg = new FacesMessage("Item Added");
+    }
+    else
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Name cannot be empty", "");
+    }
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    return null;
+  }
+
   private void deleteSystemSettings() throws ClassNotFoundException, SQLException
   {
     conn = DBConnection.getConnection();
@@ -187,6 +220,11 @@ public class SystemSettingsBean implements Serializable
   public String getSchoolname()
   {
     return schoolname;
+  }
+
+  public String getSectionNameItem()
+  {
+    return sectionNameItem;
   }
 
   public String getShortdescription()
@@ -222,6 +260,7 @@ public class SystemSettingsBean implements Serializable
     ArrayList<String> d = new ArrayList<>();
     ArrayList<String> dS = new ArrayList<>();
     ArrayList<String> banks = new ArrayList<>();
+    ArrayList<String> sections = new ArrayList<>();
     rs = conn.createStatement().executeQuery("SELECT name,type,description from lists order by name");
     while (rs.next())
     {
@@ -233,10 +272,13 @@ public class SystemSettingsBean implements Serializable
         dS.add(list_name);
       else if ("banks".equals(dType))
         banks.add(list_name);
+      else if ("section".equals(dType))
+        sections.add(list_name);
     }
     systemSettings.setDesignationsList(d);
     systemSettings.setDesignationsListStaff(dS);
     systemSettings.setBanknamesList(banks);
+    systemSettings.setSectionList(sections);
 
     ArrayList<FeeDetails> fd = new ArrayList<FeeDetails>();
     rs = conn.createStatement().executeQuery("SELECT classname, term1amount, term1amount, term2amount, term3amount, noofterms, termamount from feedetails order by row");
@@ -294,7 +336,7 @@ public class SystemSettingsBean implements Serializable
     FacesContext.getCurrentInstance().addMessage(null, msg);
     String object = (String) event.getObject();
     systemSettings.getDesignationsList().remove(object);
-
+    systemSettings.getDesignationsListStaff().remove(object);
     try
     {
       conn = DBConnection.getConnection();
@@ -313,6 +355,28 @@ public class SystemSettingsBean implements Serializable
 
   public void onCancelFeedetails(RowEditEvent event)
   {
+
+  }
+
+  public void onCancelSection(RowEditEvent event)
+  {
+    FacesMessage msg = new FacesMessage("Item Removed");
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    String object = (String) event.getObject();
+    systemSettings.getSectionList().remove(object);
+    try
+    {
+      conn = DBConnection.getConnection();
+      conn.createStatement().executeUpdate("DELETE from lists where name = '" + object + "'");
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
 
   }
 
@@ -424,6 +488,11 @@ public class SystemSettingsBean implements Serializable
   public void setSchoolname(String schoolname)
   {
     SystemSettingsBean.schoolname = schoolname;
+  }
+
+  public void setSectionNameItem(String sectionNameItem)
+  {
+    this.sectionNameItem = sectionNameItem;
   }
 
   public void setShortdescription(String shortdescription)

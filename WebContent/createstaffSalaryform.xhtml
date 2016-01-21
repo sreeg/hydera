@@ -113,10 +113,10 @@
 										<h:outputText value="SB A/C Number " />
 										<p:inputText id="sbacno" styleClass="form-control" value="#{salaryBean.salary.sbacno}" label="SBACNumber" />
 									</div>
-									<div class="form-group">
+									<div class="form-group iseligibleforpf">
 										<h:outputText value="Is Eligible for PF *" />
-										<h:selectOneMenu styleClass="form-control iseligibleforpf" value="#{salaryBean.salary.iseligibleforpf}"
-											required="true" onchange="showPFNo()">
+										<h:selectOneMenu styleClass="form-control iseligibleforpffield" value="#{salaryBean.salary.iseligibleforpf}"
+											 onchange="showPFNo()">
 											<f:selectItem itemLabel="Select One" itemValue="" />
 											<f:selectItem itemLabel="Yes" itemValue="true" />
 											<f:selectItem itemLabel="No" itemValue="false" />
@@ -146,29 +146,7 @@
 			</p:outputPanel>
 		</p:outputPanel>
 
-		<script type="text/javascript">
-			function setHiddenValue(new_value) {
 
-				document.getElementById('createStaffSalaryForm:hiddenId').value = new_value;
-
-			}
-			function showPFNo() {
-				var v = $(".iseligibleforpf").val();
-				var c = $(".categorynamefield").val();
-				if (v == "true") {
-					$("#pfnofield").css('display', 'block');
-				} else {
-					$("#pfnofield").css('display', 'none');
-				}
-				if (c == "3") {
-					$(".iseligibleforpf").css('display', 'none');
-					$("#pfnofield").css('display', 'none');
-				}
-			}
-			$(document).ready(function() {
-				showPFNo();
-			});
-		</script>
 
 	</ui:composition>
 </h:body>

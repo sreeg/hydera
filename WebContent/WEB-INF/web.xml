@@ -54,13 +54,10 @@
 		<location>/login.xhtml</location>
 	</error-page>
 	<error-page>
-	    <error-code>404</error-code>
-	    <location>/pagenotfound.xhtml</location>
-	</error-page>	
+		<error-code>404</error-code>
+		<location>/pagenotfound.xhtml</location>
+	</error-page>
 	<session-config>
-		<session-timeout>
-		60
-		</session-timeout>
+		<session-timeout>60000</session-timeout>
 	</session-config>
-
 </web-app>

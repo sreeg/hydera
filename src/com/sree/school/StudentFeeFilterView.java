@@ -52,9 +52,11 @@ public class StudentFeeFilterView implements Serializable
   private StudentService service;
   private Date fromdate;
   private Date todate;
+  private double totalFeevalue;
 
   public StudentFeeFilterView() throws ClassNotFoundException, SQLException
   {
+    totalFeevalue = 0;
     students = getAllAtudents();
     classnames = Student.classes.values();
     feepayments = getAllFeePayments();
@@ -88,7 +90,7 @@ public class StudentFeeFilterView implements Serializable
     conn = DBConnection.getConnection();
     ResultSet rs = conn.createStatement()
         .executeQuery("select Id, FirstName, LastName, Class, Section," + "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
-            + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, feereceiptid, amountpaid, paymentdate, paymentmode, term1, term2, term3, "
+            + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, mothermobile, Email, feereceiptid, amountpaid, paymentdate, paymentmode, term1, term2, term3, "
             + "ProfilePic, houseno, street, city, postalcode from student "
             + "LEFT JOIN feepayment ON feepayment.studentid=student.Id where student.isarchived = '0' order by Class, Section");
 
@@ -112,6 +114,7 @@ public class StudentFeeFilterView implements Serializable
       st.setSex(rs.getString("Gender"));
       st.setGuardianname(rs.getString("GaurdianName"));
       st.setMobile(rs.getString("Mobile"));
+      st.setMothermobile(rs.getString("mothermobile"));
       st.setEmail(rs.getString("Email"));
       st.setProfiepic(rs.getString("ProfilePic"));
       st.setHouseno(rs.getString("houseno"));
@@ -171,7 +174,7 @@ public class StudentFeeFilterView implements Serializable
       PreparedStatement ps = conn
           .prepareStatement("select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment");
       ResultSet rs = ps.executeQuery();
-
+      totalFeevalue = 0;
       feepayments = new ArrayList<>();
       while (rs.next())
       {
@@ -189,13 +192,17 @@ public class StudentFeeFilterView implements Serializable
         sf.setReceivedfrom(rs.getString("receivedfrom"));
 
         Student student = studentMap.get(sf.getEmployeeid());
-        sf.setFirstname(student.getFirstname());
-        sf.setLastname(student.getLastname());
-        sf.setClassname(student.getClassname());
-        sf.setSectionname(student.getSectionname());
-        sf.setEmail(student.getEmail());
+        if (student != null)
+        {
+          sf.setFirstname(student.getFirstname());
+          sf.setLastname(student.getLastname());
+          sf.setClassname(student.getClassname());
+          sf.setSectionname(student.getSectionname());
+          sf.setEmail(student.getEmail());
 
-        feepayments.add(sf);
+          feepayments.add(sf);
+          totalFeevalue = totalFeevalue + sf.getAmountPaid();
+        }
       }
     }
     catch (ClassNotFoundException | SQLException e)
@@ -241,7 +248,7 @@ public class StudentFeeFilterView implements Serializable
 
       PreparedStatement ps = conn.prepareStatement(string);
       ResultSet rs = ps.executeQuery();
-
+      totalFeevalue = 0;
       feepayments = new ArrayList<>();
       while (rs.next())
       {
@@ -259,13 +266,16 @@ public class StudentFeeFilterView implements Serializable
         sf.setReceivedfrom(rs.getString("receivedfrom"));
 
         Student student = studentMap.get(sf.getEmployeeid());
-        sf.setFirstname(student.getFirstname());
-        sf.setLastname(student.getLastname());
-        sf.setClassname(student.getClassname());
-        sf.setSectionname(student.getSectionname());
-        sf.setEmail(student.getEmail());
-
-        feepayments.add(sf);
+        if (student != null)
+        {
+          sf.setFirstname(student.getFirstname());
+          sf.setLastname(student.getLastname());
+          sf.setClassname(student.getClassname());
+          sf.setSectionname(student.getSectionname());
+          sf.setEmail(student.getEmail());
+          totalFeevalue = totalFeevalue + sf.getAmountPaid();
+          feepayments.add(sf);
+        }
       }
     }
     catch (ClassNotFoundException | SQLException e)
@@ -370,6 +380,11 @@ public class StudentFeeFilterView implements Serializable
     return todate;
   }
 
+  public double getTotalFeevalue()
+  {
+    return totalFeevalue;
+  }
+
   public boolean isShowForm()
   {
     return showForm;
@@ -465,6 +480,11 @@ public class StudentFeeFilterView implements Serializable
   public void setTodate(Date todate)
   {
     this.todate = todate;
+  }
+
+  public void setTotalFeevalue(double totalFeevalue)
+  {
+    this.totalFeevalue = totalFeevalue;
   }
 
 }

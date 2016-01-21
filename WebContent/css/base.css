@@ -472,7 +472,7 @@ tfoot {
 	display: none;
 }
 
-@media all and (max-width: 1080px) and (min-width: 320px) {
+@media all and (max-width: 1280px) and (min-width: 320px) {
 	.mobile {
 		display: none;
 	}
@@ -579,6 +579,10 @@ tfoot {
     margin-bottom: 10px;
 }
 
+.page-header {
+    margin: 20px 0 20px;
+}
+
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
 	background-image: none;
 	border-color: #ccc;
@@ -609,4 +613,32 @@ tfoot {
 
 .ui-datatable-scrollable .ui-datatable-scrollable-body {
 	outline: none;
+}
+
+div.centre
+{
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav>li>a {
+    padding: 15px 10px;
+}
+
+.list-group .ui-button {
+   text-align: left;
+}
+
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+   -webkit-border-radius: 0px !important;
+   border-radius: 0px !important;
+ }
+ 
+ .ui-inputfield.ui-state-error, .ui-widget-header .ui-inputfield.ui-state-error, .ui-widget-content .ui-inputfield.ui-state-error {
+    color: #333333;
+    border: 1px solid #b94a48;
+    background: #F2DEDE;
 }

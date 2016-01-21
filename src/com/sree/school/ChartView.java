@@ -50,6 +50,7 @@ public class ChartView implements Serializable
   SimpleDateFormat formatter = new SimpleDateFormat(USED_DATE_FORMAT);
   private HorizontalBarChartModel horizontalBarModel;
   private HorizontalBarChartModel parentOccupationModel;
+  private HorizontalBarChartModel motherOccupationModel;
   private Map<Date, Double> parttime;
   private Map<Date, Double> permanant;
   private PieChartModel pieModel1;
@@ -67,6 +68,7 @@ public class ChartView implements Serializable
   private Set<String> staffsTemporary;
 
   Map<String, Integer> occupation;
+  Map<String, Integer> occupationMother;
 
   public ChartView()
   {
@@ -89,6 +91,7 @@ public class ChartView implements Serializable
     getFeePaymentDetails();
     getStaffCount();
     getParentOccupation();
+    getMotherOccupation();
   }
 
   private void createBarModel()
@@ -164,6 +167,37 @@ public class ChartView implements Serializable
     // yAxis.setMax(100);
     cumBarModel.setStacked(true);
     cumBarModel.setAnimate(true);
+  }
+
+  private void createMotherOccupationModel()
+  {
+    motherOccupationModel = new HorizontalBarChartModel();
+    // motherOccupationModel.setExtender("chartExtender");
+    ChartSeries s = new ChartSeries();
+
+    for (Entry<String, Integer> entry : occupationMother.entrySet())
+    {
+      String key = entry.getKey();
+      Integer value = entry.getValue();
+      s.set(key, value.intValue());
+    }
+
+    motherOccupationModel.addSeries(s);
+    motherOccupationModel.setShowPointLabels(true);
+    motherOccupationModel.setSeriesColors("337AB7,5CB85C,4C3973,A63F82");
+    motherOccupationModel.setShowPointLabels(true);
+    motherOccupationModel.setAnimate(true);
+
+    Axis xAxis = motherOccupationModel.getAxis(AxisType.X);
+    xAxis.setLabel("No. of Students");
+
+    xAxis.setTickCount(1);
+    xAxis.setTickInterval("1");
+    xAxis.setTickFormat("%d");
+
+    Axis yAxis = motherOccupationModel.getAxis(AxisType.Y);
+    yAxis.setLabel("Occupation");
+    yAxis.setTickFormat("%s");
   }
 
   private void createParentOccupationModel()
@@ -396,6 +430,35 @@ public class ChartView implements Serializable
     return horizontalBarModel;
   }
 
+  private void getMotherOccupation()
+  {
+    occupationMother = new HashMap<>();
+    try
+    {
+      conn = DBConnection.getConnection();
+      ResultSet rs = conn.createStatement().executeQuery("SELECT motheroccupation, count(*) as 'Cnt' from school.student GROUP BY motheroccupation");
+
+      while (rs.next())
+      {
+        String occ = rs.getString("motheroccupation");
+        if (occ == null || "".equals(occ))
+        {
+          occ = "None";
+        }
+        occupationMother.put(occ, Integer.valueOf(rs.getInt("Cnt")));
+      }
+    }
+    catch (ClassNotFoundException | SQLException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  public HorizontalBarChartModel getMotherOccupationModel()
+  {
+    return motherOccupationModel;
+  }
+
   private void getParentOccupation()
   {
     occupation = new HashMap<>();
@@ -406,7 +469,12 @@ public class ChartView implements Serializable
 
       while (rs.next())
       {
-        occupation.put(rs.getString("fatheroccupation"), Integer.valueOf(rs.getInt("Cnt")));
+        String occ = rs.getString("fatheroccupation");
+        if (occ == null || "".equals(occ))
+        {
+          occ = "None";
+        }
+        occupation.put(occ, Integer.valueOf(rs.getInt("Cnt")));
       }
     }
     catch (ClassNotFoundException | SQLException e)
@@ -505,6 +573,7 @@ public class ChartView implements Serializable
     createStaffCompositionModel();
     createCashModel();
     createParentOccupationModel();
+    createMotherOccupationModel();
   }
 
   private BarChartModel initBarModel(boolean isCum)
@@ -572,6 +641,11 @@ public class ChartView implements Serializable
   public void setHorizontalBarModel(HorizontalBarChartModel horizontalBarModel)
   {
     this.horizontalBarModel = horizontalBarModel;
+  }
+
+  public void setMotherOccupationModel(HorizontalBarChartModel motherOccupationModel)
+  {
+    this.motherOccupationModel = motherOccupationModel;
   }
 
   public void setParentOccupationModel(HorizontalBarChartModel parentOccupationModel)

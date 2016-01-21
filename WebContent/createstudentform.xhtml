@@ -11,15 +11,45 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Firstname *" />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.firstname}" required="true"
-										label="Firstname" />
+									<h:outputText value="Admission Id *" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.admissionid}" required="true" label="Admission Id" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Class Name *" />
+									<h:selectOneMenu styleClass="form-control" id="class" value="#{studentBean.student.classname}"
+										label="Class Name" required="true">
+										<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{studentBean.student.classes}" />
+									</h:selectOneMenu>
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Lastname: *" />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.lastname}" required="true" label="Lastname" />
+									<h:outputText value="Section Name *" />
+									<h:selectOneMenu styleClass="form-control" id="section" value="#{studentBean.student.sectionname}"
+										label="Section Name" required="true">
+										<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{systemSettingsBean.systemSettings.sectionList}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Firstname *" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.firstname}" required="true"
+										label="First name" />
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<h:outputText value="Lastname:" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.lastname}" label="Last name" />
 								</div>
 							</div>
 						</div>
@@ -28,13 +58,14 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Date of birth *" />
-									<p:calendar styleClass="date" id="mask" value="#{studentBean.student.dob}" required="true" pattern="dd-MM-yyyy" mask="true" />
+									<p:calendar styleClass="date" id="mask" label="Date of birth" value="#{studentBean.student.dob}"
+										required="true" pattern="dd-MM-yyyy" mask="true" />
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Gender *"  styleClass="displayBlock" />
-									<p:selectOneButton  styleClass="displayBlock" value="#{studentBean.student.sex}" required="true" label="Gender">
+									<h:outputText value="Gender *" styleClass="displayBlock" />
+									<p:selectOneButton styleClass="displayBlock" value="#{studentBean.student.sex}" required="true" label="Gender">
 										<f:selectItems value="#{studentBean.student.gender}" />
 									</p:selectOneButton>
 								</div>
@@ -44,9 +75,8 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Father's Name *" />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.fathername}" required="true"
-										label="Fathername" />
+									<h:outputText value="Father's Name" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.fathername}" label="Father name" />
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -55,7 +85,7 @@
 									<h:selectOneMenu styleClass="form-control" value="#{studentBean.student.fatheroccupation}">
 										<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
-									</h:selectOneMenu>									
+									</h:selectOneMenu>
 								</div>
 							</div>
 						</div>
@@ -71,18 +101,18 @@
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
-									<h:outputText value="Mother's Name *" />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.mothername}" required="true"
-										label="Mothername" />
+									<h:outputText value="Mother's Name" />
+									<p:inputText styleClass="form-control" value="#{studentBean.student.mothername}" label="Mother name" />
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Mother's Occupation: " />
-									<h:selectOneMenu styleClass="form-control" value="#{studentBean.student.motheroccupation}" label="Motheroccupation">
+									<h:selectOneMenu styleClass="form-control" value="#{studentBean.student.motheroccupation}"
+										label="Motheroccupation">
 										<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
-									</h:selectOneMenu>										
+									</h:selectOneMenu>
 								</div>
 							</div>
 						</div>
@@ -105,28 +135,8 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Date of Joining *" />
-									<p:calendar styleClass="date" id="maskdoj" value="#{studentBean.student.doj}" required="true" pattern="dd-MM-yyyy" mask="true" />
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-lg-6">
-								<div class="form-group">
-									<h:outputText value="Class Name " />
-									<h:selectOneMenu styleClass="form-control" id="class" value="#{studentBean.student.classname}">
-										<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
-										<f:selectItems value="#{studentBean.student.classes}" />
-									</h:selectOneMenu>
-								</div>
-							</div>
-							<div class="col-lg-6">
-								<div class="form-group">
-									<h:outputText value="Section Name " />
-									<h:selectOneMenu styleClass="form-control" id="section" value="#{studentBean.student.sectionname}">
-										<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
-										<f:selectItems value="#{studentBean.student.sections}" />
-									</h:selectOneMenu>
+									<p:calendar styleClass="date" id="maskdoj" value="#{studentBean.student.doj}" required="true"
+										pattern="dd-MM-yyyy" mask="true" />
 								</div>
 							</div>
 						</div>
@@ -168,10 +178,13 @@
 							<p:inputText styleClass="form-control" value="#{studentBean.student.phone}" />
 						</div>
 						<div class="form-group">
-							<h:outputText value="Mobile " />
+							<h:outputText value="Father Mobile " />
 							<p:inputText styleClass="form-control" value="#{studentBean.student.mobile}" />
 						</div>
-
+						<div class="form-group">
+							<h:outputText value="Mother Mobile " />
+							<p:inputText styleClass="form-control" value="#{studentBean.student.mothermobile}" />
+						</div>
 					</p:panel>
 				</div>
 			</div>
@@ -185,8 +198,7 @@
 		</p:outputPanel>
 		<p:outputPanel id="formOutputPanel2" rendered="#{!studentBean.showForm}">
 			<div class="marginTop20">
-				<a class="btn btn-primary btn-lg btn-block" 
-					href="createstudent.xhtml" >Add another student ?</a>
+				<a class="btn btn-primary btn-lg btn-block" href="createstudent.xhtml">Add another student ?</a>
 			</div>
 		</p:outputPanel>
 	</ui:composition>

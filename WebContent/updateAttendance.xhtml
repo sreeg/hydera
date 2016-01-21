@@ -38,6 +38,7 @@
 			</ui:insert>
 
 			<div id="page-wrapper">
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
 				<div class="container-fluid">
 					<!-- Page Heading -->
@@ -60,7 +61,7 @@
 										<span class="marginRight20 inlineBlock"> <p:outputLabel for="year" value="Year : " /> <h:selectOneMenu
 												styleClass="form-control" id="year" value="#{attendanceView.selectedyear}"
 												style="width:150px;display: inline;margin-left:10px;">
-												<p:ajax listener="#{attendanceView.onYearChange}" update="monthPanel,staffPanel" />
+												<p:ajax listener="#{attendanceView.onYearChange}" update="monthPanel,staffPanel,messages" />
 												<f:selectItem itemLabel="Select Year" itemValue="" noSelectionOption="true" />
 												<f:selectItems value="#{attendanceView.yearMap}" />
 											</h:selectOneMenu>
@@ -69,7 +70,7 @@
 												<h:selectOneMenu disabled="#{attendanceView.selectedyear == null or attendanceView.selectedyear == ''}"
 													styleClass="form-control" id="month" value="#{attendanceView.selectedmonth}"
 													style="width:150px;display: inline;margin-left:10px;">
-													<p:ajax listener="#{attendanceView.onMonthChange}" update="staffPanel,staffPanelInner" />
+													<p:ajax listener="#{attendanceView.onMonthChange}" update="staffPanel,staffPanelInner,messages" />
 													<f:selectItem itemLabel="Select Month" itemValue="" noSelectionOption="true" />
 													<f:selectItems value="#{attendanceView.monthMap}" />
 												</h:selectOneMenu>
@@ -84,20 +85,23 @@
 						<p:outputPanel id="staffPanelInner" rendered="#{attendanceView.showForm}">
 							<div class="row">
 								<div class="col-lg-8">
-
 									<div class="panel panel-default">
 										<div class="panel-heading">
-											<strong>Staff Details</strong>
-										</div>
-										<div class="panel-body">
+											<strong class="pull-left">Staff Details</strong>
 											<p class="alignRight">
 												<p:commandButton styleClass="btn btn-info btn-xs buttonRed"
 													value="Update #{attendanceView.daysinselectedmonth} days for all staff"
 													actionListener="#{attendanceView.prefill}" update="staffs" />
 											</p>
+										</div>
+										<div class="panel-body">
 											<p:dataTable id="staffs" var="st" editable="true" editMode="cell" value="#{attendanceView.staffs}"
-												widgetVar="staffsTable" emptyMessage="No staff found" styleClass="attendanceTable">
+												widgetVar="staffsTable" emptyMessage="No staff found" rowIndexVar="rowIndex"
+												styleClass="attendanceTable autoWidthDataTable">
 												<p:ajax event="cellEdit" listener="#{attendanceView.onCellEdit}" />
+												<p:column headerText="Sl No.">
+													<h:outputText value="#{rowIndex+1}" />
+												</p:column>
 												<p:column headerText="Name">
 													<h:outputText value="#{st.fullname}" />
 												</p:column>
@@ -109,18 +113,17 @@
 												</p:column>
 
 												<p:column headerText="Days Present" width="125" style="max-width:125px;">
-													<p:inputText id="number" styleClass="form-control" value="#{st.dayspresent}">
+													<p:inputText id="number" label="Days Present at row #{rowIndex+1}" styleClass="form-control"
+														value="#{st.dayspresent}">
 														<f:validateDoubleRange minimum="0" maximum="#{attendanceView.daysinselectedmonth}" />
 													</p:inputText>
-
 												</p:column>
-
 											</p:dataTable>
 										</div>
 									</div>
 									<div class="marginTop20">
 										<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Update"
-											actionListener="#{attendanceView.save}"  update="@form" />
+											actionListener="#{attendanceView.save}" update="@form" />
 									</div>
 								</div>
 							</div>
@@ -135,7 +138,6 @@
 		<!-- /#wrapper -->
 		<!-- Bootstrap Core JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
-
 	</h:form>
 </body>
 </html>

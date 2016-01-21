@@ -16,28 +16,10 @@
 					emptyMessage="No staff found with given criteria" filteredValue="#{staffFilterView.filteredStaffs}" rows="20"
 					paginator="true" paginatorPosition="bottom" selectionMode="single" selection="#{staffFilterView.selectedStaff}"
 					rowKey="#{st.id}"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="20,25,50">
 					<p:ajax event="rowSelect" update=":form:staffDialogHeader" oncomplete="PF('staffDialog').show()" />
-					<f:facet name="header">
-						<p:outputPanel>
-							<div class="form-group marginTop20">
-								<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('staffsTable').filter()"
-									placeholder="To search enter a keyword" />
-							</div>
-						</p:outputPanel>
-					</f:facet>
-					<f:facet name="{Exporters}">
-						<h:commandLink ajax="false">
-							<i class="fa fa-file-pdf-o fa-x" title="PDF"></i>
-							<p:dataExporter type="pdf" target="allStaffs" fileName="Staffs" />
-						</h:commandLink>
-						<h:commandLink ajax="false">
-							<i class="fa fa-file-excel-o fa-x"></i>
-							<p:dataExporter type="xls" target="allStaffs" fileName="Staffs" />
-						</h:commandLink>
 
-					</f:facet>
 					<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
 						<h:outputText value="#{st.firstname} #{st.lastname}" />
 					</p:column>

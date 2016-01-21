@@ -29,6 +29,13 @@ public class StudentBean implements Serializable
 
   PreparedStatement ps = null;
 
+  public StudentBean()
+  {
+    this.student.setDoj(Calendar.getInstance().getTime());
+    this.student.setCity("Hyderabad");
+    showForm = true;
+  }
+
   public Student getStudent()
   {
     return student;
@@ -39,6 +46,7 @@ public class StudentBean implements Serializable
   {
     this.student.setDoj(Calendar.getInstance().getTime());
     this.student.setCity("Hyderabad");
+    showForm = true;
   }
 
   public boolean isShowForm()
@@ -59,8 +67,8 @@ public class StudentBean implements Serializable
 
     ps = conn.prepareStatement("INSERT INTO STUDENT (Id, FirstName, LastName, Class, Section," + "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
         + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, "
-        + "houseno, street, city, postalcode, fatherdetails, motherdetails, createdatetime, updatedatetime)"
-        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
+        + "houseno, street, city, postalcode, fatherdetails, motherdetails, mothermobile, admissionid, createdatetime, updatedatetime)"
+        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, now(), now())");
 
     ps.setString(1, ID + (i + 1));
     ps.setString(2, student.getFirstname());
@@ -85,6 +93,8 @@ public class StudentBean implements Serializable
     ps.setString(21, student.getPostalCode());
     ps.setString(22, student.getFatheroccupationdetails());
     ps.setString(23, student.getMotheroccupationdetails());
+    ps.setString(24, student.getMothermobile());
+    ps.setString(25, student.getAdmissionid());
 
     int rs = ps.executeUpdate();
 

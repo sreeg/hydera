@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -63,6 +65,8 @@ public class AuthFilter implements Filter
     catch (IOException e)
     {
       e.printStackTrace();
+      FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wront when reading properties", "");
+      FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
   }
@@ -102,6 +106,9 @@ public class AuthFilter implements Filter
       System.out.println(t.getMessage());
       ses.putValue("errorDetails", t.toString().trim());
       res.sendRedirect(req.getContextPath() + "/error.xhtml");
+      // FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+      // t.toString().trim(), "");
+      // FacesContext.getCurrentInstance().addMessage(null, msg);
     }
   }
 

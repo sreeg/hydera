@@ -44,13 +44,13 @@
 
 				<div class="container-fluid">
 					<!-- Page Heading -->
-					<div class="row">
+					<div class="row hidden-print">
 						<div class="col-lg-12">
 							<h1 class="page-header">View Student/Staff Information</h1>
 						</div>
 					</div>
 
-					<ul class="nav nav-pills nav-justified">
+					<ul class="nav nav-pills nav-justified hidden-print">
 						<li role="presentation" class="active"><a href="viewStudentDetails.xhtml">Student Details</a></li>
 						<li role="presentation" class="inactive"><a href="staffinfo.xhtml">Staff Details</a></li>
 						<li role="presentation" class="inactive"><a href="staffSalaryInfo.xhtml">Staff Salary Details</a></li>
@@ -66,6 +66,7 @@
 									<p:messages showDetail="false" showSummary="true" />
 								</f:facet>
 								<pe:masterDetailLevel level="1">
+
 									<f:facet name="label">
 										<h:outputFormat value="All Students">
 
@@ -78,7 +79,7 @@
 										<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
 
 										<f:facet name="header">
-											<p:outputPanel>
+											<p:outputPanel styleClass="hidden-print">
 												<div class="form-group marginTop20" style="display: inline-block; width: 100%; padding-right: 200px;">
 													<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
 														placeholder="To search enter a keyword" />
@@ -126,19 +127,27 @@
 											<h:outputText value="#{st.sectionname}" />
 										</p:column>
 
-										<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Father Name">
-											<h:outputText value="#{st.fathername}" />
+										<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Parent Names">
+											<h:outputText value="#{st.fathername}, #{st.mothername}" />
 										</p:column>
 										<p:column filterMatchMode="equals" filterBy="#{st.fatheroccupation}" headerText="">
 											<f:facet name="filter">
 												<h:selectOneMenu onchange="PF('studentsTable').filter()">
-													<f:selectItem itemLabel="All Designations" itemValue="#{null}" noSelectionOption="true" />
+													<f:selectItem itemLabel="Father Designations" itemValue="#{null}" noSelectionOption="true" />
 													<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
 												</h:selectOneMenu>
 											</f:facet>
 											<h:outputText value="#{st.fatheroccupation}" />
 										</p:column>
-
+										<p:column filterMatchMode="equals" filterBy="#{st.motheroccupation}" headerText="">
+											<f:facet name="filter">
+												<h:selectOneMenu onchange="PF('studentsTable').filter()">
+													<f:selectItem itemLabel="Mother Designations" itemValue="#{null}" noSelectionOption="true" />
+													<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
+												</h:selectOneMenu>
+											</f:facet>
+											<h:outputText value="#{st.motheroccupation}" />
+										</p:column>
 										<p:column style="width:60px">
 											<p:commandButton id="iconOnly" icon="fa fa-pencil-square-o" title="Icon Only">
 												<pe:selectDetailLevel contextValue="#{st}" />
@@ -153,136 +162,194 @@
 											<strong>Student Details</strong>
 										</div>
 										<div class="panel-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="row">
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Admission Id *" />
+																<p:inputText styleClass="form-control" value="#{student.admissionid}" required="true"
+																	label="Admission ID" />
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Class Name " />
+																<h:selectOneMenu styleClass="form-control" id="class" value="#{student.classname}">
+																	<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
+																	<f:selectItems value="#{student.classes}" />
+																</h:selectOneMenu>
+															</div>
+														</div>
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Section Name *" />
+																<h:selectOneMenu styleClass="form-control" id="section" value="#{student.sectionname}"
+																	label="Section Name" required="true">
+																	<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
+																	<f:selectItems value="#{systemSettingsBean.systemSettings.sectionList}" />
+																</h:selectOneMenu>
+															</div>
+														</div>
+													</div>													
+													<div class="row">
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Firstname *" />
+																<p:inputText styleClass="form-control" value="#{student.firstname}" required="true" label="Firstname" />
+															</div>
+														</div>
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Lastname:" />
+																<p:inputText styleClass="form-control" value="#{student.lastname}" label="Lastname" />
+															</div>
+														</div>
+													</div>
 
-											<div class="row">
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Firstname *" />
-														<p:inputText styleClass="form-control" value="#{student.firstname}" required="true" label="Firstname" />
+													<div class="row">
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Date of birth " />
+																<p:calendar styleClass="date" id="mask" value="#{student.dob}" pattern="dd-MM-yyyy" mask="true" />
+															</div>
+														</div>
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Gender *" styleClass="displayBlock" />
+																<p:selectOneButton styleClass="displayBlock" value="#{student.sex}" required="true" label="Gender">
+																	<f:selectItems value="#{student.gender}" />
+																</p:selectOneButton>
+															</div>
+														</div>
 													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Lastname: *" />
-														<p:inputText styleClass="form-control" value="#{student.lastname}" required="true" label="Lastname" />
-													</div>
-												</div>
-											</div>
 
-											<div class="row">
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Date of birth " />
-														<p:calendar styleClass="date" id="mask" value="#{student.dob}" pattern="dd-MM-yyyy" mask="true" />
+													<div class="row">
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Father's Name " />
+																<p:inputText styleClass="form-control" value="#{student.fathername}" label="Fathername" />
+															</div>
+														</div>
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Father's Occupation: " />
+																<h:selectOneMenu styleClass="form-control" value="#{student.fatheroccupation}">
+																	<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
+																	<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
+																</h:selectOneMenu>
+															</div>
+														</div>
 													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Gender *" styleClass="displayBlock" />
-														<p:selectOneButton styleClass="displayBlock" value="#{student.sex}" required="true" label="Gender">
-															<f:selectItems value="#{student.gender}" />
-														</p:selectOneButton>
+													<div class="row">
+														<div class="col-lg-12">
+															<div class="form-group">
+																<h:outputText value="Father's Occupation Details " />
+																<p:inputText styleClass="form-control" value="#{student.fatheroccupationdetails}"
+																	label="Father occupation details" />
+															</div>
+														</div>
 													</div>
-												</div>
-											</div>
+													<div class="row">
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Mother's Name " />
+																<p:inputText styleClass="form-control" value="#{student.mothername}" label="Mothername" />
+															</div>
+														</div>
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Mother's Occupation: " />
+																<h:selectOneMenu styleClass="form-control" value="#{student.motheroccupation}" label="Motheroccupation">
+																	<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
+																	<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
+																</h:selectOneMenu>
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-lg-12">
+															<div class="form-group">
+																<h:outputText value="Mother's Occupation Details " />
+																<p:inputText styleClass="form-control" value="#{student.motheroccupationdetails}"
+																	label="Mother occupation details" />
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Guardian's Name " />
+																<p:inputText styleClass="form-control" value="#{student.guardianname}" label="Guardianname" />
+															</div>
+														</div>
+														<div class="col-lg-6">
+															<div class="form-group">
+																<h:outputText value="Date of Joining " />
+																<p:calendar styleClass="date" id="maskdoj" value="#{student.doj}" pattern="dd-MM-yyyy" mask="true" />
+															</div>
+														</div>
+													</div>
 
-											<div class="row">
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Father's Name *" />
-														<p:inputText styleClass="form-control" value="#{student.fathername}" required="true" label="Fathername" />
+													<div class="row">
+														<div class="col-lg-8">
+															<div class="form-group">
+																<p:commandButton value="Update" styleClass="btn btn-primary marginRight20" process="form:masterDetail"
+																	action="#{studentFilterView.saveSuccess(student)}" style="margin-top:10px;"
+																	icon="fa fa-pencil-square-o">
+																	<pe:selectDetailLevel level="1" />
+																</p:commandButton>
+																<p:commandButton type="button" value="Delete" styleClass="btn btn-danger " icon="fa fa-times"
+																	onclick="PF('deletedDlg').show()" style="margin-top:10px;" />
+															</div>
+														</div>
 													</div>
 												</div>
 												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Father's Occupation: " />
-														<h:selectOneMenu styleClass="form-control" value="#{student.fatheroccupation}">
-															<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
-															<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
-														</h:selectOneMenu>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-12">
-													<div class="form-group">
-														<h:outputText value="Father's Occupation Details " />
-														<p:inputText styleClass="form-control" value="#{student.fatheroccupationdetails}"
-															label="Father occupation details" />
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Mother's Name *" />
-														<p:inputText styleClass="form-control" value="#{student.mothername}" required="true" label="Mothername" />
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Mother's Occupation: " />
-														<h:selectOneMenu styleClass="form-control" value="#{student.motheroccupation}" label="Motheroccupation">
-															<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
-															<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
-														</h:selectOneMenu>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-12">
-													<div class="form-group">
-														<h:outputText value="Mother's Occupation Details " />
-														<p:inputText styleClass="form-control" value="#{studentBean.student.motheroccupationdetails}"
-															label="Mother occupation details" />
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Guardian's Name " />
-														<p:inputText styleClass="form-control" value="#{student.guardianname}" label="Guardianname" />
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Date of Joining " />
-														<p:calendar styleClass="date" id="maskdoj" value="#{student.doj}" pattern="dd-MM-yyyy" mask="true" />
-													</div>
-												</div>
-											</div>
+													<p:panel header="Address Details" widgetVar="addressdetails">
 
-											<div class="row">
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Class Name " />
-														<h:selectOneMenu styleClass="form-control" id="class" value="#{student.classname}">
-															<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
-															<f:selectItems value="#{student.classes}" />
-														</h:selectOneMenu>
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group">
-														<h:outputText value="Section Name " />
-														<h:selectOneMenu styleClass="form-control" id="section" value="#{student.sectionname}">
-															<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
-															<f:selectItems value="#{student.sections}" />
-														</h:selectOneMenu>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-8">
-													<div class="form-group">
-														<p:commandButton value="Update" styleClass="btn btn-primary marginRight20" process="form:masterDetail"
-															action="#{studentFilterView.saveSuccess(student)}" style="margin-top:10px;" icon="fa fa-pencil-square-o">
-															<pe:selectDetailLevel level="1" />
-														</p:commandButton>
-														<p:commandButton type="button" value="Delete" styleClass="btn btn-danger " icon="fa fa-times"
-															onclick="PF('deletedDlg').show()" style="margin-top:10px;" />
-													</div>
+														<div class="form-group">
+															<h:outputText value="House No " />
+															<p:inputText styleClass="form-control" value="#{student.houseno}" />
+														</div>
+														<div class="form-group">
+															<h:outputText value="Street " />
+															<p:inputText styleClass="form-control" value="#{student.street}" />
+														</div>
+
+														<div class="row">
+															<div class="col-lg-6">
+																<div class="form-group">
+																	<h:outputText value="City " />
+																	<p:inputText styleClass="form-control" value="#{student.city}" />
+																</div>
+															</div>
+															<div class="col-lg-6">
+																<div class="form-group">
+																	<h:outputText value="Postal Code " />
+																	<p:inputText styleClass="form-control" value="#{student.postalCode}" />
+																</div>
+															</div>
+														</div>
+														<div class="form-group">
+															<h:outputText value="Email " />
+															<p:inputText styleClass="form-control" value="#{student.email}" label="Email" />
+														</div>
+														<div class="form-group">
+															<h:outputText value="Phone " />
+															<p:inputText styleClass="form-control" value="#{student.phone}" />
+														</div>
+														<div class="form-group">
+															<h:outputText value="Father Mobile " />
+															<p:inputText styleClass="form-control" value="#{student.mobile}" />
+														</div>
+														<div class="form-group">
+															<h:outputText value="Mother Mobile " />
+															<p:inputText styleClass="form-control" value="#{student.mothermobile}" />
+														</div>
+													</p:panel>
 												</div>
 											</div>
 										</div>
@@ -322,8 +389,12 @@
 					</div>
 					<div class="col-lg-8">
 						<p>
+							Admission Id :
+							<h:outputText value="#{studentFilterView.selectedStudent.admissionid}" />
+						</p>
+						<p>
 							<h:outputText
-								value="#{studentFilterView.selectedStudent.classname} - #{studentFilterView.selectedStudent.sectionname}" />
+								value=" #{studentFilterView.selectedStudent.classname} - #{studentFilterView.selectedStudent.sectionname}" />
 						</p>
 						<h4>Address :</h4>
 						<address>

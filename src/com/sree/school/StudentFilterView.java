@@ -539,7 +539,7 @@ public class StudentFilterView implements Serializable
   {
     conn = DBConnection.getConnection();
     ResultSet rs = conn.createStatement().executeQuery("select Id, FirstName, LastName, Class, Section," + "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
-        + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode, fatherdetails, motherdetails from student where isarchived = '0' order by Class, Section");
+        + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode, fatherdetails, motherdetails, mothermobile, admissionid from student where isarchived = '0' order by Class, Section");
 
     List<Student> students = new ArrayList<>();
     studentMap = new HashMap<>();
@@ -552,12 +552,22 @@ public class StudentFilterView implements Serializable
       st.setClassname(rs.getString("Class"));
       st.setSectionname(rs.getString("Section"));
       st.setFathername(rs.getString("FatherName"));
-      st.setFatheroccupation(rs.getString("FatherOccupation"));
+      String fOcc = rs.getString("FatherOccupation");
+      if (fOcc == null || "".equals(fOcc))
+      {
+        fOcc = "None";
+      }
+      st.setFatheroccupation(fOcc);
       st.setPhone(rs.getString("Phone"));
       st.setDob(rs.getDate("DateOfBirth"));
       st.setDoj(rs.getDate("DateOfJoining"));
       st.setMothername(rs.getString("MotherName"));
-      st.setMotheroccupation(rs.getString("MotherOccupation"));
+      String mOcc = rs.getString("MotherOccupation");
+      if (mOcc == null || "".equals(mOcc))
+      {
+        mOcc = "None";
+      }
+      st.setMotheroccupation(mOcc);
       st.setSex(rs.getString("Gender"));
       st.setGuardianname(rs.getString("GaurdianName"));
       st.setMobile(rs.getString("Mobile"));
@@ -569,6 +579,8 @@ public class StudentFilterView implements Serializable
       st.setPostalCode(rs.getString("postalcode"));
       st.setFatheroccupationdetails(rs.getString("fatherdetails"));
       st.setMotheroccupationdetails(rs.getString("motherdetails"));
+      st.setMothermobile(rs.getString("mothermobile"));
+      st.setAdmissionid(rs.getString("admissionid"));
       students.add(st);
 
       studentMap.put(rs.getString("Id"), st);
@@ -583,26 +595,26 @@ public class StudentFilterView implements Serializable
 
   private String getClassTobePromoted()
   {
-    if (selectedClass.equals("Class IX"))
-      return "Class X";
-    if (selectedClass.equals("Class VIII"))
-      return "Class IX";
-    if (selectedClass.equals("Class VII"))
-      return "Class VIII";
-    if (selectedClass.equals("Class VI"))
-      return "Class VII";
-    if (selectedClass.equals("Class V"))
-      return "Class VI";
-    if (selectedClass.equals("Class IV"))
-      return "Class V";
-    if (selectedClass.equals("Class III"))
-      return "Class IV";
-    if (selectedClass.equals("Class II"))
-      return "Class III";
-    if (selectedClass.equals("Class I"))
-      return "Class II";
+    if (selectedClass.equals("IX"))
+      return "X";
+    if (selectedClass.equals("VIII"))
+      return "IX";
+    if (selectedClass.equals("VII"))
+      return "VIII";
+    if (selectedClass.equals("VI"))
+      return "VII";
+    if (selectedClass.equals("V"))
+      return "VI";
+    if (selectedClass.equals("IV"))
+      return "V";
+    if (selectedClass.equals("III"))
+      return "IV";
+    if (selectedClass.equals("II"))
+      return "III";
+    if (selectedClass.equals("I"))
+      return "II";
     if (selectedClass.equals("UKG"))
-      return "Class I";
+      return "I";
     if (selectedClass.equals("LKG"))
       return "UKG";
     if (selectedClass.equals("Nursery"))
@@ -724,6 +736,7 @@ public class StudentFilterView implements Serializable
 
       studentfee.setAmount(termamount);
       studentfee.setEmployeeid(selectedStudentId);
+      studentfee.setReceivedfrom(studentMap.get(selectedStudentId).getFathername());
       studentfee.setPaymentdate(Calendar.getInstance().getTime());
     }
     catch (ClassNotFoundException | SQLException e)
@@ -921,7 +934,7 @@ public class StudentFilterView implements Serializable
     try
     {
       conn = DBConnection.getConnection();
-      if (!selectedClass.equals("Class X"))
+      if (!selectedClass.equals("X"))
         conn.createStatement().executeUpdate("UPDATE student set class = " + "'" + newClass + "'" + ", updatedatetime = now() where id in (" + p + ") ");
       else
         conn.createStatement().executeUpdate("UPDATE student set isarchived = '1', updatedatetime = now() where id in (" + p + ") ");

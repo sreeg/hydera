@@ -15,18 +15,18 @@ public class Student extends User
   static
   {
     classes = new LinkedHashMap<String, String>();
-    classes.put("Class X", "Class X");
-    classes.put("Class IX", "Class IX");
-    classes.put("Class VIII", "Class VIII");
-    classes.put("Class VII", "Class VII");
-    classes.put("Class VI", "Class VI");
-    classes.put("Class V", "Class V");
-    classes.put("Class IV", "Class IV");
-    classes.put("Class III", "Class III");
-    classes.put("Class II", "Class II");
-    classes.put("Class I", "Class I");
-    classes.put("UKG", "UKG");
-    classes.put("LKG", "LKG");
+    classes.put("X", "X");
+    classes.put("IX", "IX");
+    classes.put("VIII", "VIII");
+    classes.put("VII", "VII");
+    classes.put("VI", "VI");
+    classes.put("V", "V");
+    classes.put("IV", "IV");
+    classes.put("III", "III");
+    classes.put("II", "II");
+    classes.put("I", "I");
+    classes.put("PP2", "PP2");
+    classes.put("PP1", "PP1");
     classes.put("Nursery", "Nursery");
   }
 
@@ -40,12 +40,13 @@ public class Student extends User
     sections.put("Section C", "Section-C");
   }
 
+  private String mothermobile;
   private String fathername;
   private String mothername;
   private String guardianname;
   private String classname;
   private String sectionname;
-
+  private String admissionid;
   private String fatheroccupation;
 
   private String fatheroccupationdetails;
@@ -55,6 +56,11 @@ public class Student extends User
   private String motheroccupationdetails;
 
   private String registrationnumber;
+
+  public String getAdmissionid()
+  {
+    return admissionid;
+  }
 
   public LinkedHashMap<String, String> getClasses()
   {
@@ -84,6 +90,11 @@ public class Student extends User
   public String getGuardianname()
   {
     return guardianname;
+  }
+
+  public String getMothermobile()
+  {
+    return mothermobile;
   }
 
   public String getMothername()
@@ -116,6 +127,11 @@ public class Student extends User
     return sections;
   }
 
+  public void setAdmissionid(String admissionid)
+  {
+    this.admissionid = admissionid;
+  }
+
   public void setClassname(String classname)
   {
     this.classname = classname;
@@ -139,6 +155,11 @@ public class Student extends User
   public void setGuardianname(String gaurdianname)
   {
     this.guardianname = gaurdianname;
+  }
+
+  public void setMothermobile(String mothermobile)
+  {
+    this.mothermobile = mothermobile;
   }
 
   public void setMothername(String mothername)

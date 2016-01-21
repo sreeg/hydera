@@ -274,7 +274,7 @@ public class StaffFilterView implements Serializable
     java.sql.Connection conn = DBConnection.getConnection();
     ResultSet rs = conn.createStatement()
         .executeQuery("select Id, FirstName, LastName, CategoryId, Designation," + "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
-            + "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where CategoryId = " + "'" + categoryID + "'");
+            + "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where isarchived=0 and CategoryId = " + "'" + categoryID + "'");
 
     List<Staff> students = new ArrayList<>();
     while (rs.next())
@@ -326,7 +326,7 @@ public class StaffFilterView implements Serializable
     java.sql.Connection conn = DBConnection.getConnection();
     ResultSet rs = conn.createStatement()
         .executeQuery("select Id, FirstName, LastName, CategoryId, Designation," + "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
-            + "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where Id = " + "'" + Util.getStaffid() + "'");
+            + "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where isarchived=0 and Id = " + "'" + Util.getStaffid() + "'");
 
     Staff st = new Staff();
     if (rs.next())

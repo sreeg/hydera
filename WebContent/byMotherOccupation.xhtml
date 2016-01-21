@@ -38,13 +38,13 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<i class="fa fa-user fa-fw"></i> By Father's Occupation
+						<i class="fa fa-user fa-fw"></i> By Mother's Occupation
 					</h3>
 					<p:commandButton styleClass="pull-right" type="button" value="Save as Image" style="margin-top: -23px;" icon="ui-icon-extlink" onclick="exportChart()" />
 				</div>
 				<div class="panel-body">
 					<p:chart type="bar" style="height: 500px" widgetVar="parentOcc" extender="chartExtender" animate="true"
-						model="#{chartView.parentOccupationModel}" responsive="true" />
+						model="#{chartView.motherOccupationModel}" responsive="true" />
 				</div>
 			</div>
 		</div>

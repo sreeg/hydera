@@ -58,6 +58,9 @@
 							<c:if test="#{param['reportId'] == '3'}">
 								<ui:include src="studentsByParentOccupation.xhtml" />
 							</c:if>
+							<c:if test="#{param['reportId'] == '5'}">
+								<ui:include src="studentsByMotherOccupation.xhtml" />
+							</c:if>							
 							<c:if test="#{param['chartId'] == '1'}">
 								<ui:include src="staffPaymentHistory.xhtml" />
 							</c:if>
@@ -70,8 +73,11 @@
 							<c:if test="#{param['chartId'] == '4'}">
 								<ui:include src="byParentOccupation.xhtml" />
 							</c:if>
+							<c:if test="#{param['chartId'] == '5'}">
+								<ui:include src="byMotherOccupation.xhtml" />
+							</c:if>							
 						</div>
-						<div class="col-lg-3">
+						<div class="col-lg-3 hidden-print">
 							<div class="panel panel-custom">
 								<div class="panel-body">
 									<h3>List of Reports</h3>
@@ -86,15 +92,20 @@
 										</p:button>
 										<p:button outcome="reports"
 											styleClass="list-group-item full-width #{param['reportId'] == '3' ? 'active' : ''}"
-											value="Parent's occupation">
+											value="By father's occupation">
 											<f:param name="reportId" value="3" />
 										</p:button>
+										<p:button outcome="reports"
+											styleClass="list-group-item full-width #{param['reportId'] == '5' ? 'active' : ''}"
+											value="By mother's occupation">
+											<f:param name="reportId" value="5" />
+										</p:button>										
 										<p:button outcome="reports"
 											styleClass="list-group-item full-width #{param['reportId'] == '4' ? 'active' : ''}" value="Staff by category">
 											<f:param name="reportId" value="4" />
 										</p:button>
 										<p:button outcome="reports"
-											styleClass="list-group-item full-width #{param['reportId'] == '5' ? 'active' : ''}"
+											styleClass="list-group-item hidden full-width #{param['reportId'] == '5' ? 'active' : ''}"
 											value="Staff by designation">
 											<f:param name="reportId" value="5" />
 										</p:button>
@@ -110,7 +121,7 @@
 											value="Staff payment history">
 											<f:param name="chartId" value="1" />
 										</p:button>
-										<p:button outcome="reports" styleClass="list-group-item full-width #{param['chartId'] == '2' ? 'active' : ''}"
+										<p:button outcome="reports" styleClass="hidden list-group-item full-width #{param['chartId'] == '2' ? 'active' : ''}"
 											value="Cash flows">
 											<f:param name="chartId" value="2" />
 										</p:button>
@@ -119,9 +130,13 @@
 											<f:param name="chartId" value="3" />
 										</p:button>
 										<p:button outcome="reports" styleClass="list-group-item full-width #{param['chartId'] == '4' ? 'active' : ''}"
-											value="Parent's occupation">
+											value="By father's occupation">
 											<f:param name="chartId" value="4" />
 										</p:button>
+										<p:button outcome="reports" styleClass="list-group-item full-width #{param['chartId'] == '5' ? 'active' : ''}"
+											value="By mother's occupation">
+											<f:param name="chartId" value="5" />
+										</p:button>										
 									</div>
 								</div>
 							</div>

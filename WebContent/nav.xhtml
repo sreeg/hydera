@@ -21,7 +21,7 @@
 					</div>
 				</div>
 
-				<div class="navbar-header centered col-lg-4 navbar-brand mobile">#{systemSettingsBean.shortdescription}</div>
+				<div class="navbar-header centered col-lg-4 navbar-brand "><span class="">#{systemSettingsBean.shortdescription}</span></div>
 				<!-- Top Menu Items -->
 				<div class="col-lg-4">
 					<ul class="nav navbar-right top-nav">
@@ -46,7 +46,7 @@
 						<li class="#{page == 'settings' ? 'active' : ''}"><a href="settings.xhtml"><i class="fa fa-gear"></i> <span
 								class="mobile">Settings</span></a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-								<span class="mobile">#{staffFilterView.staffbylogin.firstname} #{staffFilterView.staffbylogin.lastname} <b
+								<span class="mobile">#{loginBean.fullname} <b
 									class="caret"></b></span></a>
 							<ul class="dropdown-menu">
 								<li><p:commandLink id="ajax" actionListener="#{staffFilterView.viewMyProfile}">
@@ -84,11 +84,11 @@
 						<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i class="fa fa-file-text-o"></i>
 								Salary Management <i class="fa fa-fw fa-caret-down"></i></a>
 							<ul id="update" class="expand">
-								<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml">Add staff
+								<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml">Update staff
 										salary</a></li>
 								<li class="#{page == 'updateattendance' ? 'active' : ''}"><a href="updateAttendance.xhtml">Update staff
 										attendance</a></li>
-								<li class="#{page == 'viewattendance' ? 'active' : ''}"><a href="viewAttendance.xhtml">View staff
+								<li class="#{page == 'viewattendance' ? 'active' : ''} hidden"><a href="viewAttendance.xhtml">View staff
 										attendance</a></li>
 								<li class="#{page == 'generatepayslips' ? 'active' : ''}"><a href="generatePaySlips.xhtml">Staff
 										payslips</a></li>
@@ -100,7 +100,7 @@
 						<li><a href="javascript:;" data-toggle="collapse" data-target="#fee"><i class="fa fa-money"></i> Fee
 								Management <i class="fa fa-fw fa-caret-down"></i></a>
 							<ul id="fee" class="expand">
-								<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Student fees</a></li>
+								<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Add Student fees</a></li>
 								<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatefeereceipts.xhtml">Fee
 										receipts</a></li>
 								<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Student

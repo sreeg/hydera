@@ -67,7 +67,7 @@
 										</div>
 									</p:outputPanel>
 								</f:facet>
-								<p:column filterStyle="display:none" sortBy="#{st.fullnamee}" filterBy="#{st.fullname}" headerText="Name">
+								<p:column filterStyle="display:none" sortBy="#{st.fullname}" filterBy="#{st.fullname}" headerText="Name">
 									<h:outputText value="#{st.fullname}" />
 								</p:column>
 
@@ -95,7 +95,9 @@
 											<p:column headerText="Month">
 												<h:outputText value="#{sA.month}" />
 											</p:column>
-
+											<p:column headerText="Year">
+												<h:outputText value="#{sA.year}" />
+											</p:column>
 											<p:column headerText="No.of Days">
 												<h:outputText value="#{sA.daysinmonth}" styleClass="pull-right" />
 											</p:column>

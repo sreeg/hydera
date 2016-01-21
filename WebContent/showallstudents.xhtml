@@ -12,37 +12,11 @@
 
 				<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
 					emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
-					selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}" selectionMode="single" scrollable="true" scrollHeight="600" style="outline: none;"
-					paginatorTemplate="{Exporters}">
+					selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}" selectionMode="single" scrollable="false" scrollHeight="600" style="outline: none;"
+					>
 					<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
 
-					<f:facet name="header">
-						<p:outputPanel>
-							<div class="form-group marginTop20" style="display: inline-block; width: 100%; padding-right: 200px;">
-								<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
-									placeholder="To search enter a keyword" />
-							</div>
-							<div class="form-group marginTop20"
-								style="display: inline-block; float: right; margin-top: -45px; margin-right: 10px; min-height: 30px; font-weight: 100;">
-								<p:commandButton styleClass="buttonRed" id="toggler" type="button" value="Columns" style="float:right"
-									icon="fa fa-table" />
-								<p:columnToggler datasource="allStudents" trigger="toggler" />
-							</div>
-						</p:outputPanel>
-					</f:facet>
 
-					<f:facet name="{Exporters}">
-						<h:commandLink styleClass="pull-right" ajax="false">
-							<i style="font-size: 22px; color: #D13F3F; margin: 5px;" class="fa fa-file-pdf-o fa-x" title="Export to PDF"
-								data-toggle="tooltipPDF" data-placement="bottom"></i>
-							<p:dataExporter type="pdf" target="allStudents" fileName="Students" />
-						</h:commandLink>
-						<h:commandLink styleClass="pull-right" ajax="false">
-							<i style="font-size: 22px; color: #188260; margin: 5px;" class="fa fa-file-excel-o fa-x" title="Export to XLS"
-								data-toggle="tooltipXLS" data-placement="bottom"></i>
-							<p:dataExporter type="xls" target="allStudents" fileName="Students" />
-						</h:commandLink>
-					</f:facet>
 					<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
 						<h:outputText value="#{st.firstname} #{st.lastname}" />
 					</p:column>
