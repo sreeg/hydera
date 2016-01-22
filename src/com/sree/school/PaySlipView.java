@@ -82,16 +82,33 @@ public class PaySlipView implements Serializable
     monthDaysMap.put("December", 31);
   }
 
+  private static LinkedHashMap<String, Integer> monthIndexMap;
+
+  static
+  {
+    monthIndexMap = new LinkedHashMap<String, Integer>();
+    monthIndexMap.put("January", 1);
+    monthIndexMap.put("February", 2);
+    monthIndexMap.put("March", 3);
+    monthIndexMap.put("April", 4);
+    monthIndexMap.put("May", 5);
+    monthIndexMap.put("June", 6);
+    monthIndexMap.put("July", 7);
+    monthIndexMap.put("August", 8);
+    monthIndexMap.put("September", 9);
+    monthIndexMap.put("October", 10);
+    monthIndexMap.put("November", 11);
+    monthIndexMap.put("December", 12);
+  }
+
   private java.sql.Connection conn;
-
   SimpleDateFormat formatter = new SimpleDateFormat(USED_DATE_FORMAT);
-
   private String currentMonth;
   private String currentYear;
   private int daysincurrentmonth;
+
   private int daysinselectedmonth;
   private boolean disableGenerateButton;
-
   SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
   FacesMessage msg;
   private List<PaySlip> payslipDomestic;
@@ -102,23 +119,25 @@ public class PaySlipView implements Serializable
   private List<PaySlip> payslips;
   private List<PaySlip> payslipTemporary;
   private String selectedmonth;
+
   private String selectedyear;
   private boolean showForm;
-
   private double totalBasicSalary;
   private double totalConveyanceAll;
   private double totalFixedDA;
   private double totalHRA;
   private double totalLoanAmount;
   private double totalOtherDeductions;
+
   private double totalPFAmount;
   private double totalProfTaxDeduction;
 
   private List<PaySlip> payslipWithPF;
   private List<PaySlip> payslipWithPFDomestic;
-
   private List<PaySlip> payslipWithoutPF;
+
   private List<PaySlip> payslipWithoutPFDomestic;
+
   private List<PaySlip> payslipWithoutPFPartTime;
 
   public PaySlipView()
@@ -147,6 +166,20 @@ public class PaySlipView implements Serializable
     {
       e.printStackTrace();
     }
+  }
+
+  private boolean checkCorrectMonth()
+  {
+    if (Integer.parseInt(this.selectedyear) >= Integer.parseInt(this.currentYear))
+    {
+      if (monthIndexMap.get(selectedmonth) > monthIndexMap.get(currentMonth))
+      {
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot genrate salary sheets / payslips for future dates", "Select a correct year and month");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        return false;
+      }
+    }
+    return true;
   }
 
   public List<Categories> getAllPayslips()
@@ -608,6 +641,11 @@ public class PaySlipView implements Serializable
 
   public void save() throws ClassNotFoundException, SQLException
   {
+    if (!checkCorrectMonth())
+    {
+      return;
+    }
+
     payslips = getAllSalaryStaffByMonthAndYear();
     insert();
     setShowForm(true);

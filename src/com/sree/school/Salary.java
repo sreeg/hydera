@@ -4,217 +4,268 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-public class Salary implements Serializable {
+public class Salary implements Serializable
+{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3784360127530452986L;
-	private static LinkedHashMap<String, String> categoryInverse;
-	private String employeeid;
-	private Double basicsalary;
-	private Double fixedda;
-	private Double hra;
-	private Double conveyanceall;
-	private String pfno;
-	private String sbacno;
-	private Double pfrate = 0.12d;
-	private Double proftaxdeduction;
-	private Double otherdeduction;
-	private Double pfamount;
-	private Double loanamount;
-	private String employeename;
-	private String categoryname;
-	private Double grosssalary;
-	private Double totaldeductions;
-	private Double netsalary;
-	private double factor = 1.0f;
-	private String modeofpayment;
-	private Boolean iseligibleforpf;
-	private Date monthyearDate;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 3784360127530452986L;
+  private static LinkedHashMap<String, String> categoryInverse;
 
-	static {
-		categoryInverse = new LinkedHashMap<String, String>();
-		categoryInverse.put("1", "Permanent");
-		categoryInverse.put("2", "Domestic");
-		categoryInverse.put("3", "Part Time");
-	}
+  static
+  {
+    categoryInverse = new LinkedHashMap<String, String>();
+    categoryInverse.put("1", "Permanent");
+    categoryInverse.put("2", "Domestic");
+    categoryInverse.put("3", "Part Time");
+  }
 
-	public Double getHra() {
-		return hra == null ? null : getFactor() * hra;
-	}
+  private String employeeid;
+  private Double basicsalary;
+  private Double fixedda;
+  private Double hra;
+  private Double conveyanceall;
+  private String pfno;
+  private String sbacno;
+  private Double pfrate = 0.12d;
+  private Double proftaxdeduction;
+  private Double otherdeduction;
+  private Double pfamount;
+  private Double loanamount;
+  private String employeename;
+  private String categoryname;
+  private Double grosssalary;
+  private Double totaldeductions;
+  private Double netsalary;
+  private double factor = 1.0f;
+  private String modeofpayment;
+  private Boolean iseligibleforpf;
 
-	public void setHra(Double hra) {
-		this.hra = hra;
-	}
+  private Date monthyearDate;
 
-	public Double getConveyanceall() {
-		return conveyanceall == null ? null : getFactor() * conveyanceall;
-	}
+  public Double getBasicsalary()
+  {
+    return basicsalary == null ? null : getFactor() * basicsalary;
+  }
 
-	public void setConveyanceall(Double conveyanceall) {
-		this.conveyanceall = conveyanceall;
-	}
+  public String getCategoryname()
+  {
+    return categoryname;
+  }
 
-	public String getPfno() {
-		return pfno;
-	}
+  public Double getConveyanceall()
+  {
+    return conveyanceall == null ? null : getFactor() * conveyanceall;
+  }
 
-	public void setPfno(String pfno) {
-		this.pfno = pfno;
-	}
+  public String getEmployeeid()
+  {
+    return employeeid;
+  }
 
-	public String getSbacno() {
-		return sbacno;
-	}
+  public String getEmployeename()
+  {
+    return employeename;
+  }
 
-	public void setSbacno(String sbacno) {
-		this.sbacno = sbacno;
-	}
+  public double getFactor()
+  {
+    return factor;
+  }
 
-	public Double getPfrate() {
-		return 0.12d;
-	}
+  public Double getFixedda()
+  {
+    return fixedda == null ? null : getFactor() * fixedda;
+  }
 
-	public void setPfrate(Double pfrate) {
-		this.pfrate = pfrate;
-	}
+  public Double getGrosssalary()
+  {
+    grosssalary = getBasicsalary() + getFixedda() + getHra() + getConveyanceall();
+    return grosssalary;
+  }
 
-	public Double getProftaxdeduction() {
-		return proftaxdeduction;
-	}
+  public Double getHra()
+  {
+    return hra == null ? null : getFactor() * hra;
+  }
 
-	public void setProftaxdeduction(Double proftaxdeduction) {
-		this.proftaxdeduction = proftaxdeduction;
-	}
+  public Boolean getIseligibleforpf()
+  {
+    if (iseligibleforpf == null || "Part Time".equalsIgnoreCase(categoryname))
+      return false;
+    else
+      return iseligibleforpf;
+  }
 
-	public Double getOtherdeduction() {
-		return otherdeduction;
-	}
+  public Double getLoanamount()
+  {
+    if (loanamount == null)
+      return 0d;
+    return loanamount;
+  }
 
-	public void setOtherdeduction(Double otherdeduction) {
-		this.otherdeduction = otherdeduction;
-	}
+  public String getModeofpayment()
+  {
+    return modeofpayment;
+  }
 
-	public Double getPfamount() {
-		if (!iseligibleforpf) {
-			return 0d;
-		} else {
-			return ((getBasicsalary() + getFixedda()) * getPfrate());
-		}
-	}
+  public Date getMonthyearDate()
+  {
+    return monthyearDate;
+  }
 
-	public void setPfamount(Double pfamount) {
-		this.pfamount = pfamount;
-	}
+  public Double getNetsalary()
+  {
+    netsalary = getGrosssalary() - getTotaldeductions();
+    return netsalary;
+  }
 
-	public Double getLoanamount() {
-		return loanamount;
-	}
+  public Double getOtherdeduction()
+  {
+    return otherdeduction;
+  }
 
-	public void setLoanamount(Double loanamount) {
-		this.loanamount = loanamount;
-	}
+  public Double getPfamount()
+  {
+    if (iseligibleforpf != null && !iseligibleforpf)
+    {
+      return 0d;
+    }
+    else
+    {
+      return ((getBasicsalary() + getFixedda()) * getPfrate());
+    }
+  }
 
-	public String getEmployeeid() {
-		return employeeid;
-	}
+  public String getPfno()
+  {
+    return pfno;
+  }
 
-	public void setEmployeeid(String employeeid) {
-		this.employeeid = employeeid;
-	}
+  public Double getPfrate()
+  {
+    return 0.12d;
+  }
 
-	public Double getBasicsalary() {
-		return basicsalary == null ? null : getFactor() * basicsalary;
-	}
+  public Double getProftaxdeduction()
+  {
+    return proftaxdeduction;
+  }
 
-	public void setBasicsalary(Double basicsalary) {
-		this.basicsalary = basicsalary;
-	}
+  public String getSbacno()
+  {
+    return sbacno;
+  }
 
-	public Double getFixedda() {
-		return fixedda == null ? null : getFactor() * fixedda;
-	}
+  public Double getTotaldeductions()
+  {
+    totaldeductions = getPfamount() + getOtherdeduction() + getLoanamount() + getProftaxdeduction();
+    return totaldeductions;
+  }
 
-	public void setFixedda(Double fixedda) {
-		this.fixedda = fixedda;
-	}
+  public void setBasicsalary(Double basicsalary)
+  {
+    this.basicsalary = basicsalary;
+  }
 
-	public String getEmployeename() {
-		return employeename;
-	}
+  public void setCategoryname(String categoryname)
+  {
+    this.categoryname = categoryInverse.get(categoryname);
+  }
 
-	public void setEmployeename(String employeename) {
-		this.employeename = employeename;
-	}
+  public void setConveyanceall(Double conveyanceall)
+  {
+    this.conveyanceall = conveyanceall;
+  }
 
-	public String getCategoryname() {
-		return categoryname;
-	}
+  public void setEmployeeid(String employeeid)
+  {
+    this.employeeid = employeeid;
+  }
 
-	public void setCategoryname(String categoryname) {
-		this.categoryname = categoryInverse.get(categoryname);
-	}
+  public void setEmployeename(String employeename)
+  {
+    this.employeename = employeename;
+  }
 
-	public Double getGrosssalary() {
-		grosssalary = getBasicsalary() + getFixedda() + getHra() + getConveyanceall();
-		return grosssalary;
-	}
+  public void setFactor(double factor)
+  {
+    this.factor = factor;
+  }
 
-	public void setGrosssalary(Double grosssalary) {
-		this.grosssalary = grosssalary;
-	}
+  public void setFixedda(Double fixedda)
+  {
+    this.fixedda = fixedda;
+  }
 
-	public Double getTotaldeductions() {
-		totaldeductions = getPfamount() + getOtherdeduction() + getLoanamount() + getProftaxdeduction();
-		return totaldeductions;
-	}
+  public void setGrosssalary(Double grosssalary)
+  {
+    this.grosssalary = grosssalary;
+  }
 
-	public void setTotaldeductions(Double totaldeductions) {
-		this.totaldeductions = totaldeductions;
-	}
+  public void setHra(Double hra)
+  {
+    this.hra = hra;
+  }
 
-	public Double getNetsalary() {
-		netsalary = getGrosssalary() - getTotaldeductions();
-		return netsalary;
-	}
+  public void setIseligibleforpf(Boolean iseligibleforpf)
+  {
+    this.iseligibleforpf = iseligibleforpf;
+  }
 
-	public void setNetsalary(Double netsalary) {
-		this.netsalary = netsalary;
-	}
+  public void setLoanamount(Double loanamount)
+  {
+    this.loanamount = loanamount;
+  }
 
-	public double getFactor() {
-		return factor;
-	}
+  public void setModeofpayment(String modeofpayment)
+  {
+    this.modeofpayment = modeofpayment;
+  }
 
-	public void setFactor(double factor) {
-		this.factor = factor;
-	}
+  public void setMonthyearDate(Date monthyearDate)
+  {
+    this.monthyearDate = monthyearDate;
+  }
 
-	public String getModeofpayment() {
-		return modeofpayment;
-	}
+  public void setNetsalary(Double netsalary)
+  {
+    this.netsalary = netsalary;
+  }
 
-	public void setModeofpayment(String modeofpayment) {
-		this.modeofpayment = modeofpayment;
-	}
+  public void setOtherdeduction(Double otherdeduction)
+  {
+    this.otherdeduction = otherdeduction;
+  }
 
-	public Boolean getIseligibleforpf() {
-		if ("Part Time".equalsIgnoreCase(categoryname))
-			return false;
-		else
-			return iseligibleforpf;
-	}
+  public void setPfamount(Double pfamount)
+  {
+    this.pfamount = pfamount;
+  }
 
-	public void setIseligibleforpf(Boolean iseligibleforpf) {
-		this.iseligibleforpf = iseligibleforpf;
-	}
+  public void setPfno(String pfno)
+  {
+    this.pfno = pfno;
+  }
 
-	public Date getMonthyearDate() {
-		return monthyearDate;
-	}
+  public void setPfrate(Double pfrate)
+  {
+    this.pfrate = pfrate;
+  }
 
-	public void setMonthyearDate(Date monthyearDate) {
-		this.monthyearDate = monthyearDate;
-	}
+  public void setProftaxdeduction(Double proftaxdeduction)
+  {
+    this.proftaxdeduction = proftaxdeduction;
+  }
+
+  public void setSbacno(String sbacno)
+  {
+    this.sbacno = sbacno;
+  }
+
+  public void setTotaldeductions(Double totaldeductions)
+  {
+    this.totaldeductions = totaldeductions;
+  }
 }

@@ -77,11 +77,11 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Category Name *" />
-									<h:selectOneMenu styleClass="form-control categorynamefield" required="true" label="Category" id="class"
+									<p:selectOneMenu style="width:100%" styleClass="form-control categorynamefield" required="true" label="Category" id="class"
 										value="#{staffBean.staff.categoryid}" onchange="showPFNo()">
 										<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{staffBean.staff.category}" />
-									</h:selectOneMenu>
+									</p:selectOneMenu>
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -187,12 +187,12 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<h:outputText value="Mode of payment *" />
-									<h:selectOneMenu styleClass="form-control" required="true" id="modeofpayment"
+									<p:selectOneMenu styleClass="form-control" style="width:100%" required="true" id="modeofpayment" label="Mode of Payment"
 										value="#{staffBean.selectedmodeofpayment}">
 										<p:ajax update="sbacno" />
 										<f:selectItem itemLabel="Select payment type" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{staffBean.modeofpayment}" />
-									</h:selectOneMenu>
+									</p:selectOneMenu>
 								</div>
 								<div class="form-group">
 									<h:outputText value="SB A/C Number " />
@@ -200,12 +200,12 @@
 								</div>
 								<div class="form-group iseligibleforpf">
 									<h:outputText value="Is Eligible for PF *" />
-									<h:selectOneMenu styleClass="form-control iseligibleforpffield" value="#{staffBean.salary.iseligibleforpf}"
+									<p:selectOneMenu styleClass="form-control iseligibleforpffield" required="true" style="width:100%;" value="#{staffBean.salary.iseligibleforpf}"
 										onchange="showPFNo()">
 										<f:selectItem itemLabel="Select One" itemValue="" />
 										<f:selectItem itemLabel="Yes" itemValue="true" />
 										<f:selectItem itemLabel="No" itemValue="false" />
-									</h:selectOneMenu>
+									</p:selectOneMenu>
 								</div>
 								<div class="form-group" id="pfnofield" style="display: none;">
 									<h:outputText value="PF Number " />

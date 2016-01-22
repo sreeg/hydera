@@ -26,9 +26,10 @@
 	<link type="text/css" rel="stylesheet" href="css/base.css" />
 
 	<style type="text/css" media="print">
-	.pageBreak {
+.pageBreak {
 	page-break-after: always;
 }
+
 @page {
 	size: portrait;
 }
@@ -43,7 +44,7 @@
 	padding: 5px !important;
 }
 
-h1, h2, h3, h4, h5,h6 {
+h1, h2, h3, h4, h5, h6 {
 	margin: 5px;
 }
 
@@ -54,12 +55,19 @@ body {
 h4 {
 	font-size: 1em;
 }
+
 h6 {
 	font-size: 0.7em;
 }
-p {
+
+p, td {
 	margin: 0;
-	font-size: 0.9em;
+	font-size: 0.8em;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	padding: 1px;
 }
 </style>
 </h:head>
@@ -72,7 +80,7 @@ p {
 			<!-- Navigation -->
 			<ui:insert name="nav">
 				<ui:include src="nav.xhtml">
-					<ui:param name="page" value="generatepayslips" />
+					<ui:param name="page" value="salarysheets" />
 				</ui:include>
 			</ui:insert>
 
@@ -83,14 +91,16 @@ p {
 					<p:growl id="growl" showDetail="true" />
 					<div class="row hidden-print">
 						<div class="col-lg-12">
-							<h1 class="page-header">Generate Payslips</h1>
+							<h1 class="page-header">Generate Salary Sheets</h1>
 						</div>
 					</div>
+					<p:messages styleClass="hidden-print" id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
 					<div class="row hidden-print">
 						<div class="col-lg-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<strong>Select Year and Month to generate payslips</strong>
+									<strong>Select Year and Month to generate salary sheets</strong>
 								</div>
 								<div class="panel-body">
 									<div class="col-lg-12 col-md-12">
@@ -131,150 +141,104 @@ p {
 							</div>
 						</div>
 					</div>
-					<p:messages styleClass="hidden-print" id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
-					<p:outputPanel id="payslipPanel" styleClass="paySlipOutputPanel">
+					<p:outputPanel id="payslipPanel" styleClass="paySlipOutputPanel salaryOutPanel">
 						<p:outputPanel id="payslipPanelInner" rendered="#{payslipView.showForm}">
+							<div class="panel panel-default">
 
-							<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslips}" id="payslips" columns="1" layout="grid">
-													<p:outputPanel id="feereceiptMultiple" styleClass="#{(rowId + 1) % 2 == 0 ? 'pageBreak' :'pageBreakNot'}">
-							
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="centered">
-											<h3 style="text-align: center;">Chaitanya Vidyalaya</h3>
-											<h6 style="text-align: center;">#1-2-594, Domalguda, Hyderabad - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com
-											</h6>
-											<h5 style="text-align: center;">Payslip for the month of #{ps.month}, #{ps.year}</h5>
-										</h4>
-									</div>
-									<div class="panel-body">
-
-
-										<div class="row margin5_0">
-											<table class="table table-bordered">
-												<tbody>
-													<tr>
-														<td>
-															<p>
-																Employee Name<br /> Designation<br /> P.F. Number<br /> Bank Account Number<br />
-															</p>
-														</td>
-														<td>
-															<p>
-																#{ps.employeename}<br /> #{ps.designation}<br /> #{ps.sbacno}<br /> #{ps.pfno}<br />
-															</p>
-														</td>
-														<td>
-															<p>
-																Payable Days<br /> Paid Days<br /> Joining Date<br />
-															</p>
-														</td>
-														<td>
-															<p>
-																#{ps.daysinmonth}<br /> #{ps.dayspresent}<br />
-																<h:outputText value="#{ps.doj}">
-																	<f:convertDateTime pattern="dd MMMM, yyyy" />
-																</h:outputText>
-															</p>
-														</td>
-													</tr>
-												</tbody>
-											</table>
+								<div class="panel-body">
+									<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslips}" id="payslips" columns="1"
+										layout="grid">
+										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? '': 'hidden-print'}">
+											<h4 style="text-align: center;">Chaitanya Vidyalaya, Domalguda, Hyderabad</h4>
+											<h5 style="text-align: center;">Salary sheets for the month of #{payslipView.selectedmonth},
+												#{payslipView.selectedyear}</h5>
 										</div>
+										<p:outputPanel id="feereceiptMultiple"
+											styleClass="feereceiptMultiple #{(rowId + 1) % 6 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? 'upperborder' :''}">
 
-										<div class="row margin5_0">
-											<table class="table table-bordered">
-												<thead>
-													<th colspan="2" class="centered">Earnings</th>
-													<th colspan="2" class="centered">Deductions</th>
-												</thead>
-												<tbody>
-													<tr>
-														<td>
-															<p>
-																Basic<br /> Fixed DA<br /> HRA<br /> Conveyance<br /> Provident Fund
-															</p>
-														</td>
-														<td>
-															<p class="pull-right">
-																<h:outputText styleClass="pull-right" value="#{ps.basicsalary}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>
-																<br />
-																<h:outputText styleClass="pull-right" value="#{ps.fixedda}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>
-																<br />
-																<h:outputText styleClass="pull-right" value="#{ps.hra}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>
-																<br />
-																<h:outputText styleClass="pull-right" value="#{ps.conveyanceall}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>
-																<br />
-																<h:outputText styleClass="pull-right" value="#{ps.pfamount}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>																
-															</p>
-														</td>
-														<td>
-															<p>
-																Loan Amount<br />Professional Tax<br /> Other Deductions<br />
-															</p>
-														</td>														
-														<td>
-															<p class="pull-right">																
-																<h:outputText styleClass="pull-right" value="#{ps.loanamount}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>
-																<br />
-																<h:outputText styleClass="pull-right" value="#{ps.proftaxdeduction}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>
-																<br />
-																<h:outputText styleClass="pull-right" value="#{ps.otherdeduction}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																</h:outputText>
-															</p>
-														</td>
+											<div class="row margin5_0">
+												<h5 class="pull-left">
+													<strong>#{ps.employeename}, #{ps.designation}</strong> <span class="marginLeft20">Attendance:
+														#{ps.dayspresent} days</span>
+												</h5>
+												<h5 class="pull-right" style="min-width: 250px; color: #333;">Signature:</h5>
+											</div>
 
-													</tr>
-												</tbody>
-												<tfoot>
-													<tr style="font-weight: 600;">
-														<td>Total</td>
-														<td><h:outputText styleClass="pull-right" value="#{ps.grosssalary}">
-																<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-															</h:outputText></td>
-														<td colspan="2"><h:outputText styleClass="pull-right" value="#{ps.totaldeductions}">
-																<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-															</h:outputText></td>
-													</tr>
-												</tfoot>
-											</table>
-										</div>
+											<div class="row margin10_0">
+												<table class="table">
+													<tbody>
 
-										<div class="row margin5_0">
-															<h4>
-																<strong>Net Salary : <h:outputText styleClass="pull-right" value="#{ps.netsalary}">
-																		<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-																	</h:outputText></strong>
-															</h4>
-										</div>
-									</div>
-									<div class="panel-footer">
-										<h6>
-											<italic>This is a computer generated report and does not require any signature. “Printing and
-											sharing of the payslip is at the discretion of employee”</italic>
-										</h6>
-									</div>
+														<tr>
+															<td rowspan="2" class="boldFont" style="vertical-align: middle;"><span class="marginLeft20">Earnings</span></td>
+
+															<td class="boldFont">Basic</td>
+															<td class="boldFont">Fixed DA</td>
+															<td class="boldFont">HRA</td>
+															<td class="boldFont">Con.</td>
+															<td class="boldFont">PF</td>
+															<td class="boldFont"></td>
+														</tr>
+														<tr>
+															<td><h:outputText styleClass="" value="#{ps.basicsalary}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText styleClass="" value="#{ps.fixedda}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText styleClass="" value="#{ps.hra}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText styleClass="" value="#{ps.conveyanceall}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText>.</td>
+															<td><h:outputText styleClass="" value="#{ps.pfamount}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td rowspan="2" class=" boldFont" style="vertical-align: middle;"><span class="marginLeft20">Deductions</span></td>
+															<td class="boldFont">Loan</td>
+															<td class="boldFont">Prof. Tax</td>
+															<td class="boldFont">Other Ded.</td>
+															<td class="boldFont"></td>
+															<td class="boldFont"></td>
+															<td class="boldFont"></td>
+														</tr>
+														<tr>
+															<td><h:outputText styleClass="" value="#{ps.loanamount}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText styleClass="" value="#{ps.proftaxdeduction}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td><h:outputText styleClass="" value="#{ps.otherdeduction}">
+																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																</h:outputText></td>
+															<td class="boldFont"></td>
+															<td class="boldFont"></td>
+															<td class="boldFont"></td>
+														</tr>
+													</tbody>
+
+												</table>
+												<p class="boldFont">
+													<span class="marginLeft20">Gross salary : <h:outputText styleClass="" value="#{ps.grosssalary}">
+															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														</h:outputText></span><span class="marginLeft20">Total deductions : <h:outputText styleClass=""
+															value="#{ps.totaldeductions}">
+															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														</h:outputText></span><span class="marginLeft20">Net Salary : <h:outputText styleClass="" value="#{ps.netsalary}">
+															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														</h:outputText></span>
+												</p>
+											</div>
+										</p:outputPanel>
+									</p:dataGrid>
 								</div>
-			</p:outputPanel>
-							</p:dataGrid>
 
-
+							</div>
 						</p:outputPanel>
 					</p:outputPanel>
 

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
 import javax.annotation.PostConstruct;
@@ -100,7 +101,15 @@ public class StafftBean implements Serializable
     ps.setString(6, staff.getSpouseName());
     ps.setString(7, staff.getSpouseOccupation());
     ps.setString(8, staff.getPhone());
-    ps.setDate(9, new java.sql.Date(staff.getDob().getTime()));
+    Date dob = staff.getDob();
+    if (dob == null)
+    {
+      ps.setDate(9, null);
+    }
+    else
+    {
+      ps.setDate(9, new java.sql.Date(dob.getTime()));
+    }
     ps.setDate(10, new java.sql.Date(staff.getDoj().getTime()));
     ps.setDouble(11, staff.getJoiningsalary());
     ps.setString(12, staff.getSex());

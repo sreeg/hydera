@@ -177,20 +177,20 @@
 														<div class="col-lg-6">
 															<div class="form-group">
 																<h:outputText value="Class Name " />
-																<h:selectOneMenu styleClass="form-control" id="class" value="#{student.classname}">
+																<p:selectOneMenu styleClass="form-control" style="width:100%" id="class" value="#{student.classname}">
 																	<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
 																	<f:selectItems value="#{student.classes}" />
-																</h:selectOneMenu>
+																</p:selectOneMenu>
 															</div>
 														</div>
 														<div class="col-lg-6">
 															<div class="form-group">
 																<h:outputText value="Section Name *" />
-																<h:selectOneMenu styleClass="form-control" id="section" value="#{student.sectionname}"
+																<p:selectOneMenu styleClass="form-control" style="width:100%" id="section" value="#{student.sectionname}"
 																	label="Section Name" required="true">
 																	<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
 																	<f:selectItems value="#{systemSettingsBean.systemSettings.sectionList}" />
-																</h:selectOneMenu>
+																</p:selectOneMenu>
 															</div>
 														</div>
 													</div>													
@@ -236,10 +236,10 @@
 														<div class="col-lg-6">
 															<div class="form-group">
 																<h:outputText value="Father's Occupation: " />
-																<h:selectOneMenu styleClass="form-control" value="#{student.fatheroccupation}">
+																<p:selectOneMenu styleClass="form-control" style="width:100%" value="#{student.fatheroccupation}">
 																	<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
 																	<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
-																</h:selectOneMenu>
+																</p:selectOneMenu>
 															</div>
 														</div>
 													</div>
@@ -262,10 +262,10 @@
 														<div class="col-lg-6">
 															<div class="form-group">
 																<h:outputText value="Mother's Occupation: " />
-																<h:selectOneMenu styleClass="form-control" value="#{student.motheroccupation}" label="Motheroccupation">
+																<p:selectOneMenu styleClass="form-control" style="width:100%" value="#{student.motheroccupation}" label="Motheroccupation">
 																	<f:selectItem itemLabel="Select Occupation" itemValue="" noSelectionOption="true" />
 																	<f:selectItems value="#{systemSettingsBean.systemSettings.designationsList}" />
-																</h:selectOneMenu>
+																</p:selectOneMenu>
 															</div>
 														</div>
 													</div>

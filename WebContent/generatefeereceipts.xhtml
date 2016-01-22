@@ -56,6 +56,10 @@ body {
 	margin: 0mm !important;
 }
 
+h4 {
+	font-size: 1em;
+}
+
 p {
 	margin: 0;
 }
@@ -70,6 +74,13 @@ p {
 
 .ui-tabs .ui-tabs-panel {
 	padding: 0;
+}
+
+.panel-body {
+	padding: 5px !important;
+}
+h1,h2,h3,h4,h5 {
+	margin: 5px;
 }
 </style>
 
@@ -98,126 +109,126 @@ p {
 						</div>
 					</div>
 
-							<div class="panel panel-default hidden-print">
-								<p:outputPanel id="topwell">
-									<div class="panel-body form-group">
-										<h:outputText value="#{studentFilterView.noofselecteditems} students selected." />
-										<p:commandButton styleClass="marginLeft20 inlineBlock" value="Print Receipts" validateClient="true"
-											actionListener="#{studentFilterView.generatefees}" icon="fa fa-print" oncomplete="window.print();"
-											update="payslips" />
-										<p:outputPanel id="emailPanel2" rendered="#{systemSettingsBean.disableemail == 'true'}">
-											<p:commandButton styleClass="marginLeft20 inlineBlock" value="Email Receipts" validateClient="true"
-												actionListener="#{studentFilterView.emailfees}" update="messagesm" icon="fa fa-envelope-o" />
-										</p:outputPanel>
-									</div>
+					<div class="panel panel-default hidden-print">
+						<p:outputPanel id="topwell">
+							<div class="panel-body form-group">
+								<h:outputText value="#{studentFilterView.noofselecteditems} students selected." />
+								<p:commandButton styleClass="marginLeft20 inlineBlock" value="Print Receipts" validateClient="true"
+									actionListener="#{studentFilterView.generatefees}" icon="fa fa-print" oncomplete="window.print();"
+									update="payslips" />
+								<p:outputPanel id="emailPanel2" rendered="#{systemSettingsBean.disableemail == 'true'}">
+									<p:commandButton styleClass="marginLeft20 inlineBlock" value="Email Receipts" validateClient="true"
+										actionListener="#{studentFilterView.emailfees}" update="messagesm" icon="fa fa-envelope-o" />
 								</p:outputPanel>
 							</div>
-							<p:messages id="messagesm" styleClass="hidden-print" showDetail="true" autoUpdate="true" closable="true" />
-							<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
-								rowSelectMode="add" styleClass="marginTop20 hidden-print" reflow="true"
-								emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
-								selection="#{studentFilterView.selectedStudents}" rowKey="#{st.id}">
+						</p:outputPanel>
+					</div>
+					<p:messages id="messagesm" styleClass="hidden-print" showDetail="true" autoUpdate="true" closable="true" />
+					<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
+						rowSelectMode="add" styleClass="marginTop20 hidden-print" reflow="true"
+						emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
+						selection="#{studentFilterView.selectedStudents}" rowKey="#{st.id}">
 
-								<f:facet name="header">
-									<div class="form-group marginTop20" style="display: inline-block; width: 100%;">
-										<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
-											placeholder="To search enter a keyword" />
+						<f:facet name="header">
+							<div class="form-group marginTop20" style="display: inline-block; width: 100%;">
+								<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('studentsTable').filter()"
+									placeholder="To search enter a keyword" />
+							</div>
+						</f:facet>
+						<p:ajax event="rowSelect" update="form:topwell" />
+						<p:ajax event="rowUnselect" update="form:topwell" />
+						<p:ajax event="rowSelectCheckbox" update="form:topwell" />
+						<p:ajax event="rowUnselectCheckbox" update="form:topwell" />
+
+						<p:column selectionMode="multiple" style="width:40px;text-align:center" priority="1" />
+						<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name"
+							priority="2">
+							<h:outputText value="#{st.firstname} #{st.lastname}" />
+						</p:column>
+						<p:column filterBy="#{st.classname}" headerText="" priority="3">
+							<f:facet name="filter">
+								<h:selectOneMenu onchange="PF('studentsTable').filter()">
+									<f:selectItem itemLabel="All Classes" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{studentFilterView.classnames}" />
+								</h:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{st.classname}" />
+						</p:column>
+
+						<p:column headerText="Section name" priority="5">
+							<h:outputText value="#{st.sectionname}" />
+						</p:column>
+
+						<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone number" priority="6">
+							<h:outputText value="#{st.phone}" />
+						</p:column>
+						<p:column filterStyle="display:none" filterBy="#{st.email}" headerText="Email id" priority="4">
+							<a href="mailto:#">#{st.email}</a>
+						</p:column>
+					</p:dataTable>
+
+					<p:dataGrid rowIndexVar="rowId" styleClass="multiplePayslips visible-print-block" var="ssm" value="#{studentFilterView.studentfees}"
+						id="payslips" columns="1" layout="grid">
+						<p:outputPanel id="feereceiptMultiple" styleClass="#{(rowId + 1) % 4 == 0 ? 'thridreceipt' :'thridreceiptNot'}">
+							<div class="panel panel-default visible-print-block">
+								<div class="panel-body">
+									<div class="col-lg-12 centered">
+										<h3 style="text-align: center;">Chaitanya Vidyalaya</h3>
 									</div>
-								</f:facet>
-								<p:ajax event="rowSelect" update="form:topwell" />
-								<p:ajax event="rowUnselect" update="form:topwell" />
-								<p:ajax event="rowSelectCheckbox" update="form:topwell" />
-								<p:ajax event="rowUnselectCheckbox" update="form:topwell" />
-
-								<p:column selectionMode="multiple" style="width:40px;text-align:center" priority="1" />
-								<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name"
-									priority="2">
-									<h:outputText value="#{st.firstname} #{st.lastname}" />
-								</p:column>
-								<p:column filterBy="#{st.classname}" headerText="" priority="3">
-									<f:facet name="filter">
-										<h:selectOneMenu onchange="PF('studentsTable').filter()">
-											<f:selectItem itemLabel="All Classes" itemValue="#{null}" noSelectionOption="true" />
-											<f:selectItems value="#{studentFilterView.classnames}" />
-										</h:selectOneMenu>
-									</f:facet>
-									<h:outputText value="#{st.classname}" />
-								</p:column>
-
-								<p:column headerText="Section name" priority="5">
-									<h:outputText value="#{st.sectionname}" />
-								</p:column>
-
-								<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone number" priority="6">
-									<h:outputText value="#{st.phone}" />
-								</p:column>
-								<p:column filterStyle="display:none" filterBy="#{st.email}" headerText="Email id" priority="4">
-									<a href="mailto:#">#{st.email}</a>
-								</p:column>
-							</p:dataTable>
-
-							<p:dataGrid rowIndexVar="rowId" styleClass="multiplePayslips" var="ssm" value="#{studentFilterView.studentfees}"
-								id="payslips" columns="1" layout="grid">
-								<p:outputPanel id="feereceiptMultiple" styleClass="#{(rowId + 1) % 3 == 0 ? 'thridreceipt' :'thridreceiptNot'}">
-									<div class="panel panel-default visible-print-block">
-										<div class="panel-body">
-											<div class="col-lg-12 centered">
-												<p:graphicImage style="width:80%;" value="#{systemSettingsBean.logo}" />
+									<div class="col-lg-12 centered">
+										<h6>Domalguda - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com</h6>
+									</div>
+									<div class="col-lg-12">
+										<h4 class="centered underline">Fee Receipt id - #{ssm.receiptid}</h4>
+									</div>
+									<div class="col-lg-12">
+										<h4 class="centered">
+											Payment of <strong>&#8377; #{ssm.amountPaid}</strong> has been received as part of term payment -
+											<h:outputText value="1" rendered="#{(ssm.term1)}" />
+											<h:outputText value=", 2" rendered="#{(ssm.term2)}" />
+											<h:outputText value=", 3" rendered="#{(ssm.term3)}" />
+											from
+										</h4>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+											<div class="form-group">
+												<p>
+													<strong>Student Name</strong>
+												</p>
+												<p>
+													<strong>Class Name</strong>
+												</p>
+												<p>
+													<strong>Date of Receipt</strong>
+												</p>
+												<p>
+													<strong>Cheque Details</strong>
+												</p>
 											</div>
-											<div class="col-lg-12 centered">
-												<h5>Domalguda - 500872, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com</h5>
-											</div>
-											<div class="col-lg-12">
-												<h4 class="centered underline">Fee Receipt id - #{ssm.receiptid}</h4>
-											</div>
-											<div class="col-lg-12">
-												<h4 class="centered">
-													Payment of <strong>&#8377; #{ssm.amountPaid}</strong> has been received as part of term payment -
-													<h:outputText value="1, " rendered="#{(ssm.term1)}" />
-													<h:outputText value="2, " rendered="#{(ssm.term2)}" />
-													<h:outputText value="3 " rendered="#{(ssm.term3)}" />
-													from
-												</h4>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-													<div class="form-group">
-														<p>
-															<strong>Student Name</strong>
-														</p>
-														<p>
-															<strong>Class Name</strong>
-														</p>
-														<p>
-															<strong>Date of Receipt</strong>
-														</p>
-														<p>
-															<strong>Cheque Details</strong>
-														</p>
-													</div>
-												</div>
-												<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-													<div class="form-group">
-														<p class="">#{ssm.fullname}</p>
-														<p class="">#{ssm.classname}, #{ssm.sectionname}</p>
-														<p class="">
-															<h:outputText value="#{ssm.paymentdate}" >
-															<f:convertDateTime pattern="dd MMMM, yyyy" />
-															</h:outputText>
-														</p>
-														<p class="">
-															<h:outputText value="#{ssm.paymentdetails}" />
-														</p>
-													</div>
-												</div>
-											</div>
-											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<h5 class="centered">Please Note : This is a system generated receipt and does not require a signature.</h5>
+										</div>
+										<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+											<div class="form-group">
+												<p class="">#{ssm.fullname}</p>
+												<p class="">#{ssm.classname}</p>
+												<p class="">
+													<h:outputText value="#{ssm.paymentdate}">
+														<f:convertDateTime pattern="dd MMMM, yyyy" />
+													</h:outputText>
+												</p>
+												<p class="">
+													<h:outputText value="#{ssm.paymentdetails}" />
+												</p>
 											</div>
 										</div>
 									</div>
-								</p:outputPanel>
-							</p:dataGrid>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<h6 class="centered">Please Note : This is a system generated receipt and does not require a signature.</h6>
+									</div>
+								</div>
+							</div>
+						</p:outputPanel>
+					</p:dataGrid>
 
 
 					<!-- /.row -->

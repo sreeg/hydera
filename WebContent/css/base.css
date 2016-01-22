@@ -30,6 +30,14 @@
 	margin: 5px 0;
 }
 
+.margin10_0 {
+	margin: 10px 0;
+}
+
+.marginTop10 {
+	margin-top: 10px;
+}
+
 .marginTop20 {
 	margin-top: 20px;
 }
@@ -637,8 +645,29 @@ div.centre
    border-radius: 0px !important;
  }
  
+ .ui-selectonemenu {
+ 	background: transparent !important;
+ }
+  .ui-selectonemenu.ui-state-error, 
  .ui-inputfield.ui-state-error, .ui-widget-header .ui-inputfield.ui-state-error, .ui-widget-content .ui-inputfield.ui-state-error {
     color: #333333;
     border: 1px solid #b94a48;
-    background: #F2DEDE;
+    background: #F2DEDE !important;
+}
+
+.ui-selectonemenu.ui-state-error label {
+	color: #333333;
+	background: #F2DEDE !important;
+}
+
+.boldFont {
+	font-weight: 600;
+}
+
+.salaryOutPanel .ui-datagrid-column .feereceiptMultiple {
+	border-bottom: 2px solid;
+}
+
+.upperborder {
+	border-top: 2px solid;
 }
