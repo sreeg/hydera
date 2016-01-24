@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.StreamedContent;
 
@@ -37,6 +38,9 @@ public class SystemSettingsBean implements Serializable
   public static boolean reports;
   public static StreamedContent logo;
 
+  private String currentPassword;
+  private String newPassword1;
+  private String newPassword2;
   private String designationItem;
   private String sectionNameItem;
   private String designationItemStaff;
@@ -202,6 +206,11 @@ public class SystemSettingsBean implements Serializable
     return bankNameItem;
   }
 
+  public String getCurrentPassword()
+  {
+    return currentPassword;
+  }
+
   public String getDesignationItem()
   {
     return designationItem;
@@ -215,6 +224,16 @@ public class SystemSettingsBean implements Serializable
   public StreamedContent getLogo()
   {
     return logo;
+  }
+
+  public String getNewPassword1()
+  {
+    return newPassword1;
+  }
+
+  public String getNewPassword2()
+  {
+    return newPassword2;
   }
 
   public String getSchoolname()
@@ -445,6 +464,11 @@ public class SystemSettingsBean implements Serializable
     SystemSettingsBean.charts = charts;
   }
 
+  public void setCurrentPassword(String currentPassword)
+  {
+    this.currentPassword = currentPassword;
+  }
+
   public void setDesignationItem(String designationItem)
   {
     this.designationItem = designationItem;
@@ -468,6 +492,16 @@ public class SystemSettingsBean implements Serializable
   public void setLogo(StreamedContent logo)
   {
     SystemSettingsBean.logo = logo;
+  }
+
+  public void setNewPassword1(String newPassword1)
+  {
+    this.newPassword1 = newPassword1;
+  }
+
+  public void setNewPassword2(String newPassword2)
+  {
+    this.newPassword2 = newPassword2;
   }
 
   public void setPeoplemanagement(boolean peoplemanagement)
@@ -508,5 +542,10 @@ public class SystemSettingsBean implements Serializable
   public void setSystemSettings(SystemSettings systemSettings)
   {
     this.systemSettings = systemSettings;
+  }
+
+  public void updatePassword()
+  {
+    RequestContext.getCurrentInstance().openDialog("updatePassword");
   }
 }

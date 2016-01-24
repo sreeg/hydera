@@ -29,7 +29,6 @@
 						</h:selectOneMenu>
 					</div>
 				</div>
-
 			</div>
 
 			<p:outputPanel id="staffDetails">
@@ -37,15 +36,9 @@
 					<div class="row">
 						<div class="col-lg-8">
 							<div class="form-group">
-								<p class="col-lg-3 form-control-static">
-									<strong>Joining Salary</strong>
+								<p class="form-control-static">
+									<strong>Designation : </strong>#{staffFilterView.selectedStaffByCategory.designation}
 								</p>
-								<p class="col-lg-3 form-control-static">&#8377; #{staffFilterView.selectedStaffByCategory.joiningsalary}</p>
-
-								<p class="col-lg-3 form-control-static">
-									<strong>Designation</strong>
-								</p>
-								<p class="col-lg-3 form-control-static">#{staffFilterView.selectedStaffByCategory.designation}</p>
 							</div>
 						</div>
 					</div>

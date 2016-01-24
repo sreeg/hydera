@@ -277,7 +277,7 @@
 						</p:tab>
 						<p:tab id="tab4" title="Other">
 							<div class="row">
-								<p:outputPanel rendered="#{systemSettingsBean.disableemail == 'true'}">
+								<p:outputPanel rendered="#{!systemSettingsBean.disableemail}">
 									<div class="col-lg-6">
 										<p:panel>
 											<f:facet name="header">

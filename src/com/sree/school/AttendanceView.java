@@ -32,14 +32,11 @@ public class AttendanceView implements Serializable
    * 
    */
   private static final long serialVersionUID = 1L;
-
   private static LinkedHashMap<String, String> category;
-
   private static LinkedHashMap<String, String> monthMap;
   private static LinkedHashMap<String, Integer> monthIndexMap;
   private static LinkedHashMap<String, String> yearMap = new LinkedHashMap<String, String>();
   private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
-
   private static LinkedHashMap<String, Integer> monthDaysMap;
 
   static
@@ -109,35 +106,28 @@ public class AttendanceView implements Serializable
   private Map<String, Staff> staffMap = new HashMap<>();
   private Map<String, Staff> staffMapByEmployeeId = new HashMap<>();
   private Map<String, List<Attendance>> staffAttendanceMap = new HashMap<>();
-  private List<Attendance> staffs;
-  private List<Staff> allStaffs;
+
   private Staff selectedStaff;
 
+  private List<Attendance> staffs;
+  private List<Staff> allStaffs;
   private List<Attendance> staffsPermenant;
   private List<Attendance> staffsTemporary;
-
   private List<Attendance> staffsDomestic;
-
   private List<Staff> filteredStaffs;
   private List<String> months;
   private List<String> years;
+
   private boolean showForm;
   private Connection conn;
   private String currentMonth;
   private String currentYear;
-
   private String selectedyear;
-
   private String selectedmonth;
-
   private int daysincurrentmonth;
-
   private int daysinselectedmonth;
-
   SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
-
   private List<Attendance> selectedStaffAttendance = new ArrayList<>();
-
   private DonutChartModel donutModel2;
 
   public AttendanceView() throws ClassNotFoundException, SQLException
@@ -257,8 +247,8 @@ public class AttendanceView implements Serializable
           {
             at.setDayspresent(0);
             at.setDaysinmonth(0);
-            at.setMonth("null");
-            at.setYear("null");
+            at.setMonth(null);
+            at.setYear(null);
           }
         }
         else
@@ -358,45 +348,82 @@ public class AttendanceView implements Serializable
 
   public List<Attendance> getAllStaffByMonthAndYear() throws ClassNotFoundException, SQLException
   {
-    java.sql.Connection conn = DBConnection.getConnection();
-    ResultSet rs = conn.createStatement()
-        .executeQuery("select Id, FirstName, LastName, CategoryId, Designation," + "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
-            + "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode, "
-            + "attendance.dayspresent, attendance.month, attendance.year, attendance.daysinmonth from staff "
-            + "LEFT JOIN attendance ON staff.Id=attendance.staffid and attendance.year=" + "'" + getSelectedyear() + "'" + " and attendance.month = " + "'" + getSelectedmonth()
-            + " and staff.isarchived = 0" + "'" + " ORDER BY staff.CategoryId");
-
     List<Attendance> attendance = new ArrayList<>();
+    java.sql.Connection conn = DBConnection.getConnection();
+
+    // First get attendance by current month and year
+    String query = "select staffid, dayspresent, month, year, daysinmonth from attendance  where month=" + "'" + getSelectedmonth() + "'" + " and year =" + "'" + getSelectedyear()
+        + "'";
+    ResultSet rs = conn.createStatement().executeQuery(query);
+    Map<String, Attendance> atMap = new HashMap<>();
     while (rs.next())
     {
       Attendance at = new Attendance();
-      at.setId(rs.getString("Id"));
-      at.setFirstname(rs.getString("FirstName"));
-      at.setLastname(rs.getString("Lastname"));
-      at.setCategoryid(rs.getString("CategoryId"));
-      at.setDesignation(rs.getString("Designation"));
-      at.setSpouseName(rs.getString("SpouseName"));
-      at.setSpouseOccupation(rs.getString("SpouseOccupation"));
-      at.setPhone(rs.getString("Phone"));
-      at.setDob(rs.getDate("DateOfBirth"));
-      at.setDoj(rs.getDate("DateOfJoining"));
-      at.setJoiningsalary(rs.getDouble("JoiningSalary"));
-      at.setSex(rs.getString("Gender"));
-      at.setMobile(rs.getString("Mobile"));
-      at.setEmail(rs.getString("Email"));
-      at.setProfiepic(rs.getString("ProfilePic"));
-      at.setHouseno(rs.getString("houseno"));
-      at.setStreet(rs.getString("street"));
-      at.setCity(rs.getString("city"));
-      at.setPostalCode(rs.getString("postalcode"));
+      String staffID = rs.getString("staffid");
+      at.setId(staffID);
       at.setDayspresent(rs.getInt("dayspresent"));
       at.setDaysinmonth(rs.getInt("daysinmonth"));
-      String month = rs.getString("month");
+      at.setMonth(rs.getString("month"));
+      at.setYear(rs.getString("year"));
+      atMap.put(staffID, at);
+    }
 
-      at.setMonth(month);
-      String year = rs.getString("year");
-      at.setYear(year);
-      attendance.add(at);
+    for (Entry<String, Staff> entry : staffMapByEmployeeId.entrySet())
+    {
+      String staffid = entry.getKey();
+      Staff s = entry.getValue();
+
+      Attendance at = new Attendance();
+      at.setId(staffid);
+      at.setFirstname(s.getFirstname());
+      at.setLastname(s.getLastname());
+      at.setCategoryid(s.getCategoryid());
+      at.setDesignation(s.getDesignation());
+      at.setSpouseName(s.getSpouseName());
+      at.setSpouseOccupation(s.getSpouseOccupation());
+      at.setPhone(s.getPhone());
+      at.setDob(s.getDob());
+      at.setDoj(s.getDoj());
+      at.setJoiningsalary(s.getJoiningsalary());
+      at.setSex(s.getSex());
+      at.setMobile(s.getMobile());
+      at.setEmail(s.getEmail());
+      at.setProfiepic(s.getProfiepic());
+      at.setHouseno(s.getHouseno());
+      at.setStreet(s.getStreet());
+      at.setCity(s.getCity());
+      at.setPostalCode(s.getPostalCode());
+
+      if (atMap != null && !atMap.isEmpty())
+      {
+        Attendance atten = atMap.get(staffid);
+        if (atten != null)
+        {
+          at.setDayspresent(atten.getDayspresent());
+          at.setDaysinmonth(atten.getDaysinmonth());
+          at.setMonth(atten.getMonth());
+          at.setYear(atten.getYear());
+        }
+        else
+        {
+          at.setDayspresent(0);
+          at.setDaysinmonth(0);
+          at.setMonth(null);
+          at.setYear(null);
+        }
+      }
+      else
+      {
+        at.setDayspresent(0);
+        at.setDaysinmonth(daysincurrentmonth);
+        at.setMonth(currentMonth);
+        at.setYear(currentYear);
+      }
+      String month = at.getMonth();
+      String year = at.getYear();
+
+      if ((month == null || month.equals(currentMonth)) && (year == null || year.equals(currentYear)))
+        attendance.add(at);
 
       if (year != null)
         yearMap.put(year, year);
@@ -417,6 +444,7 @@ public class AttendanceView implements Serializable
         staffsTemporary.add(at);
       }
     }
+
     return attendance;
   }
 
@@ -429,14 +457,12 @@ public class AttendanceView implements Serializable
   {
     java.sql.Connection conn;
     List<Staff> staffs = new ArrayList<>();
-
     try
     {
       conn = DBConnection.getConnection();
 
-      ResultSet rs = conn.createStatement()
-          .executeQuery("select Id, FirstName, LastName, CategoryId, Designation," + "SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
-              + "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where isarchived=0");
+      ResultSet rs = conn.createStatement().executeQuery("select Id, FirstName, LastName, CategoryId, Designation, SpouseName, SpouseOccupation, Phone, DateOfBirth, DateOfJoining,"
+          + "JoiningSalary, Gender, Mobile, Email, ProfilePic, houseno, street, city, postalcode from staff where isarchived=0");
       staffMapByEmployeeId = new HashMap<>();
       while (rs.next())
       {
@@ -467,7 +493,6 @@ public class AttendanceView implements Serializable
     }
     catch (ClassNotFoundException | SQLException e)
     {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return staffs;
@@ -718,7 +743,7 @@ public class AttendanceView implements Serializable
     {
       String selectedmonth = getSelectedmonth();
       PreparedStatement ps;
-      if (monthmapfromdb.get(selectedmonth) != null)
+      if (monthmapfromdb.get(selectedmonth) != null && staff.getMonth() != null && staff.getYear() != null)
       {
         ps = conn.prepareStatement("UPDATE ATTENDANCE  set dayspresent = ?, updatedatetime = now() " + "where staffid = ? and month = ? and year = ?");
 
@@ -744,12 +769,12 @@ public class AttendanceView implements Serializable
       FacesMessage msg = null;
       if (rs == 1)
       {
-        msg = new FacesMessage("Attendance added successfully", "");
+        msg = new FacesMessage("Attendance added successfully for " + staff.getFullname(), "");
         // setShowForm(false);
       }
       else
       {
-        msg = new FacesMessage("Something went wrong", "Please contant your system administrator.");
+        msg = new FacesMessage("Something went wrong", "When updating attendance for " + staff.getFullname());
       }
       FacesContext.getCurrentInstance().addMessage(null, msg);
     }

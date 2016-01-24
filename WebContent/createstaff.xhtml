@@ -78,7 +78,7 @@
 		}
 		function showPFNo() {
 			var v = $(".iseligibleforpffield").val();
-			var c = $("select.categorynamefield").val();
+			var c = $(".categorynamefield select").val();
 			if (v == "true") {
 				$("#pfnofield").css('display', 'block');
 			} else {
@@ -87,7 +87,7 @@
 			if (c == "3") {
 				$(".iseligibleforpf").css('display', 'none');
 				$("#pfnofield").css('display', 'none');
-				$(".iseligibleforpffield").val('false')
+				$(".iseligibleforpffield select").val('false')
 			} else {
 				$(".iseligibleforpf").css('display', 'block');
 				if (v == "true") {

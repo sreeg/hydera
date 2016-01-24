@@ -55,9 +55,11 @@ import com.lowagie.text.pdf.PdfWriter;
 public class StudentFilterView implements Serializable
 {
 
-  private static Font underline18 = new Font(Font.HELVETICA, 18, Font.UNDERLINE);
+  private static Font h1 = new Font(Font.HELVETICA, 22, Font.NORMAL);
+  private static Font underline16 = new Font(Font.HELVETICA, 16, Font.UNDERLINE);
   private static Font smallBold = new Font(Font.HELVETICA, 12, Font.BOLD);
   private static Font subFont = new Font(Font.HELVETICA, 14, Font.NORMAL);
+  private static Font h6 = new Font(Font.HELVETICA, 10, Font.NORMAL);
   private static Font smallestItalic = new Font(Font.HELVETICA, 10, Font.ITALIC);
 
   private static Collection<String> classnames;
@@ -196,7 +198,7 @@ public class StudentFilterView implements Serializable
 
       Paragraph paragraph = new Paragraph();
       paragraph.setAlignment(Element.ALIGN_CENTER);
-      paragraph.setFont(underline18);
+      paragraph.setFont(underline16);
       paragraph.add(new Chunk("Fee Receipt :"));
       header.add(paragraph);
 
@@ -334,12 +336,15 @@ public class StudentFilterView implements Serializable
       generatefees();
       if (studentfees == null || studentfees.isEmpty())
       {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No Fee found", "No fee record founds for selected student(s)"));
         return;
       }
     }
-
-    ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-    String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "logo.gif";
+    //
+    // ServletContext servletContext = (ServletContext)
+    // FacesContext.getCurrentInstance().getExternalContext().getContext();
+    // String logo = servletContext.getRealPath("") + File.separator +
+    // "resources" + File.separator + "images" + File.separator + "logo.gif";
     // Create the attachment
     EmailAttachment attachment = new EmailAttachment();
     attachment.setPath(FILE);
@@ -349,13 +354,13 @@ public class StudentFilterView implements Serializable
 
     SystemSettingsBean sys = new SystemSettingsBean();
 
-    // Create the email message
-    String emailhostname = sys.getSystemSettings().getEmailhostname();
-    int smtpPort = Integer.parseInt(sys.getSystemSettings().getSmtpport());
-    DefaultAuthenticator defaultAuthenticator = new DefaultAuthenticator(sys.getSystemSettings().getEmail(), sys.getSystemSettings().getPassword());
-
     try
     {
+      // Create the email message
+      String emailhostname = sys.getSystemSettings().getEmailhostname();
+      int smtpPort = Integer.parseInt(sys.getSystemSettings().getSmtpport());
+      DefaultAuthenticator defaultAuthenticator = new DefaultAuthenticator(sys.getSystemSettings().getEmail(), sys.getSystemSettings().getPassword());
+
       for (StudentFee sf : studentfees)
       {
         FileOutputStream fileOutputStream = new FileOutputStream(FILE);
@@ -371,29 +376,33 @@ public class StudentFilterView implements Serializable
         header.setAlignment(Element.ALIGN_CENTER);
         header.setIndentationLeft(20);
         header.setIndentationRight(20);
-        header.add(Image.getInstance(logo));
-        addEmptyLine(header, 2);
+        addEmptyLine(header, 1);
+        header.add(new Paragraph("Chaitanya Vidyalaya", h1));
+        header.add(new Paragraph("Domalguda - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com", h6));
+        addEmptyLine(header, 1);
 
         Paragraph paragraph = new Paragraph();
         paragraph.setAlignment(Element.ALIGN_CENTER);
-        paragraph.setFont(underline18);
+        paragraph.setFont(underline16);
         paragraph.add(new Chunk("Fee Receipt :"));
         header.add(paragraph);
 
         addEmptyLine(header, 1);
-        String headerString = "Payment of " + sf.getAmountPaid() + "  has been received as part of term payment ";
-        if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null && sf.getTerm3paiddate() != null)
+        String headerString = "Payment of Rs. " + sf.getAmountPaid() + "  has been received as part of term payment ";
+        String forTerms = "";
+        if (sf.isTerm1() && sf.isTerm2() && sf.isTerm3())
         {
-          headerString += "1, 2 and 3 from ";
+          forTerms += "1, 2 and 3";
         }
-        else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null && sf.getTerm3paiddate() == null)
+        else if (sf.isTerm1() && sf.isTerm2())
         {
-          headerString += "1 and 2 from ";
+          forTerms += "1 and 2";
         }
-        else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() == null && sf.getTerm3paiddate() == null)
+        else if (sf.isTerm1())
         {
-          headerString += "1 from ";
+          forTerms += "1";
         }
+        headerString += forTerms + " from ";
 
         Paragraph paragraph2 = new Paragraph(headerString, subFont);
         paragraph2.setAlignment(Element.ALIGN_CENTER);
@@ -411,41 +420,17 @@ public class StudentFilterView implements Serializable
         center.add(new Chunk("Class Name \t\t\t", smallBold));
         center.add(new Chunk(sf.getClassname(), subFont));
         addEmptyLine(center, 1);
-        center.add(new Chunk("Section Name \t\t\t", smallBold));
-        center.add(new Chunk(sf.getSectionname(), subFont));
-        addEmptyLine(center, 1);
+        // center.add(new Chunk("Section Name \t\t\t", smallBold));
+        // center.add(new Chunk(sf.getSectionname(), subFont));
+        // addEmptyLine(center, 1);
 
-        String dateOfReceipt = "Payment of " + sf.getAmountPaid() + "  has been received as part of term payment ";
-        if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null && sf.getTerm3paiddate() != null)
-        {
-          dateOfReceipt = sf.getTerm1paiddate() + ", " + sf.getTerm2paiddate() + ", " + sf.getTerm3paiddate();
-        }
-        else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null && sf.getTerm3paiddate() == null)
-        {
-          dateOfReceipt = sf.getTerm1paiddate() + ", " + sf.getTerm2paiddate();
-        }
-        else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() == null && sf.getTerm3paiddate() == null)
-        {
-          dateOfReceipt = sf.getTerm1paiddate() + "";
-        }
+        String dateOfReceipt = "" + sf.getPaymentdate();
 
-        center.add(new Chunk("Date of receipt \t\t\t", smallBold));
+        center.add(new Chunk("Paid on date \t\t\t", smallBold));
         center.add(new Chunk(dateOfReceipt, subFont));
         addEmptyLine(center, 1);
 
-        String chequeDetails = "Payment of " + sf.getAmountPaid() + "  has been received as part of term payment ";
-        if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null && sf.getTerm3paiddate() != null)
-        {
-          chequeDetails = sf.getTerm1cheque() + ", " + sf.getTerm2cheque() + ", " + sf.getTerm3cheque();
-        }
-        else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() != null && sf.getTerm3paiddate() == null)
-        {
-          chequeDetails = sf.getTerm1cheque() + ", " + sf.getTerm2cheque();
-        }
-        else if (sf.getTerm1paiddate() != null && sf.getTerm2paiddate() == null && sf.getTerm3paiddate() == null)
-        {
-          chequeDetails = sf.getTerm1cheque() + "";
-        }
+        String chequeDetails = sf.getPaymentdetails();
 
         center.add(new Chunk("Cheque details \t\t\t", smallBold));
         center.add(new Chunk(chequeDetails, subFont));
@@ -476,7 +461,7 @@ public class StudentFilterView implements Serializable
         email.setSSLOnConnect(true);
         email.addTo(sf.getEmail());
         email.setFrom("chaitanyavidyalaya@gmail.com", "Mail from Chaitanya Vidyalaya");
-        email.setSubject("Fee Receipt of " + sf.getFullname());
+        email.setSubject("Fee Receipt of " + sf.getFullname() + " for term " + forTerms);
         email.setMsg("Please find the fee receipt attached.");
 
         email.setHtmlMsg("Please find the fee receipt attached.");
@@ -488,27 +473,22 @@ public class StudentFilterView implements Serializable
     }
     catch (EmailException e)
     {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+      FacesContext.getCurrentInstance().addMessage("Sending email failed", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sending email failed", e.toString()));
       e.printStackTrace();
     }
     catch (FileNotFoundException e)
     {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+      FacesContext.getCurrentInstance().addMessage("Sending email failed", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sending email failed", e.toString()));
       e.printStackTrace();
     }
     catch (DocumentException e)
     {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+      FacesContext.getCurrentInstance().addMessage("Sending email failed", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sending email failed", e.toString()));
       e.printStackTrace();
     }
-    catch (MalformedURLException e)
+    catch (Exception e)
     {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
-      e.printStackTrace();
-    }
-    catch (IOException e)
-    {
-      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage(), ""));
+      FacesContext.getCurrentInstance().addMessage("Sending email failed", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sending email failed", e.toString()));
       e.printStackTrace();
     }
   }

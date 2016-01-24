@@ -116,7 +116,7 @@ h1,h2,h3,h4,h5 {
 								<p:commandButton styleClass="marginLeft20 inlineBlock" value="Print Receipts" validateClient="true"
 									actionListener="#{studentFilterView.generatefees}" icon="fa fa-print" oncomplete="window.print();"
 									update="payslips" />
-								<p:outputPanel id="emailPanel2" rendered="#{systemSettingsBean.disableemail == 'true'}">
+								<p:outputPanel id="emailPanel2" styleClass="inlineBlock" rendered="#{!systemSettingsBean.disableemail}">
 									<p:commandButton styleClass="marginLeft20 inlineBlock" value="Email Receipts" validateClient="true"
 										actionListener="#{studentFilterView.emailfees}" update="messagesm" icon="fa fa-envelope-o" />
 								</p:outputPanel>

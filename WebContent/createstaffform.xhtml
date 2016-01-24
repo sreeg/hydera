@@ -57,7 +57,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-lg-6">
+							<div class="col-lg-6 hidden">
 								<div class="form-group">
 									<h:outputText value="Joining Salary" />
 
@@ -71,9 +71,6 @@
 									<p:calendar styleClass="date" id="maskdoj" value="#{staffBean.staff.doj}" pattern="dd-MM-yyyy" mask="true" />
 								</div>
 							</div>
-						</div>
-
-						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Category Name *" />
@@ -84,6 +81,10 @@
 									</p:selectOneMenu>
 								</div>
 							</div>
+						</div>
+
+						<div class="row">
+
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Designation " />

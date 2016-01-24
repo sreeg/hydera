@@ -70,6 +70,11 @@ public class StafftBean implements Serializable
   {
     getStaff().setDoj(Calendar.getInstance().getTime());
     getStaff().setCity("Hyderabad");
+
+    getSalary().setProftaxdeduction(0d);
+    getSalary().setOtherdeduction(0d);
+    getSalary().setLoanamount(0d);
+
   }
 
   public boolean isShowForm()
