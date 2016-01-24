@@ -53,7 +53,7 @@ public class AuthFilter implements Filter
 
       SystemSettingsBean.schoolname = props.getProperty("app.schoolname");
       SystemSettingsBean.shortdescription = props.getProperty("app.shortdescription");
-      SystemSettingsBean.disableemail = Boolean.getBoolean(props.getProperty("app.disableemail"));
+      SystemSettingsBean.disableemail = !props.getProperty("app.disableemail").equalsIgnoreCase("trueemail");
       SystemSettingsBean.peoplemanagement = props.getProperty("app.module.peoplemanagement").equalsIgnoreCase("truepm");
       SystemSettingsBean.salarymanagement = props.getProperty("app.module.salarymanagement").equalsIgnoreCase("truesm");
       SystemSettingsBean.feemanagement = props.getProperty("app.module.feemanagement").equalsIgnoreCase("truefm");

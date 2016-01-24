@@ -294,22 +294,22 @@
 												<div class="col-lg-6">
 													<div class="form-group">
 														<h:outputText value="Email Hostname *" />
-														<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.emailhostname}"
+														<p:inputText placeholder="smtp.gmail.com" styleClass="form-control" value="#{systemSettingsBean.systemSettings.emailhostname}"
 															required="true" label="Email" />
 													</div>
 													<div class="form-group">
 														<h:outputText value="SMTP Port *" />
-														<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.smtpport}"
+														<p:inputText placeholder="465" styleClass="form-control" value="#{systemSettingsBean.systemSettings.smtpport}"
 															required="true" label="Email" />
 													</div>
 													<div class="form-group">
 														<h:outputText value="Email *" />
-														<p:inputText styleClass="form-control" value="#{systemSettingsBean.systemSettings.email}" required="true"
+														<p:inputText placeholder="someone@gmail.com" styleClass="form-control" value="#{systemSettingsBean.systemSettings.email}" required="true"
 															label="Email" />
 													</div>
 													<div class="form-group">
 														<h:outputText value="Password *" />
-														<p:password styleClass="form-control" value="#{systemSettingsBean.systemSettings.password}"
+														<p:password placeholder="your password" styleClass="form-control" value="#{systemSettingsBean.systemSettings.password}"
 															required="true" redisplay="true" label="Password" />
 													</div>
 												</div>
