@@ -12,8 +12,8 @@
 
 				<p:dataTable id="allStudents" var="st" value="#{studentFilterView.students}" widgetVar="studentsTable"
 					emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
-					selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}" selectionMode="single" scrollable="false" scrollHeight="600" style="outline: none;"
-					>
+					selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}" selectionMode="single" scrollable="false"
+					scrollHeight="600" style="outline: none;">
 					<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
 
 
@@ -34,11 +34,15 @@
 					</p:column>
 
 					<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
-						<h:outputText value="#{st.doj}" />
+						<h:outputText styleClass="pull-right" value="#{st.doj}">
+							<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+						</h:outputText>
 					</p:column>
 
 					<p:column filterStyle="display:none" filterBy="#{st.dob}" headerText="Date of birth">
-						<h:outputText value="#{st.dob}" />
+						<h:outputText styleClass="pull-right" value="#{st.dob}">
+							<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+						</h:outputText>
 					</p:column>
 
 					<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone number">

@@ -200,7 +200,7 @@ public class AttendanceView implements Serializable
         Attendance at = new Attendance();
         String staffID = rs.getString("staffid");
         at.setId(staffID);
-        at.setDayspresent(rs.getInt("dayspresent"));
+        at.setDayspresent(rs.getDouble("dayspresent"));
         at.setDaysinmonth(rs.getInt("daysinmonth"));
         at.setMonth(rs.getString("month"));
         at.setYear(rs.getString("year"));
@@ -273,65 +273,67 @@ public class AttendanceView implements Serializable
       {
         String staffid = rs.getString("staffid");
         Staff s = staffMapByEmployeeId.get(staffid);
-
-        Attendance at = new Attendance();
-        at.setId(staffid);
-        at.setFirstname(s.getFirstname());
-        at.setLastname(s.getLastname());
-        at.setCategoryid(s.getCategoryid());
-        at.setDesignation(s.getDesignation());
-        at.setSpouseName(s.getSpouseName());
-        at.setSpouseOccupation(s.getSpouseOccupation());
-        at.setPhone(s.getPhone());
-        at.setDob(s.getDob());
-        at.setDoj(s.getDoj());
-        at.setJoiningsalary(s.getJoiningsalary());
-        at.setSex(s.getSex());
-        at.setMobile(s.getMobile());
-        at.setEmail(s.getEmail());
-        at.setProfiepic(s.getProfiepic());
-        at.setHouseno(s.getHouseno());
-        at.setStreet(s.getStreet());
-        at.setCity(s.getCity());
-        at.setPostalCode(s.getPostalCode());
-
-        at.setDayspresent(rs.getInt("dayspresent"));
-        at.setDaysinmonth(rs.getInt("daysinmonth"));
-        at.setMonth(rs.getString("month"));
-        at.setYear(rs.getString("year"));
-        atMap2.put(staffid, at);
-
-        String month = at.getMonth();
-        String year = at.getYear();
-
-        if (year != null)
-          yearMap.put(year, year);
-
-        if (month != null)
-          monthmapfromdb.put(month, month);
-
-        if (at.getCategoryid().equals("1"))
+        if (s != null)
         {
-          staffsPermenant.add(at);
-        }
-        if (at.getCategoryid().equals("2"))
-        {
-          staffsDomestic.add(at);
-        }
-        if (at.getCategoryid().equals("3"))
-        {
-          staffsTemporary.add(at);
-        }
+          Attendance at = new Attendance();
+          at.setId(staffid);
+          at.setFirstname(s.getFirstname());
+          at.setLastname(s.getLastname());
+          at.setCategoryid(s.getCategoryid());
+          at.setDesignation(s.getDesignation());
+          at.setSpouseName(s.getSpouseName());
+          at.setSpouseOccupation(s.getSpouseOccupation());
+          at.setPhone(s.getPhone());
+          at.setDob(s.getDob());
+          at.setDoj(s.getDoj());
+          at.setJoiningsalary(s.getJoiningsalary());
+          at.setSex(s.getSex());
+          at.setMobile(s.getMobile());
+          at.setEmail(s.getEmail());
+          at.setProfiepic(s.getProfiepic());
+          at.setHouseno(s.getHouseno());
+          at.setStreet(s.getStreet());
+          at.setCity(s.getCity());
+          at.setPostalCode(s.getPostalCode());
 
-        if (staffAttendanceMap.get(staffid) != null && staffAttendanceMap.get(staffid).size() != 0)
-        {
-          staffAttendanceMap.get(staffid).add(at);
-        }
-        else
-        {
-          ArrayList<Attendance> arrayList = new ArrayList<>();
-          arrayList.add(at);
-          staffAttendanceMap.put(staffid, arrayList);
+          at.setDayspresent(rs.getInt("dayspresent"));
+          at.setDaysinmonth(rs.getInt("daysinmonth"));
+          at.setMonth(rs.getString("month"));
+          at.setYear(rs.getString("year"));
+          atMap2.put(staffid, at);
+
+          String month = at.getMonth();
+          String year = at.getYear();
+
+          if (year != null)
+            yearMap.put(year, year);
+
+          if (month != null)
+            monthmapfromdb.put(month, month);
+
+          if (at.getCategoryid().equals("1"))
+          {
+            staffsPermenant.add(at);
+          }
+          if (at.getCategoryid().equals("2"))
+          {
+            staffsDomestic.add(at);
+          }
+          if (at.getCategoryid().equals("3"))
+          {
+            staffsTemporary.add(at);
+          }
+
+          if (staffAttendanceMap.get(staffid) != null && staffAttendanceMap.get(staffid).size() != 0)
+          {
+            staffAttendanceMap.get(staffid).add(at);
+          }
+          else
+          {
+            ArrayList<Attendance> arrayList = new ArrayList<>();
+            arrayList.add(at);
+            staffAttendanceMap.put(staffid, arrayList);
+          }
         }
       }
     }
@@ -361,7 +363,7 @@ public class AttendanceView implements Serializable
       Attendance at = new Attendance();
       String staffID = rs.getString("staffid");
       at.setId(staffID);
-      at.setDayspresent(rs.getInt("dayspresent"));
+      at.setDayspresent(rs.getDouble("dayspresent"));
       at.setDaysinmonth(rs.getInt("daysinmonth"));
       at.setMonth(rs.getString("month"));
       at.setYear(rs.getString("year"));
@@ -406,7 +408,7 @@ public class AttendanceView implements Serializable
         }
         else
         {
-          at.setDayspresent(0);
+          at.setDayspresent(0d);
           at.setDaysinmonth(0);
           at.setMonth(null);
           at.setYear(null);
@@ -414,7 +416,7 @@ public class AttendanceView implements Serializable
       }
       else
       {
-        at.setDayspresent(0);
+        at.setDayspresent(0d);
         at.setDaysinmonth(daysincurrentmonth);
         at.setMonth(currentMonth);
         at.setYear(currentYear);
@@ -647,7 +649,7 @@ public class AttendanceView implements Serializable
   private DonutChartModel initDonutModel(List<Attendance> selectedStaffAttendance2)
   {
     DonutChartModel model = new DonutChartModel();
-    int present = 0, total = 0;
+    double present = 0, total = 0;
     for (Attendance a : selectedStaffAttendance2)
     {
       present = present + a.getDayspresent();
@@ -747,7 +749,7 @@ public class AttendanceView implements Serializable
       {
         ps = conn.prepareStatement("UPDATE ATTENDANCE  set dayspresent = ?, updatedatetime = now() " + "where staffid = ? and month = ? and year = ?");
 
-        ps.setInt(1, staff.getDayspresent());
+        ps.setDouble(1, staff.getDayspresent());
         ps.setString(2, staff.getId());
         ps.setString(3, selectedmonth);
         ps.setString(4, getSelectedyear());
@@ -758,7 +760,7 @@ public class AttendanceView implements Serializable
             "INSERT INTO ATTENDANCE (staffid, date, dayspresent, daysinmonth, createdatetime, updatedatetime, month, year )" + "VALUES (?,now(),?,?, now(), now(),?,?)");
 
         ps.setString(1, staff.getId());
-        ps.setInt(2, staff.getDayspresent());
+        ps.setDouble(2, staff.getDayspresent());
         ps.setInt(3, daysinselectedmonth);
         ps.setString(4, selectedmonth);
         ps.setString(5, getSelectedyear());

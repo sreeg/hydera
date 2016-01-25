@@ -77,21 +77,21 @@
 			document.getElementById('createStaff:hiddenId').value = new_value;
 		}
 		function showPFNo() {
-			var v = $(".iseligibleforpffield").val();
+			var v = $(".iseligibleforpffield select").val();
 			var c = $(".categorynamefield select").val();
 			if (v == "true") {
-				$("#pfnofield").css('display', 'block');
+				$(".pfnofield").css('display', 'block');
 			} else {
-				$("#pfnofield").css('display', 'none');
+				$(".pfnofield").css('display', 'none');
 			}
 			if (c == "3") {
 				$(".iseligibleforpf").css('display', 'none');
-				$("#pfnofield").css('display', 'none');
+				$(".pfnofield").css('display', 'none');
 				$(".iseligibleforpffield select").val('false')
 			} else {
 				$(".iseligibleforpf").css('display', 'block');
 				if (v == "true") {
-					$("#pfnofield").css('display', 'block');
+					$(".pfnofield").css('display', 'block');
 				}
 			}
 		}

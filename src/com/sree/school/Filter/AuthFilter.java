@@ -61,6 +61,22 @@ public class AuthFilter implements Filter
       SystemSettingsBean.reports = props.getProperty("app.module.reports").equalsIgnoreCase("truereports");
 
       SystemSettingsBean.logo = new DefaultStreamedContent(new FileInputStream(new File(System.getProperty("catalina.base"), "conf/resources/images/logo.gif")), "image/gif");
+      // ArrayList<StreamedContent> a = new ArrayList<>();
+      // for (int i = 0; i < 5; i++)
+      // {
+      // try
+      // {
+      // a.add(new DefaultStreamedContent(new FileInputStream(new
+      // File(System.getProperty("catalina.base"),
+      // "conf/resources/images/STUDENT_" + (i + 1) + ".png")), "image/png"));
+      // }
+      // catch (Exception e)
+      // {
+      // continue;
+      // }
+      // }
+      // SystemSettingsBean ssb = new SystemSettingsBean();
+      // ssb.setPicsList(a);
     }
     catch (IOException e)
     {

@@ -42,11 +42,13 @@
 					</p:column>
 
 					<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
-						<h:outputText value="#{st.doj}" />
+						<h:outputText styleClass="pull-right" value="#{st.doj}" >
+							<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+						</h:outputText>
 					</p:column>
 
-					<p:column filterStyle="display:none;" filterBy="#{st.joiningsalary}" headerText="Joining Salary">
-						<h:outputText style="float:right" value="&#8377; #{st.joiningsalary}" />
+					<p:column filterStyle="display:none;" filterBy="#{st.dob}" headerText="Date of birth">
+						<h:outputText styleClass="pull-right" value="#{st.dob}" ><f:convertDateTime pattern="dd/MM/yyyy" type="date" /></h:outputText>
 					</p:column>
 
 				</p:dataTable>

@@ -149,13 +149,13 @@ p, td {
 								<div class="panel-body">
 									<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslips}" id="payslips" columns="1"
 										layout="grid">
-										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? '': 'hidden-print'}">
+										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? '': 'hidden-print'}">
 											<h4 style="text-align: center;">Chaitanya Vidyalaya, Domalguda, Hyderabad</h4>
 											<h5 style="text-align: center;">Salary sheets for the month of #{payslipView.selectedmonth},
 												#{payslipView.selectedyear}</h5>
 										</div>
 										<p:outputPanel id="feereceiptMultiple"
-											styleClass="feereceiptMultiple #{(rowId + 1) % 6 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? 'upperborder' :''}">
+											styleClass="feereceiptMultiple #{(rowId + 1) % 5 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? 'upperborder' :''}">
 
 											<div class="row margin5_0">
 												<h5 class="pull-left">

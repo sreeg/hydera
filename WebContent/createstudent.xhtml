@@ -40,7 +40,7 @@
 				</ui:include>
 			</ui:insert>
 		</h:form>
-		<h:form id="createStudent">
+		<h:form id="createStudent" enctype="multipart/form-data">
 			<div id="page-wrapper">
 
 				<div class="container-fluid">
@@ -52,7 +52,7 @@
 							</h1>
 						</div>
 					</div>
-					<p:messages autoUpdate="true" />
+					<p:messages id="messages" autoUpdate="true" />
 					<ui:insert name="createstudentinfo">
 						<ui:include src="createstudentform.xhtml" />
 					</ui:insert>

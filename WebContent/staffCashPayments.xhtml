@@ -47,6 +47,38 @@
 .container-fluid, #page-wrapper {
 	padding: 0;
 }
+.panel-body, .panel-footer, .panel-heading {
+	padding: 5px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 5px;
+}
+
+body {
+	margin: 0mm !important;
+}
+
+h4 {
+	font-size: 1em;
+}
+
+h6 {
+	font-size: 0.7em;
+}
+
+p, td, th {
+	margin: 0;
+	font-size: 0.8em;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	padding: 1px;
+}
+.ui-datatable table{
+    width: auto;
+} 
 </style>
 </h:head>
 
@@ -136,14 +168,14 @@
 										<div class="pull-right marginRight20">Date : _____________</div>
 									</div>
 
-									<div class="row marginTop20">
+									<div class="row marginTop10">
 										<h3 class="centered">Total Cash Payments</h3>
 									</div>
-									<div class="row marginTop20">
+									<div class="row marginTop10">
 										<h5 class="centered">Cash Payments for the month #{paymentView.selectedmonth},
 											#{paymentView.selectedyear}</h5>
 									</div>
-									<div class="row marginTop20">
+									<div class="row marginTop10">
 										<div class="col-lg-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-offset-2 marginTop20">
 											<p:dataTable var="staff" value="#{paymentView.payslipCash}" sortBy="#{staff.modeofpayment}">
 												<p:column headerText="Staff Name">

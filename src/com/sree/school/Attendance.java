@@ -1,46 +1,55 @@
 package com.sree.school;
 
-public class Attendance extends Staff {
+public class Attendance extends Staff
+{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private int dayspresent;
-	private int daysinmonth;
-	private String month;
-	private String year;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  private double dayspresent;
+  private int daysinmonth;
+  private String month;
+  private String year;
 
-	public int getDayspresent() {
-		return dayspresent;
-	}
+  public int getDaysinmonth()
+  {
+    return daysinmonth;
+  }
 
-	public void setDayspresent(int dayspresent) {
-		this.dayspresent = dayspresent;
-	}
+  public double getDayspresent()
+  {
+    return dayspresent;
+  }
 
-	public String getMonth() {
-		return month;
-	}
+  public String getMonth()
+  {
+    return month;
+  }
 
-	public void setMonth(String month) {
-		this.month = month;
-	}
+  public String getYear()
+  {
+    return year;
+  }
 
-	public String getYear() {
-		return year;
-	}
+  public void setDaysinmonth(int daysinmonth)
+  {
+    this.daysinmonth = daysinmonth;
+  }
 
-	public void setYear(String year) {
-		this.year = year;
-	}
+  public void setDayspresent(double dayspresent)
+  {
+    this.dayspresent = dayspresent;
+  }
 
-	public int getDaysinmonth() {
-		return daysinmonth;
-	}
+  public void setMonth(String month)
+  {
+    this.month = month;
+  }
 
-	public void setDaysinmonth(int daysinmonth) {
-		this.daysinmonth = daysinmonth;
-	}
+  public void setYear(String year)
+  {
+    this.year = year;
+  }
 
 }

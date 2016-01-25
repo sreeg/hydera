@@ -46,9 +46,6 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-9">
-							<c:if test="#{param['reportId'] == '4'}">
-								<ui:include src="staffByCategory.xhtml" />
-							</c:if>
 							<c:if test="#{param['reportId'] == '1'}">
 								<ui:include src="showallstudents.xhtml" />
 							</c:if>
@@ -58,6 +55,9 @@
 							<c:if test="#{param['reportId'] == '3'}">
 								<ui:include src="studentsByParentOccupation.xhtml" />
 							</c:if>
+							<c:if test="#{param['reportId'] == '4'}">
+								<ui:include src="staffByCategory.xhtml" />
+							</c:if>							
 							<c:if test="#{param['reportId'] == '5'}">
 								<ui:include src="studentsByMotherOccupation.xhtml" />
 							</c:if>							

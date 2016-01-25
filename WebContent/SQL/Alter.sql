@@ -1,3 +1,6 @@
+ALTER TABLE `school`.`attendance` 
+CHANGE COLUMN `dayspresent` `dayspresent` DOUBLE NULL DEFAULT NULL COMMENT '' ;
+
 
 ALTER TABLE `school`.`student` 
 ADD COLUMN `admissionid` VARCHAR(200) NULL COMMENT '' AFTER `mothermobile`;

@@ -202,7 +202,7 @@
 											</div>
 										</div>
 									</p:outputPanel>
-								</div>								
+								</div>
 							</div>
 						</p:tab>
 						<p:tab id="tab2" title="Fee Amount Details">
@@ -269,16 +269,17 @@
 									</div>
 								</div>
 							</p:panel>
-						</p:tab> 
+						</p:tab>
 						<p:tab id="tab3" title="Promotions">
 							<p:growl id="promotionmessages" showDetail="true" />
 							<ui:include src="promotions.xhtml" />
 
 						</p:tab>
 						<p:tab id="tab4" title="Other">
+							<p:growl id="messagesOther" showDetail="true" />
 							<div class="row">
 								<p:outputPanel rendered="#{!systemSettingsBean.disableemail}">
-									<div class="col-lg-6">
+									<div class="col-lg-3">
 										<p:panel>
 											<f:facet name="header">
 												<div class="pull-left">
@@ -291,26 +292,26 @@
 												</div>
 											</f:facet>
 											<div class="row">
-												<div class="col-lg-6">
+												<div class="col-lg-12">
 													<div class="form-group">
 														<h:outputText value="Email Hostname *" />
-														<p:inputText placeholder="smtp.gmail.com" styleClass="form-control" value="#{systemSettingsBean.systemSettings.emailhostname}"
-															required="true" label="Email" />
+														<p:inputText placeholder="smtp.gmail.com" styleClass="form-control"
+															value="#{systemSettingsBean.systemSettings.emailhostname}" required="true" label="Email" />
 													</div>
 													<div class="form-group">
 														<h:outputText value="SMTP Port *" />
-														<p:inputText placeholder="465" styleClass="form-control" value="#{systemSettingsBean.systemSettings.smtpport}"
-															required="true" label="Email" />
+														<p:inputText placeholder="465" styleClass="form-control"
+															value="#{systemSettingsBean.systemSettings.smtpport}" required="true" label="Email" />
 													</div>
 													<div class="form-group">
 														<h:outputText value="Email *" />
-														<p:inputText placeholder="someone@gmail.com" styleClass="form-control" value="#{systemSettingsBean.systemSettings.email}" required="true"
-															label="Email" />
+														<p:inputText placeholder="someone@gmail.com" styleClass="form-control"
+															value="#{systemSettingsBean.systemSettings.email}" required="true" label="Email" />
 													</div>
 													<div class="form-group">
 														<h:outputText value="Password *" />
-														<p:password placeholder="your password" styleClass="form-control" value="#{systemSettingsBean.systemSettings.password}"
-															required="true" redisplay="true" label="Password" />
+														<p:password placeholder="your password" styleClass="form-control"
+															value="#{systemSettingsBean.systemSettings.password}" required="true" redisplay="true" label="Password" />
 													</div>
 												</div>
 											</div>
@@ -332,6 +333,18 @@
 
 													<p:inputSwitch offLabel="No" onLabel="Yes" styleClass=""
 														value="#{systemSettingsBean.systemSettings.showwidget2}" />
+												</div>
+											</div>
+										</div>
+									</p:panel>
+								</div>
+								<div class="col-lg-6">
+									<p:panel header="Upload Images to server">
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="form-group">
+													<p:fileUpload mode="advanced" value="#{fileUploadBean.file}" label="Select student pictures" multiple="true" fileLimit="100" fileUploadListener="#{fileUploadBean.handleFileUpload}" update="messagesOther"
+														dragDropSupport="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" />
 												</div>
 											</div>
 										</div>

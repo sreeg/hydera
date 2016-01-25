@@ -38,14 +38,20 @@ public class SystemSettingsBean implements Serializable
   public static boolean reports;
   public static StreamedContent logo;
 
+  public static ArrayList<StreamedContent> picsList;
+
   private String currentPassword;
+
   private String newPassword1;
+
   private String newPassword2;
   private String designationItem;
+
   private String sectionNameItem;
   private String designationItemStaff;
 
   private String staffCategoryItem;
+
   private String bankNameItem;
 
   public SystemSettings systemSettings = new SystemSettings();
@@ -234,6 +240,11 @@ public class SystemSettingsBean implements Serializable
   public String getNewPassword2()
   {
     return newPassword2;
+  }
+
+  public ArrayList<StreamedContent> getPicsList()
+  {
+    return picsList;
   }
 
   public String getSchoolname()
@@ -507,6 +518,11 @@ public class SystemSettingsBean implements Serializable
   public void setPeoplemanagement(boolean peoplemanagement)
   {
     SystemSettingsBean.peoplemanagement = peoplemanagement;
+  }
+
+  public void setPicsList(ArrayList<StreamedContent> picsList)
+  {
+    SystemSettingsBean.picsList = picsList;
   }
 
   public void setReports(boolean reports)

@@ -56,372 +56,243 @@
 						<li role="presentation" class="inactive"><a href="staffSalaryInfo.xhtml">Staff Salary Details</a></li>
 					</ul>
 
-					<p:tabView styleClass="marginTop20">
-						<p:tab title="All Staff">
-							<div class="row">
 
-								<div class="col-lg-12">
-									<pe:masterDetail id="masterDetail" selectLevelListener="#{selectLevelListener.handleNavigation}"
-										showAllBreadcrumbItems="true">
-										<pe:masterDetailLevel level="1">
-											<f:facet name="label">
-												<h:outputFormat value="All Staff">
+					<div class="row marginTop20">
 
-												</h:outputFormat>
-											</f:facet>
-											<p:dataTable id="allStaffs" var="st" value="#{staffFilterView.staffs}" widgetVar="staffsTable"
-												emptyMessage="No staff found with given criteria" filteredValue="#{staffFilterView.filteredStaffs}"
-												rows="20" paginator="true" paginatorPosition="bottom" selectionMode="single"
-												selection="#{staffFilterView.selectedStaff}" rowKey="#{st.id}"
-												paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-												rowsPerPageTemplate="20,25,50">
-												<p:ajax event="rowSelect" update=":form:staffDialogHeader" oncomplete="PF('staffDialog').show()" />
-												<f:facet name="header">
-													<p:outputPanel>
-														<div class="form-group marginTop20">
-															<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('staffsTable').filter()"
-																placeholder="To search enter a keyword" />
-														</div>
-													</p:outputPanel>
-												</f:facet>
+						<div class="col-lg-12">
+							<pe:masterDetail id="masterDetail" selectLevelListener="#{selectLevelListener.handleNavigation}"
+								showAllBreadcrumbItems="true">
+								<pe:masterDetailLevel level="1">
+									<f:facet name="label">
+										<h:outputFormat value="All Staff">
 
-												<p:column filterStyle="display:none" sortBy="#{st.fullname}" filterBy="#{st.fullname}" headerText="Name">
-													<h:outputText value="#{st.fullname}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" sortBy="#{st.designation}" filterBy="#{st.designation}"
-													headerText="Designation">
-													<h:outputText value="#{st.designation}" />
-												</p:column>
-
-												<p:column headerText="Gender">
-													<h:outputText value="#{st.sex}" />
-												</p:column>
-
-												<p:column headerText="Category" sortBy="#{st.categoryName}">
-													<h:outputText value="#{st.categoryName}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone Number">
-													<h:outputText value="#{st.phone}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{st.mobile}" headerText="Mobile Number">
-													<h:outputText value="#{st.mobile}" />
-												</p:column>
-												
-												<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
-													<h:outputText value="#{st.doj}" />
-												</p:column>
-
-												<p:column filterStyle="display:none;" filterBy="#{st.joiningsalary}" headerText="Joining Salary">
-													<h:outputText style="float:right" value="&#8377; #{st.joiningsalary}" />
-												</p:column>
-
-												<p:column style="width:60px">
-													<p:commandButton id="iconOnly" icon="fa fa-pencil-square-o" title="Icon Only">
-														<pe:selectDetailLevel contextValue="#{st}" />
-													</p:commandButton>
-												</p:column>
-
-											</p:dataTable>
-										</pe:masterDetailLevel>
-										<pe:masterDetailLevel level="2" contextVar="staff" levelLabel="Edit Staff details">
-
-											<div class="row">
-												<div class="col-lg-6">
-													<p:panel header="Personal Details">
-														<div class="row">
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Firstname *" />
-																	<p:inputText styleClass="form-control" value="#{staff.firstname}" required="true" label="Firstname" />
-																</div>
-															</div>
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Lastname:" />
-																	<p:inputText styleClass="form-control" value="#{staff.lastname}" label="Lastname" />
-																</div>
-															</div>
-														</div>
-
-														<div class="row">
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Date of birth " />
-																	<p:calendar styleClass="date" id="mask" value="#{staff.dob}" pattern="dd-MM-yyyy" mask="true" />
-																</div>
-															</div>
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Gender *" styleClass="displayBlock" />
-																	<p:selectOneButton styleClass="displayBlock" value="#{staff.sex}" required="true" label="Gender">
-																		<f:selectItems value="#{staff.gender}" />
-																	</p:selectOneButton>
-																</div>
-															</div>
-														</div>
-
-														<div class="row">
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Spouse Name" />
-																	<p:inputText styleClass="form-control" value="#{staff.spouseName}" label="Spousename" />
-																</div>
-															</div>
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Spouse Occupation: " />
-																	<p:inputText styleClass="form-control" value="#{staff.spouseOccupation}" label="Spouseoccupation" />
-																</div>
-															</div>
-														</div>
-
-														<div class="row">
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Joining Salary" />
-
-																	<pe:inputNumber styleClass="form-controlpe" value="#{staff.joiningsalary}" symbol="&#8377; ">
-																	</pe:inputNumber>
-																</div>
-															</div>
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Date of Joining " />
-																	<p:calendar styleClass="date" id="maskdoj" value="#{staff.doj}" pattern="dd-MM-yyyy" mask="true" />
-																</div>
-															</div>
-														</div>
-
-														<div class="row">
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Category Name *" />
-																	<h:selectOneMenu styleClass="form-control" required="true" label="Category" id="class"
-																		value="#{staff.categoryid}">
-																		<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
-																		<f:selectItems value="#{staff.category}" />
-																	</h:selectOneMenu>
-																</div>
-															</div>
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Designation " />
-																	<h:selectOneMenu styleClass="form-control" value="#{staff.designation}" label="Designation">
-																		<f:selectItem itemLabel="Select Designation" itemValue="" noSelectionOption="true" />
-																		<f:selectItems value="#{systemSettingsBean.systemSettings.designationsListStaff}" />
-																	</h:selectOneMenu>
-																</div>
-															</div>
-														</div>
-
-													</p:panel>
+										</h:outputFormat>
+									</f:facet>
+									<p:dataTable id="allStaffs" var="st" value="#{staffFilterView.staffs}" widgetVar="staffsTable"
+										emptyMessage="No staff found with given criteria" filteredValue="#{staffFilterView.filteredStaffs}" rows="20"
+										paginator="true" paginatorPosition="bottom" selectionMode="single"
+										selection="#{staffFilterView.selectedStaff}" rowKey="#{st.id}"
+										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+										rowsPerPageTemplate="20,25,50">
+										<p:ajax event="rowSelect" update=":form:staffDialogHeader" oncomplete="PF('staffDialog').show()" />
+										<f:facet name="header">
+											<p:outputPanel>
+												<div class="form-group marginTop20">
+													<p:inputText styleClass="form-control" id="globalFilter" onkeyup="PF('staffsTable').filter()"
+														placeholder="To search enter a keyword" />
 												</div>
-												<div class="col-lg-6">
-													<p:panel header="Address Details" widgetVar="addressdetails">
+											</p:outputPanel>
+										</f:facet>
 
-														<div class="form-group">
-															<h:outputText value="House No " />
-															<p:inputText styleClass="form-control" value="#{staff.houseno}" />
-														</div>
-														<div class="form-group">
-															<h:outputText value="Street " />
-															<p:inputText styleClass="form-control" value="#{staff.street}" />
-														</div>
+										<p:column filterStyle="display:none" sortBy="#{st.fullname}" filterBy="#{st.fullname}" headerText="Name">
+											<h:outputText value="#{st.fullname}" />
+										</p:column>
 
-														<div class="row">
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="City " />
-																	<p:inputText styleClass="form-control" value="#{staff.city}" />
-																</div>
-															</div>
-															<div class="col-lg-6">
-																<div class="form-group">
-																	<h:outputText value="Postal Code " />
-																	<p:inputText styleClass="form-control" value="#{staff.postalCode}" />
-																</div>
-															</div>
-														</div>
-														<div class="form-group">
-															<h:outputText value="Email " />
-															<p:inputText styleClass="form-control" value="#{staff.email}" label="Email" />
-														</div>
-														<div class="form-group">
-															<h:outputText value="Phone " />
-															<p:inputText styleClass="form-control" value="#{staff.phone}" />
-														</div>
-														<div class="form-group">
-															<h:outputText value="Mobile " />
-															<p:inputText styleClass="form-control" value="#{staff.mobile}" />
-														</div>
+										<p:column filterStyle="display:none" sortBy="#{st.designation}" filterBy="#{st.designation}"
+											headerText="Designation">
+											<h:outputText value="#{st.designation}" />
+										</p:column>
 
-													</p:panel>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-8">
-													<div class="form-group">
-														<p:commandButton value="Update" styleClass="btn btn-primary marginRight20" process="masterDetail"
-															action="#{staffFilterView.saveSuccess(staff)}" style="margin-top:10px;" icon="fa fa-pencil-square-o">
-															<pe:selectDetailLevel level="1" />
-														</p:commandButton>
-														<p:commandButton type="button" value="Delete" styleClass="btn btn-danger " icon="fa fa-times"
-															onclick="PF('deletedDlg').show()" style="margin-top:10px;" />
+										<p:column headerText="Gender">
+											<h:outputText value="#{st.sex}" />
+										</p:column>
+
+										<p:column headerText="Category" sortBy="#{st.categoryName}">
+											<h:outputText value="#{st.categoryName}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone Number">
+											<h:outputText value="#{st.phone}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{st.mobile}" headerText="Mobile Number">
+											<h:outputText value="#{st.mobile}" />
+										</p:column>
+
+										<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
+											<h:outputText styleClass="pull-right" value="#{st.doj}">
+												<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+											</h:outputText>
+										</p:column>
+
+										<p:column filterStyle="display:none;" filterBy="#{st.dob}" headerText="Date of birth">
+											<h:outputText styleClass="pull-right" value="#{st.dob}">
+												<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+											</h:outputText>
+										</p:column>
+
+										<p:column style="width:60px">
+											<p:commandButton id="iconOnly" icon="fa fa-pencil-square-o" title="Icon Only">
+												<pe:selectDetailLevel contextValue="#{st}" />
+											</p:commandButton>
+										</p:column>
+
+									</p:dataTable>
+								</pe:masterDetailLevel>
+								<pe:masterDetailLevel level="2" contextVar="staff" levelLabel="Edit Staff details">
+
+									<div class="row">
+										<div class="col-lg-6">
+											<p:panel header="Personal Details">
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Firstname *" />
+															<p:inputText styleClass="form-control" value="#{staff.firstname}" required="true" label="Firstname" />
+														</div>
+													</div>
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Lastname:" />
+															<p:inputText styleClass="form-control" value="#{staff.lastname}" label="Lastname" />
+														</div>
 													</div>
 												</div>
-											</div>
-											<p:dialog header="Delete confirmation" widgetVar="deletedDlg" modal="true" appendToBody="true"
-												resizable="false">
-												<h:panelGroup layout="block" style="padding:5px;">
-													<h:outputText value="Are you sure you want to delete this person?" />
-												</h:panelGroup>
-												<p:commandButton id="deleteBtn" value="Delete" styleClass="btn btn-danger marginRight20"
-													action="#{staffFilterView.delete(staff)}" process="@this" style="margin-top:10px;">
+
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Date of birth " />
+															<p:calendar styleClass="date" id="mask" value="#{staff.dob}" pattern="dd-MM-yyyy" mask="true" />
+														</div>
+													</div>
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Gender *" styleClass="displayBlock" />
+															<p:selectOneButton styleClass="displayBlock" value="#{staff.sex}" required="true" label="Gender">
+																<f:selectItems value="#{staff.gender}" />
+															</p:selectOneButton>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Spouse Name" />
+															<p:inputText styleClass="form-control" value="#{staff.spouseName}" label="Spousename" />
+														</div>
+													</div>
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Spouse Occupation: " />
+															<p:inputText styleClass="form-control" value="#{staff.spouseOccupation}" label="Spouseoccupation" />
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Joining Salary" />
+
+															<pe:inputNumber styleClass="form-controlpe" value="#{staff.joiningsalary}" symbol="&#8377; ">
+															</pe:inputNumber>
+														</div>
+													</div>
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Date of Joining " />
+															<p:calendar styleClass="date" id="maskdoj" value="#{staff.doj}" pattern="dd-MM-yyyy" mask="true" />
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Category Name *" />
+															<h:selectOneMenu styleClass="form-control" required="true" label="Category" id="class"
+																value="#{staff.categoryid}">
+																<f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true" />
+																<f:selectItems value="#{staff.category}" />
+															</h:selectOneMenu>
+														</div>
+													</div>
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Designation " />
+															<h:selectOneMenu styleClass="form-control" value="#{staff.designation}" label="Designation">
+																<f:selectItem itemLabel="Select Designation" itemValue="" noSelectionOption="true" />
+																<f:selectItems value="#{systemSettingsBean.systemSettings.designationsListStaff}" />
+															</h:selectOneMenu>
+														</div>
+													</div>
+												</div>
+
+											</p:panel>
+										</div>
+										<div class="col-lg-6">
+											<p:panel header="Address Details" widgetVar="addressdetails">
+
+												<div class="form-group">
+													<h:outputText value="House No " />
+													<p:inputText styleClass="form-control" value="#{staff.houseno}" />
+												</div>
+												<div class="form-group">
+													<h:outputText value="Street " />
+													<p:inputText styleClass="form-control" value="#{staff.street}" />
+												</div>
+
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="City " />
+															<p:inputText styleClass="form-control" value="#{staff.city}" />
+														</div>
+													</div>
+													<div class="col-lg-6">
+														<div class="form-group">
+															<h:outputText value="Postal Code " />
+															<p:inputText styleClass="form-control" value="#{staff.postalCode}" />
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<h:outputText value="Email " />
+													<p:inputText styleClass="form-control" value="#{staff.email}" label="Email" />
+												</div>
+												<div class="form-group">
+													<h:outputText value="Phone " />
+													<p:inputText styleClass="form-control" value="#{staff.phone}" />
+												</div>
+												<div class="form-group">
+													<h:outputText value="Mobile " />
+													<p:inputText styleClass="form-control" value="#{staff.mobile}" />
+												</div>
+
+											</p:panel>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-8">
+											<div class="form-group">
+												<p:commandButton value="Update" styleClass="btn btn-primary marginRight20" process="masterDetail"
+													action="#{staffFilterView.saveSuccess(staff)}" style="margin-top:10px;" icon="fa fa-pencil-square-o">
 													<pe:selectDetailLevel level="1" />
 												</p:commandButton>
-												<p:commandButton value="Cancel" type="button" styleClass="btn btn-primary"
-													onclick="PF('deletedDlg').hide();" style="margin-top:10px;" />
-											</p:dialog>
-										</pe:masterDetailLevel>
-									</pe:masterDetail>
-								</div>
-							</div>
-						</p:tab>
-						<p:tab title="Staff by category">
-							<div class="row">
-
-								<div class="col-lg-12">
-
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<strong>Permanent Staff</strong>
-										</div>
-										<div class="panel-body">
-											<p:dataTable id="permenantStaffss" var="stP" value="#{staffFilterView.staffsPermenant}"
-												widgetVar="staffsTableP" emptyMessage="No staff found with given criteria">
-
-
-												<p:column filterStyle="display:none" sortBy="#{stP.firstname}" filterBy="#{stP.firstname}" headerText="Name">
-													<h:outputText value="#{stP.firstname} #{stP.lastname}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" sortBy="#{stP.designation}" filterBy="#{stP.designation}"
-													headerText="Designation">
-													<h:outputText value="#{stP.designation}" />
-												</p:column>
-
-												<p:column headerText="Gender">
-													<h:outputText value="#{stP.sex}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{stP.phone}" headerText="Phone Number">
-													<h:outputText value="#{stP.phone}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{stP.doj}" headerText="Date of joining">
-													<h:outputText value="#{stP.doj}" />
-												</p:column>
-
-												<p:column filterStyle="display:none;" filterBy="#{stP.joiningsalary}" headerText="Joining Salary">
-													<h:outputText style="float:right" value="&#8377; #{stP.joiningsalary}" />
-												</p:column>
-
-											</p:dataTable>
+												<p:commandButton type="button" value="Delete" styleClass="btn btn-danger " icon="fa fa-times"
+													onclick="PF('deletedDlg').show()" style="margin-top:10px;" />
+											</div>
 										</div>
 									</div>
+									<p:dialog header="Delete confirmation" widgetVar="deletedDlg" modal="true" appendToBody="true"
+										resizable="false">
+										<h:panelGroup layout="block" style="padding:5px;">
+											<h:outputText value="Are you sure you want to delete this person?" />
+										</h:panelGroup>
+										<p:commandButton id="deleteBtn" value="Delete" styleClass="btn btn-danger marginRight20"
+											action="#{staffFilterView.delete(staff)}" process="@this" style="margin-top:10px;">
+											<pe:selectDetailLevel level="1" />
+										</p:commandButton>
+										<p:commandButton value="Cancel" type="button" styleClass="btn btn-primary" onclick="PF('deletedDlg').hide();"
+											style="margin-top:10px;" />
+									</p:dialog>
+								</pe:masterDetailLevel>
+							</pe:masterDetail>
+						</div>
+					</div>
 
-
-
-								</div>
-							</div>
-
-							<div class="row">
-
-								<div class="col-lg-12">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<strong>Part time Staff</strong>
-										</div>
-										<div class="panel-body">
-											<p:dataTable id="temporaryStaffss" var="st" value="#{staffFilterView.staffsTemporary}"
-												widgetVar="staffsTableT" emptyMessage="No staff found with given criteria">
-
-												<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
-													<h:outputText value="#{st.firstname} #{st.lastname}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" sortBy="#{st.designation}" filterBy="#{st.designation}"
-													headerText="Designation">
-													<h:outputText value="#{st.designation}" />
-												</p:column>
-
-												<p:column headerText="Gender">
-													<h:outputText value="#{st.sex}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{st.phone}" headerText="Phone Number">
-													<h:outputText value="#{st.phone}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{st.doj}" headerText="Date of joining">
-													<h:outputText value="#{st.doj}" />
-												</p:column>
-
-												<p:column filterStyle="display:none;" filterBy="#{st.joiningsalary}" headerText="Joining Salary">
-													<h:outputText style="float:right" value="&#8377; #{st.joiningsalary}" />
-												</p:column>
-
-											</p:dataTable>
-
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<strong>Domestic Staff</strong>
-										</div>
-										<div class="panel-body">
-											<p:dataTable id="domesticStaffss" var="stD" value="#{staffFilterView.staffsDomestic}"
-												widgetVar="staffsTableD" emptyMessage="No staff found with given criteria">
-
-												<p:column filterStyle="display:none" sortBy="#{stD.firstname}" filterBy="#{stD.firstname}" headerText="Name">
-													<h:outputText value="#{stD.firstname} #{stD.lastname}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" sortBy="#{stD.designation}" filterBy="#{stD.designation}"
-													headerText="Designation">
-													<h:outputText value="#{stD.designation}" />
-												</p:column>
-
-												<p:column headerText="Gender">
-													<h:outputText value="#{stD.sex}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{stD.phone}" headerText="Phone Number">
-													<h:outputText value="#{stD.phone}" />
-												</p:column>
-
-												<p:column filterStyle="display:none" filterBy="#{stD.doj}" headerText="Date of joining">
-													<h:outputText value="#{stD.doj}" />
-												</p:column>
-
-												<p:column filterStyle="display:none;" filterBy="#{stD.joiningsalary}" headerText="Joining Salary">
-													<h:outputText style="float:right" value="&#8377; #{stD.joiningsalary}" />
-												</p:column>
-											</p:dataTable>
-										</div>
-									</div>
-								</div>
-							</div>
-						</p:tab>
-					</p:tabView>
 					<!-- /.row -->
 				</div>
 				<!-- /.container-fluid -->

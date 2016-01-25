@@ -12,7 +12,8 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Admission Id *" />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.admissionid}" required="true" label="Admission Id" />
+									<p:inputText styleClass="form-control admissionIdField" value="#{studentBean.student.admissionid}" required="true"
+										label="Admission Id" />
 								</div>
 							</div>
 						</div>
@@ -20,8 +21,8 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Class Name *" />
-									<p:selectOneMenu styleClass="form-control" id="class" style="width:100%" value="#{studentBean.student.classname}"
-										label="Class Name" required="true">
+									<p:selectOneMenu styleClass="form-control" id="class" style="width:100%"
+										value="#{studentBean.student.classname}" label="Class Name" required="true">
 										<f:selectItem itemLabel="Select Class" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{studentBean.student.classes}" />
 									</p:selectOneMenu>
@@ -30,8 +31,8 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="Section Name *" />
-									<p:selectOneMenu styleClass="form-control" id="section" style="width:100%" value="#{studentBean.student.sectionname}"
-										label="Section Name" required="true">
+									<p:selectOneMenu styleClass="form-control" id="section" style="width:100%"
+										value="#{studentBean.student.sectionname}" label="Section Name" required="true">
 										<f:selectItem itemLabel="Select Section" itemValue="" noSelectionOption="true" />
 										<f:selectItems value="#{systemSettingsBean.systemSettings.sectionList}" />
 									</p:selectOneMenu>
@@ -186,12 +187,12 @@
 							<p:inputText styleClass="form-control" value="#{studentBean.student.mothermobile}" />
 						</div>
 					</p:panel>
+
 				</div>
 			</div>
 
 			<!-- /.row -->
 			<div class="marginTop20">
-
 				<p:commandButton styleClass="btn btn-primary btn-lg btn-block" value="Create" actionListener="#{studentBean.save}"
 					validateClient="true" update="@form" />
 			</div>

@@ -36,6 +36,10 @@
 }
 </style>
 	<style type="text/css" media="print">
+	
+	.ui-datatable table { page-break-inside:auto }
+   .ui-datatable table tr.pageBreak, .pageBreak    { page-break-inside:avoid; page-break-after:auto }
+
 @page {
 	size: portrait;
 }
@@ -47,6 +51,39 @@
 .container-fluid, #page-wrapper {
 	padding: 0;
 }
+.panel-body, .panel-footer, .panel-heading {
+	padding: 5px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 5px;
+}
+
+body {
+	margin: 0mm !important;
+}
+
+h4 {
+	font-size: 1em;
+}
+
+h6 {
+	font-size: 0.7em;
+}
+
+p, td, th {
+	margin: 0;
+	font-size: 0.8em;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	padding: 1px;
+}
+
+.ui-datatable table{
+    width: auto;
+}    
 </style>
 </h:head>
 
@@ -136,7 +173,7 @@
 										<div class="pull-right marginRight20">Date : _____________</div>
 									</div>
 
-									<div class="row marginTop20 marginLeft20">
+									<div class="row marginTop10 marginLeft20">
 										<div class="col-lg-12">
 											<div>
 												<p:inplace editor="true">
@@ -170,7 +207,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="row marginTop20 marginLeft20">
+									<div class="row marginTop10 marginLeft20">
 										<div class="col-lg-12">
 											<p:inplace editor="true">
 												<p:inputText value="Dear Sir," />
@@ -178,7 +215,7 @@
 										</div>
 									</div>
 
-									<div class="row marginTop20 marginLeft20">
+									<div class="row marginTop10 marginLeft20">
 										<div class="col-lg-12 centered">
 											<p:inplace editor="true">
 												<p:inputText value="Sub: Deposit of payments" />
@@ -186,16 +223,17 @@
 										</div>
 									</div>
 
-									<div class="row marginTop20 marginLeft20">
+									<div class="row marginTop10 marginLeft20">
 										<div class="col-lg-12">
 											<p:inplace editor="true">
 												<p:inputText value="Please credit the amounts to the respective S.B A/c's as indicated below:" />
 											</p:inplace>
 										</div>
 									</div>
-									<div class="row marginTop20 marginLeft20">
+									<div class="row marginTop10 marginLeft20">
 										<div class="col-lg-12 marginTop20">
-											<p:dataTable var="staff" value="#{paymentView.payslipOnline}" sortBy="#{staff.modeofpayment}">
+											<p:dataTable rowIndexVar="rowId" var="staff" value="#{paymentView.payslipOnline}" sortBy="#{staff.modeofpayment}" 
+											rowStyleClass="#{(rowId + 1) % 3 == 0 ? 'pageBreak' : ''}">
 												<p:column headerText="Staff Name">
 													<h:outputText value="#{staff.employeename}" />
 												</p:column>
@@ -221,7 +259,7 @@
 										</div>
 									</div>
 
-									<div class="marginTop20 marginLeft20 row">
+									<div class="marginTop10 marginLeft20 row">
 										<div class="col-lg-12">
 											<p:inplace editor="true">
 												<p:inputText value="Thank you," />
@@ -245,7 +283,7 @@
 											</p:inplace>
 										</div>
 									</div>
-									<div class="marginTop20 marginLeft20 row">
+									<div class="marginTop10 marginLeft20 row">
 										<div class="col-lg-12">
 											<p:inplace editor="true">
 												<p:inputText value="Note: The amounts to be credited on the first working day of the month." />

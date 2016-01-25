@@ -199,7 +199,7 @@ public class PaySlipView implements Serializable
               + "staff.firstname, staff.lastname,staff.categoryid,staff.designation,staff.DateOfJoining,staff.isarchived,"
               + "pfamount, loanamount, attendance.dayspresent, attendance.daysinmonth from salary "
               + "LEFT JOIN attendance ON salary.employeeid=attendance.staffid and attendance.year=" + "'" + getSelectedyear() + "'" + " and attendance.month = " + "'"
-              + getSelectedmonth() + "'" + "LEFT JOIN staff ON salary.employeeid=staff.Id order by staff.categoryid");
+              + getSelectedmonth() + "'" + "LEFT JOIN staff ON salary.employeeid=staff.Id order by staff.firstname");
 
       totalBasicSalary = 0;
       totalFixedDA = 0;
@@ -223,6 +223,11 @@ public class PaySlipView implements Serializable
       payslipWithoutPFDomestic = new ArrayList<>();
       payslipWithoutPFPartTime = new ArrayList<>();
 
+      int pfpindex = 1;
+      int pfdindex = 1;
+      int nonpfpindex = 1;
+      int nonpfdindex = 1;
+      int nonpftindex = 1;
       while (rs.next())
       {
         if (rs.getBoolean("staff.isarchived"))
@@ -246,14 +251,14 @@ public class PaySlipView implements Serializable
         ps.setPfamount(rs.getDouble("pfamount"));
         ps.setLoanamount(rs.getDouble("loanamount"));
         ps.setDaysinmonth(rs.getInt("daysinmonth"));
-        ps.setDayspresent(rs.getInt("dayspresent"));
+        ps.setDayspresent(rs.getDouble("dayspresent"));
         ps.setMonth(getSelectedmonth());
         ps.setYear(getSelectedyear());
         ps.setDesignation(rs.getString("designation"));
         ps.setDoj(rs.getDate("DateOfJoining"));
         ps.setIseligibleforpf(rs.getBoolean("iseligibleforpf"));
 
-        int dayspresent = ps.getDayspresent();
+        double dayspresent = ps.getDayspresent();
 
         if (rs.getString("dayspresent") == null)
         {
@@ -286,11 +291,15 @@ public class PaySlipView implements Serializable
           payslipPermenant.add(ps);
           if (ps.getIseligibleforpf())
           {
+            ps.setSlno(pfpindex);
             payslipWithPF.add(ps);
+            pfpindex++;
           }
           else
           {
+            ps.setSlno(nonpfpindex);
             payslipWithoutPF.add(ps);
+            nonpfpindex++;
           }
         }
         if (categoryID.equals("2"))
@@ -298,17 +307,23 @@ public class PaySlipView implements Serializable
           payslipDomestic.add(ps);
           if (ps.getIseligibleforpf())
           {
+            ps.setSlno(pfdindex);
             payslipWithPFDomestic.add(ps);
+            pfdindex++;
           }
           else
           {
+            ps.setSlno(nonpfdindex);
             payslipWithoutPFDomestic.add(ps);
+            nonpfdindex++;
           }
         }
         if (categoryID.equals("3"))
         {
+          ps.setSlno(nonpftindex);
           payslipTemporary.add(ps);
           payslipWithoutPFPartTime.add(ps);
+          nonpftindex++;
         }
 
       }
@@ -552,7 +567,7 @@ public class PaySlipView implements Serializable
         ps.setDouble(12, p.getLoanamount());
         ps.setString(13, getSelectedmonth());
         ps.setString(14, getSelectedyear());
-        ps.setInt(15, p.getDayspresent());
+        ps.setDouble(15, p.getDayspresent());
         ps.setInt(16, p.getDaysinmonth());
         ps.setBoolean(17, p.getIseligibleforpf());
         Calendar instance = Calendar.getInstance();

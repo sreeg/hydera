@@ -138,12 +138,12 @@ public class PaymentView implements Serializable
         ps.setPfamount(rs.getDouble("pfamount"));
         ps.setLoanamount(rs.getDouble("loanamount"));
         ps.setDaysinmonth(rs.getInt("daysinmonth"));
-        ps.setDayspresent(rs.getInt("dayspresent"));
+        ps.setDayspresent(rs.getDouble("dayspresent"));
         ps.setMonth(getSelectedmonth());
         ps.setYear(getSelectedyear());
         ps.setDesignation(rs.getString("designation"));
         ps.setDoj(rs.getDate("DateOfJoining"));
-        int dayspresent = ps.getDayspresent();
+        double dayspresent = ps.getDayspresent();
 
         if (dayspresent == 0)
         {

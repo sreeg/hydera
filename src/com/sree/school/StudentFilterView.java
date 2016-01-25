@@ -1001,7 +1001,7 @@ public class StudentFilterView implements Serializable
       conn = DBConnection.getConnection();
       PreparedStatement ps = conn.prepareStatement("UPDATE student set FirstName = ?, LastName = ?, Class = ?, " + "Section = ?, FatherName = ?, FatherOccupation = ?, "
           + "Phone = ?, DateOfBirth = ?, DateOfJoining = ?, " + "MotherName = ?, MotherOccupation = ?, Gender = ?, " + "GaurdianName = ?, Mobile = ?, Email = ?, "
-          + "ProfilePic = ?, houseno = ?, street = ?, " + "city = ?, postalcode = ?, " + "updatedatetime = now() where Id = ?");
+          + "ProfilePic = ?, houseno = ?, street = ?, " + "city = ?, postalcode = ?, mothermobile = ?, admissionid = ?, " + "updatedatetime = now() where Id = ?");
 
       ps.setString(1, student.getFirstname());
       ps.setString(2, student.getLastname());
@@ -1023,7 +1023,9 @@ public class StudentFilterView implements Serializable
       ps.setString(18, student.getStreet());
       ps.setString(19, student.getCity());
       ps.setString(20, student.getPostalCode());
-      ps.setString(21, student.getId());
+      ps.setString(21, student.getMothermobile());
+      ps.setString(22, student.getAdmissionid());
+      ps.setString(23, student.getId());
 
       int rs = ps.executeUpdate();
 
