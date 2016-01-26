@@ -173,14 +173,15 @@ p, td, th {
 						</div>
 					</div>
 
-					<p:dataTable rowIndexVar="rowId" id="subtable" styleClass="salProposals1 marginBottom20" var="team" value="#{payslipView.pfPayslips}">
+					<p:dataTable rowIndexVar="rowId" id="subtable" styleClass="salProposals1 marginBottom20" var="team"
+						value="#{payslipView.pfPayslips}">
 						<f:facet name="header">
 							<h4>Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}</h4>
 						</f:facet>
 
 						<p:columnGroup type="header">
 							<p:row>
-								<p:column headerText="Sl. No"  width="40" />
+								<p:column headerText="Sl. No" width="40" />
 								<p:column headerText="Name" />
 								<p:column headerText="Att" width="40" />
 								<p:column headerText="Basic" />
@@ -189,8 +190,8 @@ p, td, th {
 								<p:column headerText="Conveyance" />
 								<p:column headerText="Gross" />
 								<p:column headerText="PF Amt" />
-								<p:column headerText="Loan Amt" width="70"/>
-								<p:column headerText="Prof Tax" width="70"/>
+								<p:column headerText="Loan Amt" width="70" />
+								<p:column headerText="Prof Tax" width="70" />
 								<p:column headerText="Other Deductions" />
 								<p:column headerText="Total Deductions" />
 								<p:column headerText="Net Salary" />
@@ -204,7 +205,7 @@ p, td, th {
 							</f:facet>
 							<p:column>
 								<h:outputText value="#{stats.slno}" />
-							</p:column>							
+							</p:column>
 							<p:column>
 								<h:outputText value="#{stats.employeename}" />
 							</p:column>
@@ -275,17 +276,83 @@ p, td, th {
 							<p:columnGroup type="footer">
 								<p:row>
 									<p:column colspan="3" styleClass="alignRight" footerText="Totals" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalBasicSalary}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalFixedDA}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalHRA}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalConveyanceAll}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalGrossSalary}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalPFAmount}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalLoanAmount}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalProfTaxDeduction}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalOtherDeductions}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalDeductions}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalNetSalary}" />
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalBasicSalary}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalFixedDA}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalHRA}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalConveyanceAll}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalGrossSalary}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalPFAmount}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalLoanAmount}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalProfTaxDeduction}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalOtherDeductions}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalDeductions}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalNetSalary}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
 								</p:row>
 							</p:columnGroup>
 						</p:subTable>
@@ -298,7 +365,7 @@ p, td, th {
 
 						<p:columnGroup type="header">
 							<p:row>
-							<p:column headerText="Sl. No"  width="40" />
+								<p:column headerText="Sl. No" width="40" />
 								<p:column headerText="Name" />
 								<p:column headerText="Att" width="40" />
 								<p:column headerText="Basic" />
@@ -321,7 +388,7 @@ p, td, th {
 							</f:facet>
 							<p:column>
 								<h:outputText value="#{stats.slno}" />
-							</p:column>								
+							</p:column>
 							<p:column>
 								<h:outputText value="#{stats.employeename}" />
 							</p:column>
@@ -386,16 +453,76 @@ p, td, th {
 							<p:columnGroup type="footer">
 								<p:row>
 									<p:column colspan="3" styleClass="alignRight" footerText="Totals" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalBasicSalary}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalFixedDA}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalHRA}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalConveyanceAll}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalGrossSalary}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalLoanAmount}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalProfTaxDeduction}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalOtherDeductions}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalDeductions}" />
-									<p:column styleClass="alignRight" footerText="&#8377;#{team.totalNetSalary}" />
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalBasicSalary}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalFixedDA}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalHRA}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalConveyanceAll}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalGrossSalary}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalLoanAmount}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalProfTaxDeduction}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalOtherDeductions}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalDeductions}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalNetSalary}">
+												<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
 								</p:row>
 							</p:columnGroup>
 						</p:subTable>
