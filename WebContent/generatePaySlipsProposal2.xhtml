@@ -110,8 +110,15 @@ thead {
 tfoot {
 	display: table-footer-group
 }
+div.row, div.col-lg-1, div.col-lg-6 {
+	font-size: 0.8em !important;
+}
 </style>
-
+<style>
+div.row, div.col-lg-1, div.col-l6-6 {
+	font-size: 12px !important;
+}
+</style>
 </h:head>
 
 <body>
@@ -168,7 +175,7 @@ tfoot {
 										</div>
 										<div class="inlineBlock marginRight20">
 											<p:outputPanel id="buttonPanel" styleClass="centered">
-												<p:commandButton styleClass="marginRight20" value="Generate" update="buttonPanel,subtable"
+												<p:commandButton styleClass="marginRight20" value="Generate" update="buttonPanel"
 													disabled="#{payslipView.disableGenerateButton}" icon="fa fa-refresh" actionListener="#{payslipView.save}"
 													validateClient="true" />
 
@@ -178,8 +185,8 @@ tfoot {
 
 												<h:commandLink value="Print" styleClass="marginRight20" type="button" icon="ui-icon-print"
 													rendered="#{payslipView.showForm}">
-													
-													<pe:exporter type="pdf" target="subtable,subtable2" fileName="Salary Proposals" subTable="true" orientation="landscape" 
+
+													<pe:exporter type="pdf" target="subtable2" fileName="Salary Proposals" subTable="true"
 														tableTitle="Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
 												</h:commandLink>
 											</p:outputPanel>
@@ -198,144 +205,141 @@ tfoot {
 						</div>
 					</div>
 
-					<p:dataTable rowIndexVar="rowId" id="subtable" styleClass="salProposals1 marginBottom20" var="team" rowsPerPageTemplate="4"
-						value="#{payslipView.pfPayslips}">
-						<f:facet name="header">
-						<h:outputText styleClass="hidden-print" value="Chaitanya Vidyalaya, #1-2-594, Domalguda, Hyderabad - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com,    "/>
-							<h:outputText value="Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}"/>
-						</f:facet>
-		
-						<p:columnGroup type="header">
-							<p:row>
-								<p:column headerText="Sl. No" width="40" />
-								<p:column headerText="Name" />
-								<p:column headerText="Att" width="40" />
-								<p:column headerText="Basic" />
-								<p:column headerText="Fixed DA" />
-								<p:column headerText="HRA" />
-								<p:column headerText="Conveyance" />
-								<p:column headerText="Gross" />
-								<p:column headerText="PF Amt" />
-								<p:column headerText="Loan Amt" width="70" />
-								<p:column headerText="Prof Tax" width="70" />
-								<p:column headerText="Other Deductions" />
-								<p:column headerText="Total Deductions" />
-								<p:column headerText="Net Salary" />
+					<div class="row">
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<h:outputText styleClass="boldFont" value="Slno"></h:outputText>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<h:outputText styleClass="boldFont" value="Att"></h:outputText>
+							</div>
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Name"></h:outputText>
+						</div>
 
-							</p:row>
-						</p:columnGroup>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Basic"></h:outputText>
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Fixed DA"></h:outputText>
 
-						<p:subTable var="stats" value="#{team.payslips}">
-							<f:facet name="header">
-								<h:outputText value="#{team.name}" />
-							</f:facet>
-							<p:column>
-								<h:outputText value="#{stats.slno}" />
-							</p:column>
-							<p:column>
-								<h:outputText value="#{stats.employeename}" />
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="HRA"></h:outputText>
 
-							</p:column>
-							<p:column styleClass="alignRight">
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Conv."></h:outputText>
 
-								<h:outputText value="#{stats.dayspresent}" />
-							</p:column>
-							<p:column styleClass="alignRight">
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Gross"></h:outputText>
 
-								<h:outputText value="#{stats.basicsalary}">
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="PF Amt"></h:outputText>
+
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<h:outputText styleClass="boldFont" value="Loan Amt"></h:outputText>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<h:outputText styleClass="boldFont" value="Prof. Tax"></h:outputText>
+							</div>
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Oth. Ded."></h:outputText>
+						</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Total Ded."></h:outputText>
+						</div>						
+						<div class="col-lg-1 col-md-1 col-sm-1">
+							<h:outputText styleClass="boldFont" value="Net Salary"></h:outputText>
+						</div>
+					</div>
+					<ui:repeat var="o" value="#{payslipView.payslipWithPF}" varStatus="pv">
+
+						<div class="row">
+							<div class="col-lg-1 col-md-1 col-sm-1">
+
+								<div class="col-lg-6 col-md-6 col-sm-6">
+									<h:outputText value="#{pv.index +1}"></h:outputText>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6">
+									<h:outputText value="#{o.dayspresent}"></h:outputText>
+								</div>
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.employeename}"></h:outputText>
+							</div>
+
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.basicsalary}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.fixedda}">
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.fixedda}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.hra}">
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.hra}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.conveyanceall}">
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.conveyanceall}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.grosssalary}">
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.grosssalary}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.pfamount}">
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.pfamount}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.loanamount}">
-
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<div class="col-lg-6 col-md-6 col-sm-6">
+									<h:outputText value="#{o.loanamount}">
+										<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
+									</h:outputText>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6">
+									<h:outputText value="#{o.proftaxdeduction}">
+										<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
+									</h:outputText>
+								</div>
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.otherdeduction}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.proftaxdeduction}">
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText value="#{o.totaldeductions}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-							<p:column styleClass="alignRight">
-
-								<h:outputText value="#{stats.otherdeduction}">
+							</div>
+							<div class="col-lg-1 col-md-1 col-sm-1">
+								<h:outputText style="font-weight:600;" value="#{o.netsalary}">
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
-							</p:column>
-							<p:column styleClass="alignRight">
+							</div>
+						</div>
+					</ui:repeat>
 
-								<h:outputText value="#{stats.totaldeductions}">
-									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
-								</h:outputText>
-							</p:column>
-							<p:column styleClass="alignRight">
-
-								<h:outputText style="font-weight:600;" value="#{stats.netsalary}">
-									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
-								</h:outputText>
-							</p:column>
-							
-							<p:columnGroup type="footer">
-								<p:row>
-									<p:column colspan="3" styleClass="alignRight" footerText="Totals" />
-									<p:column styleClass="alignRight" footerText="#{team.totalBasicSalary}" />
-									<p:column styleClass="alignRight" footerText="#{team.totalFixedDA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalHRA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalConveyanceAll}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalGrossSalary}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalPFAmount}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalLoanAmount}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalProfTaxDeduction}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalOtherDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalNetSalary}"/>
-									
-								</p:row>
-							</p:columnGroup>
-						</p:subTable>
-					</p:dataTable>
 
 					<p:dataTable id="subtable2" styleClass="salProposals2" var="team" value="#{payslipView.nonpfPayslips}">
 						<f:facet name="header">
-							<h:outputText value="Salary Proposals(with out PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}"/>
+							<h:outputText
+								value="Salary Proposals(with out PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
 						</f:facet>
 
 						<p:columnGroup type="header">
@@ -443,17 +447,76 @@ tfoot {
 							<p:columnGroup type="footer">
 								<p:row>
 									<p:column colspan="3" styleClass="alignRight" footerText="Totals" />
-									<p:column styleClass="alignRight" footerText="#{team.totalBasicSalary}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalFixedDA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalHRA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalConveyanceAll}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalGrossSalary}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalLoanAmount}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalProfTaxDeduction}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalOtherDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalNetSalary}"/>
-									
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalBasicSalary}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalFixedDA}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalHRA}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalConveyanceAll}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalGrossSalary}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalLoanAmount}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalProfTaxDeduction}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalOtherDeductions}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalDeductions}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
+									<p:column styleClass="alignRight">
+										<f:facet name="footer">
+											<h:outputText style="font-weight:600;" value="#{team.totalNetSalary}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</f:facet>
+									</p:column>
 								</p:row>
 							</p:columnGroup>
 						</p:subTable>

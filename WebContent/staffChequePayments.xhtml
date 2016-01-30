@@ -218,7 +218,7 @@ p, td, th {
 
 												<p:column headerText="Payable Amount">
 													<h:outputText styleClass="pull-right" value="#{staff.netsalary}">
-														<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+														<f:convertNumber type="currency" locale="en_IN" />
 													</h:outputText>
 												</p:column>
 												<p:summaryRow>
@@ -227,7 +227,7 @@ p, td, th {
 													</p:column>
 													<p:column>
 														<h:outputText styleClass="pull-right" value="#{paymentView.payslipChequeTotal}">
-															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+															<f:convertNumber type="currency" locale="en_IN" />
 														</h:outputText>
 													</p:column>
 												</p:summaryRow>

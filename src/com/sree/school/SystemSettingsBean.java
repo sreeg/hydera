@@ -39,20 +39,17 @@ public class SystemSettingsBean implements Serializable
   public static StreamedContent logo;
 
   public static ArrayList<StreamedContent> picsList;
-
   private String currentPassword;
-
   private String newPassword1;
-
   private String newPassword2;
   private String designationItem;
-
   private String sectionNameItem;
   private String designationItemStaff;
 
   private String staffCategoryItem;
 
   private String bankNameItem;
+  private String cityNameItem;
 
   public SystemSettings systemSettings = new SystemSettings();
 
@@ -93,6 +90,39 @@ public class SystemSettingsBean implements Serializable
 
       systemSettings.getBanknamesList().add(this.bankNameItem);
       this.bankNameItem = "";
+      msg = new FacesMessage("Item Added");
+    }
+    else
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Name cannot be empty", "");
+    }
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    return null;
+  }
+
+  public String addCityNames()
+  {
+    Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    String type = params.get("type");
+    FacesMessage msg;
+    if (cityNameItem != null && !"".equals(cityNameItem))
+    {
+      try
+      {
+        conn = DBConnection.getConnection();
+        conn.createStatement().executeUpdate("INSERT INTO lists (name, type) VALUES( '" + cityNameItem + "', '" + type + "')");
+      }
+      catch (SQLException e)
+      {
+        e.printStackTrace();
+      }
+      catch (ClassNotFoundException e)
+      {
+        e.printStackTrace();
+      }
+
+      systemSettings.getCityList().add(this.cityNameItem);
+      this.cityNameItem = "";
       msg = new FacesMessage("Item Added");
     }
     else
@@ -212,6 +242,11 @@ public class SystemSettingsBean implements Serializable
     return bankNameItem;
   }
 
+  public String getCityNameItem()
+  {
+    return cityNameItem;
+  }
+
   public String getCurrentPassword()
   {
     return currentPassword;
@@ -291,6 +326,7 @@ public class SystemSettingsBean implements Serializable
     ArrayList<String> dS = new ArrayList<>();
     ArrayList<String> banks = new ArrayList<>();
     ArrayList<String> sections = new ArrayList<>();
+    ArrayList<String> cities = new ArrayList<>();
     rs = conn.createStatement().executeQuery("SELECT name,type,description from lists order by name");
     while (rs.next())
     {
@@ -304,11 +340,14 @@ public class SystemSettingsBean implements Serializable
         banks.add(list_name);
       else if ("section".equals(dType))
         sections.add(list_name);
+      else if ("city".equals(dType))
+        cities.add(list_name);
     }
     systemSettings.setDesignationsList(d);
     systemSettings.setDesignationsListStaff(dS);
     systemSettings.setBanknamesList(banks);
     systemSettings.setSectionList(sections);
+    systemSettings.setCityList(cities);
 
     ArrayList<FeeDetails> fd = new ArrayList<FeeDetails>();
     rs = conn.createStatement().executeQuery("SELECT classname, term1amount, term1amount, term2amount, term3amount, noofterms, termamount from feedetails order by row");
@@ -360,6 +399,27 @@ public class SystemSettingsBean implements Serializable
     return salarymanagement;
   }
 
+  public void onCancelCity(RowEditEvent event)
+  {
+    FacesMessage msg = new FacesMessage("Item Removed");
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    String object = (String) event.getObject();
+    systemSettings.getCityList().remove(object);
+    try
+    {
+      conn = DBConnection.getConnection();
+      conn.createStatement().executeUpdate("DELETE from lists where name = '" + object + "'");
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
   public void onCancelDesignation(RowEditEvent event)
   {
     FacesMessage msg = new FacesMessage("Item Removed");
@@ -407,7 +467,6 @@ public class SystemSettingsBean implements Serializable
     {
       e.printStackTrace();
     }
-
   }
 
   public void onEditDesignation(RowEditEvent event)
@@ -435,6 +494,11 @@ public class SystemSettingsBean implements Serializable
     }
     FacesMessage msg = new FacesMessage("Updated the record");
     FacesContext.getCurrentInstance().addMessage(null, msg);
+  }
+
+  public void onEditSection(RowEditEvent event)
+  {
+
   }
 
   public void save() throws ClassNotFoundException, SQLException
@@ -473,6 +537,11 @@ public class SystemSettingsBean implements Serializable
   public void setCharts(boolean charts)
   {
     SystemSettingsBean.charts = charts;
+  }
+
+  public void setCityNameItem(String cityNameItem)
+  {
+    this.cityNameItem = cityNameItem;
   }
 
   public void setCurrentPassword(String currentPassword)

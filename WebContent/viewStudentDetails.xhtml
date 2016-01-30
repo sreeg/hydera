@@ -324,7 +324,11 @@
 															<div class="col-lg-6">
 																<div class="form-group">
 																	<h:outputText value="City " />
-																	<p:inputText styleClass="form-control" value="#{student.city}" />
+																	<p:selectOneMenu styleClass="form-control" id="city" style="width:100%" value="#{student.city}"
+																		label="City">
+																		<f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+																		<f:selectItems value="#{systemSettingsBean.systemSettings.cityList}" />
+																	</p:selectOneMenu>
 																</div>
 															</div>
 															<div class="col-lg-6">
@@ -381,12 +385,14 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
 
-		<p:dialog header="#{studentFilterView.selectedStudent.firstname} #{studentFilterView.selectedStudent.lastname}" style="min-width: 500px;"
-			widgetVar="studentDialog" id="studentDialogHeader" modal="true" minWidth="500" showEffect="fade" hideEffect="fade">
+		<p:dialog header="#{studentFilterView.selectedStudent.firstname} #{studentFilterView.selectedStudent.lastname}"
+			style="min-width: 500px;" widgetVar="studentDialog" id="studentDialogHeader" modal="true" minWidth="500"
+			showEffect="fade" hideEffect="fade">
 			<div class="row">
 				<div class="panel-body">
 					<div class="col-lg-4">
-						<img style="width: 140px; border: 1px solid #eee;" src="/images/#{studentFilterView.selectedStudent.admissionid}.png" />
+						<img style="width: 140px; border: 1px solid #eee;"
+							src="/images/#{studentFilterView.selectedStudent.admissionid}.png" />
 					</div>
 					<div class="col-lg-8">
 						<p>

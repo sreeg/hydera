@@ -26,6 +26,7 @@ public class SystemSettings implements Serializable
   private List<String> sectionList;
   private List<FeeDetails> feedetails;
   private Map<String, FeeDetails> feedetailsByclass;
+  private List<String> cityList;
 
   public List<String> getBanknamesList()
   {
@@ -35,6 +36,11 @@ public class SystemSettings implements Serializable
   public List<String> getCategoryListStaff()
   {
     return categoryListStaff;
+  }
+
+  public List<String> getCityList()
+  {
+    return cityList;
   }
 
   public List<String> getDesignationsList()
@@ -105,6 +111,11 @@ public class SystemSettings implements Serializable
   public void setCategoryListStaff(List<String> categoryListStaff)
   {
     this.categoryListStaff = categoryListStaff;
+  }
+
+  public void setCityList(List<String> cityList)
+  {
+    this.cityList = cityList;
   }
 
   public void setDesignationsList(List<String> designationsList)

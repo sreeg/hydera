@@ -182,11 +182,11 @@
 												</div>
 
 												<div class="row">
-													<div class="col-lg-6">
+													<div class="col-lg-6 hidden">
 														<div class="form-group">
 															<h:outputText value="Joining Salary" />
 
-															<pe:inputNumber styleClass="form-controlpe" value="#{staff.joiningsalary}" symbol="&#8377; ">
+															<pe:inputNumber styleClass="form-controlpe" value="#{staff.joiningsalary}" symbol="Rs. ">
 															</pe:inputNumber>
 														</div>
 													</div>
@@ -196,9 +196,7 @@
 															<p:calendar styleClass="date" id="maskdoj" value="#{staff.doj}" pattern="dd-MM-yyyy" mask="true" />
 														</div>
 													</div>
-												</div>
 
-												<div class="row">
 													<div class="col-lg-6">
 														<div class="form-group">
 															<h:outputText value="Category Name *" />
@@ -209,6 +207,9 @@
 															</h:selectOneMenu>
 														</div>
 													</div>
+																									</div>
+
+												<div class="row">
 													<div class="col-lg-6">
 														<div class="form-group">
 															<h:outputText value="Designation " />
@@ -238,7 +239,11 @@
 													<div class="col-lg-6">
 														<div class="form-group">
 															<h:outputText value="City " />
-															<p:inputText styleClass="form-control" value="#{staff.city}" />
+															<p:selectOneMenu styleClass="form-control" id="city" style="width:100%" value="#{staff.city}"
+																label="City">
+																<f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+																<f:selectItems value="#{systemSettingsBean.systemSettings.cityList}" />
+															</p:selectOneMenu>
 														</div>
 													</div>
 													<div class="col-lg-6">

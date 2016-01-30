@@ -42,6 +42,7 @@ public class StudentFeeFilterView implements Serializable
   private Map<String, StudentFee> studentMap;
 
   private List<Student> filteredStudents;
+  private List<Student> selectedStudents;
   private Student selectedStudent;
   private String selectedStudentId;
   private boolean showForm;
@@ -171,8 +172,8 @@ public class StudentFeeFilterView implements Serializable
     try
     {
       conn = DBConnection.getConnection();
-      PreparedStatement ps = conn
-          .prepareStatement("select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment");
+      PreparedStatement ps = conn.prepareStatement(
+          "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom, createdatetime from feepayment");
       ResultSet rs = ps.executeQuery();
       totalFeevalue = 0;
       feepayments = new ArrayList<>();
@@ -190,6 +191,7 @@ public class StudentFeeFilterView implements Serializable
         sf.setReceiptid(rs.getString("feereceiptid"));
         sf.setBankname(rs.getString("bankname"));
         sf.setReceivedfrom(rs.getString("receivedfrom"));
+        sf.setCreatedatetime(rs.getDate("createdatetime"));
 
         Student student = studentMap.get(sf.getEmployeeid());
         if (student != null)
@@ -237,12 +239,13 @@ public class StudentFeeFilterView implements Serializable
       String string = "";
       if (todate != null && fromdate != null)
       {
-        string = "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment where paymentmode in ("
-            + options + ") and DATE(paymentdate) <= " + "'" + simpleDateFormat.format(todate) + "'" + " and DATE(paymentdate) >= " + "'" + simpleDateFormat.format(fromdate) + "'";
+        string = "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom, createdatetime from feepayment where paymentmode in ("
+            + options + ") and DATE(createdatetime) <= " + "'" + simpleDateFormat.format(todate) + "'" + " and DATE(createdatetime) >= " + "'" + simpleDateFormat.format(fromdate)
+            + "'";
       }
       else
       {
-        string = "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom from feepayment where paymentmode in ("
+        string = "select feereceiptid, paymentmode, amountpaid, term1, term2, term3, paymentdate, studentid, paymentdetails, bankname, receivedfrom, createdatetime from feepayment where paymentmode in ("
             + options + ")";
       }
 
@@ -264,6 +267,7 @@ public class StudentFeeFilterView implements Serializable
         sf.setReceiptid(rs.getString("feereceiptid"));
         sf.setBankname(rs.getString("bankname"));
         sf.setReceivedfrom(rs.getString("receivedfrom"));
+        sf.setCreatedatetime(rs.getDate("createdatetime"));
 
         Student student = studentMap.get(sf.getEmployeeid());
         if (student != null)
@@ -319,6 +323,11 @@ public class StudentFeeFilterView implements Serializable
   public String getSelectedStudentId()
   {
     return selectedStudentId;
+  }
+
+  public List<Student> getSelectedStudents()
+  {
+    return selectedStudents;
   }
 
   public StudentFee getStudentfee()
@@ -445,6 +454,11 @@ public class StudentFeeFilterView implements Serializable
   public void setSelectedStudentId(String selectedStudentId)
   {
     this.selectedStudentId = selectedStudentId;
+  }
+
+  public void setSelectedStudents(List<Student> selectedStudents)
+  {
+    this.selectedStudents = selectedStudents;
   }
 
   public void setService(StudentService service)

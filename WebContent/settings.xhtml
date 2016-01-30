@@ -203,6 +203,46 @@
 										</div>
 									</p:outputPanel>
 								</div>
+								<div class="col-lg-4">
+									<p:outputPanel id="citylist">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<p:dataTable value="#{systemSettingsBean.systemSettings.cityList}" id="citytable" var="city"
+													widgetVar="citynames" editable="true">
+													<p:ajax event="rowEdit" listener="#{systemSettingsBean.onEditCity}"
+														update="settings:settingsTab:messages1" />
+													<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelCity}"
+														update="settings:settingsTab:messages1" />
+													<f:facet name="header">City List</f:facet>
+													<p:column headerText="Name">
+														<p:cellEditor>
+															<f:facet name="output">
+																<h:outputText value="#{city}" />
+															</f:facet>
+															<f:facet name="input">
+																<p:inputText value="#{city}" style="width:100%" />
+															</f:facet>
+														</p:cellEditor>
+													</p:column>
+													<p:column headerText="Edit" style="width:50px">
+														<p:rowEditor />
+													</p:column>
+												</p:dataTable>
+											</div>
+
+											<div class="panel-footer">
+												<div class="form-group">
+													<p:inputText styleClass="form-control" placeholder="Enter new City name"
+														value="#{systemSettingsBean.cityNameItem}" />
+												</div>
+												<p:commandButton icon="fa fa-plus" styleClass="btn btn-primary btn-xs" value="Add"
+													action="#{systemSettingsBean.addCityNames}" update="settings:settingsTab:citylist">
+													<f:param name="type" value="city" />
+												</p:commandButton>
+											</div>
+										</div>
+									</p:outputPanel>
+								</div>								
 							</div>
 						</p:tab>
 						<p:tab id="tab2" title="Fee Amount Details">
@@ -211,7 +251,7 @@
 								<div class="row">
 									<div class="col-lg-12">
 										<p:dataTable value="#{systemSettingsBean.systemSettings.feedetails}" id="feetable" var="d" widgetVar="fee"
-											editable="true">
+											editable="true" styleClass="autoWidth">
 											<p:ajax event="rowEdit" listener="#{systemSettingsBean.onEditFeedetails}"
 												update="settings:settingsTab:messages2" />
 											<p:ajax event="rowEditCancel" listener="#{systemSettingsBean.onCancelFeedetails}"
@@ -249,17 +289,17 @@
 												<p:cellEditor>
 													<f:facet name="output">
 														<h:outputText styleClass="pull-right" value="#{d.termamount}">
-															<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+															<f:convertNumber currencyCode="INR" type="currency" locale="en_IN" />
 														</h:outputText>
 													</f:facet>
 													<f:facet name="input">
-														<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " value="#{d.termamount}" label="term amount" />
+														<pe:inputNumber styleClass="form-controlpe" symbol="Rs. " value="#{d.termamount}" label="term amount" />
 													</f:facet>
 												</p:cellEditor>
 											</p:column>
 											<p:column headerText="Total amount">
 												<h:outputText styleClass="pull-right" style="font-weight:600;" value="#{d.totalamount}">
-													<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+													<f:convertNumber currencyCode="INR" type="currency" locale="en_IN" />
 												</h:outputText>
 											</p:column>
 											<p:column headerText="Edit" style="width:50px">

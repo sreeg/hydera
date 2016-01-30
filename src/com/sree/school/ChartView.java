@@ -98,7 +98,7 @@ public class ChartView implements Serializable
   {
     barModel = initBarModel(false);
     barModel.setShowPointLabels(true);
-    barModel.setDatatipFormat("&#8377; %2$s");
+    barModel.setDatatipFormat("Rs. %2$s");
     barModel.setLegendCols(2);
     barModel.setLegendPosition("nw");
 
@@ -134,7 +134,7 @@ public class ChartView implements Serializable
 
     cashModel.setShowPointLabels(true);
     cashModel.setSeriesColors("005BAD,F74A4A,33C7AB,5CB85C,A63F82,A30303");
-    cashModel.setDatatipFormat("&#8377; %2$s");
+    cashModel.setDatatipFormat("Rs. %2$s");
 
     cashModel.setLegendCols(3);
     cashModel.setLegendPosition("ne");
@@ -153,7 +153,7 @@ public class ChartView implements Serializable
   {
     cumBarModel = initBarModel(true);
     cumBarModel.setShowPointLabels(true);
-    cumBarModel.setDatatipFormat("&#8377; %2$s");
+    cumBarModel.setDatatipFormat("Rs. %2$s");
     cumBarModel.setLegendCols(3);
     cumBarModel.setLegendPosition("nw");
 

@@ -160,7 +160,11 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="City " />
-									<p:inputText styleClass="form-control" value="#{studentBean.student.city}" />
+									<p:selectOneMenu styleClass="form-control" id="city" style="width:100%"
+										value="#{studentBean.student.city}" label="City">
+										<f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{systemSettingsBean.systemSettings.cityList}" />
+									</p:selectOneMenu>									
 								</div>
 							</div>
 							<div class="col-lg-6">

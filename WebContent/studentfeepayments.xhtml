@@ -51,10 +51,12 @@ body {
 p {
 	margin: 0;
 }
+
 .ui-widget {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 0.9em;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 0.9em;
 }
+
 thead, thead tr, thead tr th {
 	max-height: 30px;
 }
@@ -77,16 +79,17 @@ thead, thead tr, thead tr th {
 				<div class="container-fluid">
 					<!-- Page Heading -->
 					<div class="row">
-						<div class="col-lg-12">
+						<div class="margin5 col-lg-12">
 							<h1 class="page-header hidden-print">Students Fee Payment Details</h1>
-							<h4 class="visible-print-block">Chaitanya Vidyalaya</h4>
+							<h4 class="visible-print-block centered">Chaitanya Vidyalaya</h4>
 							<h5 class=" pull-right visible-print-block">
 								Date :
 								<h:outputText value="#{now}">
 									<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
 								</h:outputText>
 							</h5>
-							<h5 class="pull-left visible-print-block">List of Cheques/Demand drafts received and sent for deposit in Bank.</h5>
+							<h5 class="pull-left visible-print-block">List of Cheques/Demand drafts received and sent for deposit in
+								Bank.</h5>
 						</div>
 					</div>
 					<div class="row">
@@ -113,12 +116,12 @@ thead, thead tr, thead tr th {
 													</div>
 												</div>
 												<div class="col-lg-8 col-md-8">
-													<h:outputText value="Filter by payment dates : " />
+													<h:outputText value="Filter by create dates : " />
 													<div class="form-group">
-														<p:calendar styleClass="marginRight20" id="fromdate" value="#{studentFeeFilterView.fromdate}" pattern="dd-MM-yyyy"
-															required="true" mask="true" placeholder="Payment from date" />
+														<p:calendar styleClass="marginRight20" id="fromdate" value="#{studentFeeFilterView.fromdate}"
+															pattern="dd-MM-yyyy" required="true" mask="true" placeholder="From date" />
 														<p:calendar styleClass="" id="todate" value="#{studentFeeFilterView.todate}" pattern="dd-MM-yyyy"
-															required="true" mask="true" placeholder="Payment to Date" />
+															required="true" mask="true" placeholder="To Date" />
 														<p:commandButton styleClass="marginLeft5" value="Filter"
 															actionListener="#{studentFeeFilterView.filterByDate}" validateClient="true" update="allStudents"
 															icon="fa fa-filter" />
@@ -130,8 +133,9 @@ thead, thead tr, thead tr th {
 								</div>
 							</div>
 							<p:dataTable id="allStudents" var="st" value="#{studentFeeFilterView.feepayments}" widgetVar="studentsTable"
-								styleClass="feepaymenttable autoWidthDataTable" emptyMessage="No students found with given criteria"
-								filteredValue="#{studentFeeFilterView.filteredStudents}" rowKey="#{st.id}">
+								styleClass="feepaymenttable autoWidthDataTable" reflow="true"
+								emptyMessage="No students found with given criteria" filteredValue="#{studentFeeFilterView.filteredStudents}"
+								rowKey="#{st.receiptid}">
 
 								<f:facet name="header">
 									<div class="row">
@@ -143,16 +147,16 @@ thead, thead tr, thead tr th {
 								</f:facet>
 
 								<f:facet name="footer">
-							<div class="marginTop10">
-								<h5 style="text-align:right; font-size: 1.1em;">
-									Total :
-									<h:outputText id="summary" value="#{studentFeeFilterView.totalFeevalue}">
-										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
-									</h:outputText>
-								</h5>
-							</div>
+									<div class="marginTop10">
+										<h5 style="text-align: right; font-size: 1.1em;">
+											<span class="boldFont">Total : </span>
+											<h:outputText id="summary" value="#{studentFeeFilterView.totalFeevalue}">
+												<f:convertNumber type="currency" locale="en_IN" />
+											</h:outputText>
+										</h5>
+									</div>
 								</f:facet>
-								
+
 								<p:column sortBy="#{st.receiptid}" headerText="Receipt Id">
 									<h:outputText value="#{st.receiptid}" />
 								</p:column>
@@ -168,15 +172,19 @@ thead, thead tr, thead tr th {
 								<p:column sortBy="#{st.paymentmode}" headerText="Payment Mode">
 									<h:outputText value="#{st.paymentmode}" />
 								</p:column>
-
 								<p:column sortBy="#{st.paymentdate}" headerText="Payment Date">
 									<h:outputText value="#{st.paymentdate}">
 										<f:convertDateTime pattern="dd/MM/yyyy" locale="en" timeZone="IST" type="date" />
 									</h:outputText>
 								</p:column>
+								<p:column sortBy="#{st.createdatetime}" headerText="Created Date">
+									<h:outputText value="#{st.createdatetime}">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="en" timeZone="IST" type="date" />
+									</h:outputText>
+								</p:column>
 								<p:column sortBy="#{st.amountPaid}" headerText="Amount" style="text-align:right;">
 									<h:outputText value="#{st.amountPaid}">
-										<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+										<f:convertNumber type="currency" locale="en_IN" />
 									</h:outputText>
 								</p:column>
 							</p:dataTable>

@@ -199,23 +199,23 @@ p {
 														<td>
 															<p class="pull-right">
 																<h:outputText styleClass="pull-right" value="#{ps.basicsalary}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>
 																<br />
 																<h:outputText styleClass="pull-right" value="#{ps.fixedda}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>
 																<br />
 																<h:outputText styleClass="pull-right" value="#{ps.hra}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>
 																<br />
 																<h:outputText styleClass="pull-right" value="#{ps.conveyanceall}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>
 																<br />
 																<h:outputText styleClass="pull-right" value="#{ps.pfamount}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>																
 															</p>
 														</td>
@@ -227,15 +227,15 @@ p {
 														<td>
 															<p class="pull-right">																
 																<h:outputText styleClass="pull-right" value="#{ps.loanamount}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>
 																<br />
 																<h:outputText styleClass="pull-right" value="#{ps.proftaxdeduction}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>
 																<br />
 																<h:outputText styleClass="pull-right" value="#{ps.otherdeduction}">
-																	<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																	<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 																</h:outputText>
 															</p>
 														</td>
@@ -246,10 +246,10 @@ p {
 													<tr style="font-weight: 600;">
 														<td>Total</td>
 														<td><h:outputText styleClass="pull-right" value="#{ps.grosssalary}">
-																<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																<f:convertNumber type="currency" locale="en_IN" />
 															</h:outputText></td>
 														<td colspan="2"><h:outputText styleClass="pull-right" value="#{ps.totaldeductions}">
-																<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																<f:convertNumber type="currency" locale="en_IN" />
 															</h:outputText></td>
 													</tr>
 												</tfoot>
@@ -259,7 +259,7 @@ p {
 										<div class="row margin5_0">
 															<h4>
 																<strong>Net Salary : <h:outputText styleClass="pull-right" value="#{ps.netsalary}">
-																		<f:convertNumber currencySymbol="&#8377;" type="currency" locale="en_IN" />
+																		<f:convertNumber type="currency" locale="en_IN" />
 																	</h:outputText></strong>
 															</h4>
 										</div>

@@ -40,6 +40,18 @@ public class SalaryView implements Serializable
 
   public SalaryView()
   {
+    totalBasicSalary = 0;
+    totalFixedDA = 0;
+    totalHRA = 0;
+    totalConveyanceAll = 0;
+    totalGross = 0;
+    totalProfTaxDeduction = 0;
+    totalOtherDeductions = 0;
+    totalPFAmount = 0;
+    totalLoanAmount = 0;
+    totalDeductions = 0;
+    totalNetSalary = 0;
+
     salaries = getAllSalaryStaff();
   }
 
@@ -54,7 +66,7 @@ public class SalaryView implements Serializable
       ResultSet rs = conn.createStatement()
           .executeQuery("select employeeid, basicsalary, fixedda, hra, conveyanceall,"
               + "pfno, sbacno, pfrate, proftaxdeduction, otherdeduction, modeofpayment, iseligibleforpf, staff.firstname, staff.lastname,staff.categoryid,staff.isarchived,"
-              + "pfamount, loanamount from salary INNER JOIN staff ON salary.employeeid=staff.Id");
+              + "pfamount, loanamount from salary INNER JOIN staff ON salary.employeeid=staff.Id order by staff.firstname");
       totalBasicSalary = 0;
       while (rs.next())
       {
@@ -89,14 +101,15 @@ public class SalaryView implements Serializable
         totalFixedDA += st.getFixedda();
         totalHRA += st.getHra();
         totalConveyanceAll += st.getConveyanceall();
-        totalGross = totalGross + totalBasicSalary + totalFixedDA + totalHRA + totalConveyanceAll;
         totalProfTaxDeduction += st.getProftaxdeduction();
         totalOtherDeductions += st.getOtherdeduction();
         totalPFAmount += st.getPfamount();
         totalLoanAmount += st.getLoanamount();
-        totalDeductions = totalDeductions + totalProfTaxDeduction + totalOtherDeductions + totalPFAmount + totalLoanAmount;
-        totalNetSalary = totalGross - totalDeductions;
       }
+      totalGross = totalGross + totalBasicSalary + totalFixedDA + totalHRA + totalConveyanceAll;
+      totalDeductions = totalDeductions + totalProfTaxDeduction + totalOtherDeductions + totalPFAmount + totalLoanAmount;
+      totalNetSalary = totalGross - totalDeductions;
+
     }
     catch (ClassNotFoundException e)
     {

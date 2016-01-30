@@ -14,7 +14,7 @@
 					emptyMessage="No students found with given criteria" filteredValue="#{studentFilterView.filteredStudents}"
 					selection="#{studentFilterView.selectedStudent}" rowKey="#{st.id}" selectionMode="single" scrollable="false"
 					scrollHeight="600" style="outline: none;">
-					<p:ajax event="rowSelect" update=":form:studentDialogHeader" oncomplete="PF('studentDialog').show()" />
+					<p:ajax event="rowSelect" update="form:studentDialogHeader,form:studentDetail " oncomplete="PF('studentDialog').show()" />
 
 
 					<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
@@ -60,7 +60,7 @@
 		<p:dialog header="#{studentFilterView.selectedStudent.firstname} #{studentFilterView.selectedStudent.lastname}"
 			widgetVar="studentDialog" id="studentDialogHeader" modal="true" minWidth="400" showEffect="fade" hideEffect="fade">
 			<p:outputPanel id="studentDetail">
-				<p:outputPanel rendered="#{not empty studentFilterView.selectedStudent}">
+				<p:outputPanel>
 					<div class="row">
 						<div class="panel-body">
 							<div class="col-lg-4">

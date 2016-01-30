@@ -61,7 +61,7 @@
 								<div class="form-group">
 									<h:outputText value="Joining Salary" />
 
-									<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.staff.joiningsalary}" symbol="&#8377; ">
+									<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.staff.joiningsalary}" symbol="Rs. ">
 									</pe:inputNumber>
 								</div>
 							</div>
@@ -114,7 +114,11 @@
 							<div class="col-lg-6">
 								<div class="form-group">
 									<h:outputText value="City " />
-									<p:inputText styleClass="form-control" value="#{staffBean.staff.city}" />
+									<p:selectOneMenu styleClass="form-control" id="city" style="width:100%"
+										value="#{staffBean.staff.city}" label="City">
+										<f:selectItem itemLabel="Select City" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{systemSettingsBean.systemSettings.cityList}" />
+									</p:selectOneMenu>											
 								</div>
 							</div>
 							<div class="col-lg-6">
@@ -145,22 +149,22 @@
 							<div class="col-lg-4">
 								<div class="form-group">
 									<h:outputText value="Basic Salary *" />
-									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+									<pe:inputNumber styleClass="form-controlpe" symbol="Rs. " required="true"
 										value="#{staffBean.salary.basicsalary}" emptyValue="empty" label="BasicSalary" />
 								</div>
 								<div class="form-group">
 									<h:outputText value="Fixed DA *" />
-									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+									<pe:inputNumber styleClass="form-controlpe" symbol="Rs. " required="true"
 										value="#{staffBean.salary.fixedda}" label="FixedDA" />
 								</div>
 								<div class="form-group">
 									<h:outputText value="HRA *" />
-									<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.salary.hra}" required="true" symbol="&#8377; "
+									<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.salary.hra}" required="true" symbol="Rs. "
 										label="HRA" />
 								</div>
 								<div class="form-group">
 									<h:outputText value="Conveyance All *" />
-									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+									<pe:inputNumber styleClass="form-controlpe" symbol="Rs. " required="true"
 										value="#{staffBean.salary.conveyanceall}" label="ConveyanceAll" />
 								</div>
 							</div>
@@ -169,16 +173,16 @@
 								<div class="form-group">
 									<h:outputText value="Prof Tax Deduction *" />
 									<pe:inputNumber styleClass="form-controlpe" value="#{staffBean.salary.proftaxdeduction}" required="true"
-										symbol="&#8377; " label="ProfTaxDeduction" />
+										symbol="Rs. " label="ProfTaxDeduction" />
 								</div>
 								<div class="form-group">
 									<h:outputText value="Other Deduction *" />
-									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " required="true"
+									<pe:inputNumber styleClass="form-controlpe" symbol="Rs. " required="true"
 										value="#{staffBean.salary.otherdeduction}" label="OtherDeduction" />
 								</div>
 								<div class="form-group">
 									<h:outputText value="Loan Amount " />
-									<pe:inputNumber styleClass="form-controlpe" symbol="&#8377; " value="#{staffBean.salary.loanamount}"
+									<pe:inputNumber styleClass="form-controlpe" symbol="Rs. " value="#{staffBean.salary.loanamount}"
 										label="LoanAmount" />
 								</div>
 							</div>
@@ -202,7 +206,7 @@
 								<div class="form-group iseligibleforpf">
 									<h:outputText value="Is Eligible for PF *" />
 									<p:selectOneMenu styleClass="form-control iseligibleforpffield" required="true" style="width:100%;"
-										value="#{staffBean.salary.iseligibleforpf}" onchange="showPFNo()">
+										value="#{staffBean.salary.iseligibleforpf}" onchange="showPFNo()" label="Is eligible for PF">
 										<f:selectItem itemLabel="Select One" itemValue="" />
 										<f:selectItem itemLabel="Yes" itemValue="true" />
 										<f:selectItem itemLabel="No" itemValue="false" />

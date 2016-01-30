@@ -35,6 +35,8 @@ public class StudentFee extends Student implements Serializable
 
   private Date term3paiddate;
   private Date paymentdate;
+  private Date createdatetime;
+
   private boolean term1;
   private boolean term2;
   private boolean term3;
@@ -272,5 +274,15 @@ public class StudentFee extends Student implements Serializable
   public void setTerms(List<String> terms)
   {
     this.terms = terms;
+  }
+
+  public Date getCreatedatetime()
+  {
+    return createdatetime;
+  }
+
+  public void setCreatedatetime(Date createdatetime)
+  {
+    this.createdatetime = createdatetime;
   }
 }

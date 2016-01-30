@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -410,8 +411,20 @@ public class StaffFilterView implements Serializable
       ps.setString(4, staff.getDesignation());
       ps.setString(5, staff.getSpouseName());
       ps.setString(6, staff.getSpouseOccupation());
-      ps.setString(7, staff.getPhone());
-      ps.setDate(8, new java.sql.Date(staff.getDob().getTime()));
+      String phone = staff.getPhone();
+      if (phone == null)
+        ps.setString(7, "");
+      else
+        ps.setString(7, phone);
+      Date dob = staff.getDob();
+      if (dob == null)
+      {
+        ps.setDate(8, null);
+      }
+      else
+      {
+        ps.setDate(8, new java.sql.Date(dob.getTime()));
+      }
       ps.setDate(9, new java.sql.Date(staff.getDoj().getTime()));
       ps.setDouble(10, staff.getJoiningsalary());
       ps.setString(11, staff.getSex());

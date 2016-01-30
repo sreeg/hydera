@@ -68,7 +68,7 @@
 				</div>
 				<p:outputPanel id="s">
 					<p:dataTable var="st" value="#{studentFilterView.filteredStudents}" widgetVar="studentsTable"
-						emptyMessage="No students found with given criteria"
+						emptyMessage="No students found with given criteria" styleClass="autoWidth"
 						rowKey="#{st.id}" selection="#{studentFilterView.selectedStudents}">
 
 						<p:column selectionMode="multiple" style="width:48px;text-align:center" />

@@ -1,6 +1,5 @@
 package com.sree.school;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,7 +18,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
@@ -27,8 +25,6 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 
@@ -41,6 +37,12 @@ public class PaySlipView implements Serializable
   private static final String USED_DATE_FORMAT = "dd,MMMM,yyyy";
   private static LinkedHashMap<String, String> monthMap;
   private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
+
+  private static Font h1 = new Font(Font.HELVETICA, 22, Font.NORMAL);
+  private static Font underline16 = new Font(Font.HELVETICA, 16, Font.UNDERLINE);
+  private static Font smallBold = new Font(Font.HELVETICA, 12, Font.BOLD);
+  private static Font subFont = new Font(Font.HELVETICA, 14, Font.NORMAL);
+  private static Font h6 = new Font(Font.HELVETICA, 10, Font.NORMAL);
 
   /**
    * 
@@ -217,9 +219,11 @@ public class PaySlipView implements Serializable
 
       pfPayslips = new ArrayList<>();
       nonpfPayslips = new ArrayList<>();
+
       payslipWithPF = new ArrayList<>();
-      payslipWithoutPF = new ArrayList<>();
       payslipWithPFDomestic = new ArrayList<>();
+
+      payslipWithoutPF = new ArrayList<>();
       payslipWithoutPFDomestic = new ArrayList<>();
       payslipWithoutPFPartTime = new ArrayList<>();
 
@@ -633,18 +637,16 @@ public class PaySlipView implements Serializable
   public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException
   {
     Document pdf = (Document) document;
-    pdf.setMargins(-70, -70, 10, 10);
-    pdf.setPageSize(PageSize.A4.rotate());
+    // pdf.setMargins(-70, -70, 10, 10);
+    // pdf.setPageSize(PageSize.A4.rotate());
 
-    pdf.setMarginMirroring(true);
+    // pdf.setMarginMirroring(true);
     pdf.open();
 
-    ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-    String logo = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "logo.gif";
+    pdf.add(new Paragraph("Chaitanya Vidyalaya", h1));
+    pdf.add(new Paragraph("Domalguda - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com", h6));
+    pdf.add(new Paragraph(" "));
 
-    Image instance = Image.getInstance(logo);
-    instance.setAlignment(Element.ALIGN_CENTER);
-    pdf.add(instance);
     pdf.add(new Phrase("\n"));
 
     Paragraph paragraph = new Paragraph("Salary Proposals for the month of " + currentMonth + ", " + currentYear);
@@ -652,6 +654,7 @@ public class PaySlipView implements Serializable
     paragraph.setFont(FontFactory.getFont(FontFactory.HELVETICA_BOLD, 22, Font.BOLD));
     pdf.add(paragraph);
     pdf.add(new Phrase("\n"));
+    pdf.close();
   }
 
   public void save() throws ClassNotFoundException, SQLException

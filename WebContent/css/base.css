@@ -671,3 +671,7 @@ div.centre
 .upperborder {
 	border-top: 2px solid;
 }
+
+.autoWidth table {
+	width: auto;
+}

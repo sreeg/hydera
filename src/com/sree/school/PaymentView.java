@@ -95,7 +95,7 @@ public class PaymentView implements Serializable
               + "staff.firstname, staff.lastname,staff.categoryid,staff.designation,staff.DateOfJoining,staff.isarchived,"
               + "pfamount, loanamount, attendance.dayspresent, attendance.daysinmonth from salary "
               + "LEFT JOIN attendance ON salary.employeeid=attendance.staffid and attendance.year=" + "'" + getSelectedyear() + "'" + " and attendance.month = " + "'"
-              + getSelectedmonth() + "'" + "LEFT JOIN staff ON salary.employeeid=staff.Id order by staff.categoryid");
+              + getSelectedmonth() + "'" + "LEFT JOIN staff ON salary.employeeid=staff.Id order by staff.firstname");
 
       totalBasicSalary = 0;
       totalFixedDA = 0;
@@ -105,6 +105,9 @@ public class PaymentView implements Serializable
       totalOtherDeductions = 0;
       totalPFAmount = 0;
       totalLoanAmount = 0;
+      payslipOnlineTotal = 0;
+      payslipChequeTotal = 0;
+      payslipCashTotal = 0;
 
       payslipCash = new ArrayList<>();
       payslipCheque = new ArrayList<>();
