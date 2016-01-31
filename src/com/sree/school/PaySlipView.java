@@ -362,8 +362,10 @@ public class PaySlipView implements Serializable
       nonpfPayslips.add(dom2);
       nonpfPayslips.add(tem2);
 
-      msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesfully generated payslips for " + selectedmonth + ", " + selectedyear, "Press 'print' for print outs.");
-      FacesContext.getCurrentInstance().addMessage(null, msg);
+      // msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesfully
+      // generated payslips for " + selectedmonth + ", " + selectedyear, "Press
+      // 'print' for print outs.");
+      // FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
     catch (ClassNotFoundException e)
@@ -582,8 +584,8 @@ public class PaySlipView implements Serializable
 
         if (rs == 1)
         {
-          msg = new FacesMessage("Payslips generated successfully", "");
-          FacesContext.getCurrentInstance().addMessage(null, msg);
+          // msg = new FacesMessage("Payslips generated successfully", "");
+          // FacesContext.getCurrentInstance().addMessage(null, msg);
         }
         else
         {

@@ -26,7 +26,27 @@
 
 	<link type="text/css" rel="stylesheet" href="css/base.css" />
 
+	<style>
+.ui-datagrid .ui-grid-row, .payslipProposalPanel, .ui-datatable tr {
+	page-break-after: always;
+}
+
+@media print {
+	body {
+		margin-top: 0px !important;
+	}
+}
+</style>
 	<style type="text/css" media="print">
+.ui-datatable table {
+	page-break-inside: auto
+}
+
+.ui-datatable table tr.pageBreak, .pageBreak {
+	page-break-inside: avoid;
+	page-break-after: auto
+}
+
 #wrapper {
 	padding-left: 0;
 }
@@ -79,7 +99,7 @@ h6 {
 
 p, td, th {
 	margin: 0;
-	font-size: 0.7em;
+	font-size: 0.56em;
 }
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
@@ -109,6 +129,10 @@ thead {
 
 tfoot {
 	display: table-footer-group
+}
+
+.ui-datatable table {
+	width: auto;
 }
 </style>
 
@@ -178,8 +202,9 @@ tfoot {
 
 												<h:commandLink value="Print" styleClass="marginRight20" type="button" icon="ui-icon-print"
 													rendered="#{payslipView.showForm}">
-													
-													<pe:exporter type="pdf" target="subtable,subtable2" fileName="Salary Proposals" subTable="true" orientation="landscape" 
+
+													<pe:exporter type="pdf" target="subtable,subtable2" fileName="Salary Proposals" subTable="true"
+														orientation="landscape"
 														tableTitle="Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
 												</h:commandLink>
 											</p:outputPanel>
@@ -198,13 +223,15 @@ tfoot {
 						</div>
 					</div>
 
-					<p:dataTable rowIndexVar="rowId" id="subtable" styleClass="salProposals1 marginBottom20" var="team" rowsPerPageTemplate="4"
-						value="#{payslipView.pfPayslips}">
+					<p:dataTable rowIndexVar="rowId" id="subtable" styleClass="salProposals1 marginBottom20" var="team"
+						rowsPerPageTemplate="4" value="#{payslipView.pfPayslips}">
 						<f:facet name="header">
-						<h:outputText styleClass="hidden-print" value="Chaitanya Vidyalaya, #1-2-594, Domalguda, Hyderabad - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com,    "/>
-							<h:outputText value="Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}"/>
+							<h:outputText styleClass="hidden-print"
+								value="Chaitanya Vidyalaya, #1-2-594, Domalguda, Hyderabad - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com,    " />
+							<h:outputText
+								value="Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
 						</f:facet>
-		
+
 						<p:columnGroup type="header">
 							<p:row>
 								<p:column headerText="Sl. No" width="40" />
@@ -218,8 +245,8 @@ tfoot {
 								<p:column headerText="PF Amt" />
 								<p:column headerText="Loan Amt" width="70" />
 								<p:column headerText="Prof Tax" width="70" />
-								<p:column headerText="Other Deductions" />
-								<p:column headerText="Total Deductions" />
+								<p:column headerText="Oth. Ded." />
+								<p:column headerText="Total Ded." />
 								<p:column headerText="Net Salary" />
 
 							</p:row>
@@ -312,22 +339,22 @@ tfoot {
 									<f:convertNumber currencySymbol="" type="currency" locale="en_IN" />
 								</h:outputText>
 							</p:column>
-							
+
 							<p:columnGroup type="footer">
 								<p:row>
 									<p:column colspan="3" styleClass="alignRight" footerText="Totals" />
 									<p:column styleClass="alignRight" footerText="#{team.totalBasicSalary}" />
-									<p:column styleClass="alignRight" footerText="#{team.totalFixedDA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalHRA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalConveyanceAll}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalGrossSalary}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalPFAmount}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalLoanAmount}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalProfTaxDeduction}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalOtherDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalNetSalary}"/>
-									
+									<p:column styleClass="alignRight" footerText="#{team.totalFixedDA}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalHRA}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalConveyanceAll}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalGrossSalary}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalPFAmount}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalLoanAmount}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalProfTaxDeduction}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalOtherDeductions}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalDeductions}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalNetSalary}" />
+
 								</p:row>
 							</p:columnGroup>
 						</p:subTable>
@@ -335,7 +362,8 @@ tfoot {
 
 					<p:dataTable id="subtable2" styleClass="salProposals2" var="team" value="#{payslipView.nonpfPayslips}">
 						<f:facet name="header">
-							<h:outputText value="Salary Proposals(with out PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}"/>
+							<h:outputText
+								value="Salary Proposals(with out PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
 						</f:facet>
 
 						<p:columnGroup type="header">
@@ -443,17 +471,17 @@ tfoot {
 							<p:columnGroup type="footer">
 								<p:row>
 									<p:column colspan="3" styleClass="alignRight" footerText="Totals" />
-									<p:column styleClass="alignRight" footerText="#{team.totalBasicSalary}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalFixedDA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalHRA}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalConveyanceAll}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalGrossSalary}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalLoanAmount}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalProfTaxDeduction}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalOtherDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalDeductions}"/>
-									<p:column styleClass="alignRight" footerText="#{team.totalNetSalary}"/>
-									
+									<p:column styleClass="alignRight" footerText="#{team.totalBasicSalary}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalFixedDA}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalHRA}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalConveyanceAll}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalGrossSalary}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalLoanAmount}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalProfTaxDeduction}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalOtherDeductions}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalDeductions}" />
+									<p:column styleClass="alignRight" footerText="#{team.totalNetSalary}" />
+
 								</p:row>
 							</p:columnGroup>
 						</p:subTable>
