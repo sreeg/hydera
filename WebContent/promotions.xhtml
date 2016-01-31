@@ -37,7 +37,8 @@
 	<p:outputPanel id="studentsByClass">
 		<div class="row hidden-print">
 			<div class="col-lg-12">
-				<div class="panel panel-default">
+				<p:outputPanel id="sticky">
+				<div class="panel panel-default" >
 					<div class="panel-heading">
 						<strong>Select a class name to promote</strong>
 					</div>
@@ -66,6 +67,7 @@
 
 					</div>
 				</div>
+				</p:outputPanel>
 				<p:outputPanel id="s">
 					<p:dataTable var="st" value="#{studentFilterView.filteredStudents}" widgetVar="studentsTable"
 						emptyMessage="No students found with given criteria" styleClass="autoWidth"
@@ -76,6 +78,9 @@
 						<p:column headerText="Student Id">
 							<h:outputText value="#{st.id}" />
 						</p:column>
+						<p:column headerText="Admission Id">
+							<h:outputText value="#{st.admissionid}" />
+						</p:column>						
 						<p:column filterStyle="display:none" sortBy="#{st.firstname}" filterBy="#{st.firstname}" headerText="Name">
 							<h:outputText value="#{st.fullname}" />
 						</p:column>
@@ -90,6 +95,8 @@
 			</div>
 		</div>
 </p:outputPanel>
+
+
 	</ui:composition>
 </h:body>
 

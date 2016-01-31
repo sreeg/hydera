@@ -55,7 +55,9 @@ body {
 h4 {
 	font-size: 0.9em;
 }
-
+h5 {
+	font-size: 0.8em;
+}
 h6 {
 	font-size: 0.7em;
 }
@@ -148,13 +150,13 @@ p, td {
 								<div class="panel-body">
 									<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslipWithPF}" id="payslipsWithPF" columns="1"
 										layout="grid">
-										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? '': 'hidden-print'}">
+										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? '': 'hidden-print'}">
 											<h4 style="text-align: center;">Chaitanya Vidyalaya, Domalguda, Hyderabad</h4>
 											<h5 style="text-align: center;">Salary sheets (Permanent with PF) for the month of #{payslipView.selectedmonth},
 												#{payslipView.selectedyear}</h5>
 										</div>
 										<p:outputPanel id="feereceiptMultiple"
-											styleClass="feereceiptMultiple #{(rowId + 1) % 5 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? 'upperborder' :''}">
+											styleClass="feereceiptMultiple #{(rowId + 1) % 6 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? 'upperborder' :''}">
 
 											<div class="row margin5_0">
 												<h5 class="pull-left">
@@ -243,13 +245,13 @@ p, td {
 								<div class="panel-body">
 									<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslipWithPFDomestic}" id="payslipWithPFDomestic" columns="1"
 										layout="grid">
-										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? '': 'hidden-print'}">
+										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? '': 'hidden-print'}">
 											<h4 style="text-align: center;">Chaitanya Vidyalaya, Domalguda, Hyderabad</h4>
 											<h5 style="text-align: center;">Salary sheets (Domestic with PF) for the month of #{payslipView.selectedmonth},
 												#{payslipView.selectedyear}</h5>
 										</div>
 										<p:outputPanel id="feereceiptMultiple"
-											styleClass="feereceiptMultiple #{(rowId + 1) % 5 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? 'upperborder' :''}">
+											styleClass="feereceiptMultiple #{(rowId + 1) % 6 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? 'upperborder' :''}">
 
 											<div class="row margin5_0">
 												<h5 class="pull-left">
@@ -338,13 +340,13 @@ p, td {
 								<div class="panel-body">
 									<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslipWithoutPF}" id="payslipWithoutPF" columns="1"
 										layout="grid">
-										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? '': 'hidden-print'}">
+										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? '': 'hidden-print'}">
 											<h4 style="text-align: center;">Chaitanya Vidyalaya, Domalguda, Hyderabad</h4>
 											<h5 style="text-align: center;">Salary sheets (Permanent without PF) for the month of #{payslipView.selectedmonth},
 												#{payslipView.selectedyear}</h5>
 										</div>
 										<p:outputPanel id="feereceiptMultiple"
-											styleClass="feereceiptMultiple #{(rowId + 1) % 5 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? 'upperborder' :''}">
+											styleClass="feereceiptMultiple #{(rowId + 1) % 6 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? 'upperborder' :''}">
 
 											<div class="row margin5_0">
 												<h5 class="pull-left">
@@ -433,13 +435,13 @@ p, td {
 								<div class="panel-body">
 									<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslipWithoutPFDomestic}" id="payslipWithoutPFDomestic" columns="1"
 										layout="grid">
-										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? '': 'hidden-print'}">
+										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? '': 'hidden-print'}">
 											<h4 style="text-align: center;">Chaitanya Vidyalaya, Domalguda, Hyderabad</h4>
 											<h5 style="text-align: center;">Salary sheets (Domestic without PF) for the month of #{payslipView.selectedmonth},
 												#{payslipView.selectedyear}</h5>
 										</div>
 										<p:outputPanel id="feereceiptMultiple"
-											styleClass="feereceiptMultiple #{(rowId + 1) % 5 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? 'upperborder' :''}">
+											styleClass="feereceiptMultiple #{(rowId + 1) % 6 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? 'upperborder' :''}">
 
 											<div class="row margin5_0">
 												<h5 class="pull-left">
@@ -528,13 +530,13 @@ p, td {
 								<div class="panel-body">
 									<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslipWithoutPFPartTime}" id="payslipWithoutPFPartTime" columns="1"
 										layout="grid">
-										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? '': 'hidden-print'}">
+										<div class="margin5_0 #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? '': 'hidden-print'}">
 											<h4 style="text-align: center;">Chaitanya Vidyalaya, Domalguda, Hyderabad</h4>
 											<h5 style="text-align: center;">Salary sheets (Par-time without PF) for the month of #{payslipView.selectedmonth},
 												#{payslipView.selectedyear}</h5>
 										</div>
 										<p:outputPanel id="feereceiptMultiple"
-											styleClass="feereceiptMultiple #{(rowId + 1) % 5 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 5 == 1 ? 'upperborder' :''}">
+											styleClass="feereceiptMultiple #{(rowId + 1) % 6 == 0 ? 'pageBreak' :'pageBreakNot'} #{(rowId + 1) == 1 || (rowId + 1) % 6 == 1 ? 'upperborder' :''}">
 
 											<div class="row margin5_0">
 												<h5 class="pull-left">

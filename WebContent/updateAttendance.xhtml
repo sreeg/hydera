@@ -102,10 +102,10 @@
 												<p:column headerText="Sl No.">
 													<h:outputText value="#{rowIndex+1}" />
 												</p:column>
-												<p:column headerText="Name">
+												<p:column sortBy="#{st.fullname}" headerText="Name">
 													<h:outputText value="#{st.fullname}" />
 												</p:column>
-												<p:column headerText="Category">
+												<p:column sortBy="#{st.categoryName}" headerText="Category">
 													<h:outputText value="#{st.categoryName}" />
 												</p:column>
 												<p:column headerText="Days in Month" width="125" style="max-width:125px;" styleClass="centered">

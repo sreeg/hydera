@@ -36,15 +36,15 @@
 @page {
 	size: auto; /* auto is the initial value */
 	/* this affects the margin in the printer settings */
-	margin: 5mm 0mm;
+	margin: 2mm 0mm;
 }
 
 .panel-body, .panel-footer, .panel-heading {
-	padding: 5px !important;
+	padding: 3px !important;
 }
 
 h1, h2, h3, h4, h5,h6 {
-	margin: 5px;
+	margin: 5px !important;
 }
 
 body {
@@ -52,14 +52,22 @@ body {
 }
 
 h4 {
-	font-size: 1em;
+	font-size: 0.77em;
+	margin-top: 2px;
+    margin-bottom: 3px;
 }
 h6 {
-	font-size: 0.7em;
+	font-size: 0.6em;
+	margin-top: 2px;
+    margin-bottom: 3px;	
 }
-p {
+p,tr th,td {
 	margin: 0;
-	font-size: 0.9em;
+	padding: 2px !important;
+	font-size: 0.75em;
+}
+.panel-default {
+	margin-bottom: 5px;
 }
 </style>
 </h:head>
@@ -137,7 +145,7 @@ p {
 						<p:outputPanel id="payslipPanelInner" rendered="#{payslipView.showForm}">
 
 							<p:dataGrid var="ps" rowIndexVar="rowId" value="#{payslipView.payslips}" id="payslips" columns="1" layout="grid">
-													<p:outputPanel id="feereceiptMultiple" styleClass="#{(rowId + 1) % 2 == 0 ? 'pageBreak' :'pageBreakNot'}">
+													<p:outputPanel id="feereceiptMultiple" styleClass="#{(rowId + 1) % 3 == 0 ? 'pageBreak' :'pageBreakNot'}">
 							
 								<div class="panel panel-default">
 									<div class="panel-heading">
