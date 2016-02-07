@@ -134,6 +134,7 @@ tfoot {
 .ui-datatable table {
 	width: auto;
 }
+
 .ui-datatable-header {
 	border: none;
 }
@@ -195,7 +196,7 @@ tfoot {
 										</div>
 										<div class="inlineBlock marginRight20">
 											<p:outputPanel id="buttonPanel" styleClass="centered">
-												<p:commandButton styleClass="marginRight20" value="Generate" update="buttonPanel,subtable"
+												<p:commandButton styleClass="marginRight20" value="Generate" update="buttonPanel,subtable,subtable2"
 													disabled="#{payslipView.disableGenerateButton}" icon="fa fa-refresh" actionListener="#{payslipView.save}"
 													validateClient="true" />
 
@@ -208,7 +209,7 @@ tfoot {
 
 													<pe:exporter type="pdf" target="subtable,subtable2" fileName="Salary Proposals" subTable="true"
 														orientation="landscape"
-														tableTitle="Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
+														tableTitle="Salary Proposals(with PF) for the month of #{payslipView.selectedmonth}, #{payslipView.selectedyear}" />
 												</h:commandLink>
 											</p:outputPanel>
 										</div>
@@ -232,7 +233,7 @@ tfoot {
 							<h:outputText styleClass="hidden-print"
 								value="Chaitanya Vidyalaya, #1-2-594, Domalguda, Hyderabad - 500029, Contact No : 65502579, Email : chaitanyavidyalaya@gmail.com,    " />
 							<h:outputText
-								value="Salary Proposals(with PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
+								value="Salary Proposals(with PF) for the month of #{payslipView.selectedmonth}, #{payslipView.selectedyear}" />
 						</f:facet>
 
 						<p:columnGroup type="header">
@@ -366,7 +367,7 @@ tfoot {
 					<p:dataTable id="subtable2" styleClass="salProposals2" var="team" value="#{payslipView.nonpfPayslips}">
 						<f:facet name="header">
 							<h:outputText
-								value="Salary Proposals(with out PF) for the month of #{payslipView.currentMonth}, #{payslipView.currentYear}" />
+								value="Salary Proposals(with out PF) for the month of #{payslipView.selectedmonth}, #{payslipView.selectedyear}" />
 						</f:facet>
 
 						<p:columnGroup type="header">

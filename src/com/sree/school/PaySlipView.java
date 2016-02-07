@@ -160,14 +160,14 @@ public class PaySlipView implements Serializable
     payslipTemporary = new ArrayList<>();
     allPayslips = new ArrayList<>();
 
-    try
-    {
-      save();
-    }
-    catch (ClassNotFoundException | SQLException e)
-    {
-      e.printStackTrace();
-    }
+    // try
+    // {
+    // save();
+    // }
+    // catch (ClassNotFoundException | SQLException e)
+    // {
+    // e.printStackTrace();
+    // }
   }
 
   private boolean checkCorrectMonth()
@@ -622,6 +622,7 @@ public class PaySlipView implements Serializable
   {
     if (selectedmonth != null && !selectedmonth.equals(""))
     {
+      setSelectedmonth(selectedmonth);
       setDaysinselectedmonth(monthDaysMap.get(selectedmonth));
       disableGenerateButton = false;
     }
@@ -651,7 +652,7 @@ public class PaySlipView implements Serializable
 
     pdf.add(new Phrase("\n"));
 
-    Paragraph paragraph = new Paragraph("Salary Proposals for the month of " + currentMonth + ", " + currentYear);
+    Paragraph paragraph = new Paragraph("Salary Proposals for the month of " + selectedmonth + ", " + selectedyear);
     paragraph.setAlignment(Element.ALIGN_CENTER);
     paragraph.setFont(FontFactory.getFont(FontFactory.HELVETICA_BOLD, 22, Font.BOLD));
     pdf.add(paragraph);

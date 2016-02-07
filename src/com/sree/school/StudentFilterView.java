@@ -522,7 +522,7 @@ public class StudentFilterView implements Serializable
     ResultSet rs = conn.createStatement()
         .executeQuery("select Id, FirstName, LastName, Class, Section," + "FatherName, FatherOccupation, Phone, DateOfBirth, DateOfJoining,"
             + "MotherName, MotherOccupation, Gender, GaurdianName, Mobile, Email, ProfilePic, houseno, street, city, postalcode, fatherdetails, "
-            + "motherdetails, mothermobile, admissionid from student where isarchived = '0' order by Class, Section");
+            + "motherdetails, mothermobile, admissionid from student where isarchived = 0 order by Class, Section");
 
     List<Student> students = new ArrayList<>();
     studentMap = new HashMap<>();

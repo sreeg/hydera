@@ -37,7 +37,6 @@ public class AttendanceView implements Serializable
   private static LinkedHashMap<String, Integer> monthIndexMap;
   private static LinkedHashMap<String, String> yearMap = new LinkedHashMap<String, String>();
   private static LinkedHashMap<String, String> monthmapfromdb = new LinkedHashMap<String, String>();
-  private static LinkedHashMap<String, Integer> monthDaysMap;
 
   static
   {
@@ -81,27 +80,12 @@ public class AttendanceView implements Serializable
     monthIndexMap.put("December", 12);
   }
 
-  static
-  {
-    monthDaysMap = new LinkedHashMap<String, Integer>();
-    monthDaysMap.put("January", 31);
-    monthDaysMap.put("February", 28);
-    monthDaysMap.put("March", 31);
-    monthDaysMap.put("April", 30);
-    monthDaysMap.put("May", 31);
-    monthDaysMap.put("June", 30);
-    monthDaysMap.put("July", 31);
-    monthDaysMap.put("August", 31);
-    monthDaysMap.put("September", 30);
-    monthDaysMap.put("October", 31);
-    monthDaysMap.put("November", 30);
-    monthDaysMap.put("December", 31);
-  }
-
   public static void setCategory(LinkedHashMap<String, String> category)
   {
     AttendanceView.category = category;
   }
+
+  private LinkedHashMap<String, Integer> monthDaysMap;
 
   private Map<String, Staff> staffMap = new HashMap<>();
   private Map<String, Staff> staffMapByEmployeeId = new HashMap<>();
@@ -145,15 +129,30 @@ public class AttendanceView implements Serializable
     yearMap.put(currentYear, currentYear);
     setSelectedyear(getCurrentYear());
     setSelectedmonth(getCurrentMonth());
-    setDaysinselectedmonth(monthDaysMap.get(getCurrentMonth()));
-    setShowForm(true);
-    createDonutModels(new ArrayList<Attendance>());
     int y = Integer.parseInt(currentYear);
+
+    monthDaysMap = new LinkedHashMap<String, Integer>();
+    monthDaysMap.put("January", 31);
+    monthDaysMap.put("February", 28);
+    monthDaysMap.put("March", 31);
+    monthDaysMap.put("April", 30);
+    monthDaysMap.put("May", 31);
+    monthDaysMap.put("June", 30);
+    monthDaysMap.put("July", 31);
+    monthDaysMap.put("August", 31);
+    monthDaysMap.put("September", 30);
+    monthDaysMap.put("October", 31);
+    monthDaysMap.put("November", 30);
+    monthDaysMap.put("December", 31);
     if ((y % 400 == 0) || ((y % 4 == 0) && (y % 100 != 0)))
     {
       monthDaysMap.remove("February");
       monthDaysMap.put("February", 29);
     }
+    setDaysinselectedmonth(monthDaysMap.get(getCurrentMonth()));
+    setShowForm(true);
+    createDonutModels(new ArrayList<Attendance>());
+
   }
 
   private boolean checkCorrectMonth()

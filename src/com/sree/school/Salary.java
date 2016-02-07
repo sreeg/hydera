@@ -118,7 +118,9 @@ public class Salary implements Serializable
   public Double getNetsalary()
   {
     netsalary = getGrosssalary() - getTotaldeductions();
-    return netsalary;
+    Long l = Math.round(netsalary);
+    Integer.valueOf(l.intValue());
+    return new Double(Integer.valueOf(l.intValue()));
   }
 
   public Double getOtherdeduction()
