@@ -221,8 +221,13 @@
 								</div>
 								<div class="col-lg-7">
 									<p:outputPanel id="paymenthistory">
+										<p:contextMenu for="paymentHistoryTable">
+											<p:menuitem value="Delete" process="@this,paymentHistoryTable" update=":form:paymentHistoryTable"
+												icon="ui-icon-close" actionListener="#{studentFilterView.purgeReceipt}" />
+										</p:contextMenu>
 										<p:dataTable styleClass="autoWidthDataTable" var="fee" value="#{studentFilterView.studentfeeList}"
-											resizableColumns="true">
+											selectionMode="single" selection="#{studentFilterView.selectedStudentFee}" resizableColumns="true"
+											id="paymentHistoryTable" widgetVar="paymentHistory" rowKey="#{fee.receiptid}">
 											<f:facet name="header">
 									           Payment History
 									        </f:facet>

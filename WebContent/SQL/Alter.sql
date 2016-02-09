@@ -1,3 +1,7 @@
+ALTER TABLE `school`.`feepayment` 
+ADD COLUMN `isarchived` TINYINT(4) NULL DEFAULT 0 COMMENT '' AFTER `receivedfrom`;
+
+
 ALTER TABLE `school`.`attendance` 
 CHANGE COLUMN `dayspresent` `dayspresent` DOUBLE NULL DEFAULT NULL COMMENT '' ;
 

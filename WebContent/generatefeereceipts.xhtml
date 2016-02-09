@@ -57,11 +57,12 @@ body {
 }
 
 h4 {
-	font-size: 1em;
+	font-size: 0.9em;
 }
 
-p {
+p, td {
 	margin: 0;
+	font-size: 0.75em;
 }
 
 .thridreceipt {
@@ -79,8 +80,11 @@ p {
 .panel-body {
 	padding: 5px !important;
 }
-h1,h2,h3,h4,h5 {
+h1,h2,h3,h4,h5,h6 {
 	margin: 5px;
+}
+h6 {
+	font-size: 0.7em;
 }
 </style>
 
@@ -167,10 +171,10 @@ h1,h2,h3,h4,h5 {
 						</p:column>
 					</p:dataTable>
 
-					<p:dataGrid rowIndexVar="rowId" styleClass="multiplePayslips visible-print-block" var="ssm" value="#{studentFilterView.studentfees}"
+					<p:dataGrid rowIndexVar="rowId" styleClass="multiplePayslips " var="ssm" value="#{studentFilterView.studentfees}"
 						id="payslips" columns="1" layout="grid">
 						<p:outputPanel id="feereceiptMultiple" styleClass="#{(rowId + 1) % 4 == 0 ? 'thridreceipt' :'thridreceiptNot'}">
-							<div class="panel panel-default visible-print-block">
+							<div class="panel panel-default ">
 								<div class="panel-body">
 									<div class="col-lg-12 centered">
 										<h3 style="text-align: center;">Chaitanya Vidyalaya</h3>
@@ -183,7 +187,7 @@ h1,h2,h3,h4,h5 {
 									</div>
 									<div class="col-lg-12">
 										<h4 class="centered">
-											Payment of <strong>Rs. #{ssm.amountPaid}</strong> has been received as part of term payment -
+											Payment of <strong>Rs. #{ssm.amountPaid}</strong> has been received as part of tution fee for term -
 											<h:outputText value="1" rendered="#{(ssm.term1)}" />
 											<h:outputText value=", 2" rendered="#{(ssm.term2)}" />
 											<h:outputText value=", 3" rendered="#{(ssm.term3)}" />
@@ -196,6 +200,9 @@ h1,h2,h3,h4,h5 {
 												<p>
 													<strong>Student Name</strong>
 												</p>
+												<p>
+													<strong>Father's Name</strong>
+												</p>												
 												<p>
 													<strong>Class Name</strong>
 												</p>
@@ -210,6 +217,7 @@ h1,h2,h3,h4,h5 {
 										<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
 											<div class="form-group">
 												<p class="">#{ssm.fullname}</p>
+												<p class="">#{ssm.fathername}</p>
 												<p class="">#{ssm.classname}</p>
 												<p class="">
 													<h:outputText value="#{ssm.paymentdate}">

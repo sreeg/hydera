@@ -103,6 +103,8 @@ public class StudentFilterView implements Serializable
   private boolean showPrintButton;
   private StudentFee studentfee;
   private List<StudentFee> studentfees;
+  private List<StudentFee> selectedStudentfees;
+  private StudentFee selectedStudentFee;
   private List<StudentFee> studentfeeList;
   private boolean studentfound;
   private Map<String, Student> studentMap;
@@ -648,6 +650,16 @@ public class StudentFilterView implements Serializable
     return selectedStudent;
   }
 
+  public StudentFee getSelectedStudentFee()
+  {
+    return selectedStudentFee;
+  }
+
+  public List<StudentFee> getSelectedStudentfees()
+  {
+    return selectedStudentfees;
+  }
+
   public String getSelectedStudentId()
   {
     return selectedStudentId;
@@ -776,7 +788,7 @@ public class StudentFilterView implements Serializable
         sf.setClassname(student.getClassname());
         sf.setSectionname(student.getSectionname());
         sf.setEmail(student.getEmail());
-
+        sf.setFathername(student.getFathername());
         studentfees.add(sf);
       }
     }
@@ -946,6 +958,29 @@ public class StudentFilterView implements Serializable
     FacesContext.getCurrentInstance().addMessage(null, msg);
   }
 
+  public void purgeReceipt()
+  {
+    System.out.println("Purged: " + selectedStudentFee.getReceiptid());
+    FacesMessage msg;
+    try
+    {
+      conn = DBConnection.getConnection();
+      conn.createStatement().executeUpdate("UPDATE FEEPAYMENT set isarchived = '1' where receiptid = " + "'" + selectedStudentFee.getReceiptid() + "'");
+      msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Receipt Id " + selectedStudentFee.getReceiptid() + " has been deleted.", "");
+    }
+    catch (ClassNotFoundException e)
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong", "Please contant your system administrator.");
+      e.printStackTrace();
+    }
+    catch (SQLException e)
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Something went wrong", "Please contant your system administrator.");
+      e.printStackTrace();
+    }
+
+  }
+
   public void save() throws ClassNotFoundException, SQLException
   {
     conn = DBConnection.getConnection();
@@ -1086,6 +1121,16 @@ public class StudentFilterView implements Serializable
   public void setSelectedStudent(Student selectedStudent)
   {
     this.selectedStudent = selectedStudent;
+  }
+
+  public void setSelectedStudentFee(StudentFee selectedStudentFee)
+  {
+    this.selectedStudentFee = selectedStudentFee;
+  }
+
+  public void setSelectedStudentfees(List<StudentFee> selectedStudentfees)
+  {
+    this.selectedStudentfees = selectedStudentfees;
   }
 
   public void setSelectedStudentId(String selectedStudentId)
