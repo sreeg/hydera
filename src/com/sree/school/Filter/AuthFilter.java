@@ -40,6 +40,28 @@ public class AuthFilter implements Filter
       File configDir = new File(System.getProperty("catalina.base"), "conf");
       File configFile = new File(configDir, "db.properties");
 
+      if (!configFile.exists() || configFile.isDirectory())
+      {
+        System.out.println("JDBC_SERVER : " + System.getProperty("JDBC_SERVER"));
+
+        DBConnection.databaseServer = System.getProperty("JDBC_SERVER");
+        DBConnection.databaseServerPort = System.getProperty("JDBC_SERVER_PORT");
+        DBConnection.databaseName = System.getProperty("JDBC_SERVER_DBNAME");
+        DBConnection.databaseUserName = System.getProperty("JDBC_SERVER_USER");
+        DBConnection.databaseUserPassword = System.getProperty("JDBC_SERVER_PASSWORD");
+        DBConnection.databaseJDBCDriver = System.getProperty("JDBC_DRIVER");
+
+        SystemSettingsBean.schoolname = System.getProperty("APP_DISPLAY_NAME");
+        SystemSettingsBean.shortdescription = System.getProperty("APP_DISPLAY_NAME_DESC");
+        SystemSettingsBean.disableemail = !Boolean.getBoolean(System.getProperty("APP_PARAM_DISABLE_EMAIL"));
+        SystemSettingsBean.peoplemanagement = "true".equalsIgnoreCase(System.getProperty("APP_PARAM_PM"));
+        SystemSettingsBean.salarymanagement = "true".equalsIgnoreCase(System.getProperty("APP_PARAM_SM"));
+        SystemSettingsBean.feemanagement = "true".equalsIgnoreCase(System.getProperty("APP_PARAM_FM"));
+        SystemSettingsBean.charts = "true".equalsIgnoreCase(System.getProperty("APP_PARAM_CHARTS"));
+        SystemSettingsBean.reports = "true".equalsIgnoreCase(System.getProperty("APP_PARAM_REPORTS"));
+        return;
+      }
+
       FileInputStream in = new FileInputStream(configFile);
       props.load(in);
       in.close();

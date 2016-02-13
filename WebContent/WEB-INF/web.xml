@@ -62,7 +62,7 @@
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/pagenotfound.xhtml</location>
+		<location>/error.xhtml</location>
 	</error-page>
 	<session-config>
 		<session-timeout>60000</session-timeout>
