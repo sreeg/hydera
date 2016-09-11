@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3c.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
 <h:head>
 
 	<meta charset="utf-8" />
@@ -10,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<title>#{systemSettingsBean.shortdescription}</title>
+	<title>Payroll Management</title>
 
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
@@ -22,8 +20,7 @@
 	<link href="css/sb-admin.css" rel="stylesheet" />
 
 	<!-- Custom Fonts -->
-	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet"
-		type="text/css" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,7 +45,7 @@ body, .loginForm {
 	z-index: 1;
 	background-color: #188260;
 	width: 100%;
-	height: 127px;
+	height: 90px;
 	content: '';
 	-webkit-animation: bar-slide .2s cubic-bezier(.1, .82, .25, 1);
 	animation: bar-slide .2s cubic-bezier(.1, .82, .25, 1);
@@ -109,10 +106,6 @@ body {
 	background: #e7eefa;
 }
 </style>
-	<link rel="stylesheet"
-		href="css/#{systemSettingsBean.library == 'true' ? 'library.css' :''}"
-		type="text/css" />
-
 </h:head>
 <body>
 	<div class="loginContainer">
@@ -120,49 +113,51 @@ body {
 			<div class="container1">
 
 				<div class="center-block" style="text-align: center">
-					<h1>
-						<i class="fa fa-university marginRight20"></i>Workflow Management System
-					</h1>
-					<h4>Hydera</h4>
+					<h1>Configure Application Settings</h1>
 				</div>
 			</div>
 		</header>
 		<br />
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 centered">
-				<p:messages id="messages" styleClass="hidden-print"
-					showDetail="true" autoUpdate="true" closable="true" />
+				<p:messages id="messages" styleClass="hidden-print" showDetail="true" autoUpdate="true" closable="true" />
 			</div>
 		</div>
 		<div class="container loginForm">
 
 			<div class="row">
-				<div class="col-md-4 col-md-offset-4">
+				<div class="col-md-6 col-md-offset-3">
 					<div class=" panel panel-login">
-						<div class="panel-heading">
-							<h3 class="panel-title">Please Sign In</h3>
-						</div>
+
 						<div class="panel-body">
 							<div class="well">
 								<h:form id="loginForm" autocomplete="off">
-									<div class="hidden">
-										<input type="password" />
-									</div>
-									<p:focus for="username" />
 									<fieldset>
-										<div class="form-group">
-											<p:inputText styleClass="form-control"
-												placeholder="Enter Username" id="username"
-												value="#{loginBean.uname}"></p:inputText>
+										<div class="row">
+											<div class="form-group">
+												<h:outputText value="JDBC DRIVER" />
+												<p:inputText styleClass="form-control" value="#{studentBean.student.firstname}" required="true"
+													label="First name" />
+											</div>
+											<div class="form-group">
+												<h:outputText value="DATABASE SERVER" />
+												<p:inputText styleClass="form-control" value="#{studentBean.student.lastname}" label="Last name" />
+											</div>
+											<div class="form-group">
+												<h:outputText value="DB PORT" />
+												<p:inputText styleClass="form-control" style="max-width:120px" value="#{studentBean.student.firstname}" required="true"
+													label="First name" />
+											</div>
+											<div class="form-group">
+												<h:outputText value="DATABASE USER" />
+												<p:inputText styleClass="form-control" value="#{studentBean.student.lastname}" label="Last name" />
+											</div>
+											<div class="form-group">
+												<h:outputText value="DATABASE PASSWORD" />
+												<p:inputText styleClass="form-control" value="#{studentBean.student.lastname}" label="Last name" />
+											</div>															
 										</div>
-										<div class="form-group">
-											<p:password styleClass="form-control"
-												placeholder="Enter Password" id="password"
-												value="#{loginBean.password}" feedback="false"></p:password>
-										</div>
-
-										<p:commandButton styleClass="btn btn-primary btn-block"
-											action="#{loginBean.loginProject}" value="Login"
+										<p:commandButton styleClass="btn btn-primary btn-block" action="#{loginBean.loginProject}" value="Save"
 											update="messages" ajax="true"></p:commandButton>
 
 									</fieldset>
@@ -178,8 +173,7 @@ body {
 			<div class="marginTop20">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-4">
-						<p class="text-muted" style="text-align: center;">Copyright -
-							All rights reserved 2015</p>
+						<p class="text-muted" style="text-align: center;">Copyright - All rights reserved 2015</p>
 					</div>
 				</div>
 

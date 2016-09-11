@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3c.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:mp="http://primefaces.org/ui/material"
+	xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:head>
 	<meta charset="utf-8" />
@@ -13,7 +14,7 @@
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
-	<title>Payroll Management</title>
+	<title>#{systemSettingsBean.shortdescription}</title>
 
 	<!-- Bootstrap Core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -58,10 +59,13 @@
 	color: inherit;
 }
 </style>
+	<link rel="stylesheet" href="css/#{systemSettingsBean.library == 'true' ? 'library.css' :''}" type="text/css" />
+
 </h:head>
 
 <body>
-	<h:form enctype="multipart/form-data">
+
+	<h:form id="main" enctype="multipart/form-data">
 		<p:growl id="growl" showDetail="true" sticky="true" />
 		<p:messages id="messages" styleClass="hidden-print" showDetail="true" autoUpdate="true" closable="true" />
 		<div id="wrapper">
@@ -93,147 +97,153 @@
 
 						<div
 							class="#{(systemSettingsBean.systemSettings.showwidget1 == 'false' and systemSettingsBean.systemSettings.showwidget2 == 'false') ?  'col-lg-12' : 'col-lg-8'}">
-							<ol class="breadcrumb">
-								<li class="active"><i class="fa fa-dashboard fa-2x margin5"></i>Your Dashboard, last login on
-									#{loginBean.lastlogindatettime}</li>
-							</ol>
-							<div class="alert alert-info alert-dismissable">
-								<button type="button" class="close" data-toggle="tooltipClose" data-placement="bottom" title="Click to close"
-									data-dismiss="alert" aria-hidden="true">x</button>
-								Today's Quote : <i class="fa fa-quote-left"></i> <strong> Try and try until you succeed </strong><i
-									class="fa fa-quote-right"></i> <i data-toggle="tooltip" data-placement="bottom" title="Click to print"
-									class="fa fa-print pull-right" style="font-size: 22px"></i>
-							</div>
-							<div class="row">
-								<div class="col-lg-4 col-md-6">
-									<div class="panel panel-primary">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-3">
-													<i class="attendanceImg"></i>
-												</div>
-												<div class="col-xs-9 text-right">
-													<h4>Attendance</h4>
-												</div>
-											</div>
-										</div>
-										<a href="updateAttendance.xhtml">
-											<div class="panel-footer">
-												<span class="pull-left">Update staff attendance</span> <span class="pull-right"><i
-													class="fa fa-arrow-circle-right"></i></span>
-												<div class="clearfix"></div>
-											</div>
-										</a>
-									</div>
-								</div>
-								<div class="col-lg-4 col-md-6">
-									<div class="panel panel-red">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-3">
-													<i class="fa fa-money fa-5x"></i>
-												</div>
-												<div class="col-xs-9 text-right">
-													<h4>Fee receipts</h4>
-												</div>
-											</div>
-										</div>
-										<a href="generatefeereceipts.xhtml">
-											<div class="panel-footer">
-												<span class="pull-left">Generate student fee receipt</span> <span class="pull-right"><i
-													class="fa fa-arrow-circle-right"></i></span>
-												<div class="clearfix"></div>
-											</div>
-										</a>
-									</div>
-								</div>
-								<div class="col-lg-4 col-md-6">
-									<div class="panel panel-custom2">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-3">
-													<i class="fa fa-check-square-o fa-5x"></i>
-												</div>
-												<div class="col-xs-9 text-right">
-													<h4>Fee Status</h4>
-												</div>
-											</div>
-										</div>
-										<a href="studentfeedetails.xhtml">
-											<div class="panel-footer">
-												<span class="pull-left">Student fee payment status</span> <span class="pull-right"><i
-													class="fa fa-arrow-circle-right"></i></span>
-												<div class="clearfix"></div>
-											</div>
-										</a>
-									</div>
-								</div>
-								<div class="col-lg-4 col-md-6">
-									<div class="panel panel-yellow">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-3">
-													<i class="fa fa-file-text-o fa-5x"></i>
-												</div>
-												<div class="col-xs-9 text-right">
-													<h4>Payslips</h4>
-												</div>
-											</div>
-										</div>
-										<a href="generatePaySlips.xhtml">
-											<div class="panel-footer">
-												<span class="pull-left">Generate staff Payslips</span> <span class="pull-right"><i
-													class="fa fa-arrow-circle-right"></i></span>
-												<div class="clearfix"></div>
-											</div>
-										</a>
-									</div>
-								</div>
+							<c:if test="#{systemSettingsBean.payroll == 'true'}">
 
-								<div class="col-lg-4 col-md-6">
-									<div class="panel panel-custom1">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-3">
-													<i class="fa fa-file-powerpoint-o fa-5x"></i>
-												</div>
-												<div class="col-xs-9 text-right">
-													<h4>Salary Proposals</h4>
-												</div>
-											</div>
-										</div>
-										<a href="generatePaySlipsProposal.xhtml">
-											<div class="panel-footer">
-												<span class="pull-left">Generate salary Proposals</span> <span class="pull-right"><i
-													class="fa fa-arrow-circle-right"></i></span>
-												<div class="clearfix"></div>
-											</div>
-										</a>
-									</div>
+								<ol class="breadcrumb">
+									<li class="active"><i class="fa fa-dashboard fa-2x margin5"></i>Your Dashboard, last login on
+										#{loginBean.lastlogindatettime}</li>
+								</ol>
+								<div class="alert alert-info alert-dismissable">
+									<button type="button" class="close" data-toggle="tooltipClose" data-placement="bottom" title="Click to close"
+										data-dismiss="alert" aria-hidden="true">x</button>
+									Today's Quote : <i class="fa fa-quote-left"></i> <strong> Try and try until you succeed </strong><i
+										class="fa fa-quote-right"></i> <i data-toggle="tooltip" data-placement="bottom" title="Click to print"
+										class="fa fa-print pull-right" style="font-size: 22px"></i>
 								</div>
-								<div class="col-lg-4 col-md-6">
-									<div class="panel panel-green">
-										<div class="panel-heading">
-											<div class="row">
-												<div class="col-xs-3">
-													<i class="fa fa-pencil-square-o fa-5x"></i>
-												</div>
-												<div class="col-xs-9 text-right">
-													<h4>Update Records</h4>
+							</c:if>
+							<c:if test="#{systemSettingsBean.payroll == 'true'}">
+								<div class="row">
+									<div class="col-lg-4 col-md-6">
+										<div class="panel panel-primary">
+											<div class="panel-heading">
+												<div class="row">
+													<div class="col-xs-3">
+														<i class="attendanceImg"></i>
+													</div>
+													<div class="col-xs-9 text-right">
+														<h4>Attendance</h4>
+													</div>
 												</div>
 											</div>
+											<a href="updateAttendance.xhtml">
+												<div class="panel-footer">
+													<span class="pull-left">Update staff attendance</span> <span class="pull-right"><i
+														class="fa fa-arrow-circle-right"></i></span>
+													<div class="clearfix"></div>
+												</div>
+											</a>
 										</div>
-										<a href="viewStudentDetails.xhtml">
-											<div class="panel-footer">
-												<span class="pull-left">Modify/Delete details</span> <span class="pull-right"><i
-													class="fa fa-arrow-circle-right"></i></span>
-												<div class="clearfix"></div>
-											</div>
-										</a>
 									</div>
-								</div>
+									<div class="col-lg-4 col-md-6">
+										<div class="panel panel-red">
+											<div class="panel-heading">
+												<div class="row">
+													<div class="col-xs-3">
+														<i class="fa fa-money fa-5x"></i>
+													</div>
+													<div class="col-xs-9 text-right">
+														<h4>Fee receipts</h4>
+													</div>
+												</div>
+											</div>
+											<a href="generatefeereceipts.xhtml">
+												<div class="panel-footer">
+													<span class="pull-left">Generate student fee receipt</span> <span class="pull-right"><i
+														class="fa fa-arrow-circle-right"></i></span>
+													<div class="clearfix"></div>
+												</div>
+											</a>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-6">
+										<div class="panel panel-custom2">
+											<div class="panel-heading">
+												<div class="row">
+													<div class="col-xs-3">
+														<i class="fa fa-check-square-o fa-5x"></i>
+													</div>
+													<div class="col-xs-9 text-right">
+														<h4>Fee Status</h4>
+													</div>
+												</div>
+											</div>
+											<a href="studentfeedetails.xhtml">
+												<div class="panel-footer">
+													<span class="pull-left">Student fee payment status</span> <span class="pull-right"><i
+														class="fa fa-arrow-circle-right"></i></span>
+													<div class="clearfix"></div>
+												</div>
+											</a>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-6">
+										<div class="panel panel-yellow">
+											<div class="panel-heading">
+												<div class="row">
+													<div class="col-xs-3">
+														<i class="fa fa-file-text-o fa-5x"></i>
+													</div>
+													<div class="col-xs-9 text-right">
+														<h4>Payslips</h4>
+													</div>
+												</div>
+											</div>
+											<a href="generatePaySlips.xhtml">
+												<div class="panel-footer">
+													<span class="pull-left">Generate staff Payslips</span> <span class="pull-right"><i
+														class="fa fa-arrow-circle-right"></i></span>
+													<div class="clearfix"></div>
+												</div>
+											</a>
+										</div>
+									</div>
 
-							</div>
+									<div class="col-lg-4 col-md-6">
+										<div class="panel panel-custom1">
+											<div class="panel-heading">
+												<div class="row">
+													<div class="col-xs-3">
+														<i class="fa fa-file-powerpoint-o fa-5x"></i>
+													</div>
+													<div class="col-xs-9 text-right">
+														<h4>Salary Proposals</h4>
+													</div>
+												</div>
+											</div>
+											<a href="generatePaySlipsProposal.xhtml">
+												<div class="panel-footer">
+													<span class="pull-left">Generate salary Proposals</span> <span class="pull-right"><i
+														class="fa fa-arrow-circle-right"></i></span>
+													<div class="clearfix"></div>
+												</div>
+											</a>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-6">
+										<div class="panel panel-green">
+											<div class="panel-heading">
+												<div class="row">
+													<div class="col-xs-3">
+														<i class="fa fa-pencil-square-o fa-5x"></i>
+													</div>
+													<div class="col-xs-9 text-right">
+														<h4>Update Records</h4>
+													</div>
+												</div>
+											</div>
+											<a href="viewStudentDetails.xhtml">
+												<div class="panel-footer">
+													<span class="pull-left">Modify/Delete details</span> <span class="pull-right"><i
+														class="fa fa-arrow-circle-right"></i></span>
+													<div class="clearfix"></div>
+												</div>
+											</a>
+										</div>
+									</div>
+
+								</div>
+							</c:if>
+
 						</div>
 						<div class="col-lg-4">
 							<div class="layoutSecondary">
@@ -256,6 +266,7 @@
 					</div>
 
 					<!-- /.row -->
+
 				</div>
 				<!-- /.container-fluid -->
 
@@ -277,6 +288,10 @@
 				$('[data-toggle="tooltipClose"]').tooltip()
 			})
 			$("#idCalculadora").Calculadora();
+
+			$(document).ready(function() {
+				$(".textElipsis").tooltip();
+			});
 		</script>
 
 		<script src="js/d3.js"></script>

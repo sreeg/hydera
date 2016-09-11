@@ -1,4 +1,4 @@
-package com.sree.school;
+package com.sree.hydera;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,13 +24,17 @@ public class SystemSettings implements Serializable
   private List<String> categoryListStaff;
   private List<String> banknamesList;
   private List<String> sectionList;
-  private List<FeeDetails> feedetails;
-  private Map<String, FeeDetails> feedetailsByclass;
   private List<String> cityList;
+  private List<String> bookTypeList;
 
   public List<String> getBanknamesList()
   {
     return banknamesList;
+  }
+
+  public List<String> getBookTypeList()
+  {
+    return bookTypeList;
   }
 
   public List<String> getCategoryListStaff()
@@ -68,16 +72,6 @@ public class SystemSettings implements Serializable
     return emailhostname;
   }
 
-  public List<FeeDetails> getFeedetails()
-  {
-    return feedetails;
-  }
-
-  public Map<String, FeeDetails> getFeedetailsByclass()
-  {
-    return feedetailsByclass;
-  }
-
   public String getPassword()
   {
     return password;
@@ -106,6 +100,11 @@ public class SystemSettings implements Serializable
   public void setBanknamesList(List<String> banknamesList)
   {
     this.banknamesList = banknamesList;
+  }
+
+  public void setBookTypeList(List<String> bookTypeList)
+  {
+    this.bookTypeList = bookTypeList;
   }
 
   public void setCategoryListStaff(List<String> categoryListStaff)
@@ -141,16 +140,6 @@ public class SystemSettings implements Serializable
   public void setEmailhostname(String emailhostname)
   {
     this.emailhostname = emailhostname;
-  }
-
-  public void setFeedetails(List<FeeDetails> feedetails)
-  {
-    this.feedetails = feedetails;
-  }
-
-  public void setFeedetailsByclass(Map<String, FeeDetails> feedetailsByclass)
-  {
-    this.feedetailsByclass = feedetailsByclass;
   }
 
   public void setPassword(String password)

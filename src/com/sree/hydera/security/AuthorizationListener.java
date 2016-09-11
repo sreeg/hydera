@@ -1,4 +1,4 @@
-package com.sree.school.security;
+package com.sree.hydera.security;
 
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;

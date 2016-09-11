@@ -12,15 +12,10 @@
 
 	<managed-bean>
 		<managed-bean-name>bean</managed-bean-name>
-		<managed-bean-class>com.sree.school.Bean</managed-bean-class>
+		<managed-bean-class>com.sree.hydera.Bean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
-	<managed-bean>
-		<managed-bean-name>scheduleView</managed-bean-name>
-		<managed-bean-class>com.sree.school.ScheduleView</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>now</managed-bean-name>
 		<managed-bean-class>java.util.Date</managed-bean-class>
@@ -50,4 +45,5 @@
 			</redirect>
 		</navigation-case>
 	</navigation-rule>
+
 </faces-config>

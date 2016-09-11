@@ -1,4 +1,4 @@
-package com.sree.school.dao;
+package com.sree.hydera.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpSession;
 
-import com.sree.school.DBConnection;
-import com.sree.school.Util;
+import com.sree.hydera.DBConnection;
+import com.sree.hydera.Util;
 
 public class UserDAO {
 	private static Connection conn;

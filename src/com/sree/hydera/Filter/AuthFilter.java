@@ -1,4 +1,4 @@
-package com.sree.school.Filter;
+package com.sree.hydera.Filter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,8 +22,8 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.properties.EncryptableProperties;
 import org.primefaces.model.DefaultStreamedContent;
 
-import com.sree.school.DBConnection;
-import com.sree.school.SystemSettingsBean;
+import com.sree.hydera.DBConnection;
+import com.sree.hydera.SystemSettingsBean;
 
 @WebFilter(filterName = "AuthFilter", urlPatterns = { "*.xhtml" })
 public class AuthFilter implements Filter
@@ -73,14 +73,40 @@ public class AuthFilter implements Filter
       DBConnection.databaseUserPassword = props.getProperty("db.password");
       DBConnection.databaseJDBCDriver = props.getProperty("db.jdbc.driver");
 
+      String property;
       SystemSettingsBean.schoolname = props.getProperty("app.schoolname");
       SystemSettingsBean.shortdescription = props.getProperty("app.shortdescription");
-      SystemSettingsBean.disableemail = !props.getProperty("app.disableemail").equalsIgnoreCase("trueemail");
+
+      property = props.getProperty("app.disableemail");
+      if (property != null)
+      {
+        SystemSettingsBean.disableemail = !property.equalsIgnoreCase("trueemail");
+      }
+
       SystemSettingsBean.peoplemanagement = props.getProperty("app.module.peoplemanagement").equalsIgnoreCase("truepm");
       SystemSettingsBean.salarymanagement = props.getProperty("app.module.salarymanagement").equalsIgnoreCase("truesm");
       SystemSettingsBean.feemanagement = props.getProperty("app.module.feemanagement").equalsIgnoreCase("truefm");
       SystemSettingsBean.charts = props.getProperty("app.module.charts").equalsIgnoreCase("truecharts");
-      SystemSettingsBean.reports = props.getProperty("app.module.reports").equalsIgnoreCase("truereports");
+      // SystemSettingsBean.reports =
+      // props.getProperty("app.module.reports").equalsIgnoreCase("truereports");
+
+      property = props.getProperty("app.module.bookmanagement");
+      if (property != null)
+      {
+        SystemSettingsBean.bookmanagement = property.equalsIgnoreCase("truebm");
+      }
+
+      property = props.getProperty("app.project.library");
+      if (property != null)
+      {
+        SystemSettingsBean.library = property.equalsIgnoreCase("truelibrary");
+      }
+
+      property = props.getProperty("app.project.payroll");
+      if (property != null)
+      {
+        SystemSettingsBean.payroll = property.equalsIgnoreCase("truepayroll");
+      }
 
       SystemSettingsBean.logo = new DefaultStreamedContent(new FileInputStream(new File(System.getProperty("catalina.base"), "conf/resources/images/logo.gif")), "image/gif");
       // ArrayList<StreamedContent> a = new ArrayList<>();
@@ -135,6 +161,10 @@ public class AuthFilter implements Filter
       if (reqURI.indexOf("/login.xhtml") >= 0 || (ses != null && ses.getAttribute("username") != null) || reqURI.indexOf("/public/") >= 0
           || reqURI.contains("javax.faces.resource"))
         chain.doFilter(request, response);
+      else if (reqURI.indexOf("/admin.xhtml") >= 0)
+      {
+        chain.doFilter(request, response);
+      }
       else // user didn't log in but asking for a page that is not allowed
            // so take user to login page
         res.sendRedirect(req.getContextPath() + "/login.xhtml");
@@ -153,6 +183,6 @@ public class AuthFilter implements Filter
   @Override
   public void init(FilterConfig filterConfig) throws ServletException
   {
-    readProperties();
+    //readProperties();
   }
 }

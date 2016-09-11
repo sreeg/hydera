@@ -1,4 +1,4 @@
-package com.sree.school;
+package com.sree.hydera;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -34,13 +34,19 @@ public class SystemSettingsBean implements Serializable
   public static boolean peoplemanagement;
   public static boolean salarymanagement;
   public static boolean feemanagement;
+  public static boolean bookmanagement;
   public static boolean charts;
   public static boolean reports;
+  public static boolean payroll;
+  public static boolean library;
   public static StreamedContent logo;
 
   public static ArrayList<StreamedContent> picsList;
+
   private String currentPassword;
+
   private String newPassword1;
+
   private String newPassword2;
   private String designationItem;
   private String sectionNameItem;
@@ -51,20 +57,22 @@ public class SystemSettingsBean implements Serializable
   private String bankNameItem;
   private String cityNameItem;
 
+  private String bookNameItem;
+
   public SystemSettings systemSettings = new SystemSettings();
 
   PreparedStatement ps = null;
 
   public SystemSettingsBean()
   {
-    try
-    {
-      getSystemSettingsFromDB();
-    }
-    catch (ClassNotFoundException | SQLException e)
-    {
-      e.printStackTrace();
-    }
+//    try
+//    {
+//      //getSystemSettingsFromDB();
+//    }
+//    catch (ClassNotFoundException | SQLException e)
+//    {
+//      e.printStackTrace();
+//    }
   }
 
   public String addBankNames()
@@ -90,6 +98,39 @@ public class SystemSettingsBean implements Serializable
 
       systemSettings.getBanknamesList().add(this.bankNameItem);
       this.bankNameItem = "";
+      msg = new FacesMessage("Item Added");
+    }
+    else
+    {
+      msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Name cannot be empty", "");
+    }
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    return null;
+  }
+
+  public String addBookCategories()
+  {
+    Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+    String type = params.get("type");
+    FacesMessage msg;
+    if (bookNameItem != null && !"".equals(bookNameItem))
+    {
+      try
+      {
+        conn = DBConnection.getConnection();
+        conn.createStatement().executeUpdate("INSERT INTO lists (name, type) VALUES( '" + bookNameItem + "', '" + type + "')");
+      }
+      catch (SQLException e)
+      {
+        e.printStackTrace();
+      }
+      catch (ClassNotFoundException e)
+      {
+        e.printStackTrace();
+      }
+
+      systemSettings.getBookTypeList().add(this.bookNameItem);
+      this.bookNameItem = "";
       msg = new FacesMessage("Item Added");
     }
     else
@@ -242,6 +283,11 @@ public class SystemSettingsBean implements Serializable
     return bankNameItem;
   }
 
+  public String getBookNameItem()
+  {
+    return bookNameItem;
+  }
+
   public String getCityNameItem()
   {
     return cityNameItem;
@@ -327,6 +373,7 @@ public class SystemSettingsBean implements Serializable
     ArrayList<String> banks = new ArrayList<>();
     ArrayList<String> sections = new ArrayList<>();
     ArrayList<String> cities = new ArrayList<>();
+    ArrayList<String> booktypes = new ArrayList<>();
     rs = conn.createStatement().executeQuery("SELECT name,type,description from lists order by name");
     while (rs.next())
     {
@@ -342,31 +389,21 @@ public class SystemSettingsBean implements Serializable
         sections.add(list_name);
       else if ("city".equals(dType))
         cities.add(list_name);
+      else if ("books".equals(dType))
+        booktypes.add(list_name);
     }
     systemSettings.setDesignationsList(d);
     systemSettings.setDesignationsListStaff(dS);
     systemSettings.setBanknamesList(banks);
     systemSettings.setSectionList(sections);
     systemSettings.setCityList(cities);
+    systemSettings.setBookTypeList(booktypes);
 
-    ArrayList<FeeDetails> fd = new ArrayList<FeeDetails>();
-    rs = conn.createStatement().executeQuery("SELECT classname, term1amount, term1amount, term2amount, term3amount, noofterms, termamount from feedetails order by row");
-    while (rs.next())
-    {
-      FeeDetails f = new FeeDetails();
-      f.setClassname(rs.getString("classname"));
-      f.setTerm1amount(rs.getDouble("term1amount"));
-      f.setTerm2amount(rs.getDouble("term2amount"));
-      f.setTerm3amount(rs.getDouble("term3amount"));
-      f.setTermamount(rs.getDouble("termamount"));
-      f.setNoofterms(rs.getInt("noofterms"));
-      fd.add(f);
-    }
-    systemSettings.setFeedetails(fd);
-    Map<String, FeeDetails> map = new HashMap<String, FeeDetails>();
-    for (FeeDetails f : fd)
-      map.put(f.getClassname(), f);
-    systemSettings.setFeedetailsByclass(map);
+  }
+
+  public boolean isBookmanagement()
+  {
+    return bookmanagement;
   }
 
   public boolean isCharts()
@@ -384,6 +421,16 @@ public class SystemSettingsBean implements Serializable
     return feemanagement;
   }
 
+  public boolean isLibrary()
+  {
+    return library;
+  }
+
+  public boolean isPayroll()
+  {
+    return payroll;
+  }
+
   public boolean isPeoplemanagement()
   {
     return peoplemanagement;
@@ -397,6 +444,27 @@ public class SystemSettingsBean implements Serializable
   public boolean isSalarymanagement()
   {
     return salarymanagement;
+  }
+
+  public void onCancelBook(RowEditEvent event)
+  {
+    FacesMessage msg = new FacesMessage("Item Removed");
+    FacesContext.getCurrentInstance().addMessage(null, msg);
+    String object = (String) event.getObject();
+    systemSettings.getBookTypeList().remove(object);
+    try
+    {
+      conn = DBConnection.getConnection();
+      conn.createStatement().executeUpdate("DELETE from lists where name = '" + object + "'");
+    }
+    catch (SQLException e)
+    {
+      e.printStackTrace();
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   public void onCancelCity(RowEditEvent event)
@@ -476,24 +544,7 @@ public class SystemSettingsBean implements Serializable
 
   public void onEditFeedetails(RowEditEvent event)
   {
-    FeeDetails fd = (FeeDetails) event.getObject();
-    try
-    {
-      conn = DBConnection.getConnection();
-      conn.createStatement()
-          .executeUpdate("UPDATE feedetails set term1amount = '" + fd.getTerm1amount() + "'" + ", term2amount = '" + fd.getTerm2amount() + "'" + ", term3amount = '"
-              + fd.getTerm3amount() + "' , termamount = '" + fd.getTermamount() + "', noofterms = '" + fd.getNoofterms() + "' where classname = '" + fd.getClassname() + "'");
-    }
-    catch (SQLException e)
-    {
-      e.printStackTrace();
-    }
-    catch (ClassNotFoundException e)
-    {
-      e.printStackTrace();
-    }
-    FacesMessage msg = new FacesMessage("Updated the record");
-    FacesContext.getCurrentInstance().addMessage(null, msg);
+
   }
 
   public void onEditSection(RowEditEvent event)
@@ -534,6 +585,16 @@ public class SystemSettingsBean implements Serializable
     this.bankNameItem = bankNameItem;
   }
 
+  public void setBookmanagement(boolean bookmanagement)
+  {
+    SystemSettingsBean.bookmanagement = bookmanagement;
+  }
+
+  public void setBookNameItem(String bookNameItem)
+  {
+    this.bookNameItem = bookNameItem;
+  }
+
   public void setCharts(boolean charts)
   {
     SystemSettingsBean.charts = charts;
@@ -569,6 +630,11 @@ public class SystemSettingsBean implements Serializable
     SystemSettingsBean.feemanagement = feemanagement;
   }
 
+  public void setLibrary(boolean library)
+  {
+    SystemSettingsBean.library = library;
+  }
+
   public void setLogo(StreamedContent logo)
   {
     SystemSettingsBean.logo = logo;
@@ -582,6 +648,11 @@ public class SystemSettingsBean implements Serializable
   public void setNewPassword2(String newPassword2)
   {
     this.newPassword2 = newPassword2;
+  }
+
+  public void setPayroll(boolean payroll)
+  {
+    SystemSettingsBean.payroll = payroll;
   }
 
   public void setPeoplemanagement(boolean peoplemanagement)

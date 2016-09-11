@@ -1,4 +1,4 @@
-package com.sree.school;
+package com.sree.hydera;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +23,7 @@ public class DBConnection
 
       // Class.forName("com.mysql.jdbc.Driver");
       // conn =
-      // DriverManager.getConnection("jdbc:mysql://localhost:3306/school",
+      // DriverManager.getConnection("jdbc:mysql://school.c77jiymlibj9.us-west-2.rds.amazonaws.com:3306/school",
       // "root", "sreedhar");
       StringBuilder connectionString = new StringBuilder();
       connectionString.append("jdbc:mysql://");
@@ -32,10 +32,8 @@ public class DBConnection
       connectionString.append(databaseServerPort);
       connectionString.append("/");
       connectionString.append(databaseName);
-      System.out.println("DATABASE URL : " + connectionString.toString());
       Class.forName(databaseJDBCDriver);
       conn = DriverManager.getConnection(connectionString.toString(), databaseUserName, databaseUserPassword);
-
     }
     return conn;
   }

@@ -1,181 +1,231 @@
-package com.sree.school;
+package com.sree.hydera;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
-public class User implements Serializable {
+public class User implements Serializable
+{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-	private String firstname;
-	private String lastname;
-	private String fullname;
-	private String sex;
-	private Date dob;
-	private String Id;
+  private static HashMap<String, String> gender;
 
-	private Integer age;
+  static
+  {
+    gender = new HashMap<String, String>();
+    gender.put("Male", "Male");
+    gender.put("Female", "Female");
+  }
 
-	private String houseno;
-	private String street;
-	private String city;
-	private String postalCode;
-	private String info;
-	private String email;
-	private String phone;
-	private String mobile;
-	private Date doj;
-	private String profiepic;
+  private String firstname;
+  private String lastname;
+  private String fullname;
+  private String sex;
 
-	private static HashMap<String, String> gender;
+  private Date dob;
 
-	static {
-		gender = new HashMap<String, String>();
-		gender.put("Male", "Male");
-		gender.put("Female", "Female");
-	}
+  private String Id;
+  private Integer age;
+  private String houseno;
+  private String street;
+  private String city;
+  private String postalCode;
+  private String info;
+  private String email;
+  private String phone;
+  private String mobile;
+  private Date doj;
 
-	public Integer getAge() {
-		return age;
-	}
+  private String profiepic;
 
-	public Date getDoj() {
-		return doj;
-	}
+  private boolean isarchived;
 
-	public String getCity() {
-		return city;
-	}
+  public Integer getAge()
+  {
+    return age;
+  }
 
-	public Date getDob() {
-		return dob;
-	}
+  public String getCity()
+  {
+    return city;
+  }
 
-	public String getEmail() {
-		return email;
-	}
+  public Date getDob()
+  {
+    return dob;
+  }
 
-	public String getFirstname() {
-		return firstname;
-	}
+  public Date getDoj()
+  {
+    return doj;
+  }
 
-	public String getInfo() {
-		return info;
-	}
+  public String getEmail()
+  {
+    return email;
+  }
 
-	public String getLastname() {
-		return lastname;
-	}
+  public String getFirstname()
+  {
+    return firstname;
+  }
 
-	public String getPhone() {
-		return phone;
-	}
+  public String getFullname()
+  {
+    return firstname + " " + lastname;
+  }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+  public HashMap<String, String> getGender()
+  {
+    return gender;
+  }
 
-	public String getSex() {
-		return sex;
-	}
+  public String getHouseno()
+  {
+    return houseno;
+  }
 
-	public String getStreet() {
-		return street;
-	}
+  public String getId()
+  {
+    return Id;
+  }
 
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+  public String getInfo()
+  {
+    return info;
+  }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+  public String getLastname()
+  {
+    return lastname;
+  }
 
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
+  public String getMobile()
+  {
+    return mobile;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getPhone()
+  {
+    return phone;
+  }
 
-	public void setDoj(Date doj) {
-		this.doj = doj;
-	}
+  public String getPostalCode()
+  {
+    return postalCode;
+  }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+  public String getProfiepic()
+  {
+    return profiepic;
+  }
 
-	public void setInfo(String info) {
-		this.info = info;
-	}
+  public String getSex()
+  {
+    return sex;
+  }
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+  public String getStreet()
+  {
+    return street;
+  }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+  public boolean isIsarchived()
+  {
+    return isarchived;
+  }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+  public void setAge(Integer age)
+  {
+    this.age = age;
+  }
 
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+  public void setCity(String city)
+  {
+    this.city = city;
+  }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+  public void setDob(Date dob)
+  {
+    this.dob = dob;
+  }
 
-	public String getHouseno() {
-		return houseno;
-	}
+  public void setDoj(Date doj)
+  {
+    this.doj = doj;
+  }
 
-	public void setHouseno(String houseno) {
-		this.houseno = houseno;
-	}
+  public void setEmail(String email)
+  {
+    this.email = email;
+  }
 
-	public String getMobile() {
-		return mobile;
-	}
+  public void setFirstname(String firstname)
+  {
+    this.firstname = firstname;
+  }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+  public void setFullname(String fullname)
+  {
+    this.fullname = fullname;
+  }
 
-	public HashMap<String, String> getGender() {
-		return gender;
-	}
+  public void setHouseno(String houseno)
+  {
+    this.houseno = houseno;
+  }
 
-	public String getProfiepic() {
-		return profiepic;
-	}
+  public void setId(String id)
+  {
+    Id = id;
+  }
 
-	public void setProfiepic(String profiepic) {
-		this.profiepic = profiepic;
-	}
+  public void setInfo(String info)
+  {
+    this.info = info;
+  }
 
-	public String getId() {
-		return Id;
-	}
+  public void setIsarchived(boolean isarchived)
+  {
+    this.isarchived = isarchived;
+  }
 
-	public void setId(String id) {
-		Id = id;
-	}
+  public void setLastname(String lastname)
+  {
+    this.lastname = lastname;
+  }
 
-	public String getFullname() {
-		return firstname + " "+lastname;
-	}
+  public void setMobile(String mobile)
+  {
+    this.mobile = mobile;
+  }
 
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
+  public void setPhone(String phone)
+  {
+    this.phone = phone;
+  }
+
+  public void setPostalCode(String postalCode)
+  {
+    this.postalCode = postalCode;
+  }
+
+  public void setProfiepic(String profiepic)
+  {
+    this.profiepic = profiepic;
+  }
+
+  public void setSex(String sex)
+  {
+    this.sex = sex;
+  }
+
+  public void setStreet(String street)
+  {
+    this.street = street;
+  }
 }

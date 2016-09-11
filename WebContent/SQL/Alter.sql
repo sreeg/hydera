@@ -39,3 +39,10 @@ Update feedetails set classname='II' where classname='Class II';
 Update feedetails set classname='I' where classname='Class I';
 Update feedetails set classname='PP2' where classname='UKG';
 Update feedetails set classname='PP1' where classname='LKG';
+
+ALTER TABLE `school`.`salary` 
+DROP INDEX `employeeid_UNIQUE` ;
+
+ALTER TABLE `school`.`salary` 
+ADD COLUMN `isarchived` TINYINT(4) NULL DEFAULT NULL AFTER `iseligibleforpf`;
+

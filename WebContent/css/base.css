@@ -143,6 +143,15 @@ body {
 	color: #909090;
 }
 
+.greybg {
+	background: #909090;
+	text-decoration: line-through;
+}
+
+.greybg td span {
+	text-decoration: line-through;
+}
+
 .floatRight {
 	float: right;
 }
@@ -170,17 +179,17 @@ body {
 }
 
 .navbar.navbar-inverse.navbar-fixed-top, .side-nav {
-	background-color: #00374C /*#1D9F75*/;
-	border-color: #335F70 /*#1a916a*/;
+	background-color: #FFFFFF /*#1D9F75*/;
+	border-color: #EEEEEE /*#1a916a*/;
 }
 
 .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav>li>a {
-	color: #FFF;
+	color: #333333;
 }
 
 .navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover
 	{
-	color: #fefefe;
+	color: #666666;
 }
 
 .top-nav>li>a:hover, .top-nav>li>a:focus, .top-nav>li.active, .top-nav>.open>a,
@@ -188,12 +197,12 @@ body {
 	.side-nav li a:focus, .navbar-inverse .navbar-nav>.active>a,
 	.navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover,
 	.side-nav li a:hover, .side-nav li a:focus, .side-nav li.active {
-	color: #fff;
-	background-color: /*#0d4936, #188260*/ #005BAD !important;
+	color: #FFFFFF;
+	background-color: /*#0d4936, #188260*/ #cc181e !important;
 }
 
 .top-nav>li>a, .side-nav>li>ul>li>a {
-	color: #FFF;
+	color: #333;
 }
 
 .loginForm .well {
@@ -540,6 +549,7 @@ tfoot {
 
 .side-nav {
 	padding-bottom: 0;
+	border-right: 1px solid #eeeeee;
 }
 
 .ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
@@ -695,3 +705,13 @@ div.centre {
 .ui-widget {
     font-size: 1em;
 }
+
+.ui-menu.ui-menu-dynamic {
+	padding: 5px;
+}
+
+.ui-menu.ui-widget li > .ui-menuitem-link {
+	padding: 10px;
+}
+
+

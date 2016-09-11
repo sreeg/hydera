@@ -7,7 +7,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_31">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 8 [1.8.0_102]">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -26,9 +26,6 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-lang3-3.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-logging-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/primefaces-extensions-3.2.0.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.4.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/resources-ckeditor-3.2.0.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/resources-codemirror-3.2.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-email-1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activation-1.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dsn.jar"/>
@@ -37,5 +34,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/pop3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/smtp.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jasypt-1.9.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
