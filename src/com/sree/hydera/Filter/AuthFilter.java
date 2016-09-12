@@ -51,7 +51,7 @@ public class AuthFilter implements Filter
         DBConnection.databaseUserPassword = System.getProperty("JDBC_SERVER_PASSWORD");
         DBConnection.databaseJDBCDriver = System.getProperty("JDBC_DRIVER");
 
-        SystemSettingsBean.schoolname = System.getProperty("APP_DISPLAY_NAME");
+        SystemSettingsBean.name = System.getProperty("APP_DISPLAY_NAME");
         SystemSettingsBean.shortdescription = System.getProperty("APP_DISPLAY_NAME_DESC");
         SystemSettingsBean.disableemail = !Boolean.getBoolean(System.getProperty("APP_PARAM_DISABLE_EMAIL"));
         SystemSettingsBean.peoplemanagement = "true".equalsIgnoreCase(System.getProperty("APP_PARAM_PM"));
@@ -74,7 +74,7 @@ public class AuthFilter implements Filter
       DBConnection.databaseJDBCDriver = props.getProperty("db.jdbc.driver");
 
       String property;
-      SystemSettingsBean.schoolname = props.getProperty("app.schoolname");
+      SystemSettingsBean.name = props.getProperty("app.name");
       SystemSettingsBean.shortdescription = props.getProperty("app.shortdescription");
       //SystemSettingsBean.logo = new DefaultStreamedContent(new FileInputStream(new File(System.getProperty("catalina.base"), "conf/resources/images/logo.gif")), "image/gif");
       // ArrayList<StreamedContent> a = new ArrayList<>();

@@ -28,7 +28,7 @@ public class SystemSettingsBean implements Serializable
    */
   private static final long serialVersionUID = 1L;
   private static Connection conn;
-  public static String schoolname;
+  public static String name;
   public static String shortdescription;
   public static boolean disableemail;
   public static boolean peoplemanagement;
@@ -328,9 +328,9 @@ public class SystemSettingsBean implements Serializable
     return picsList;
   }
 
-  public String getSchoolname()
+  public String getName()
   {
-    return schoolname;
+    return name;
   }
 
   public String getSectionNameItem()
@@ -675,9 +675,9 @@ public class SystemSettingsBean implements Serializable
     SystemSettingsBean.salarymanagement = salarymanagement;
   }
 
-  public void setSchoolname(String schoolname)
+  public void setName(String name)
   {
-    SystemSettingsBean.schoolname = schoolname;
+    SystemSettingsBean.name = name;
   }
 
   public void setSectionNameItem(String sectionNameItem)
