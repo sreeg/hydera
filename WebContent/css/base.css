@@ -651,7 +651,7 @@ div.centre {
 }
 
 .nav>li>a {
-	padding: 15px 10px;
+	padding: 10px 5px;
 }
 
 .list-group .ui-button {
@@ -714,4 +714,9 @@ div.centre {
 	padding: 10px;
 }
 
-
+.h1, h1 {
+    font-size: 24px;
+}
+.side-nav li {
+	margin: 10px 15px;
+}
