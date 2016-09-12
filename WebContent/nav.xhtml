@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:body>
 	<ui:composition>
-		<nav class="navbar navbar-inverse navbar-fixed-top hidden-print" role="navigation">
+		<nav class="navbar navbar-inverse navbar-fixed-top hidden-print"
+			role="navigation">
 
 			<div class="row">
 				<div class="col-lg-4">
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-							<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target=".navbar-ex1-collapse">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand inlineBlock" href="home.xhtml"><i class="fa fa-graduation-cap fa-fw"></i>
-							Hydera</a>
+						<a class="navbar-brand inlineBlock" href="home.xhtml"><i
+							class="fa fa-space-shuttle fa-fw"></i> Hydera</a>
 					</div>
 				</div>
 
@@ -26,41 +32,53 @@
 				<!-- Top Menu Items -->
 				<div class="col-lg-4">
 					<ul class="nav navbar-right top-nav">
-						<li class="dropdown hidden"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+						<li class="dropdown hidden"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"><i
 								class="fa fa-bell"></i> <b class="caret"></b></a>
 							<ul class="dropdown-menu alert-dropdown">
-								<li><a href="#">Alert Name <span class="label label-default">Alert Badge</span></a></li>
-								<li><a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a></li>
-								<li><a href="#">Alert Name <span class="label label-success">Alert Badge</span></a></li>
-								<li><a href="#">Alert Name <span class="label label-info">Alert Badge</span></a></li>
-								<li><a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a></li>
-								<li><a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a></li>
+								<li><a href="#">Alert Name <span
+										class="label label-default">Alert Badge</span></a></li>
+								<li><a href="#">Alert Name <span
+										class="label label-primary">Alert Badge</span></a></li>
+								<li><a href="#">Alert Name <span
+										class="label label-success">Alert Badge</span></a></li>
+								<li><a href="#">Alert Name <span
+										class="label label-info">Alert Badge</span></a></li>
+								<li><a href="#">Alert Name <span
+										class="label label-warning">Alert Badge</span></a></li>
+								<li><a href="#">Alert Name <span
+										class="label label-danger">Alert Badge</span></a></li>
 								<li class="divider"></li>
 								<li><a href="#">View All</a></li>
 							</ul></li>
 
-						<c:if test="#{systemSettingsBean.reports == 'true' and systemSettingsBean.payroll == 'true'}">
-							<li class="#{page == 'reports' ? 'active' : ''}"><a href="reports.xhtml?reportId=1"><i
-									class="fa fa-bar-chart"></i> <span class="mobile">Charts &amp; Reports</span></a></li>
-						</c:if>
-						<li class="#{page == 'settings' ? 'active' : ''}"><a href="settings.xhtml"><i class="fa fa-gear"></i> <span
+						<li class="#{page == 'reports' ? 'active' : ''}"><a
+							href="reports.xhtml?reportId=1"><i class="fa fa-bar-chart"></i>
+								<span class="mobile">Charts &amp; Reports</span></a></li>
+						<li class="#{page == 'settings' ? 'active' : ''}"><a
+							href="settings.xhtml"><i class="fa fa-gear"></i> <span
 								class="mobile">Settings</span></a></li>
 
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-								<span class="mobile">#{loginBean.fullname} <b class="caret"></b></span></a>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"><i class="fa fa-user"></i> <span
+								class="mobile">#{loginBean.fullname} <b class="caret"></b></span></a>
 							<ul class="dropdown-menu" style="min-width: 200px;">
-								<li><p:commandLink id="ajax" actionListener="#{staffFilterView.viewMyProfile}">
+								<li><p:commandLink id="ajax"
+										actionListener="#{staffFilterView.viewMyProfile}">
 										<i class="fa fa-fw fa-user"></i>
 										<h:outputText value=" Profile" />
 									</p:commandLink></li>
 
-								<li><a href="settings.xhtml"><i class="fa fa-fw fa-gear"></i> Settings</a></li>
-								<li class="hidden"><p:commandLink id="updatepassword" actionListener="#{systemSettingsBean.updatePassword}">
+								<li><a href="settings.xhtml"><i
+										class="fa fa-fw fa-gear"></i> Settings</a></li>
+								<li class="hidden"><p:commandLink id="updatepassword"
+										actionListener="#{systemSettingsBean.updatePassword}">
 										<i class="fa fa-fw fa-key"></i>
 										<h:outputText value="  Update password" />
 									</p:commandLink></li>
 								<li class="divider"></li>
-								<li><p:commandLink id="nonAjax" actionListener="#{loginBean.logout}" ajax="false">
+								<li><p:commandLink id="nonAjax"
+										actionListener="#{loginBean.logout}" ajax="false">
 										<i class="fa fa-fw fa-power-off"></i>
 										<h:outputText value=" Logout" />
 									</p:commandLink></li>
@@ -72,86 +90,25 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav side-nav">
 
-					<li class="#{page == 'dashboard' ? 'active' : ''}"><a href="home.xhtml"><i class="fa fa-fw fa-dashboard"></i>
-							Dashboard</a></li>
+					<li class="#{page == 'dashboard' ? 'active' : ''}"><a
+						href="home.xhtml"><i class="fa fa-fw fa-briefcase"></i> My
+							Work</a></li>
 
-					<c:if test="#{systemSettingsBean.bookmanagement == 'true'}">
-						<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i class="fa fa-book"></i> Book
-								Management <i class="fa fa-fw fa-caret-down"></i></a>
-							<ul id="update" class="expand">
-								<li class="#{page == 'addbook' ? 'active' : ''}"><a href="addBook.xhtml">Add a book</a></li>
-								<li class="#{page == 'editbook' ? 'active' : ''}"><a href="editBook.xhtml">Edit book details</a></li>
-								<li class="#{page == 'viewbook' ? 'active' : ''} hidden"><a href="viewBooks.xhtml">View books</a></li>
-							</ul></li>
-					</c:if>
+					<li class="#{page == 'reports' ? 'active' : ''}"><a
+						href="home.xhtml"><i class="fa fa-fw fa-table"></i> Reports</a></li>
 
-					<c:if test="#{systemSettingsBean.payroll == 'true'}">
-
-						<c:if test="#{systemSettingsBean.peoplemanagement == 'true'}">
-							<li><a href="javascript:;" data-toggle="collapse" data-target="#add"><i class="fa fa-fw fa fa-user"></i>
-									Admissions <i class="fa fa-fw fa-caret-down"></i></a>
-								<ul id="add" class="expand">
-									<li class="#{page == 'addstudent' ? 'active' : ''}"><a href="createstudent.xhtml">Add student</a></li>
-									<li class="#{page == 'addstaff' ? 'active' : ''}"><a href="createstaff.xhtml">Add staff</a></li>
-
-								</ul></li>
-						</c:if>
-						<c:if test="#{systemSettingsBean.salarymanagement == 'true'}">
-							<li><a href="javascript:;" data-toggle="collapse" data-target="#update"><i class="fa fa-file-text-o"></i>
-									Salary Management <i class="fa fa-fw fa-caret-down"></i></a>
-								<ul id="update" class="expand">
-									<li class="#{page == 'addstaffsalary' ? 'active' : ''}"><a href="createstaffSalary.xhtml">Update staff
-											salary</a></li>
-									<li class="#{page == 'updateattendance' ? 'active' : ''}"><a href="updateAttendance.xhtml">Update
-											staff attendance</a></li>
-									<li class="#{page == 'viewattendance' ? 'active' : ''} hidden"><a href="viewAttendance.xhtml">View
-											staff attendance</a></li>
-									<li class="#{page == 'generatepayslips' ? 'active' : ''}"><a href="generatePaySlips.xhtml">Staff
-											payslips</a></li>
-									<li class="#{page == 'generatepayslipproposal' ? 'active' : ''}"><a href="generatePaySlipsProposal.xhtml">Salary
-											proposals</a></li>
-									<li class="#{page == 'salarysheets' ? 'active' : ''}"><a href="salarysheets.xhtml">Salary sheets</a></li>
-									<li class="#{page == 'annualsalary' ? 'active' : ''}"><a href="annualsalary.xhtml">Annual Reports</a></li>
-								</ul></li>
-						</c:if>
-						<c:if test="#{systemSettingsBean.feemanagement == 'true'}">
-							<li><a href="javascript:;" data-toggle="collapse" data-target="#fee"><i class="fa fa-money"></i> Fee
-									Management <i class="fa fa-fw fa-caret-down"></i></a>
-								<ul id="fee" class="expand">
-									<li class="#{page == 'updatestudentfee' ? 'active' : ''}"><a href="createstudentfee.xhtml">Add Student
-											fees</a></li>
-									<li class="#{page == 'generatestudentfee' ? 'active' : ''}"><a href="generatefeereceipts.xhtml">Fee
-											receipts</a></li>
-									<li class="#{page == 'showstudentfeedetails' ? 'active' : ''}"><a href="studentfeedetails.xhtml">Student
-											fee status</a></li>
-									<li class="#{page == 'showstudentfeepayments' ? 'active' : ''}"><a href="studentfeepayments.xhtml">Student
-											fee payments</a></li>
-								</ul></li>
-						</c:if>
-						<li><a href="javascript:;" data-toggle="collapse" data-target="#reports"><i class="fa fa-fw fa-table"></i>
-								Statements <i class="fa fa-fw fa-caret-down"></i></a>
-							<ul id="reports" class="expand">
-								<li class="#{page == 'cashpayments' ? 'active' : ''}"><a href="staffCashPayments.xhtml">Staff cash
-										payments</a></li>
-								<li class="#{page == 'chequepayments' ? 'active' : ''}"><a href="staffChequePayments.xhtml">Staff
-										cheque payments</a></li>
-								<li class="#{page == 'onlinepayments' ? 'active' : ''}"><a href="staffOnlinePayments.xhtml">Staff
-										online payments</a></li>
-								<li class="#{page == 'profTax' ? 'active' : ''}"><a href="profTaxStatement.xhtml">Prof. Tax Statement</a></li>
-							</ul></li>
+					<li class="#{page == 'addstudent' ? 'active' : ''}"><a
+						href="createstudent.xhtml"><i class="fa fa-fw fa-plus"></i> Add Travel</a></li>
+					<li class="#{page == 'addstaff' ? 'active' : ''}"><a
+						href="createstaff.xhtml"><i class="fa fa-fw fa-plus"></i> Add Request</a></li>
 
 
-						<!--<li class="#{page == 'charts' ? 'active' : ''}"><a href="charts.xhtml"><i class="fa fa-fw fa-bar-chart-o"></i>
-							Charts</a></li> -->
-						<li class="#{page == 'viewDetails' ? 'active' : ''}"><a href="viewStudentDetails.xhtml"><i
-								class="glyphicon glyphicon-edit"></i> <span class="mobile">View &amp; Edit</span></a></li>
-
-						<li style="display: none" class="#{page == 'logout' ? 'active' : ''}"><p:commandLink id="nonAjax2"
-								actionListener="#{loginBean.logout}" ajax="false">
-								<i class="fa fa-fw fa-power-off"></i>
-								<h:outputText value=" Logout" />
-							</p:commandLink></li>
-					</c:if>
+					<li 
+						class="#{page == 'logout' ? 'active' : ''}"><p:commandLink
+							id="nonAjax2" actionListener="#{loginBean.logout}" ajax="false">
+							<i class="fa fa-fw fa-power-off"></i>
+							<h:outputText value=" Logout" />
+						</p:commandLink></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
